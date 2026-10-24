@@ -1,12 +1,13 @@
 {
   "name": "Selfcare Studio",
-  "short_name": "Selfcare Studio",
+  "short_name": "Selfcare",
+  "description": "Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.",
   "lang": "de",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#F3F1F5",
-  "theme_color": "#9C2F63",
+  "background_color": "#F8F2F6",
+  "theme_color": "#E0306E",
   "icons": [
     {
       "src": "icon-192.png",

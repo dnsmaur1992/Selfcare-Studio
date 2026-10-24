@@ -1,9 +1,25 @@
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style><meta name="theme-color" content="#F3F1F5" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#121015" media="(prefers-color-scheme: dark)">
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style><meta name="description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Selfcare Studio">
+<meta property="og:title" content="Selfcare Studio">
+<meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
+<meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=1.8">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=1.8">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Selfcare Studio">
+<meta property="og:locale" content="de_DE">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=1.8">
+<meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="icon-192.png"></head><body>
+<script>window.SC_PWA = { base: "https://dnsmaur1992.github.io/Selfcare-Studio/", install: "installieren.html" };</script>
 <title>Selfcare Studio</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -482,7 +498,7 @@ function outfitPicker() {
 function defaults() {
   const equip = {};
   Object.keys(EQUIP).forEach((k) => { if (k !== "matte") equip[k] = true; });
-  return { v: 1, setup: false, name: "", outfit: "lavendel", reps: "hoch", backCare: true, restC: 90, restI: 60, days: [], equip, sessions: [], weeks: {}, active: null };
+  return { v: 1, setup: false, name: "", outfit: "lavendel", flags: {}, reps: "hoch", backCare: true, restC: 90, restI: 60, days: [], equip, sessions: [], weeks: {}, active: null };
 }
 let storageOK = true;
 function load() {
@@ -493,6 +509,7 @@ function save() {
   try { localStorage.setItem(KEY, JSON.stringify(S)); storageOK = true; } catch (e) { storageOK = false; }
 }
 let S = load();
+S.flags = S.flags || {};
 const U = { view: S.setup ? (S.active ? (S.active.flow ? "flow" : "train") : "home") : "ob", ob: 0, lib: "all", hist: "list", sheet: null, setup: null, rest: null, done: null };
 const uid = () => Math.random().toString(36).slice(2, 9);
 
@@ -896,6 +913,7 @@ function vHome() {
     <div class="stack" style="gap:4px"><span class="eyebrow">${dLong(new Date())}</span><h1>${hello}</h1><p class="quote">${esc(quote)}</p></div>
     ${!storageOK ? `<div class="card" style="background:var(--warn-soft);color:var(--warn)">Dieser Browser speichert gerade nichts. Öffne die App direkt in Safari, damit deine Daten bleiben.</div>` : ""}
     ${hero}
+    ${startCard()}
     <div class="row between"><h2>Woche ${weekNo(weekKey(new Date()))}</h2><span class="muted small num">${kDone} von ${krafts.length} Krafteinheiten</span></div>
     <div class="list week">${rows.join("")}</div>
     <p class="small muted">Tippe eine Einheit an, um sie zu starten oder auf einen anderen Tag zu schieben.</p>
@@ -907,6 +925,30 @@ function unitBtn(s) {
   const info = slotInfo(s); const done = slotDone(s);
   const label = s.type === "kraft" ? info.name : TYPES[s.type].n;
   return `<button class="unit ${s.type} ${done ? "done" : ""}" data-a="slot" data-s="${s.id}">${done ? `<span class="ck">✓</span>` : ""}${esc(label)}</button>`;
+}
+const PWA = window.SC_PWA || null;
+const standalone = () => { try { return !!(navigator.standalone || matchMedia("(display-mode: standalone)").matches); } catch (e) { return false; } };
+function startItems() {
+  const I = [];
+  if (PWA) I.push({ t: "App auf den Home-Bildschirm legen", s: "Dann startet sie wie eine echte App, auch offline im Studio.", done: standalone() || S.flags.installed, href: PWA.install });
+  I.push({ t: "Erstes Training machen", s: "Oben auf „Training vorbereiten“ tippen.", done: S.sessions.some((x) => !x.flow) });
+  I.push({ t: "Ausweichübung ausprobieren", s: "Im Training bei einer Übung auf „Besetzt“ tippen.", done: !!S.flags.swap });
+  I.push({ t: "Pilates oder Mobility testen", s: "In der Woche auf + tippen.", done: S.sessions.some((x) => x.flow) });
+  I.push({ t: "Erstes Backup speichern", s: "Profil → Backup speichern.", done: !!S.flags.backup, act: "prof" });
+  return I;
+}
+function startCard() {
+  if (S.flags.hideStart) return "";
+  const I = startItems(); const n = I.filter((x) => x.done).length;
+  if (n === I.length) return `<div class="card" style="background:var(--mint);gap:8px"><b style="color:var(--mint-ink)">Erste Schritte geschafft. Du kennst jetzt alles Wichtige.</b><button class="btn sm" style="align-self:flex-start" data-a="flag" data-f="hideStart">Ausblenden</button></div>`;
+  const pct = Math.round((n / I.length) * 100);
+  return `<div class="card" style="gap:10px"><div class="row between"><h2>Erste <em>Schritte</em></h2><span class="small muted num">${n} von ${I.length}</span></div>
+    <div style="height:6px;border-radius:3px;background:var(--surface2);overflow:hidden"><div style="height:100%;width:${pct}%;background:var(--accent);border-radius:3px"></div></div>
+    <div class="stack" style="gap:0">${I.map((x) => {
+      const inner = `<span class="ckb ${x.done ? "on" : ""}" style="width:28px;height:28px;border-radius:50%;flex:none">${x.done ? IC.check : ""}</span><div class="grow stack" style="gap:1px"><span style="${x.done ? "text-decoration:line-through;color:var(--muted)" : "font-weight:600"}">${x.t}</span>${x.done ? "" : `<span class="small muted">${x.s}</span>`}</div>${!x.done && (x.href || x.act) ? `<span class="chev" style="color:var(--muted)">›</span>` : ""}`;
+      return !x.done && x.href ? `<a class="pi" style="color:inherit;text-decoration:none" href="${x.href}">${inner}</a>` : !x.done && x.act ? `<button class="pi" style="text-align:left;width:100%" data-a="tab" data-v="${x.act}">${inner}</button>` : `<div class="pi">${inner}</div>`;
+    }).join("")}</div>
+    <button class="small link" style="color:var(--muted);align-self:flex-start" data-a="flag" data-f="hideStart">Ausblenden</button></div>`;
 }
 function lastSessionCard() {
   const s = S.sessions[S.sessions.length - 1]; if (!s) return "";
@@ -995,6 +1037,7 @@ function vTrain() {
   const el = Math.floor((Date.now() - A.start) / 60000);
   return `<div class="wrap">
     <div class="row between"><div class="stack" style="gap:2px"><span class="eyebrow"><span id="elapsed" class="num">${el} Min</span> · ${A.type === "mini" ? "locker bleiben" : "Aufwärmen: 5 Min Cardio + 1 leichter Satz"}</span><h1 style="font-size:28px">${esc(A.name)}</h1></div></div>
+    ${!S.flags.trainTip ? `<div class="card" style="background:var(--butter);gap:8px"><b style="color:var(--butter-ink)">So geht's</b><ol class="tipl small" style="color:var(--butter-ink)"><li>Bei jeder Übung: „Ja, frei“ oder „Besetzt“ tippen. Bei besetzt kommt sofort ein Ersatz.</li><li>Gewicht und Wiederholungen eintragen, dann den Haken setzen. Die Pause startet von selbst.</li><li>Fertig? Unten auf „Einheit beenden“.</li></ol><button class="btn sm" style="align-self:flex-start" data-a="flag" data-f="trainTip">Alles klar</button></div>` : ""}
     ${cards}
     <button class="link" style="color:var(--muted);text-align:center" data-a="discard">Einheit verwerfen</button>
     <div style="height:${U.rest ? 90 : 0}px"></div>
@@ -1057,7 +1100,7 @@ function autoSwap(i) {
 function doSwap(i, xid, confirmed) {
   const A = S.active; const it = A.items[i]; const x = EXM[xid]; const ideal = EXM[it.ideal] || EXM[it.ex];
   const ni = A.type === "mini" ? { g: it.g, e: 3, ex: xid, ideal: it.ideal || xid, sets: 3, reps: baseReps(x), note: "", why: "" } : makeItem(it.g, it.e, x, ideal, it.rr);
-  ni.confirmed = confirmed !== false;
+  ni.confirmed = confirmed !== false; S.flags.swap = true;
   const keepDone = it.log.filter((s) => s.done);
   ni.log = makeLog(ni);
   if (keepDone.length) toast("Erledigte Sätze der alten Übung werden nicht mitgenommen.");
@@ -1249,9 +1292,11 @@ function vProf() {
       <button class="li" data-a="backup"><div class="grow"><b>Backup speichern</b><div class="small muted">Alle Daten als Datei sichern</div></div><span class="chev">›</span></button>
       <label class="li" for="imp" style="cursor:pointer"><div class="grow"><b>Backup laden</b><div class="small muted">Aus einer gespeicherten Datei wiederherstellen</div></div><span class="chev">›</span></label>
       <button class="li" data-a="copy"><div class="grow"><b>Als Text kopieren</b><div class="small muted">Falls das Speichern als Datei nicht klappt</div></div><span class="chev">›</span></button>
+      ${PWA ? `<button class="li" data-a="sharelink"><div class="grow"><b>Selfcare Studio weitergeben</b><div class="small muted">Link zur Installationsanleitung teilen</div></div><span class="chev">›</span></button><a class="li" style="color:inherit;text-decoration:none" href="${PWA.install}"><div class="grow"><b>Installationsanleitung</b><div class="small muted">App auf den Home-Bildschirm legen</div></div><span class="chev">›</span></a>` : ""}
+      <button class="li" data-a="flagreset"><div class="grow"><b>Einführung erneut zeigen</b><div class="small muted">Erste Schritte und Trainingstipps wieder einblenden</div></div><span class="chev">›</span></button>
       <button class="li" data-a="reset"><div class="grow"><b style="color:var(--warn)">Alle Daten löschen</b></div></button>
     </div><p class="small muted">Deine Daten bleiben nur auf diesem Gerät. Mach ab und zu ein Backup, damit bei einem Handywechsel nichts verloren geht.</p></div>
-    <p class="small muted" style="text-align:center">Selfcare Studio · Version 1.7</p>
+    <p class="small muted" style="text-align:center">Selfcare Studio · Version 1.8</p>
   </div>`;
 }
 function dayCard(d, i, removable) {
@@ -1311,25 +1356,42 @@ function vEq() {
 /* --- Einrichtung --- */
 function vOb() {
   U.allowCustom = true;
-  const st = U.ob;
-  const steps = `<div class="steps">${[0, 1, 2].map((i) => `<i class="${i <= st ? "on" : ""}"></i>`).join("")}</div>`;
-  let body = "";
-  if (st === 0) body = `<div class="stack" style="gap:8px"><span class="eyebrow">Deine Zeit, dein Training</span><h1>Willkommen im <em>Selfcare Studio</em>.</h1><p class="muted">Du wählst die Muskelgruppen, tippst an, was gerade frei ist, und bekommst sofort Sätze und Wiederholungen. Ist ein Gerät besetzt, rechnet die App die Ausweichübung passend um.</p></div>
+  const st = U.ob; const N = 5;
+  const steps = `<div class="steps" style="grid-template-columns:repeat(${N},1fr)">${Array.from({ length: N }, (_, i) => `<i class="${i <= st ? "on" : ""}"></i>`).join("")}</div>`;
+  const eb = (t) => `<span class="eyebrow">Schritt ${st + 1} von ${N} · ${t}</span>`;
+  let body = "", next = "Weiter";
+  if (st === 0) body = `<div class="stack" style="gap:8px"><span class="eyebrow">Deine Zeit, dein Training</span><h1>Willkommen im <em>Selfcare Studio</em>.</h1><p class="muted">In fünf kurzen Schritten richten wir alles ein. Danach plant die App jedes Training für dich und hat immer eine Ausweichübung parat, wenn ein Gerät besetzt ist.</p></div>
     ${figSVG("ht_m", "po")}
     <div class="card"><label for="obname" class="small muted">Wie heißt du?</label><input id="obname" class="field" data-in="name" value="${esc(S.name)}" placeholder="Vorname"></div>
     <div class="card"><div class="stack" style="gap:2px"><h3>Und was ziehst du an?</h3><p class="small muted">Deine Figur trägt das Outfit in allen Übungs-Animationen. Änderbar im Profil.</p></div>${outfitPicker()}</div>`;
-  if (st === 1) body = `<div class="stack" style="gap:6px"><span class="eyebrow">Schritt 2 von 3</span><h1>Dein Ziel</h1><p class="muted">Muskelaufbau mit eher höheren Wiederholungen. Das ist schonender für Gelenke und Rücken und baut trotzdem Muskeln auf.</p></div>
+  if (st === 1) body = `<div class="stack" style="gap:6px">${eb("Ziel")}<h1>Was möchtest du <em>erreichen</em>?</h1><p class="muted">Danach richten sich Sätze und Wiederholungen. Mehr Wiederholungen mit etwas weniger Gewicht bauen Muskeln auf und schonen Gelenke und Rücken.</p></div>
     <div class="stack">${[["mittel", "Muskelaufbau", "8–12 Wdh. bei Grundübungen, 10–15 bei Isolation"], ["hoch", "Muskelaufbau mit mehr Wiederholungen", "10–15 Wdh. bei Grundübungen, 12–20 bei Isolation. Empfohlen."], ["ausdauer", "Kraftausdauer", "15–20 Wdh., leichteres Gewicht"]].map(([k, n, s]) => `<button class="opt ${S.reps === k ? "on" : ""}" data-a="reps" data-k="${k}"><b>${n}</b><span class="small muted">${s}</span></button>`).join("")}</div>
     <div class="card"><div class="row between"><div class="grow"><b>Rücken schonen</b><p class="small muted">Keine schweren Übungen mit Last auf dem unteren Rücken. Wo der Rücken mitarbeitet, gibt es mehr Wiederholungen mit weniger Gewicht.</p></div><button class="toggle ${S.backCare ? "on" : ""}" data-a="back" role="switch" aria-checked="${S.backCare}" aria-label="Rücken schonen"></button></div></div>`;
   if (st === 2) {
     const n = S.days.filter((d) => (d.type || "kraft") === "kraft").length;
-    body = `<div class="stack" style="gap:6px"><span class="eyebrow">Schritt 3 von 3</span><h1>Deine Trainingstage</h1><p class="muted">Wie oft pro Woche? Danach legst du für jeden Tag fest: automatisch nach Muskelgruppen oder mit eigenen Übungen. Ausweichübungen gibt es in beiden Fällen. Alles lässt sich später ändern und jede Woche verschieben.</p></div>
-      <div class="seg">${[2, 3, 4, 5].map((k) => `<button class="${n === k ? "on" : ""}" data-a="obcount" data-n="${k}">${k}×</button>`).join("")}</div>
+    const O = [[2, "2× pro Woche", "Unterkörper und Oberkörper, je einmal"], [3, "3× pro Woche", "2× Po & Beine, 1× Oberkörper. Empfohlen."], [4, "4× pro Woche", "Po & Beine im Wechsel, dazu Rücken & Arme und Brust & Schultern"], [5, "5× pro Woche", "Für sehr volle Wochen mit viel Energie"]];
+    body = `<div class="stack" style="gap:6px">${eb("Häufigkeit")}<h1>Wie oft willst du <em>trainieren</em>?</h1><p class="muted">Wähle, was in eine normale Woche passt. Klappt es mal nicht, legst du Einheiten zusammen oder nimmst das 30-Minuten-Mini-Training.</p></div>
+      <div class="stack">${O.map(([k, t, s]) => `<button class="opt ${n === k ? "on" : ""}" data-a="obcount" data-n="${k}"><b>${t}</b><span class="small muted">${s}</span></button>`).join("")}</div>`;
+  }
+  if (st === 3) {
+    body = `<div class="stack" style="gap:6px">${eb("Deine Tage")}<h1>Plane deine <em>Woche</em>.</h1><p class="muted">Für jeden Krafttag tippst du den Wochentag an und wählst:</p></div>
+      <div class="card" style="gap:10px;background:var(--lav)"><div class="stack" style="gap:2px"><b style="color:var(--lav-ink)">Automatisch</b><span class="small" style="color:var(--lav-ink)">Du wählst Muskelgruppen, die App sucht die Übungen aus. Am einfachsten.</span></div><div class="stack" style="gap:2px"><b style="color:var(--lav-ink)">Eigene Übungen</b><span class="small" style="color:var(--lav-ink)">Du stellst deine Lieblingsübungen mit Sätzen und Wiederholungen selbst zusammen.</span></div><span class="small" style="color:var(--lav-ink)">Ausweichübungen gibt es in beiden Fällen.</span></div>
       ${S.days.map((d, i) => dayCard(d, i, (d.type || "kraft") !== "kraft")).join("")}
-      <div class="row" style="flex-wrap:wrap;gap:8px"><button class="btn line sm" data-a="dayadd" data-t="pilates">+ Pilates fest einplanen</button><button class="btn line sm" data-a="dayadd" data-t="mobility">+ Mobility fest einplanen</button></div>`;
+      <div class="card" style="gap:8px"><b>Pilates oder Mobility fest einplanen?</b><p class="small muted">Je 30 Minuten, geführt mit Timer. Du kannst sie auch später spontan in der Woche hinzufügen.</p><div class="row" style="flex-wrap:wrap;gap:8px"><button class="btn line sm" data-a="dayadd" data-t="pilates">+ Pilates</button><button class="btn line sm" data-a="dayadd" data-t="mobility">+ Mobility</button></div></div>`;
+  }
+  if (st === 4) {
+    next = "Los geht's";
+    const H = [
+      ["Woche öffnen", "Auf der Startseite siehst du deine Woche. Tippe die Einheit an. Keine Energie? Dann nimm das Mini-Training.", "ht_m", "po"],
+      ["Ist das Gerät frei?", "Bei jeder Übung fragt die App nach. Besetzt? Ein Tipp, und du bekommst eine Übung mit gleichem Reiz und passend umgerechneten Sätzen.", "ht_smith", "po"],
+      ["Eintragen und abhaken", "Gewicht und Wiederholungen eintragen, Haken setzen, und die Pause läuft. Beim nächsten Mal stehen deine Gewichte schon drin.", "legpress", "quad"],
+      ["Fortschritt sehen", "Im Verlauf siehst du jede Einheit und wie deine Gewichte steigen.", "abd_m", "abd"],
+    ];
+    body = `<div class="stack" style="gap:6px">${eb("So geht's")}<h1>So läuft dein <em>Training</em>.</h1><p class="muted">Vier Dinge, mehr musst du nicht wissen.</p></div>
+      ${H.map(([t, s, x, g], i) => `<div class="card" style="flex-direction:row;align-items:center;gap:14px">${figSVG(x, g, "s")}<div class="stack grow" style="gap:3px"><span class="eyebrow" style="color:var(--accent)">${i + 1}</span><b>${t}</b><span class="small muted">${s}</span></div></div>`).join("")}`;
   }
   return `<div class="wrap">${steps}${body}</div>
-    <div class="actionbar"><div class="in">${st > 0 ? `<button class="btn ghost" style="width:auto" data-a="obback">Zurück</button>` : ""}<button class="btn" data-a="obnext">${st === 2 ? "Fertig" : "Weiter"}</button></div></div>`;
+    <div class="actionbar"><div class="in">${st > 0 ? `<button class="btn ghost" style="width:auto" data-a="obback">Zurück</button>` : ""}<button class="btn" data-a="obnext">${next}</button></div></div>`;
 }
 
 /* --- Sheets --- */
@@ -1417,14 +1479,14 @@ const backupText = () => JSON.stringify({ app: "satzwerk", v: 1, exported: new D
 async function backupSave() {
   const data = backupText(); const fn = `selfcare-studio-backup-${new Date().toISOString().slice(0, 10)}.json`;
   if (DL) {
-    try { await DL.save({ filename: fn, data }); toast("Backup gespeichert"); } catch (e) { if (e && e.code === "declined") return; openSheet(() => copySheet(data)); }
+    try { await DL.save({ filename: fn, data }); toast("Backup gespeichert"); S.flags.backup = true; save(); } catch (e) { if (e && e.code === "declined") return; openSheet(() => copySheet(data)); }
     return;
   }
   try {
     const file = new File([data], fn, { type: "application/json" });
-    if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "Selfcare Studio Backup" }); toast("Backup gespeichert"); return; }
+    if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "Selfcare Studio Backup" }); toast("Backup gespeichert"); S.flags.backup = true; save(); return; }
   } catch (e) { if (e && e.name === "AbortError") return; }
-  try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([data], { type: "application/json" })); a.download = fn; document.body.appendChild(a); a.click(); a.remove(); toast("Backup erstellt"); } catch (e) { openSheet(() => copySheet(data)); }
+  try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([data], { type: "application/json" })); a.download = fn; document.body.appendChild(a); a.click(); a.remove(); toast("Backup erstellt"); S.flags.backup = true; save(); } catch (e) { openSheet(() => copySheet(data)); }
 }
 let pendingImport = null;
 document.getElementById("imp").addEventListener("change", (e) => {
@@ -1515,12 +1577,12 @@ document.addEventListener("click", (e) => {
       S.days = tmplDays(n).concat(extra); save(); render(); break;
     }
     case "obnext": {
-      if (U.ob === 2) {
+      if (U.ob === 3) {
         const bad = S.days.find((x) => (x.type || "kraft") === "kraft" && !x.groups.length);
         if (bad) { toast(bad.mode === "custom" ? "Füge jedem eigenen Tag mindestens eine Übung hinzu." : "Wähle für jeden Krafttag mindestens eine Muskelgruppe."); break; }
       }
-      if (U.ob === 1 && !S.days.length) S.days = tmplDays(3);
-      if (U.ob < 2) { U.ob++; render(); window.scrollTo(0, 0); }
+      if (U.ob === 1 && !S.days.filter((x) => (x.type || "kraft") === "kraft").length) S.days = tmplDays(3).concat(S.days);
+      if (U.ob < 4) { U.ob++; render(); window.scrollTo(0, 0); }
       else { S.setup = true; save(); go("home"); }
       break;
     }
@@ -1528,7 +1590,7 @@ document.addEventListener("click", (e) => {
     case "backup": backupSave(); break;
     case "copy": {
       const txt = backupText();
-      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(() => toast("Backup in die Zwischenablage kopiert"), () => openSheet(() => copySheet(txt)));
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(() => { toast("Backup in die Zwischenablage kopiert"); S.flags.backup = true; save(); }, () => openSheet(() => copySheet(txt)));
       else openSheet(() => copySheet(txt));
       break;
     }
@@ -1537,6 +1599,14 @@ document.addEventListener("click", (e) => {
     case "reset2": S = defaults(); save(); U.ob = 0; U.view = "ob"; closeSheet(); render(); break;
     case "sheetclose": closeSheet(); render(); break;
     case "outfit": S.outfit = d.o; save(); render(); break;
+    case "flag": S.flags[d.f] = true; save(); render(); break;
+    case "flagreset": S.flags.hideStart = false; S.flags.trainTip = false; save(); toast("Einführung wird wieder angezeigt"); go("home"); break;
+    case "sharelink": {
+      const url = PWA.base; const txt = "Selfcare Studio – so installierst du die App: " + PWA.base + PWA.install;
+      if (navigator.share) navigator.share({ title: "Selfcare Studio", text: "Selfcare Studio", url: PWA.base + PWA.install }).catch(() => {});
+      else if (navigator.clipboard) navigator.clipboard.writeText(txt).then(() => toast("Link kopiert"), () => toast(url));
+      break;
+    }
     case "daymode": {
       const day = S.days[+d.i];
       if (d.m === "custom" && !(day.custom && day.custom.length)) day.custom = buildPlan(day.groups.length ? day.groups : ["po"], 1, []).filter((it) => it.ex).map((it) => ({ ex: it.ex, g: it.g, sets: it.sets, reps: [...it.reps] }));
