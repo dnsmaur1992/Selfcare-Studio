@@ -1,18 +1,18 @@
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style><meta name="description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style><meta name="description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Selfcare Studio">
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.0">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.0">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.1">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.1">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.0">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.1">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -149,10 +149,10 @@ svg.fig .pad { fill: var(--prop); stroke: var(--muted); stroke-width: .8; }
 .sheet .figbox:not(.s):not(.m):not(.sw) svg.fig { height: min(150px, 40vw); }
 .figbox.s { width: 72px; flex: none; border-radius: 16px; }
 .figbox.m { width: 108px; flex: none; }
-.outfits { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.outfits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .outfit { display: flex; flex-direction: column; gap: 4px; align-items: center; font-size: 11.5px; color: var(--muted); text-align: center; line-height: 1.2; }
-.outfit .figbox svg.fig { width: 170%; max-width: none; margin: -6% 0 0 -35%; }
-.outfit .figbox { width: 100%; aspect-ratio: 3 / 4; border-radius: 16px; box-shadow: inset 0 0 0 2px transparent; }
+.outfit .figbox svg.fig { position: absolute; width: 160%; max-width: none; left: -30%; top: -14%; }
+.outfit .figbox { position: relative; width: 100%; height: 118px; border-radius: 16px; box-shadow: inset 0 0 0 2px transparent; }
 .outfit.on .figbox { box-shadow: inset 0 0 0 2.5px var(--accent); }
 .outfit.on { color: var(--fg); font-weight: 600; }
 /* Training im Vollbild */
@@ -185,6 +185,27 @@ svg.fig .pad { fill: var(--prop); stroke: var(--muted); stroke-width: .8; }
 .cardio .opt { align-items: center; text-align: center; gap: 8px; }
 .cardio .figbox.s { width: 100%; }
 .ringwrap { width: min(200px, 52vw); height: min(200px, 52vw); }
+html, body { touch-action: manipulation; -webkit-text-size-adjust: 100%; }
+.swatches { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.sw { width: 32px; height: 32px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0,0,0,.12); }
+.sw.on { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--accent); }
+.swatches input[type="color"] { width: 40px; height: 34px; border: 0; padding: 0; background: none; border-radius: 10px; }
+.badges { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 8px; }
+.badge { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; font-size: 11.5px; line-height: 1.2; color: var(--muted); padding: 10px 6px; border-radius: 16px; background: var(--surface2); opacity: .5; }
+.badge svg { width: 30px; height: 30px; }
+.badge.on { opacity: 1; background: var(--butter); color: var(--butter-ink); font-weight: 600; }
+.badge.pop { animation: pop .6s cubic-bezier(.2,1.6,.4,1) both; }
+@keyframes pop { from { transform: scale(.4); opacity: 0; } }
+.pr { background: var(--accent-soft); }
+.heat { display: grid; grid-template-columns: repeat(12, 1fr); grid-template-rows: repeat(7, 1fr); gap: 3px; }
+.hm { display: block; aspect-ratio: 1; border-radius: 4px; background: var(--surface2); }
+.hm.k { background: var(--accent); }
+.hm.f { background: var(--lav-ink); opacity: .7; }
+.hm.fut { opacity: .35; }
+.hm.lg { display: inline-block; width: 10px; height: 10px; vertical-align: -1px; }
+.mgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+a.tr-x { text-decoration: none; color: var(--accent); }
+@media (prefers-reduced-motion: reduce) { .badge.pop { animation: none; } }
 .bars { display: flex; flex-direction: column; gap: 8px; }
 .bar { display: grid; grid-template-columns: 96px 1fr 28px; gap: 8px; align-items: center; font-size: 13px; }
 .bar .bl { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -546,12 +567,13 @@ const LIMITS = {
   wrist: { n: "Handgelenk", ids: ["pushup", "pushup_incline", "benchdips", "kickback_kh", "conc_curl"] },
 };
 const limited = (id) => Object.keys(LIMITS).some((k) => (S.limits || {})[k] && LIMITS[k].ids.includes(id));
-const NEWS = { v: "2.0", items: [
-  ["Training im Vollbild", "Immer nur die aktuelle Übung. Frei? Los geht's. Besetzt? Sofort eine Ersatzübung mit gleichem Reiz, oder später nochmal fragen."],
-  ["Gewichte, die passen", "Die App schätzt das Gewicht für neue Übungen und schlägt nach jedem Satz vor, ob du mehr oder weniger nehmen solltest. Geschaffte Sätze zählen beim Tausch mit."],
-  ["Aufwärmen und Cool-down", "10–15 Minuten Aufwärmen mit Cardio, Aktivierung und Aufwärmsätzen. Zum Schluss Dehnen mit Timer."],
-  ["Belastung im Blick", "Nach jeder Einheit kurz sagen, wie anstrengend es war. Die App plant dann Entlastungswochen und zeigt deine Sätze pro Muskelgruppe."],
-  ["Alltag zählt mit", "Wochen-Check-in und Tagesform machen das Training an stressigen Tagen automatisch leichter."],
+const NEWS = { v: "2.1", items: [
+  ["Training im Vollbild", "Immer nur die aktuelle Übung. Frei? Los geht's. Besetzt? Sofort eine Ersatzübung mit gleichem Reiz. Eigengewicht, Band und Ball fragen gar nicht erst."],
+  ["Gewichte, die passen", "Schätzung für neue Übungen, Vorschlag nach jedem Satz, geschaffte Sätze zählen beim Tausch mit."],
+  ["Aufwärmen & Cool-down", "10–15 Minuten mit Cardio und Aufwärmsätzen. Beim Mini-Training 5 Minuten Mobilisation passend zu deinem Tag."],
+  ["Die App lernt dein Studio", "Sie merkt sich, wann welche Geräte besetzt sind, und plant diese Übungen dann später ein."],
+  ["Erfolge", "Wochenserie, Rekorde, Abzeichen und dein Trainingskalender im Verlauf. Dazu Körpermaße, wenn du magst."],
+  ["Mehr für dich", "Hell oder dunkel, eigenes Outfit, deine Playlist mit einem Tipp, Trainingstage im iPhone-Kalender und Trainingstage mit Freundinnen teilen."],
 ] };
 const ALLX = [...EX, ...FLOW];
 const EXM = Object.fromEntries(ALLX.map((x) => [x.id, x]));
@@ -578,11 +600,11 @@ const QUOTES = [
 const isDark = () => { const t = document.documentElement.dataset.theme; return t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches; };
 function outfitVars(o) { const d = isDark(); return `--top:${(d && o.dtop) || o.top};--legs:${(d && o.dlegs) || o.legs};--shoe:${(d && o.dshoe) || o.shoe}`; }
 function applyOutfit() {
-  const o = OUTFITS.find((x) => x.id === S.outfit) || OUTFITS[0]; const r = document.documentElement.style;
+  const o = getOutfit(S.outfit); const r = document.documentElement.style;
   outfitVars(o).split(";").forEach((kv) => { const [k, v] = kv.split(":"); r.setProperty(k, v); });
 }
 function outfitPicker() {
-  return `<div class="outfits">${OUTFITS.map((o) => `<button class="outfit ${S.outfit === o.id ? "on" : ""}" data-a="outfit" data-o="${o.id}" style="${outfitVars(o)}" aria-pressed="${S.outfit === o.id}">${figSVG("lateral_kh", "schulter", "sw")}<span>${esc(o.n)}</span></button>`).join("")}</div>`;
+  return `<div class="outfits">${[...OUTFITS, customOutfit()].map((o) => `<button class="outfit ${S.outfit === o.id ? "on" : ""}" data-a="outfit" data-o="${o.id}" style="${outfitVars(o)}" aria-pressed="${S.outfit === o.id}">${figSVG("lateral_kh", "schulter", "sw")}<span>${esc(o.n)}</span></button>`).join("")}</div>${outfitEditor()}`;
 }
 function defaults() {
   const equip = {};
@@ -847,6 +869,170 @@ function nextUpText() {
   const info = slotInfo(nx); return `${nx.wd ? WDL[nx.wd] + ": " : ""}${nx.type === "kraft" ? info.name : TYPES[nx.type].n}`;
 }
 
+/* ---------------- Extras: Alltag-Mobilisation, Darstellung, Gerätezeiten, Erfolge, Kalender, Maße, Teilen ---------------- */
+/* Eigengewicht und Kleingerät, das man immer greifen kann: keine „Frei?“-Frage. */
+const noAsk = (x) => x.eq.every((e) => e === "matte" || e === "band" || e === "ball");
+/* Mini-Aufwärmen: 5 Min Mobilisation & Andehnen passend zum Tag. */
+const DAYMOB = {
+  sitzen: { n: "Viel gesessen", sub: "Hüfte öffnen, Brustwirbelsäule, Brust", ids: ["m_hipflex", "m_catcow", "m_openbook", "str_chest", "m_arms"] },
+  stehen: { n: "Viel gestanden", sub: "Rücken entlasten, Waden, Hüfte", ids: ["m_catcow", "m_child", "m_calf", "m_hipcircle", "m_fig4"] },
+  heben: { n: "Viel gehoben & gebückt", sub: "Unterer Rücken, Hüfte, Schultern", ids: ["m_catcow", "m_child", "m_9090", "m_hipcircle", "str_shoulder"] },
+  mix: { n: "Gemischt", sub: "Alle Gelenke von oben nach unten", ids: ["m_arms", "m_hipcircle", "m_catcow", "m_legswing", "m_wgs"] },
+};
+function miniWarm(day) {
+  const ids = (DAYMOB[day] || DAYMOB.mix).ids.filter((id) => !limited(id));
+  const nb = ids.reduce((a, id) => a + (EXM[id]?.side ? 2 : 1), 0);
+  const sec = Math.max(25, Math.min(45, Math.round((300 / nb - 10) / 5) * 5));
+  return blocksOf(ids, sec, "warm");
+}
+/* Darstellung: Automatisch / Hell / Dunkel */
+let hostTheme;
+function applyTheme() {
+  const r = document.documentElement;
+  if (hostTheme === undefined) hostTheme = r.getAttribute("data-theme");
+  const t = S.theme === "light" || S.theme === "dark" ? S.theme : hostTheme;
+  if (t) r.setAttribute("data-theme", t); else r.removeAttribute("data-theme");
+}
+/* Eigenes Outfit */
+const SWATCH = ["#B79CF0", "#6E4FCB", "#FFAE94", "#E0306E", "#FF3E8A", "#FFD95E", "#4FAE90", "#9FE3CC", "#7FB8E8", "#2B2330", "#FFFFFF", "#C9C2CF"];
+const customOutfit = () => Object.assign({ id: "custom", n: "Eigenes", top: "#9FE3CC", legs: "#2B2330", shoe: "#FF3E8A" }, S.outfitCustom || {});
+const getOutfit = (id) => (id === "custom" ? customOutfit() : OUTFITS.find((x) => x.id === id) || OUTFITS[0]);
+function outfitEditor() {
+  if (S.outfit !== "custom") return "";
+  const o = customOutfit();
+  const row = (k, lbl) => `<div class="stack" style="gap:6px"><span class="small muted">${lbl}</span><div class="swatches">${SWATCH.map((c) => `<button class="sw ${o[k].toLowerCase() === c.toLowerCase() ? "on" : ""}" style="background:${c}" data-a="ocolor" data-k="${k}" data-c="${c}" aria-label="${lbl} ${c}"></button>`).join("")}<input id="oc-${k}" type="color" value="${o[k]}" data-in="ocolor" data-k="${k}" aria-label="${lbl}: eigene Farbe"></div></div>`;
+  return `<div class="stack" style="gap:10px">${row("top", "Oberteil")}${row("legs", "Leggings")}${row("shoe", "Schuhe")}</div>`;
+}
+/* Gerätezeiten lernen: jedes „Frei“/„Besetzt“ mit Wochentag und Uhrzeit. */
+function logEq(eqs, busy) {
+  const d = new Date(); S.eqLog = S.eqLog || [];
+  eqs.filter((e) => e !== "matte" && e !== "band" && e !== "ball").forEach((e) => S.eqLog.push({ e, wd: wdOf(d), h: d.getHours(), b: busy ? 1 : 0 }));
+  if (S.eqLog.length > 400) S.eqLog.splice(0, S.eqLog.length - 400);
+}
+function busyProb(e, d) {
+  const wd = wdOf(d), h = d.getHours();
+  const ev = (S.eqLog || []).filter((q) => q.e === e && q.wd === wd && Math.abs(q.h - h) <= 1);
+  return ev.length >= 3 ? ev.reduce((a, q) => a + q.b, 0) / ev.length : null;
+}
+const oftenBusy = (ex, d) => ex.eq.some((e) => (busyProb(e, d) ?? 0) >= 0.6);
+function rushHours() {
+  const by = {};
+  (S.eqLog || []).filter((q) => q.b).forEach((q) => { const k = q.e + "|" + q.wd + "|" + q.h; by[k] = (by[k] || 0) + 1; });
+  return Object.entries(by).filter(([, n]) => n >= 2).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([k, n]) => { const [e, wd, h] = k.split("|"); return { e, wd: +wd, h: +h, n }; });
+}
+/* Erfolge: Wochenserie, Rekorde, Abzeichen */
+function weekStreak() {
+  const cnt = {}; S.sessions.forEach((s) => { const k = weekKey(new Date(s.date)); cnt[k] = (cnt[k] || 0) + 1; });
+  const d = new Date(); let k = weekKey(d), n = 0;
+  if ((cnt[k] || 0) < 2) { d.setDate(d.getDate() - 7); k = weekKey(d); }
+  while ((cnt[k] || 0) >= 2) { n++; d.setDate(d.getDate() - 7); k = weekKey(d); }
+  return n;
+}
+function bestBefore(id, beforeDate) {
+  let b = 0; S.sessions.forEach((s) => { if (s.date >= beforeDate) return; (s.items || []).forEach((it) => { if (it.ex === id) (it.log || []).forEach((q) => { if (q.done && !q.warm) b = Math.max(b, num(q.w) || 0); }); }); });
+  return b;
+}
+function prsOf(sess) {
+  return (sess.items || []).map((it) => { const w = Math.max(0, ...(it.log || []).map((q) => num(q.w) || 0)); const b = bestBefore(it.ex, sess.date); return w > 0 && b > 0 && w > b ? { ex: it.ex, w, b } : null; }).filter(Boolean);
+}
+const prCount = () => S.sessions.reduce((a, s) => a + (s.prs || 0), 0);
+const totalSets = () => S.sessions.reduce((a, s) => a + setsOf(s), 0);
+const BADGES = [
+  { id: "first", n: "Erste Einheit", t: () => S.sessions.length >= 1 },
+  { id: "s10", n: "10 Einheiten", t: () => S.sessions.length >= 10 },
+  { id: "s25", n: "25 Einheiten", t: () => S.sessions.length >= 25 },
+  { id: "s50", n: "50 Einheiten", t: () => S.sessions.length >= 50 },
+  { id: "s100", n: "100 Einheiten", t: () => S.sessions.length >= 100 },
+  { id: "w4", n: "4 Wochen am Stück", t: () => weekStreak() >= 4 },
+  { id: "w8", n: "8 Wochen am Stück", t: () => weekStreak() >= 8 },
+  { id: "w12", n: "12 Wochen am Stück", t: () => weekStreak() >= 12 },
+  { id: "pr1", n: "Erster Rekord", t: () => prCount() >= 1 },
+  { id: "pr10", n: "10 Rekorde", t: () => prCount() >= 10 },
+  { id: "sets500", n: "500 Sätze", t: () => totalSets() >= 500 },
+  { id: "swap", n: "Ausweich-Profi", t: () => !!S.flags.swap },
+  { id: "flow", n: "Pilates & Mobility", t: () => S.sessions.some((s) => s.flow) },
+  { id: "mini", n: "Auch an müden Tagen", t: () => S.sessions.some((s) => s.type === "mini") },
+  { id: "early", n: "Frühaufsteherin", t: () => S.sessions.some((s) => new Date(s.date).getHours() < 9) },
+];
+function checkBadges() {
+  S.badges = S.badges || {}; const fresh = [];
+  BADGES.forEach((b) => { if (!S.badges[b.id] && b.t()) { S.badges[b.id] = new Date().toISOString(); fresh.push(b); } });
+  return fresh;
+}
+const MEDAL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="6"/><path d="M8.5 3.5 10.5 8.5M15.5 3.5 13.5 8.5M12 11.5l.9 1.8 2 .3-1.4 1.4.3 2-1.8-1-1.8 1 .3-2-1.4-1.4 2-.3z"/></svg>';
+function badgeGrid() {
+  S.badges = S.badges || {};
+  return `<div class="badges">${BADGES.map((b) => `<div class="badge ${S.badges[b.id] ? "on" : ""}">${MEDAL}<span>${b.n}</span></div>`).join("")}</div>`;
+}
+function heatmap() {
+  const days = {}; S.sessions.forEach((s) => { const k = dayKey(new Date(s.date)); days[k] = days[k] || (s.flow ? "f" : "k"); if (!s.flow) days[k] = "k"; });
+  const mon = mondayOf(new Date()); mon.setDate(mon.getDate() - 7 * 11);
+  let cells = "";
+  for (let w = 0; w < 12; w++) for (let d = 0; d < 7; d++) {
+    const dt = new Date(mon); dt.setDate(mon.getDate() + w * 7 + d); const k = dayKey(dt); const fut = dt > new Date();
+    cells += `<i class="hm ${days[k] || ""} ${fut ? "fut" : ""}" style="grid-column:${w + 1};grid-row:${d + 1}" title="${dShort(dt)}"></i>`;
+  }
+  return `<div class="heat" role="img" aria-label="Trainingstage der letzten 12 Wochen">${cells}</div><div class="row small muted" style="gap:14px"><span><i class="hm k lg"></i> Kraft</span><span><i class="hm f lg"></i> Pilates & Mobility</span></div>`;
+}
+function successCard() {
+  const st = weekStreak(); const n = S.sessions.length;
+  return `<div class="card" style="gap:12px"><h2>Deine <em>Erfolge</em></h2>
+    <div class="tiles"><div class="tile"><b>${st}</b><span>${st === 1 ? "Woche" : "Wochen"} in Folge</span></div><div class="tile"><b>${n}</b><span>Einheiten</span></div><div class="tile"><b>${prCount()}</b><span>Rekorde</span></div></div>
+    ${heatmap()}${badgeGrid()}<p class="small muted">Eine Woche zählt zur Serie, wenn du mindestens zweimal trainiert hast.</p></div>`;
+}
+/* Kalender: Trainingstage als wiederkehrende Termine (.ics) */
+function icsText() {
+  const [hh, mm] = (S.calTime || "18:00").split(":").map(Number); const pad = (n) => String(n).padStart(2, "0");
+  const now = new Date(); const stamp = now.toISOString().replace(/[-:]/g, "").slice(0, 15) + "Z";
+  const ev = S.days.filter((d) => d.wd).map((d) => {
+    const dt = new Date(now); dt.setHours(hh, mm, 0, 0); while (wdOf(dt) !== d.wd || dt < now) dt.setDate(dt.getDate() + 1);
+    const ds = `${dt.getFullYear()}${pad(dt.getMonth() + 1)}${pad(dt.getDate())}T${pad(hh)}${pad(mm)}00`;
+    const what = (d.type || "kraft") === "kraft" ? d.name : TYPES[d.type].n;
+    const desc = (d.type || "kraft") === "kraft" ? (d.groups || []).map((g) => GROUPS[g].n).join(", ") : TYPES[d.type].sub || "";
+    return ["BEGIN:VEVENT", `UID:${d.id}-selfcare-studio`, `DTSTAMP:${stamp}`, `DTSTART:${ds}`, `DURATION:PT${(d.type || "kraft") === "kraft" ? 75 : 30}M`, "RRULE:FREQ=WEEKLY", `SUMMARY:Selfcare Studio · ${what}`, `DESCRIPTION:${desc}`, "BEGIN:VALARM", "TRIGGER:-PT30M", "ACTION:DISPLAY", `DESCRIPTION:Gleich: ${what}`, "END:VALARM", "END:VEVENT"].join("\r\n");
+  });
+  return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Selfcare Studio//DE", "CALSCALE:GREGORIAN", ...ev, "END:VCALENDAR"].join("\r\n");
+}
+async function calExport() {
+  if (!S.days.some((d) => d.wd)) return toast("Lege zuerst Wochentage für deine Trainingstage fest.");
+  if (!PWA) return openSheet(() => `<h2>Kalender</h2><p class="muted">Das Eintragen in den iPhone-Kalender funktioniert in der installierten App (Home-Bildschirm). Öffne Selfcare Studio dort und tippe im Profil auf „In den Kalender“.</p><button class="btn ghost" data-a="sheetclose">OK</button>`);
+  const txt = icsText(); const blob = new Blob([txt], { type: "text/calendar" });
+  try { const f = new File([blob], "selfcare-studio-training.ics", { type: "text/calendar" }); if (navigator.canShare && navigator.canShare({ files: [f] })) { await navigator.share({ files: [f], title: "Trainingstage" }); return; } } catch (e) { if (e && e.name === "AbortError") return; }
+  location.href = URL.createObjectURL(blob);
+}
+/* Körpermaße */
+const MEAS = [["taille", "Taille"], ["huefte", "Hüfte"], ["po", "Po"], ["ober", "Oberschenkel"]];
+function measTab() {
+  const L = S.measures || []; const last = L[L.length - 1] || {};
+  const form = `<div class="card" style="gap:10px"><h2>Neu <em>messen</em></h2><div class="mgrid">${MEAS.map(([k, n]) => `<label class="stack" style="gap:4px"><span class="small muted">${n} (cm)</span><input id="m-${k}" class="field num" inputmode="decimal" placeholder="${last[k] ? String(last[k]).replace(".", ",") : "–"}"></label>`).join("")}</div><button class="btn sm" style="align-self:flex-start" data-a="msave">Speichern</button><p class="small muted">Am besten alle 4 Wochen, morgens, immer an derselben Stelle. Bei Muskelaufbau sagen Maße oft mehr als die Waage. Die Werte bleiben nur auf deinem Handy.</p></div>`;
+  const rows = MEAS.map(([k, n]) => { const v = L.filter((q) => q[k]).map((q) => q[k]); if (!v.length) return ""; const d = v[v.length - 1] - v[0]; return `<div class="pi">${spark(v)}<div class="grow stack" style="gap:2px"><b>${n}</b><span class="small muted num">${fmt(v[0])} → ${fmt(v[v.length - 1])} cm · ${v.length}× gemessen</span></div>${v.length > 1 ? `<span class="note ${d !== 0 ? "ok" : ""} num">${d > 0 ? "+" : ""}${fmt(d)}</span>` : ""}</div>`; }).join("");
+  const hist = L.length ? `<div class="card" style="gap:2px"><h2>Verlauf</h2>${rows}<div class="stack" style="gap:4px;margin-top:8px">${[...L].reverse().slice(0, 6).map((q, i) => `<div class="row between small"><span class="muted">${dShort(new Date(q.d))}</span><span class="num">${MEAS.map(([k]) => (q[k] ? fmt(q[k]) : "–")).join(" · ")}</span><button class="link" style="color:var(--muted);font-size:12px" data-a="mdel" data-i="${L.length - 1 - i}">Löschen</button></div>`).join("")}</div></div>` : "";
+  return form + hist;
+}
+/* Trainingstag teilen per Link oder Code */
+const b64e = (o) => btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+const b64d = (t) => JSON.parse(decodeURIComponent(escape(atob(t.replace(/-/g, "+").replace(/_/g, "/")))));
+function dayCode(d) { return b64e({ v: 1, from: S.name || "", d: { name: d.name, type: d.type || "kraft", groups: d.groups || [], mode: d.mode || "auto", custom: d.mode === "custom" ? d.custom : undefined, wd: d.wd || 0 } }); }
+function shareSheet(i) {
+  const d = S.days[i]; const code = dayCode(d); const link = PWA ? PWA.base + "?tag=" + code : "";
+  return `<div class="stack" style="gap:4px"><h2>${esc(d.name)} <em>teilen</em></h2><p class="small muted">Wer den Link öffnet, kann den Trainingstag mit einem Tipp in die eigene App übernehmen. Es wird nichts hochgeladen, alles steckt im Link.</p></div>
+    ${link ? `<button class="btn" data-a="sharego" data-i="${i}">Link teilen</button>` : `<p class="small muted">Links zum Teilen gibt es in der installierten App. Hier kannst du den Code kopieren.</p>`}
+    <textarea id="sharecode" class="field" rows="3" readonly style="font-size:12px;font-family:ui-monospace,monospace">${esc(link || code)}</textarea>
+    <button class="btn ghost" data-a="sharecopy">Kopieren</button>`;
+}
+function importSheet(pre) {
+  let info = "";
+  if (pre) { try { const o = b64d(pre); const d = o.d; info = `<div class="card" style="gap:6px"><span class="eyebrow">${o.from ? "Von " + esc(o.from) : "Geteilter Trainingstag"}</span><h2>${esc(d.name)}</h2><span class="small muted">${d.mode === "custom" ? (d.custom || []).map((c) => EXM[c.ex]?.n).filter(Boolean).join(", ") : (d.groups || []).map((g) => GROUPS[g]?.n).join(", ")}</span></div><button class="btn" data-a="importgo" data-c="${esc(pre)}">In meinen Plan übernehmen</button>`; } catch (e) { info = `<p class="small" style="color:var(--warn)">Der Code ist nicht gültig. Bitte noch einmal kopieren.</p>`; } }
+  return `<h2>Trainingstag <em>übernehmen</em></h2>${info || `<p class="small muted">Füge einen Link oder Code ein, den du bekommen hast.</p><textarea id="importcode" class="field" rows="3" placeholder="Link oder Code einfügen"></textarea><button class="btn" data-a="importcheck">Prüfen</button>`}<button class="btn ghost" data-a="sheetclose">Abbrechen</button>`;
+}
+function importDay(code) {
+  const o = b64d(code); const d = o.d;
+  const nd = { id: uid(), type: d.type || "kraft", name: d.name || "Geteilter Tag", groups: (d.groups || []).filter((g) => GROUPS[g]), mode: d.mode === "custom" ? "custom" : "auto", wd: d.wd || 0 };
+  if (nd.mode === "custom") { nd.custom = (d.custom || []).filter((c) => EXM[c.ex]).map((c) => ({ ex: c.ex, g: c.g, sets: c.sets, reps: c.reps })); syncGroups(nd); }
+  S.days.push(nd); thisWeek().slots.push({ id: uid(), type: nd.type, dayId: nd.id, wd: nd.wd });
+  save(); return nd;
+}
+
 /* ---------------- Verlauf ---------------- */
 function lastFor(id) {
   for (let i = S.sessions.length - 1; i >= 0; i--) {
@@ -1077,7 +1263,7 @@ function vHome() {
   const hello = S.name ? `${greet},<br><em>${esc(S.name)}</em>` : `${greet}<em>.</em>`;
   const quote = QUOTES[Math.floor(Date.now() / 864e5) % QUOTES.length];
   return `<div class="wrap">
-    <div class="stack" style="gap:4px"><span class="eyebrow">${dLong(new Date())}</span><h1>${hello}</h1><p class="quote">${esc(quote)}</p></div>
+    <div class="stack" style="gap:4px"><span class="eyebrow">${dLong(new Date())}</span><h1>${hello}</h1><p class="quote">${esc(quote)}</p>${weekStreak() >= 2 ? `<span class="chip tag on" style="align-self:flex-start">${weekStreak()} Wochen in Folge</span>` : ""}</div>
     ${!storageOK ? `<div class="card" style="background:var(--warn-soft);color:var(--warn)">Dieser Browser speichert gerade nichts. Öffne die App direkt in Safari, damit deine Daten bleiben.</div>` : ""}
     ${hero}
     ${weekBanner()}
@@ -1141,7 +1327,8 @@ function vSetup() {
   const wk = thisWeek(); const slot = wk.slots.find((s) => s.id === U.setup.slotId); const info = slotInfo(slot);
   const items = setupItems(); const mini = U.setup.mode === "mini";
   const grp = info.groups.length ? info.groups : [...new Set(items.map((i) => i.g))];
-  const wMin = Math.round(warmSecs(buildWarm(grp, U.setup.mode)) / 60 + (mini ? 0 : 2.5)); const cMin = Math.max(3, Math.round(buildCool(grp).reduce((a, q) => a + q.sec + 10, 0) / 60));
+  const wMin = Math.round(warmSecs(buildWarm(grp, U.setup.mode, U.setup.day || S.dayType)) / 60 + (mini ? 0 : 2.5));
+  const nowD = new Date(); const busyAhead = mini ? [] : items.filter((it) => it.ex && oftenBusy(EXM[it.ex], nowD)); const cMin = Math.max(3, Math.round(buildCool(grp).reduce((a, q) => a + q.sec + 10, 0) / 60));
   const total = (mini ? 20 : estMin(items)) + (U.setup.warm !== false ? wMin : 0) + (U.setup.cool !== false ? cMin : 0);
   let eqs = [];
   if (!mini) {
@@ -1166,20 +1353,15 @@ function vSetup() {
     ${mini ? `<div class="card" style="background:var(--warn-soft)"><p style="color:var(--warn)"><b>Für Tage mit wenig Energie.</b> Nur Körpergewicht, 3 Runden je Übung, kurze Pausen. Hör auf deinen Körper und lass 2–3 Wiederholungen im Tank.</p></div>` : `
     <div class="card" style="background:var(--calm-soft)"><p style="color:var(--calm)"><b>Im Studio fragt die App bei jeder Übung, ob das Gerät frei ist.</b> Ist es besetzt, bekommst du sofort eine Ausweichübung mit passend umgerechneten Sätzen und Wiederholungen.</p></div>`}
     ${slot.type === "kraft" && !mini ? formCard() : ""}
+    ${mini ? `<div class="card" style="gap:10px"><b>Wie war dein Tag?</b><div class="stack" style="gap:8px">${Object.entries(DAYMOB).map(([k, o]) => `<button class="opt ${(U.setup.day || S.dayType || "mix") === k ? "on" : ""}" data-a="setupday" data-k="${k}"><b>${o.n}</b><span class="small muted">${o.sub}</span></button>`).join("")}</div></div>` : ""}
+    ${busyAhead.length ? `<div class="card" style="background:var(--butter);gap:4px"><b style="color:var(--butter-ink)">Um diese Zeit oft besetzt</b><span class="small" style="color:var(--butter-ink)">${esc(busyAhead.map((it) => EXM[it.ex].n).join(", "))} ${busyAhead.length === 1 ? "kommt" : "kommen"} deshalb später dran.</span></div>` : ""}
     <div class="card" style="gap:12px">
-      <div class="row between"><div class="grow"><b>Aufwärmen · ca. ${wMin} Min</b><p class="small muted">${mini ? "4 Min Cardio, 4 Übungen zum Aktivieren" : "Cardio nach Wahl, Übungen passend zu deinen Muskelgruppen, 2 leichte Sätze vor der ersten großen Übung"}</p></div><button class="toggle ${U.setup.warm !== false ? "on" : ""}" data-a="sutoggle" data-k="warm" role="switch" aria-checked="${U.setup.warm !== false}" aria-label="Aufwärmen"></button></div>
+      <div class="row between"><div class="grow"><b>Aufwärmen · ca. ${wMin} Min</b><p class="small muted">${mini ? "Mobilisation und Andehnen passend zu deinem Tag, ohne Geräte" : "Cardio nach Wahl, Übungen passend zu deinen Muskelgruppen, 2 leichte Sätze vor der ersten großen Übung"}</p></div><button class="toggle ${U.setup.warm !== false ? "on" : ""}" data-a="sutoggle" data-k="warm" role="switch" aria-checked="${U.setup.warm !== false}" aria-label="Aufwärmen"></button></div>
       <div class="row between"><div class="grow"><b>Cool-down · ca. ${cMin} Min</b><p class="small muted">Dehnen für die trainierten Muskeln, mit Timer</p></div><button class="toggle ${U.setup.cool !== false ? "on" : ""}" data-a="sutoggle" data-k="cool" role="switch" aria-checked="${U.setup.cool !== false}" aria-label="Cool-down"></button></div>
     </div>
     <div class="card" style="gap:2px"><div class="row between"><h2>Dein Plan</h2><span class="small muted num">insgesamt ca. ${total} Min</span></div>${rows}</div>
   </div>
   <div class="actionbar"><div class="in"><button class="btn" data-a="go-train">Training beginnen</button></div></div>`;
-}
-function startTrain() {
-  const wk = thisWeek(); const slot = wk.slots.find((s) => s.id === U.setup.slotId); const info = slotInfo(slot);
-  const mini = U.setup.mode === "mini";
-  const items = setupItems().filter((i) => i.ex).map((it) => ({ ...it, confirmed: EXM[it.ex].eq.every((e) => e === "matte"), log: makeLog(it) }));
-  S.active = { id: uid(), slotId: slot.id, type: mini ? "mini" : "kraft", name: mini ? "Mini-Training" : info.name + (U.setup.mode === "kurz" ? " (kurz)" : ""), groups: info.groups, start: Date.now(), busyAt: {}, items };
-  save(); wakeLock(); go("train");
 }
 
 /* --- Training: geführter Ablauf im Vollbild ---
@@ -1205,7 +1387,8 @@ function blocksOf(ids, sec, sect) {
   return out;
 }
 /* Aufwärmen: 10–15 Min (Mini 8–10): Cardio, Aktivierung passend zu den Muskelgruppen, Aufwärmsätze in der ersten großen Übung. */
-function buildWarm(groups, mode) {
+function buildWarm(groups, mode, day) {
+  if (mode === "mini") return miniWarm(day || S.dayType);
   const lo = groups.some((g) => LOWER.includes(g)), up = groups.some((g) => UPPER.includes(g));
   let ids = lo && up ? [ACT.lower[0], ACT.upper[0], ACT.lower[1], ACT.upper[1], ACT.lower[2]] : up ? ACT.upper.slice(0, 5) : ACT.lower.slice(0, 5);
   if (!lo && !up) ids = [ACT.lower[0], ACT.upper[0], ACT.core[0], ACT.lower[2], ACT.upper[2]];
@@ -1257,7 +1440,7 @@ const itemById = (id) => S.active.items.find((x) => x.id === id);
 function prepItem(it, warmSets) {
   it.id = it.id || uid();
   const x = EXM[it.ex];
-  it.confirmed = x.eq.every((e) => e === "matte");
+  it.confirmed = noAsk(x);
   it.log = makeLog(it);
   const est = estWeight(it);
   if (est) { it.log.forEach((s) => { if (!s.w) s.w = String(est.w).replace(".", ","); }); it.est = est.est; }
@@ -1331,7 +1514,7 @@ function autoSwap(id) {
   const used = new Set(A.items.filter((x) => !x.closed).map((x) => x.ex)); if (it.ideal) used.add(it.ideal);
   const rec = altsFor(it, busyNow(), used)[0];
   if (!rec) { save(); toast("Gerade ist nichts Passendes frei."); openSheet(() => swapSheet(id)); return; }
-  swapTo(id, rec.id, rec.eq.every((e) => e === "matte"));
+  swapTo(id, rec.id, noAsk(rec));
 }
 function laterStep() {
   const A = S.active; const st = curStep(); const it = itemById(st.id);
@@ -1374,9 +1557,11 @@ function startTrain() {
   const mode = U.setup.mode; const mini = mode === "mini";
   const warm = U.setup.warm !== false, cool = U.setup.cool !== false;
   let first = true;
-  const items = setupItems().filter((i) => i.ex).map((it) => { const w = warm && first && !mini && !isBW(EXM[it.ex]) && EXM[it.ex].type === "c"; if (w) first = false; return prepItem({ ...it }, w); });
+  const nowD = new Date(); const raw = setupItems().filter((i) => i.ex);
+  const ordered = mini ? raw : [...raw.filter((i) => !oftenBusy(EXM[i.ex], nowD)), ...raw.filter((i) => oftenBusy(EXM[i.ex], nowD))];
+  const items = ordered.map((it) => { const w = warm && first && !mini && !isBW(EXM[it.ex]) && EXM[it.ex].type === "c"; if (w) first = false; return prepItem({ ...it }, w); });
   const groups = info.groups.length ? info.groups : [...new Set(items.map((i) => i.g))];
-  const steps = [...(warm ? buildWarm(groups, mode) : []), ...items.map((it) => ({ k: "item", id: it.id })), ...(cool ? buildCool(groups) : [])];
+  const steps = [...(warm ? buildWarm(groups, mode, U.setup.day || S.dayType) : []), ...items.map((it) => ({ k: "item", id: it.id })), ...(cool ? buildCool(groups) : [])];
   S.active = { id: uid(), slotId: slot.id, type: mini ? "mini" : "kraft", name: mini ? "Mini-Training" : info.name + (mode === "kurz" ? " (kurz)" : ""), groups, start: Date.now(), busyAt: {}, items, steps, pos: 0, ph: "", msg: "" };
   wakeLock(); audioSetup(); U.view = "train"; goStep(0);
 }
@@ -1401,7 +1586,7 @@ function trainTop() {
   const segs = A.steps.map((q, i) => `<i class="${i < A.pos ? "d" : i === A.pos ? "c" : ""} ${q.sect || "m"}"></i>`).join("");
   const items = A.steps.filter((q) => q.k === "item"); const ii = items.indexOf(st) + 1;
   const label = st && st.sect ? SECT[st.sect] : st ? `Übung ${ii} von ${items.length}` : "";
-  return `<div class="tr-top"><button class="tr-x" data-a="tr-menu" aria-label="Übersicht">☰</button><div class="grow stack" style="gap:6px"><div class="tr-prog" style="grid-template-columns:repeat(${n},1fr)">${segs}</div><span class="eyebrow">${label} · <span id="elapsed" class="num">${Math.floor((Date.now() - A.start) / 60000)} Min</span></span></div><button class="tr-x" data-a="tr-pause" aria-label="Pausieren">✕</button></div>`;
+  return `<div class="tr-top"><button class="tr-x" data-a="tr-menu" aria-label="Übersicht">☰</button><div class="grow stack" style="gap:6px"><div class="tr-prog" style="grid-template-columns:repeat(${n},1fr)">${segs}</div><span class="eyebrow">${label} · <span id="elapsed" class="num">${Math.floor((Date.now() - A.start) / 60000)} Min</span></span></div>${S.music ? `<a class="tr-x" href="${esc(S.music)}" target="_blank" rel="noopener" aria-label="Playlist öffnen">♪</a>` : ""}<button class="tr-x" data-a="tr-pause" aria-label="Pausieren">✕</button></div>`;
 }
 function ring(cls, val, lbl) { return `<div class="ringwrap"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke-width="7" class="ring-bg"/><circle id="ring" cx="50" cy="50" r="44" fill="none" stroke-width="7" stroke-linecap="round" class="ring-fg ${cls}" stroke-dasharray="276.5" stroke-dashoffset="0"/></svg><div class="rt"><div><b id="tt">${val}</b><div class="small muted">${lbl}</div></div></div></div>`; }
 function vTrain() {
@@ -1454,7 +1639,8 @@ function vTrain() {
           ${A.msg ? `<p class="note ok">${esc(A.msg)}</p>` : lt ? `<p class="small muted">${esc(lt)}</p>` : ""}
           <div class="row" style="flex-wrap:wrap;gap:6px">${it.log.filter((q) => q.done).map((q) => `<span class="chip tag okc num">${q.warm ? "A " : ""}${q.w && !bw ? q.w + "×" : ""}${q.r}</span>`).join("")}</div>
         </div>
-        <div class="row" style="justify-content:center;gap:18px;flex-wrap:wrap"><button class="small link" data-a="occupied">Gerät weg? Tauschen</button><button class="small link" style="color:var(--muted)" data-a="tr-addset">+ Satz</button><button class="small link" style="color:var(--muted)" data-a="tr-skip">Übung beenden</button></div>`;
+        ${ideal && !noAsk(ideal) ? `<button class="small link" style="align-self:center" data-a="backideal">${esc(ideal.n)} ist jetzt frei</button>` : ""}
+        <div class="row" style="justify-content:center;gap:18px;flex-wrap:wrap">${noAsk(x) ? "" : `<button class="small link" data-a="occupied">Gerät weg? Tauschen</button>`}<button class="small link" style="color:var(--muted)" data-a="tr-addset">+ Satz</button><button class="small link" style="color:var(--muted)" data-a="tr-skip">Übung beenden</button></div>`;
       bar = `<button class="btn big" data-a="setdone">${IC.check} ${s.warm ? "Aufwärmsatz geschafft" : "Satz geschafft"}</button>`;
     } else if (A.ph === "rest") {
       const left = A.paused ? Math.ceil(A.paused / 1000) : Math.max(0, Math.ceil((A.end - Date.now()) / 1000));
@@ -1497,7 +1683,8 @@ function finishSession() {
   const dur = Math.max(1, Math.round((Date.now() - A.start) / 60000));
   const prev = {}; items.forEach((it) => { const p = series(it.ex); prev[it.ex] = p.length ? p[p.length - 1] : null; });
   const sess = { id: A.id, slotId: A.slotId, type: A.type, name: A.name, groups: A.groups, date: new Date().toISOString(), dur, items, warm: A.steps.some((q) => q.sect === "warm") };
-  S.sessions.push(sess); S.active = null; save();
+  const prs = prsOf(sess); sess.prs = prs.length;
+  S.sessions.push(sess); S.active = null; const badges = checkBadges(); save();
   const ups = items.map((it) => {
     const p = prev[it.ex]; const ws = it.log.map((s) => num(s.w)).filter((v) => v != null); const rs = it.log.map((s) => num(s.r)).filter((v) => v != null);
     const w = ws.length ? Math.max(...ws) : null, r = rs.length ? Math.max(...rs) : null;
@@ -1506,7 +1693,7 @@ function finishSession() {
     if ((w == null || w === p.w) && r != null && p.r != null && r > p.r) return { n: EXM[it.ex].n, t: `${fmt(p.r)} → ${fmt(r)} Wdh.` };
     return null;
   }).filter(Boolean);
-  U.done = { sess, ups }; go("done");
+  U.done = { sess, ups, prs, badges }; go("done");
 }
 /* Ton & Sprache: Gong und Ansage laufen über die Musik, ohne sie zu stoppen (iOS 17+: audioSession „transient“). */
 function audioSetup() { try { if (navigator.audioSession) navigator.audioSession.type = "transient"; } catch (e) {} try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === "suspended") actx.resume(); } catch (e) {} }
@@ -1517,14 +1704,16 @@ function say(t) {
 }
 
 function vDone() {
-  const { sess, ups } = U.done;
+  const { sess, ups } = U.done; const prs = U.done.prs || [], badges = U.done.badges || [];
   const flow = !!sess.flow; const cur = S.sessions.find((x) => x.id === sess.id) || sess;
   return `<div class="wrap">
     <div class="stack" style="gap:6px;padding-top:12px"><span class="eyebrow">Gespeichert · Note 1,0</span><h1>Stark, <em>${esc(S.name || "geschafft")}</em>!</h1><p class="quote">${esc(sess.name)} ist erledigt und im Verlauf.</p></div>
     <div class="tiles">
-      <div class="tile"><b>${sess.dur}</b><span>Minuten</span></div>
+      <div class="tile"><b>${sess.dur}</b><span>${sess.dur === 1 ? "Minute" : "Minuten"}</span></div>
       ${flow ? `<div class="tile"><b>${sess.items.length}</b><span>Positionen</span></div><div class="tile"><b>${new Set(sess.items.map((i) => i.ex)).size}</b><span>Übungen</span></div>` : `<div class="tile"><b>${setsOf(sess)}</b><span>Sätze</span></div><div class="tile"><b>${fmt(volOf(sess) / 1000, 1)}</b><span>Tonnen bewegt</span></div>`}
     </div>
+    ${prs.length ? `<div class="card pr" style="gap:8px"><span class="eyebrow" style="color:var(--accent)">Neuer Rekord</span>${prs.map((p) => `<div class="row between"><b>${esc(EXM[p.ex].n)}</b><span class="note num">${fmt(p.b)} → ${fmt(p.w)} kg</span></div>`).join("")}</div>` : ""}
+    ${badges.length ? `<div class="card" style="gap:10px"><span class="eyebrow">Neues Abzeichen</span><div class="badges">${badges.map((b) => `<div class="badge on pop">${MEDAL}<span>${b.n}</span></div>`).join("")}</div></div>` : ""}
     <div class="card" style="gap:10px"><b>Wie anstrengend war's?</b><div class="rpe">${RPE_OPTS.map(([v, l]) => `<button class="chip ${cur.rpe === v ? "on" : ""}" data-a="rpe" data-id="${sess.id}" data-v="${v}">${l}</button>`).join("")}</div><span class="small muted">Daraus erkennt die App, wann du eine leichtere Woche brauchst.</span></div>
     ${ups.length ? `<div class="card"><h2>Steigerungen</h2>${ups.map((u) => `<div class="row between"><span>${esc(u.n)}</span><span class="note ok num">${esc(u.t)}</span></div>`).join("")}</div>` : !flow ? `<div class="card"><p class="muted small">Beim nächsten Mal stehen deine heutigen Gewichte schon drin. Schaffst du überall die obere Wiederholungszahl, schlägt die App eine Steigerung vor.</p></div>` : ""}
     ${!flow ? `<div class="card" style="gap:10px"><h2>Deine Woche</h2>${loadBars(weekKey(new Date()), true)}</div>` : ""}
@@ -1584,7 +1773,7 @@ function finishFlow(complete) {
   const dur = Math.max(1, Math.round((Date.now() - A.start) / 60000));
   if (!items.length) { S.active = null; save(); go("home"); return; }
   const sess = { id: A.id, slotId: A.slotId, type: A.type, flow: true, name: A.name, groups: [], date: new Date().toISOString(), dur, items };
-  S.sessions.push(sess); S.active = null; save(); U.done = { sess, ups: [] }; go("done");
+  S.sessions.push(sess); S.active = null; const badges = checkBadges(); save(); U.done = { sess, ups: [], prs: [], badges }; go("done");
 }
 
 /* --- Übungen --- */
@@ -1637,7 +1826,8 @@ function chart(pts, unit) {
 
 /* --- Verlauf --- */
 function vHist() {
-  const seg = `<div class="seg"><button class="${U.hist === "list" ? "on" : ""}" data-a="histt" data-t="list">Einheiten</button><button class="${U.hist === "prog" ? "on" : ""}" data-a="histt" data-t="prog">Fortschritt</button><button class="${U.hist === "load" ? "on" : ""}" data-a="histt" data-t="load">Belastung</button></div>`;
+  const seg = `<div class="seg"><button class="${U.hist === "list" ? "on" : ""}" data-a="histt" data-t="list">Einheiten</button><button class="${U.hist === "prog" ? "on" : ""}" data-a="histt" data-t="prog">Fortschritt</button><button class="${U.hist === "load" ? "on" : ""}" data-a="histt" data-t="load">Belastung</button><button class="${U.hist === "meas" ? "on" : ""}" data-a="histt" data-t="meas">Maße</button></div>`;
+  if (U.hist === "meas") return `<div class="wrap"><h1>Verlauf</h1>${seg}${measTab()}</div>`;
   let body = "";
   if (U.hist === "load") {
     const wk = thisWeek(); const ks = krSessions();
@@ -1649,11 +1839,11 @@ function vHist() {
   }
   if (!S.sessions.length) body = `<div class="card"><h3>Noch keine Einheiten</h3><p class="muted small">Nach deiner ersten Einheit siehst du hier jede Übung mit Gewicht und Wiederholungen und wie du dich steigerst.</p></div>`;
   else if (U.hist === "list") {
-    const byWeek = {};
+    const byWeek = {}; body = successCard();
     [...S.sessions].reverse().forEach((s) => { const k = weekKey(new Date(s.date)); (byWeek[k] = byWeek[k] || []).push(s); });
-    body = Object.entries(byWeek).map(([k, ss]) => `<div class="stack"><span class="eyebrow">Woche ${weekNo(k)}</span><div class="list">${ss.map((s) => {
+    body += Object.entries(byWeek).map(([k, ss]) => `<div class="stack"><span class="eyebrow">Woche ${weekNo(k)}</span><div class="list">${ss.map((s) => {
       const d = new Date(s.date);
-      const sub = s.flow ? `${s.dur} Min · ${s.items.length} Positionen` : `${setsOf(s)} Sätze · ${fmt(volOf(s), 0)} kg · ${s.dur} Min`;
+      const sub = s.flow ? `${s.dur} Min · ${s.items.length} Positionen` : `${setsOf(s)} ${setsOf(s) === 1 ? "Satz" : "Sätze"} · ${fmt(volOf(s), 0)} kg · ${s.dur} Min`;
       const detail = s.flow ? [...new Set(s.items.map((i) => EXM[i.ex]?.n))].map((n) => `<div class="small">${esc(n)}</div>`).join("") : s.items.map((it) => { const x = EXM[it.ex]; return `<div class="row between" style="align-items:flex-start"><span class="small">${esc(x?.n || it.ex)}</span><span class="small muted num" style="text-align:right">${it.log.map((l) => (num(l.w) ? fmt(num(l.w)) + "×" : "") + (l.r || "–")).join(", ")}</span></div>`; }).join("");
       return `<details class="hist li" style="display:block"><summary><div class="row between"><div class="stack" style="gap:1px"><b>${esc(s.name)}</b><span class="small muted">${sub}</span></div><span class="small muted">${dRow(d)}</span></div></summary><div class="stack" style="margin-top:10px">${detail}<button class="link" style="color:var(--warn);text-align:left;font-size:13px" data-a="delsess" data-id="${s.id}">Einheit löschen</button></div></details>`;
     }).join("")}</div></div>`).join("");
@@ -1696,6 +1886,10 @@ function vProf() {
     <div class="card"><div class="stack" style="gap:2px"><h3>Dein Gym-Outfit</h3><p class="small muted">So trainiert deine Figur in allen Animationen.</p></div>${outfitPicker()}</div>
     <div class="card"><h3>Wiederholungen</h3><div class="seg">${opt("mittel", "Aufbau", "8–15")}${opt("hoch", "Aufbau+", "10–20")}${opt("ausdauer", "Kraftausdauer", "15–25")}</div>
       <div class="row between"><div class="grow"><b>Rücken schonen</b><p class="small muted">Keine schweren Rückenübungen, dort mehr Wiederholungen mit weniger Gewicht.</p></div><button class="toggle ${S.backCare ? "on" : ""}" data-a="back" role="switch" aria-checked="${S.backCare}" aria-label="Rücken schonen"></button></div></div>
+    <div class="card" style="gap:10px"><h3>Darstellung</h3><div class="seg">${[["auto", "Automatisch"], ["light", "Hell"], ["dark", "Dunkel"]].map(([k, n]) => `<button class="${(S.theme || "auto") === k ? "on" : ""}" data-a="theme" data-k="${k}">${n}</button>`).join("")}</div><span class="small muted">Automatisch folgt der Einstellung deines iPhones.</span></div>
+    <div class="card" style="gap:8px"><h3>Deine Musik</h3><input id="pmusic" class="field" data-in="music" inputmode="url" value="${esc(S.music || "")}" placeholder="Link zur Playlist (Spotify, Apple Music …)"><span class="small muted">Im Training erscheint dann oben ein ♪, der deine Playlist öffnet. Den Link bekommst du in der Musik-App über Teilen → Link kopieren.</span></div>
+    <div class="card" style="gap:8px"><h3>Dein Alltag</h3><p class="small muted">Bestimmt das Aufwärmen beim Mini-Training. Du kannst es vor jedem Mini-Training ändern.</p><div class="chips">${Object.entries(DAYMOB).map(([k, o]) => `<button class="chip ${(S.dayType || "mix") === k ? "on" : ""}" data-a="daytype" data-k="${k}">${o.n}</button>`).join("")}</div></div>
+    <div class="card" style="gap:8px"><h3>Kalender</h3><p class="small muted">Trägt deine Trainingstage als wiederkehrende Termine mit Erinnerung 30 Minuten vorher in den iPhone-Kalender ein.</p><div class="row"><label class="small muted" for="caltime">Uhrzeit</label><input id="caltime" class="field" type="time" style="width:auto" value="${S.calTime || "18:00"}" data-in="caltime"><button class="btn sm" data-a="calexport">In den Kalender</button></div></div>
     <div class="card"><h3>Einschränkungen</h3><p class="small muted">Übungen, die diese Bereiche stark belasten, schlägt die App nicht mehr vor.</p>${limitChips()}</div>
     <div class="card" style="gap:12px"><h3>Im Training</h3>
       <div class="row between"><div class="grow"><b>Sprachansage</b><p class="small muted">Sagt Übung, Satz und Gewicht an. Läuft über deine Musik.</p></div><button class="toggle ${S.voice !== false ? "on" : ""}" data-a="ptoggle" data-k="voice" role="switch" aria-checked="${S.voice !== false}" aria-label="Sprachansage"></button></div>
@@ -1715,13 +1909,13 @@ function vProf() {
       <button class="li" data-a="reset"><div class="grow"><b style="color:var(--warn)">Alle Daten löschen</b></div></button>
     </div><p class="small muted">Deine Daten bleiben nur auf diesem Gerät. Mach ab und zu ein Backup, damit bei einem Handywechsel nichts verloren geht.</p></div>
     <div class="card" style="gap:6px"><h3>Hinweise</h3><p class="small muted">Selfcare Studio ersetzt keine Trainerin und keine ärztliche Beratung. Bei Schmerzen die Übung abbrechen. Mit Beschwerden oder nach Verletzungen vorher ärztlich abklären.</p><button class="small link" style="align-self:flex-start" data-a="news">Was ist neu in Version ${NEWS.v}?</button></div>
-    <p class="small muted" style="text-align:center">Selfcare Studio · Version 2.0</p>
+    <p class="small muted" style="text-align:center">Selfcare Studio · Version 2.1</p>
   </div>`;
 }
 function dayCard(d, i, removable) {
   const type = d.type || "kraft";
   return `<div class="card daycard">
-    <div class="row between"><span class="eyebrow">${type === "kraft" ? "Krafttag " + (i + 1) : TYPES[type].n}</span>${removable ? `<button class="link" style="color:var(--muted);font-size:13px" data-a="dayrem" data-i="${i}">Entfernen</button>` : ""}</div>
+    <div class="row between"><span class="eyebrow">${type === "kraft" ? "Krafttag " + (i + 1) : TYPES[type].n}</span><div class="row" style="gap:14px">${type === "kraft" && U.view === "days" ? `<button class="link" style="font-size:13px" data-a="share" data-i="${i}">Teilen</button>` : ""}${removable ? `<button class="link" style="color:var(--muted);font-size:13px" data-a="dayrem" data-i="${i}">Entfernen</button>` : ""}</div></div>
     ${type === "kraft" ? `<input id="dn-${i}" class="field" data-in="dayname" data-i="${i}" value="${esc(d.name)}" placeholder="Name, z. B. Po & Beine">` : ""}
     <div class="wdchips">${WD.slice(1).map((w, k) => `<button class="chip ${d.wd === k + 1 ? "on" : ""}" data-a="daywd" data-i="${i}" data-w="${k + 1}">${w}</button>`).join("")}<button class="chip ${!d.wd ? "on" : ""}" data-a="daywd" data-i="${i}" data-w="0" title="ohne festen Tag">frei</button></div>
     ${type !== "kraft" ? `<p class="small muted">${TYPES[type].sub}</p>` : !U.allowCustom ? groupChips(d, i) : `<div class="seg"><button class="${d.mode !== "custom" ? "on" : ""}" data-a="daymode" data-i="${i}" data-m="auto">Automatisch<small>nach Muskelgruppen</small></button><button class="${d.mode === "custom" ? "on" : ""}" data-a="daymode" data-i="${i}" data-m="custom">Eigene Übungen<small>selbst zusammenstellen</small></button></div>
@@ -1763,13 +1957,14 @@ function vDays() {
     ${S.days.map((d, i) => dayCard(d, i, S.days.length > 1)).join("")}
     <div class="row" style="flex-wrap:wrap;gap:8px"><button class="btn line sm" data-a="dayadd" data-t="kraft">+ Krafttag</button><button class="btn line sm" data-a="dayadd" data-t="pilates">+ Pilates</button><button class="btn line sm" data-a="dayadd" data-t="mobility">+ Mobility</button></div>
     <button class="btn ghost" data-a="applyweek">Auch für diese Woche übernehmen</button>
+    <button class="btn line" data-a="importopen">Geteilten Trainingstag übernehmen</button>
   </div>`;
 }
 function eqGrid() {
   return `<div class="chips">${Object.keys(EQUIP).filter((k) => k !== "matte").map((k) => `<button class="chip ${S.equip[k] ? "on" : ""}" data-a="eq" data-e="${k}" aria-pressed="${!!S.equip[k]}">${esc(EQUIP[k])}</button>`).join("")}</div>`;
 }
 function vEq() {
-  return `<div class="wrap"><button class="link" style="text-align:left" data-a="tab" data-v="prof">‹ Profil</button><div class="stack" style="gap:4px"><h1>Geräte</h1><p class="muted small">Alle markierten Geräte können in deinen Plänen vorkommen. Gibt es eins in deinem Studio nicht, tippst du im Training „Gibt's in meinem Studio nicht“ oder nimmst es hier raus.</p></div><div class="card">${eqGrid()}</div></div>`;
+  return `<div class="wrap"><button class="link" style="text-align:left" data-a="tab" data-v="prof">‹ Profil</button><div class="stack" style="gap:4px"><h1>Geräte</h1><p class="muted small">Alle markierten Geräte können in deinen Plänen vorkommen. Gibt es eins in deinem Studio nicht, tippst du im Training „Gibt's in meinem Studio nicht“ oder nimmst es hier raus.</p></div>${rushHours().length ? `<div class="card" style="gap:6px"><h3>Oft besetzt</h3>${rushHours().map((r) => `<div class="row between small"><span>${esc(EQUIP[r.e] || r.e)}</span><span class="muted">${WDL[r.wd]} gegen ${r.h} Uhr</span></div>`).join("")}<p class="small muted">Gelernt aus deinen „Frei“- und „Besetzt“-Antworten. Solche Geräte kommen zu diesen Zeiten später im Training dran.</p></div>` : ""}<div class="card">${eqGrid()}</div></div>`;
 }
 
 /* --- Einrichtung --- */
@@ -1950,6 +2145,24 @@ document.addEventListener("click", (e) => {
     case "form": { S.form = S.form || {}; const k = dayKey(new Date()); S.form[k] = Object.assign({}, S.form[k], { [d.k]: +d.v }); const ks = Object.keys(S.form).sort(); while (ks.length > 30) delete S.form[ks.shift()]; save(); render(); break; }
     case "skipdeload": thisWeek().skipDeload = true; save(); render(); toast("Diese Woche normal"); break;
     case "rpe": { const ss = S.sessions.find((x) => x.id === d.id); if (ss) { ss.rpe = +d.v; save(); render(); } break; }
+    case "theme": S.theme = d.k; save(); applyTheme(); applyOutfit(); render(); break;
+    case "daytype": S.dayType = d.k; save(); render(); break;
+    case "setupday": U.setup.day = d.k; render(); break;
+    case "ocolor": S.outfitCustom = Object.assign(customOutfit(), { [d.k]: d.c }); delete S.outfitCustom.id; delete S.outfitCustom.n; save(); applyOutfit(); render(); break;
+    case "calexport": calExport(); break;
+    case "msave": {
+      const e = { d: new Date().toISOString() }; let any = false;
+      MEAS.forEach(([k]) => { const v = num(document.getElementById("m-" + k)?.value); if (v > 0) { e[k] = v; any = true; } });
+      if (!any) { toast("Trag mindestens einen Wert ein."); break; }
+      S.measures = S.measures || []; S.measures.push(e); save(); render(); toast("Maße gespeichert"); break;
+    }
+    case "mdel": S.measures.splice(+d.i, 1); save(); render(); break;
+    case "share": openSheet(() => shareSheet(+d.i)); break;
+    case "sharego": { const dd = S.days[+d.i]; const url = PWA.base + "?tag=" + dayCode(dd); if (navigator.share) navigator.share({ title: "Trainingstag: " + dd.name, text: `${S.name || "Ich"} teilt einen Trainingstag aus Selfcare Studio`, url }).catch(() => {}); else if (navigator.clipboard) navigator.clipboard.writeText(url).then(() => toast("Link kopiert"), () => {}); break; }
+    case "sharecopy": { const ta = document.getElementById("sharecode"); try { navigator.clipboard.writeText(ta.value).then(() => toast("Kopiert"), () => { ta.select(); }); } catch (err) { ta.select(); } break; }
+    case "importopen": openSheet(() => importSheet()); break;
+    case "importcheck": { const v = (document.getElementById("importcode")?.value || "").trim(); const m = v.match(/[?&]tag=([A-Za-z0-9_-]+)/); const code = m ? m[1] : v; openSheet(() => importSheet(code)); break; }
+    case "importgo": { try { const nd = importDay(d.c); closeSheet(); toast(`${nd.name} ist jetzt in deinem Plan`); go("days"); } catch (err) { toast("Der Code ist nicht gültig."); } break; }
     case "limit": S.limits = S.limits || {}; S.limits[d.k] = !S.limits[d.k]; save(); render(); break;
     case "ptoggle": S[d.k] = d.k === "voice" ? S.voice === false : !S[d.k]; save(); render(); if (d.k === "voice" && S.voice !== false) say("Sprachansage ist an."); break;
     case "news": openSheet(newsSheet); break;
@@ -1963,9 +2176,9 @@ document.addEventListener("click", (e) => {
     case "tr-prev": goStep(Math.max(0, S.active.pos - 1)); break;
     case "tr-next": advance(); break;
     case "tr-hold": { const A = S.active; if (A.paused) { A.end = Date.now() + A.paused; A.paused = 0; } else A.paused = Math.max(0, A.end - Date.now()); save(); render(); break; }
-    case "isfree": { const it = itemById(curStep().id); it.confirmed = true; S.active.ph = "sets"; save(); render(); break; }
-    case "occupied": autoSwap(curStep().id); break;
-    case "later": laterStep(); break;
+    case "isfree": { const it = itemById(curStep().id); logEq(EXM[it.ex].eq, false); it.confirmed = true; S.active.ph = "sets"; save(); render(); break; }
+    case "occupied": logEq(EXM[itemById(curStep().id).ex].eq, true); autoSwap(curStep().id); break;
+    case "later": logEq(EXM[itemById(curStep().id).ex].eq, true); laterStep(); break;
     case "swap": { const id = curStep().id; openSheet(() => swapSheet(id)); break; }
     case "swappick": swapTo(d.id, d.x, true); break;
     case "noequip": { const x = EXM[itemById(curStep().id).ex]; const e = x.eq.find((q) => q !== "matte"); if (e) S.equip[e] = false; autoSwap(curStep().id); if (e) toast(`${EQUIP[e]} ausgeblendet. Im Profil unter „Geräte“ wieder einblenden.`); break; }
@@ -2017,7 +2230,7 @@ document.addEventListener("click", (e) => {
       }
       if (U.ob === 1 && !S.days.filter((x) => (x.type || "kraft") === "kraft").length) S.days = tmplDays(3).concat(S.days);
       if (U.ob < 4) { U.ob++; render(); window.scrollTo(0, 0); }
-      else { S.setup = true; S.newsSeen = NEWS.v; save(); go("home"); }
+      else { S.setup = true; S.newsSeen = NEWS.v; save(); go("home"); if (S.pendingTag) { const t = S.pendingTag; delete S.pendingTag; save(); setTimeout(() => openSheet(() => importSheet(t)), 300); } }
       break;
     }
     case "obback": U.ob = Math.max(0, U.ob - 1); render(); break;
@@ -2063,6 +2276,9 @@ document.addEventListener("click", (e) => {
 document.addEventListener("input", (e) => {
   const t = e.target; const k = t.dataset.in; if (!k) return;
   if (k === "name") { S.name = t.value.trim(); save(); }
+  if (k === "music") { const v = t.value.trim(); S.music = /^https?:\/\//.test(v) ? v : ""; save(); }
+  if (k === "caltime") { S.calTime = t.value || "18:00"; save(); }
+  if (k === "ocolor") { S.outfitCustom = Object.assign(customOutfit(), { [t.dataset.k]: t.value }); delete S.outfitCustom.id; delete S.outfitCustom.n; save(); applyOutfit(); }
   if (k === "dayname") { S.days[+t.dataset.i].name = t.value; save(); }
   if (k === "clo" || k === "chi") { const c = S.days[+t.dataset.i].custom[+t.dataset.j]; const v = parseInt(t.value, 10); if (v > 0) { c.reps[k === "clo" ? 0 : 1] = v; if (c.reps[0] > c.reps[1]) c.reps = [c.reps[1], c.reps[0]]; save(); } }
   if (k === "sw" || k === "sr") { const it = itemById(curStep().id); const j = it.log.findIndex((q) => !q.done); const s0 = it.log[j]; if (!s0) return; const v = t.value.replace(/[^\d.,]/g, ""); if (k === "sw") { s0.w = v; if (!s0.warm) it.log.slice(j + 1).forEach((q) => { if (!q.done && !q.warm) q.w = v; }); } else s0.r = v; save(); }
@@ -2076,8 +2292,20 @@ setInterval(() => {
 document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && S.active) wakeLock(); });
 
 try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyOutfit); new MutationObserver(() => { applyOutfit(); if (U.view === "prof" || U.view === "ob") render(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] }); } catch (e) {}
+applyTheme();
 render();
-if (S.setup && S.newsSeen !== NEWS.v && !S.active) setTimeout(() => openSheet(newsSheet), 400);
+(() => {
+  let tag = null; try { tag = new URLSearchParams(location.search).get("tag"); } catch (e) {}
+  if (tag && /^[A-Za-z0-9_-]+$/.test(tag)) {
+    try { history.replaceState(null, "", location.pathname); } catch (e) {}
+    if (S.setup) setTimeout(() => openSheet(() => importSheet(tag)), 300); else S.pendingTag = tag;
+  } else if (S.setup && S.newsSeen !== NEWS.v && !S.active) setTimeout(() => openSheet(newsSheet), 400);
+})();
+/* Kein Zoomen mit zwei Fingern oder Doppeltipp (wie eine native App). */
+["gesturestart", "gesturechange", "gestureend"].forEach((ev) => document.addEventListener(ev, (e) => e.preventDefault(), { passive: false }));
+document.addEventListener("touchmove", (e) => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
+let lastTouch = 0;
+document.addEventListener("touchend", (e) => { const n = Date.now(); if (n - lastTouch < 300 && !e.target.closest("input, textarea, select")) e.preventDefault(); lastTouch = n; }, { passive: false });
 </script>
 
 <script>
