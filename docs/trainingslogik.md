@@ -1,6 +1,6 @@
 # Selfcare Studio – Trainingslogik
 
-Stand: Version 2.0. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
+Stand: Version 2.1. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
 
 ## Plan
 - **Muskelgruppen** haben eine Größe (Po 6, Beine vorne 5, Rücken 5 …). Daraus entsteht das Volumen eines Tages in „effektiven Sätzen“, höchstens 22 pro Einheit.
@@ -33,6 +33,13 @@ Ein Bildschirm, ein Schritt: Cardio (Gerät wählen) → Aktivierung mit Timer �
 - Pausen: Grundübung 90 s (schwere Sätze 120 s), Isolation 60 s, Mini 45 s, Aufwärmsatz 45 s.
 - Ton: Gong und Ansage über laufende Musik (`audioSession.type = "transient"` ab iOS 17).
 
+## Gerätefrage und Gerätezeiten
+- Keine „Frei?“-Frage bei Übungen nur mit Matte, Band oder Gymnastikball (`noAsk`). Ist so eine Übung Ersatz, wird nur angeboten: „Original ist jetzt frei“.
+- Jede Antwort „Frei“/„Besetzt“/„Später“ wird mit Gerät, Wochentag und Stunde gespeichert (`eqLog`, max. 400). Gilt ein Gerät zur gleichen Zeit (±1 Std., gleicher Wochentag, mind. 3 Antworten) zu ≥ 60 % als besetzt, rückt die Übung beim Start ans Ende.
+
+## Mini-Aufwärmen
+Kein Cardio, keine Aufwärmsätze. 5 Mobilisations- und Dehnübungen nach Tagesart (`DAYMOB`), Zeit pro Übung so, dass es ca. 5 Min sind.
+
 ## Belastung
 - Nach jeder Einheit Anstrengung: Locker 3, Gut machbar 5, Fordernd 7, Sehr hart 9, Zu viel 10.
 - **Entlastungswoche** (−40 % Sätze, gleiche Gewichte): nach 7 Trainingswochen oder wenn der Schnitt der letzten 3–4 Einheiten ≥ 8,5 ist. Lässt sich pro Woche abschalten.
@@ -41,6 +48,11 @@ Ein Bildschirm, ein Schritt: Cardio (Gerät wählen) → Aktivierung mit Timer �
 - **Tagesform** (Schlaf + Energie, je 0–2): Summe ≤ 1 → −30 %, = 2 → −15 %.
 - Alle Faktoren multipliziert, begrenzt auf 50–110 %.
 - **Wochenvolumen:** effektive Sätze pro Muskelgruppe (Satz × Wirkung ab 0,3), Zielbereiche in `TARGET` (z. B. Po 10–16).
+
+## Erfolge
+- Wochenserie: Wochen mit mindestens 2 Einheiten am Stück (die laufende Woche zählt, sobald sie 2 hat).
+- Rekord: höheres Arbeitsgewicht als je zuvor bei dieser Übung.
+- 15 Abzeichen (`BADGES`), einmal vergeben mit Datum.
 
 ## Daten
 Alles in `localStorage` unter `satzwerk.v1`. Backup als JSON-Datei über das Profil.
