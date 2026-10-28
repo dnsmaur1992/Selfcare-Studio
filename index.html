@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.3">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.3">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.4">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.4">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.3">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.4">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -168,6 +168,7 @@ svg.fig .pad { fill: var(--prop); stroke: var(--muted); stroke-width: .8; }
 .tr-prog i.cool { background: color-mix(in srgb, var(--lav-ink) 20%, var(--line)); }
 .tr-prog i.d { background: var(--accent); opacity: .45; }
 .tr-prog i.c { background: var(--accent); }
+.tr-prog i.s { background: repeating-linear-gradient(90deg, var(--muted) 0 2px, transparent 2px 4px); opacity: .5; }
 .tr-body { display: flex; flex-direction: column; gap: 14px; }
 .tr-name { font-size: 32px; text-align: center; }
 .figbox.tr-fig svg.fig { height: min(220px, 34vh) !important; }
@@ -356,6 +357,7 @@ html.touring, html.touring body { overflow: hidden; overscroll-behavior: none; t
 .ring-fg { stroke: var(--accent); transition: stroke-dashoffset .25s linear; }
 .ring-fg.calm { stroke: var(--lav-ink); }
 .sheet > * { flex-shrink: 0; }
+.chip.skipt { background: var(--surface2); color: var(--muted); font-style: italic; }
 .pickh { position: sticky; top: 38px; z-index: 2; display: flex; justify-content: space-between; align-items: baseline; padding: 8px 4px 4px; background: var(--bg); font-family: var(--display); font-size: 20px; font-weight: 600; }
 .pickbar { position: sticky; top: -10px; z-index: 3; background: var(--bg); padding: 6px 0; }
 .hscroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
@@ -620,14 +622,18 @@ const LIMITS = {
   wrist: { n: "Handgelenk", ids: ["pushup", "pushup_incline", "benchdips", "kickback_kh", "conc_curl"] },
 };
 const limited = (id) => Object.keys(LIMITS).some((k) => (S.limits || {})[k] && LIMITS[k].ids.includes(id));
-const S_VERSION = "2.3";
-const NEWS = { v: "2.3", items: [
+const S_VERSION = "2.4";
+const NEWS = { v: "2.4", items: [
+  ["Springen ohne Schummeln", "Springst du im Training über die Übersicht zu einer anderen Übung, gilt Ausgelassenes als „übersprungen“ – nicht mehr als erledigt. Abgehakt wird nur, was du wirklich geschafft hast."],
+  ["Nachholen oder entfernen", "In der Übersicht zeigt jede Übung ihren Stand (✓, 1/3, übersprungen). Mit × entfernst du eine Übung aus der Einheit. Am Ende bietet die App Übersprungenes zum Nachholen an."],
+], old: [
+  { v: "2.3", items: [
   ["Aufwärmsätze auf Nachfrage", "Bei jeder großen Übung fragt die App: „Möchtest du einen Aufwärmsatz machen?“ – nach jedem Satz nochmal. Mit Vorschlag fürs Gewicht."],
   ["Alles wird mitgezählt", "Aufwärmsätze werden gespeichert und stehen im Verlauf. Die bewegten Kilo zeigen die Gesamtlast inklusive Aufwärmen."],
   ["Fokus „Körperfett verlieren“", "6 Wochen: Muskeln halten, kürzere Pausen und 12 Minuten Ausdauer zum Schluss. Am Ende vergleicht die App deine Maße."],
   ["Übungen nach Muskelgruppe", "„Übung hinzufügen“ im Trainingsplan ist jetzt nach Muskelgruppen sortiert und scrollt wieder."],
   ["Ruhige App-Tour", "Während der Tour lässt sich nichts mehr verschieben oder wegwischen – weiter nur über die Knöpfe."],
-], old: [
+] },
   { v: "2.2", items: [
   ["Deine Figur", "Neben dem Outfit jetzt auch Frisur und Haarfarbe – Zopf, Dutt, kurz, lang, Cap oder ohne. Im Profil unter „Deine Figur“."],
   ["Erfolge zum Feiern", "Der Abschluss zeigt deinen Wochenring, eine goldene Karte bei kompletter Woche und deine Gesamtbilanz. Beim letzten Satz gibt's ein „Letzter Satz!“."],
@@ -1880,14 +1886,37 @@ const curStep = () => S.active.steps[S.active.pos];
 function goStep(pos) {
   const A = S.active; A.pos = pos; A.msg = ""; A.paused = 0;
   const st = A.steps[pos];
-  if (!st) return finishPrompt(true);
+  if (!st) { A.ph = "end"; save(); return finishPrompt(true); }
   if (st.k === "item") { const it = itemById(st.id); A.ph = it.confirmed ? "sets" : "ask"; }
   else if (st.k === "cardio") A.ph = st.eq !== undefined ? "prep" : "pick";
   else A.ph = "prep";
   if (A.ph === "prep") { A.end = Date.now() + 10000; const x = EXM[st.k === "cardio" ? st.ex : st.ex]; say(`Gleich: ${x ? x.n : ""}${st.side ? ", " + st.side : ""}`); }
   save(); render();
 }
-function advance() { const A = S.active; let p = A.pos + 1; while (A.steps[p] && A.steps[p].k === "item" && itemById(A.steps[p].id)?.closed) p++; goStep(p); }
+/* Status eines Schritts: done (erledigt), part (teilweise), skip (übersprungen), open (offen). Nur echt Geschafftes gilt als erledigt. */
+function stepStatus(q) {
+  if (q.k === "item") {
+    const it = itemById(q.id); if (!it) return "skip";
+    const dw = doneWork(it).length; const openW = it.log.some((s) => !s.done && !s.warm);
+    if (dw && (!openW || it.closed)) return "done";
+    if (it.skipped || (it.closed && !dw)) return "skip";
+    return dw ? "part" : "open";
+  }
+  return q.done ? "done" : q.skipped ? "skip" : "open";
+}
+function markSkipped(q) { if (stepStatus(q) !== "open") return; if (q.k === "item") itemById(q.id).skipped = true; else q.skipped = true; }
+function unskip(q) { if (q.k === "item") { const it = itemById(q.id); if (it) { it.skipped = false; if (it.closed && !doneWork(it).length) it.closed = false; } } else q.skipped = false; }
+/* Weiter zum nächsten offenen Schritt; Übersprungenes bleibt sichtbar übersprungen und wird am Ende angeboten. */
+function advance() { const A = S.active; let p = A.pos + 1; while (A.steps[p] && ["done", "skip"].includes(stepStatus(A.steps[p]))) p++; goStep(p); }
+function jumpTo(p) {
+  const A = S.active; if (p > A.pos) for (let i = A.pos; i < p; i++) markSkipped(A.steps[i]);
+  unskip(A.steps[p]); goStep(p);
+}
+function removeStep(p) {
+  const A = S.active; const q = A.steps[p]; if (!q) return;
+  if (q.k === "item") { const it = itemById(q.id); if (doneWork(it).length) { it.closed = true; it.log = it.log.filter((s) => s.done); return; } A.items = A.items.filter((x) => x !== it); }
+  A.steps.splice(p, 1); if (p < A.pos) A.pos--;
+}
 function setDone() {
   const A = S.active; const it = itemById(curStep().id); const x = EXM[it.ex];
   const j = it.log.findIndex((s) => !s.done); if (j < 0) return advance();
@@ -2004,23 +2033,23 @@ function trainTick() {
   const ring = document.querySelector(".tr .ringwrap"); if (ring) ring.classList.toggle("hot", (A.ph === "rest" || A.ph === "work") && left <= 10 && left > 0);
   if (left > 0) return;
   if (A.ph === "prep") { gong(); flash(); A.ph = "work"; A.cue = 0; A.end = Date.now() + st.sec * 1000; save(); render(); }
-  else if (A.ph === "work") { gong(); advance(); }
+  else if (A.ph === "work") { gong(); st.done = true; advance(); }
   else if (A.ph === "rest") restEnd();
 }
 /* Ansicht */
 const SECT = { warm: "Aufwärmen", cool: "Cool-down", fin: "Ausdauer" };
 function trainTop() {
   const A = S.active; const st = curStep(); const n = A.steps.length;
-  const segs = A.steps.map((q, i) => `<i class="${i < A.pos ? "d" : i === A.pos ? "c" : ""} ${q.sect || "m"}"></i>`).join("");
+  const segs = A.steps.map((q, i) => { const s0 = stepStatus(q); return `<i class="${i === A.pos ? "c" : s0 === "done" || s0 === "part" ? "d" : s0 === "skip" ? "s" : ""} ${q.sect || "m"}"></i>`; }).join("");
   const items = A.steps.filter((q) => q.k === "item"); const ii = items.indexOf(st) + 1;
-  const label = st && st.sect ? SECT[st.sect] : st ? `Übung ${ii} von ${items.length}` : "";
+  const label = st && st.sect ? SECT[st.sect] : st ? `Übung ${ii} von ${items.length}` : "Ende";
   return `<div class="tr-top"><button class="tr-x" data-a="tr-menu" aria-label="Übersicht">☰</button><div class="grow stack" style="gap:6px"><div class="tr-prog" style="grid-template-columns:repeat(${n},1fr)">${segs}</div><span class="eyebrow">${label} · <span id="elapsed" class="num">${Math.floor((Date.now() - A.start) / 60000)} Min</span></span></div>${S.music ? `<a class="tr-x" href="${esc(S.music)}" target="_blank" rel="noopener" aria-label="Playlist öffnen">♪</a>` : ""}<button class="tr-x" data-a="tr-pause" aria-label="Pausieren">✕</button></div>`;
 }
 function ring(cls, val, lbl) { return `<div class="ringwrap"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke-width="7" class="ring-bg"/><circle id="ring" cx="50" cy="50" r="44" fill="none" stroke-width="7" stroke-linecap="round" class="ring-fg ${cls}" stroke-dasharray="276.5" stroke-dashoffset="0"/></svg><div class="rt"><div><b id="tt">${val}</b><div class="small muted">${lbl}</div></div></div></div>`; }
 function vTrain() {
   const A = S.active; if (!A || A.flow) return vHome();
   if (!A.steps) { A.steps = A.items.map((it) => ({ k: "item", id: (it.id = it.id || uid()) })); A.pos = 0; A.ph = "sets"; }
-  const st = curStep(); if (!st) return trainTop();
+  const st = curStep(); if (!st) return trainTop() + endScreen();
   let body = "", bar = "";
   const fmtT = (s) => (s >= 60 ? Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0") : String(s));
   if (st.k === "cardio" && A.ph === "pick") {
@@ -2103,18 +2132,30 @@ function trMenu() {
   const A = S.active;
   const rows = A.steps.map((q, i) => {
     const nm = q.k === "item" ? EXM[itemById(q.id).ex].n : q.k === "cardio" ? (q.ex ? EXM[q.ex].n : "Cardio") : EXM[q.ex].n + (q.side ? ` (${q.side})` : "");
-    const done = i < A.pos || (q.k === "item" && !itemById(q.id).log.some((s) => !s.done));
-    return `<button class="li" data-a="tr-jump" data-p="${i}" style="${i === A.pos ? "background:var(--accent-soft)" : ""}"><span class="small muted" style="width:76px;flex:none">${q.sect ? SECT[q.sect] : "Training"}</span><span class="grow" style="${done ? "color:var(--muted);text-decoration:line-through" : "font-weight:600"}">${esc(nm)}</span></button>`;
+    const st = i === A.pos && stepStatus(q) === "open" ? "now" : stepStatus(q);
+    const it = q.k === "item" ? itemById(q.id) : null;
+    const tag = st === "done" ? `<span class="note ok">✓</span>` : st === "part" ? `<span class="chip tag num">${doneWork(it).length}/${workSets(it).length}</span>` : st === "skip" ? `<span class="chip tag skipt">übersprungen</span>` : st === "now" ? `<span class="small" style="color:var(--accent);font-weight:600">jetzt</span>` : "";
+    const canDel = i !== A.pos && (st === "skip" || (st === "open" && q.k === "item")) && A.steps.length > 1;
+    return `<div class="row" style="gap:0;border-bottom:1px solid var(--line);${i === A.pos ? "background:var(--accent-soft)" : ""}"><button class="li grow" style="border:0" data-a="tr-jump" data-p="${i}"><span class="small muted" style="width:72px;flex:none">${q.sect ? SECT[q.sect] : "Training"}</span><span class="grow" style="${st === "done" ? "color:var(--muted);text-decoration:line-through" : st === "skip" ? "color:var(--muted)" : "font-weight:600"}">${esc(nm)}</span>${tag}</button>${canDel ? `<button class="link" style="color:var(--muted);font-size:20px;padding:0 14px" data-a="tr-remove" data-p="${i}" aria-label="${esc(nm)} entfernen">×</button>` : ""}</div>`;
   }).join("");
-  return `<h2>Übersicht</h2><div class="list">${rows}</div>
+  return `<div class="stack" style="gap:4px"><h2>Übersicht</h2><p class="small muted">Antippen zum Springen. Was du dabei auslässt, gilt als übersprungen – du kannst es später nachholen oder mit × entfernen.</p></div><div class="list">${rows}</div>
     <button class="btn" data-a="finish">Einheit beenden</button>
     <button class="btn ghost" data-a="tab" data-v="home">Pausieren und zur Woche</button>
     <button class="small link" style="color:var(--muted)" data-a="discard">Einheit verwerfen</button>`;
+}
+function backItems() { const A = S.active; return A.steps.map((q, i) => ({ q, i })).filter(({ q }) => q.k === "item" && ["skip", "open", "part"].includes(stepStatus(q))); }
+function endScreen() {
+  const back = backItems();
+  return `<div class="wrap tr" style="gap:14px"><div class="stack" style="gap:6px"><span class="eyebrow">Ende erreicht</span><h1>Fast <em>fertig</em></h1><p class="muted">${back.length ? `${back.length} ${back.length === 1 ? "Übung ist" : "Übungen sind"} noch offen oder übersprungen. Nachholen oder Einheit beenden?` : "Alles erledigt."}</p></div>
+    ${back.length ? `<div class="list">${back.map(({ q, i }) => { const it = itemById(q.id); const s0 = stepStatus(q); return `<button class="li" data-a="tr-jump" data-p="${i}"><span class="grow" style="font-weight:600">${esc(EXM[it.ex].n)}</span><span class="chip tag ${s0 === "skip" ? "skipt" : ""} num">${s0 === "skip" ? "übersprungen" : s0 === "part" ? doneWork(it).length + "/" + workSets(it).length : "offen"}</span><span class="chev">›</span></button>`; }).join("")}</div>` : ""}
+  </div><div class="actionbar"><div class="in"><button class="btn" data-a="${S.active.items.some((it) => doneWork(it).length) ? "finish2" : "finish"}">Einheit beenden und speichern</button></div></div>`;
 }
 function finishPrompt(auto) {
   const A = S.active;
   const n = A.items.reduce((a, it) => a + doneWork(it).length, 0);
   const open = A.items.filter((it) => !it.closed && it.log.some((s) => !s.done && !s.warm)).length;
+  const back = backItems();
+  if (auto && back.length && n) { render(); return; }
   if (!n) return openSheet(() => confirmSheet("Noch kein Satz geschafft", "Hake mindestens einen Satz ab, sonst gibt es nichts zu speichern. Oder verwirf die Einheit.", "discard2", "Einheit verwerfen"));
   if (open && !auto) return openSheet(() => confirmSheet("Einheit beenden?", `Noch ${open} ${open === 1 ? "Übung ist" : "Übungen sind"} offen. ${n} geschaffte Sätze werden gespeichert.`, "finish2", "Trotzdem beenden"));
   finishSession();
@@ -2744,10 +2785,10 @@ document.addEventListener("click", (e) => {
     case "cardio": { const A = S.active; const st = curStep(); st.ex = d.x; st.eq = (CARDIO.find((c) => c.id === d.x) || {}).eq || ""; if (st.eq) markBusy([]); A.ph = "prep"; A.end = Date.now() + 10000; say(`Gleich: ${EXM[d.x].n}`); save(); render(); break; }
     case "warmyes": { const it = itemById(curStep().id); addWarmSet(it); S.active.msg = ""; save(); render(); break; }
     case "warmno": { const it = itemById(curStep().id); it.warmAsk = false; S.active.msg = ""; save(); render(); break; }
-    case "tr-skipfin": { const A = S.active; const p = A.steps.findIndex((q, i) => i > A.pos && q.sect !== "fin"); goStep(p < 0 ? A.steps.length : p); break; }
-    case "tr-skipwarm": { const A = S.active; const p = A.steps.findIndex((q) => q.k === "item"); goStep(p < 0 ? A.steps.length : p); break; }
+    case "tr-skipfin": { const A = S.active; markSkipped(curStep()); const p = A.steps.findIndex((q, i) => i > A.pos && q.sect !== "fin"); goStep(p < 0 ? A.steps.length : p); break; }
+    case "tr-skipwarm": { const A = S.active; const p = A.steps.findIndex((q) => q.k === "item"); for (let i = A.pos; i < (p < 0 ? A.steps.length : p); i++) markSkipped(A.steps[i]); goStep(p < 0 ? A.steps.length : p); break; }
     case "tr-prev": goStep(Math.max(0, S.active.pos - 1)); break;
-    case "tr-next": advance(); break;
+    case "tr-next": markSkipped(curStep()); advance(); break;
     case "tr-hold": { const A = S.active; if (A.paused) { A.end = Date.now() + A.paused; A.paused = 0; } else A.paused = Math.max(0, A.end - Date.now()); save(); render(); break; }
     case "isfree": { const it = itemById(curStep().id); logEq(EXM[it.ex].eq, false); it.confirmed = true; S.active.ph = "sets"; save(); render(); break; }
     case "occupied": logEq(EXM[itemById(curStep().id).ex].eq, true); autoSwap(curStep().id); break;
@@ -2763,11 +2804,12 @@ document.addEventListener("click", (e) => {
       save(); break;
     }
     case "tr-addset": { const it = itemById(curStep().id); const l = workSets(it).slice(-1)[0]; it.log.push({ w: l ? l.w : "", r: "", done: false }); save(); render(); toast("Satz hinzugefügt"); break; }
-    case "tr-skip": { const it = itemById(curStep().id); it.log = it.log.filter((q) => q.done); if (!it.log.length) it.closed = true; save(); advance(); break; }
+    case "tr-skip": { const it = itemById(curStep().id); it.log = it.log.filter((q) => q.done); it.closed = true; if (!doneWork(it).length) it.skipped = true; save(); advance(); break; }
     case "tr-rest15": { const A = S.active; A.end = Math.max(A.end, Date.now()) + 15000; A.total += 15; A.beeped = false; save(); break; }
     case "tr-restskip": restEnd(); break;
     case "tr-menu": openSheet(trMenu); break;
-    case "tr-jump": closeSheet(); goStep(+d.p); break;
+    case "tr-jump": closeSheet(); jumpTo(+d.p); break;
+    case "tr-remove": { removeStep(+d.p); save(); renderSheet(); render(); break; }
     case "tr-pause": { const A = S.active; if (A && (A.ph === "prep" || A.ph === "work") && !A.paused) A.paused = Math.max(0, A.end - Date.now()); save(); go("home"); break; }
     case "finish": closeSheet(); finishPrompt(false); break;
     case "finish2": closeSheet(); finishSession(); break;

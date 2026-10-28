@@ -17,6 +17,9 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 ## Bewusst nicht umgesetzt
 - **Unhörbarer Dauerton** gegen das Einschlafen der Audioausgabe (Ringzeit-Idee): Er würde laufende Musik auf dem iPhone dauerhaft leiser stellen. Stattdessen Gong als echte Tondatei und Freischalten beim ersten Antippen.
 
+## Erledigt in Version 2.4
+- [x] Springen über die Übersicht hakt nichts mehr ab: Ausgelassenes gilt als „übersprungen“, Stand je Übung (✓, 1/3, übersprungen), × zum Entfernen, am Ende Nachholen anbieten.
+
 ## Erledigt in Version 2.3
 - [x] Aufwärmsätze auf Nachfrage bei jeder großen Übung („Möchtest du einen Aufwärmsatz machen?“, danach „Noch ein Aufwärmsatz?“), mit Gewichtsvorschlag.
 - [x] Aufwärmsätze werden gespeichert, im Verlauf angezeigt und in der Gesamtlast (kg pro Training) mitgezählt; Sätze, Rekorde und Fortschritt zählen nur Arbeitssätze.
@@ -53,7 +56,7 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 - [x] Auszug für Physio oder Trainerin (letzte 4 Wochen).
 - [x] 6-Wochen-Check.
 - [x] README: Hochladen vom iPhone und „Actions“ erklärt.
-- [x] Tests erweitert (21 Prüfungen, mit 2.3: 28).
+- [x] Tests erweitert (21 Prüfungen, mit 2.3: 28, mit 2.4: 33).
 
 ## Erledigt in Version 2.1
 - [x] Zoomen mit zwei Fingern und per Doppeltipp verhindert (Viewport, `touch-action: manipulation`, `gesturestart` abgefangen, Eingabefelder ≥ 16 px).
