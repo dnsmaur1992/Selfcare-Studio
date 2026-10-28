@@ -30,7 +30,7 @@ S.sessions.push({ id: "a", date: new Date().toISOString(), items: [{ g: "po", ex
 const est = estWeight({ ex: "ht_smith", reps: [10, 15], g: "po" });
 ok(est && est.est && est.w > 30 && est.w < 70, "Schätzung Smith-Hip-Thrust aus Maschinen-Hip-Thrust: " + (est && est.w) + " kg");
 // 6 Aufwärmen 10–15 Min
-const wm = (warmSecs(buildWarm(["po", "quad"], "normal")) / 60) + 2.5;
+const wm = warmSecs(buildWarm(["po", "quad"], "normal")) / 60;
 ok(wm >= 10 && wm <= 15, "Aufwärmen dauert " + wm.toFixed(1) + " Min");
 // 7 Einschränkung Knie
 S.limits = { knee: true };
@@ -75,5 +75,20 @@ ok(NEWS.v === S_VERSION && NEWS.items.length <= 6 && NEWS.old.length >= 1, "„W
 ok(READS.every((r) => r.src.length && r.src.every(([, u]) => u.startsWith("https://")) && r.sec.every(([, t]) => t.split(/[.!?] /).length <= 3)), "Zum Lesen: jedes Thema mit Quelle, Abschnitte mit höchstens 3 Sätzen");
 // 20 Belastung bleibt begrenzt
 S.form = {}; S.mood = {}; ok(loadFactor().f >= 0.5 && loadFactor().f <= 1.1, "Belastungsfaktor bleibt zwischen 50 und 110 %");
+// 21 Aufwärmsätze nur auf Nachfrage, gespeichert, aber nicht als Arbeitssatz gezählt
+const wi = prepItem({ g: "po", e: 3, ex: "ht_m", ideal: "ht_m", sets: 3, reps: [10, 15] }, true);
+ok(wi.warmAsk && !wi.log.some((q) => q.warm) && warmAskNow(wi), "Große Übung: erst Frage, kein automatischer Aufwärmsatz");
+wi.log.forEach((q) => (q.w = "60")); addWarmSet(wi); const w1 = wi.log[0];
+ok(w1.warm && w1.w === "30" && w1.r === "10" && !warmAskNow(wi), "Aufwärmsatz 1: 50 % × 10 (" + w1.w + " kg × " + w1.r + ")");
+w1.done = true; ok(warmAskNow(wi), "Nach dem Aufwärmsatz fragt die App erneut");
+addWarmSet(wi); ok(wi.log[1].warm && wi.log[1].r === "6", "Aufwärmsatz 2: 70 % × 6 (" + wi.log[1].w + " kg)");
+wi.log[1].done = true; wi.log[2].done = true; wi.log[2].r = "12";
+const ws = { items: [{ ex: "ht_m", log: wi.log }] };
+ok(setsOf(ws) === 1 && warmSetsOf(ws) === 2 && volOf(ws) === 30 * 10 + num(wi.log[1].w) * 6 + 60 * 12 && volOf(ws, true) === 300 + num(wi.log[1].w) * 6, "Gesamtlast inkl. Aufwärmen, Sätze ohne: " + volOf(ws) + " kg");
+ok(!prepItem({ g: "po", e: 3, ex: "bridge", ideal: "bridge", sets: 3, reps: [12, 20] }, true).warmAsk, "Körpergewicht: keine Aufwärmfrage");
+// 22 Fokus Körperfett: kürzere Pausen, Volumen bleibt
+S.focus = { id: "fett", start: new Date().toISOString() };
+ok(fatFocus() && restFor({ type: "c" }) < S.restC && restFor({ type: "i" }) >= 45 && focusFactor("po") === 1, "Fokus Körperfett: Pausen " + restFor({ type: "c" }) + "/" + restFor({ type: "i" }) + " s, Volumen unverändert");
+S.focus = null;
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
