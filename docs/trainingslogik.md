@@ -1,6 +1,6 @@
 # Selfcare Studio – Trainingslogik
 
-Stand: Version 2.1. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
+Stand: Version 2.2. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
 
 ## Plan
 - **Muskelgruppen** haben eine Größe (Po 6, Beine vorne 5, Rücken 5 …). Daraus entsteht das Volumen eines Tages in „effektiven Sätzen“, höchstens 22 pro Einheit.
@@ -49,10 +49,32 @@ Kein Cardio, keine Aufwärmsätze. 5 Mobilisations- und Dehnübungen nach Tagesa
 - Alle Faktoren multipliziert, begrenzt auf 50–110 %.
 - **Wochenvolumen:** effektive Sätze pro Muskelgruppe (Satz × Wirkung ab 0,3), Zielbereiche in `TARGET` (z. B. Po 10–16).
 
+## Pausen, verpasste Einheiten, Fokus
+- **Pause** (krank / verletzt / Urlaub): Der Plan ruht, verpasste Einheiten werden nicht angemahnt. Wochen, die ganz oder teilweise in einer Pause liegen, unterbrechen die Wochenserie nicht.
+- **Nach der Pause** sanfter Wiedereinstieg über einige Tage (`S.ramp`, Faktor 0,75), unabhängig von der 14-Tage-Regel.
+- **Verpasste Einheiten** der laufenden Woche: „Nachholen“ (heute) oder „Auslassen“ mit Rückgängig. Ausgelassene Einheiten zählen nicht als offen.
+- **48-Stunden-Warnung:** Wird eine Krafteinheit neben eine andere gelegt, die eine große Muskelgruppe (Zielbereich ab 6 Sätzen) teilt, fragt die App „Trotzdem?“.
+- **Fokus-Block** (6 Wochen): Po aufbauen, Rücken stärken oder Stärker werden. Fokus-Muskeln × 1,3, übrige × 0,9; „Stärker werden“ schaltet die schwereren Sätze ein. Am Ende Vergleich der besten Gewichte vorher/nachher.
+- **6-Wochen-Check:** ab 8 Krafteinheiten und 42 Tagen seit dem letzten Check: Gewichtsentwicklung pro Übung und Körpermaße.
+
+## Ton
+- Gong als in der App erzeugte WAV-Datei über `<audio>` (zuverlässiger als Web Audio auf dem iPhone), freigeschaltet beim ersten Antippen.
+- Letzte 3 Sekunden von Bereit-machen und Pause: kurze Pieptöne, dann Gong, Ansage ca. 1 Sekunde später.
+- Ein unhörbarer Dauerton gegen das Einschlafen der Audioausgabe wird bewusst **nicht** genutzt: Er würde laufende Musik dauerhaft leiser stellen.
+
 ## Erfolge
 - Wochenserie: Wochen mit mindestens 2 Einheiten am Stück (die laufende Woche zählt, sobald sie 2 hat).
 - Rekord: höheres Arbeitsgewicht als je zuvor bei dieser Übung.
 - 15 Abzeichen (`BADGES`), einmal vergeben mit Datum.
+- **Abschluss-Bildschirm:** Häkchen, hochzählende Zahlen, Wochenring „x von y“ (alle nicht ausgelassenen Einheiten der Woche), goldene Karte bei kompletter Woche mit Serie, Gesamtbilanz (Einheiten, Stunden). Bei „Bewegung reduzieren“ ohne Animation.
+
+## Figur
+- Outfit (5 Vorlagen oder eigene Farben) und Frisur (`HAIRS`: Zopf, Dutt, Kurz, Lang offen, Cap, Ohne) mit Haarfarbe (`--hair`, Standard = Figurfarbe). Die Frisur wird in Kopf-Koordinaten gezeichnet und mit dem Oberkörper gedreht; nur der Zopf schwingt eigenständig.
+
+## Hilfe in der App
+- **App-Tour** (`TOUR`, 8 Stationen) mit Spotlight; einmal nach der Einrichtung bzw. nach „Was ist neu“ angeboten, sonst Profil → App-Tour.
+- **Zum Lesen** (`READS`): 6 Themen, Abschnitte mit höchstens 3 Sätzen, jede Seite mit Quellen. Erreichbar über das Profil und in Pausen über 40 Sekunden.
+- **Was ist neu** (`NEWS`) mit aufklappbaren früheren Versionen (`NEWS.old`).
 
 ## Daten
 Alles in `localStorage` unter `satzwerk.v1`. Backup als JSON-Datei über das Profil.
