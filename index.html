@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.4">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.4">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.5">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.5">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.4">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.5">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -622,8 +622,11 @@ const LIMITS = {
   wrist: { n: "Handgelenk", ids: ["pushup", "pushup_incline", "benchdips", "kickback_kh", "conc_curl"] },
 };
 const limited = (id) => Object.keys(LIMITS).some((k) => (S.limits || {})[k] && LIMITS[k].ids.includes(id));
-const S_VERSION = "2.4";
-const NEWS = { v: "2.4", items: [
+const S_VERSION = "2.5";
+const NEWS = { v: "2.5", items: [
+  ["Aufwärmsatz – doch nicht?", "Im Aufwärmsatz kannst du jetzt „Doch kein Aufwärmsatz – direkt loslegen“ tippen."],
+  ["Doch lieber aufwärmen?", "Beim ersten Arbeitssatz jeder Übung mit Gewicht gibt es „Stattdessen erst einen Aufwärmsatz“ – auch bei kleineren Übungen."],
+
   ["Springen ohne Schummeln", "Springst du im Training über die Übersicht zu einer anderen Übung, gilt Ausgelassenes als „übersprungen“ – nicht mehr als erledigt. Abgehakt wird nur, was du wirklich geschafft hast."],
   ["Nachholen oder entfernen", "In der Übersicht zeigt jede Übung ihren Stand (✓, 1/3, übersprungen). Mit × entfernst du eine Übung aus der Einheit. Am Ende bietet die App Übersprungenes zum Nachholen an."],
 ], old: [
@@ -2109,6 +2112,7 @@ function vTrain() {
           ${A.msg ? `<p class="note ok">${esc(A.msg)}</p>` : lt ? `<p class="small muted">${esc(lt)}</p>` : ""}
           <div class="row" style="flex-wrap:wrap;gap:6px">${it.log.filter((q) => q.done).map((q) => `<span class="chip tag okc num">${q.warm ? "A " : ""}${q.w && !bw ? q.w + "×" : ""}${q.r}</span>`).join("")}</div>
         </div>
+        ${s.warm && !s.done ? `<button class="small link" style="align-self:center" data-a="warmcancel">Doch kein Aufwärmsatz – direkt loslegen</button>` : !s.warm && !doneWork(it).length && !bw && A.type !== "mini" ? `<button class="small link" style="align-self:center" data-a="warminstead">Stattdessen erst einen Aufwärmsatz</button>` : ""}
         ${ideal && !noAsk(ideal) ? `<button class="small link" style="align-self:center" data-a="backideal">${esc(ideal.n)} ist jetzt frei</button>` : ""}
         <div class="row" style="justify-content:center;gap:18px;flex-wrap:wrap">${noAsk(x) ? "" : `<button class="small link" data-a="occupied">Gerät weg? Tauschen</button>`}<button class="small link" style="color:var(--muted)" data-a="tr-addset">+ Satz</button><button class="small link" style="color:var(--muted)" data-a="tr-skip">Übung beenden</button></div>`;
       bar = `<button class="btn big" data-a="setdone">${IC.check} ${s.warm ? "Aufwärmsatz geschafft" : "Satz geschafft"}</button>`;
@@ -2784,6 +2788,8 @@ document.addEventListener("click", (e) => {
     case "setdone": setDone(); break;
     case "cardio": { const A = S.active; const st = curStep(); st.ex = d.x; st.eq = (CARDIO.find((c) => c.id === d.x) || {}).eq || ""; if (st.eq) markBusy([]); A.ph = "prep"; A.end = Date.now() + 10000; say(`Gleich: ${EXM[d.x].n}`); save(); render(); break; }
     case "warmyes": { const it = itemById(curStep().id); addWarmSet(it); S.active.msg = ""; save(); render(); break; }
+    case "warmcancel": { const it = itemById(curStep().id); const j = it.log.findIndex((q) => !q.done); if (j >= 0 && it.log[j].warm) it.log.splice(j, 1); it.warmAsk = false; S.active.msg = ""; save(); render(); break; }
+    case "warminstead": { const it = itemById(curStep().id); addWarmSet(it); it.warmAsk = true; S.active.msg = ""; save(); render(); break; }
     case "warmno": { const it = itemById(curStep().id); it.warmAsk = false; S.active.msg = ""; save(); render(); break; }
     case "tr-skipfin": { const A = S.active; markSkipped(curStep()); const p = A.steps.findIndex((q, i) => i > A.pos && q.sect !== "fin"); goStep(p < 0 ? A.steps.length : p); break; }
     case "tr-skipwarm": { const A = S.active; const p = A.steps.findIndex((q) => q.k === "item"); for (let i = A.pos; i < (p < 0 ? A.steps.length : p); i++) markSkipped(A.steps[i]); goStep(p < 0 ? A.steps.length : p); break; }
