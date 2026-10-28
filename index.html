@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.6">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.6">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.8">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.8">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.6">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.8">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -622,12 +622,17 @@ const LIMITS = {
   wrist: { n: "Handgelenk", ids: ["pushup", "pushup_incline", "benchdips", "kickback_kh", "conc_curl"] },
 };
 const limited = (id) => Object.keys(LIMITS).some((k) => (S.limits || {})[k] && LIMITS[k].ids.includes(id));
-const S_VERSION = "2.6";
-const NEWS = { v: "2.6", items: [
+const S_VERSION = "2.8";
+const NEWS = { v: "2.8", items: [
+  ["Werte vom letzten Mal", "Jeder Satz startet mit Gewicht und Wiederholungen vom letzten Training – auch die Aufwärmsätze. Ohne Vorlage übernimmt der nächste Aufwärmsatz die Werte vom vorigen."],
+  ["Satzpause jetzt 3 Minuten", "Zwischen zwei Sätzen pausierst du jetzt standardmäßig 3 Minuten. Ändern kannst du das jederzeit: im Profil unter „Satzpause“, in „Training vorbereiten“ und direkt in der Pause."],
+  ["Satz übernimmt Satz", "Gewicht und Wiederholungen aus dem letzten Satz stehen schon im nächsten – du musst nur noch bestätigen. Passt die App das Gewicht an, sagt sie es dir."],
+], old: [
+  { v: "2.6", items: [
   ["Über dich", "Geburtsjahr, Größe und Gewicht im Profil (freiwillig). Daraus: Alter, Maximalpuls, BMI und Taille-zu-Größe – bleibt nur auf deinem Handy."],
   ["Puls beim Cardio", "Beim Aufwärmen und bei der Ausdauer zeigt die App deinen Pulsbereich, passend zu deinem Alter."],
   ["Kraft im Verhältnis", "Im Fortschritt siehst du bei großen Übungen, wie viel du im Verhältnis zu deinem Körpergewicht bewegst. Das Gewicht hat jetzt einen eigenen Verlauf bei den Maßen."],
-], old: [
+] },
   { v: "2.5", items: [
   ["Aufwärmsatz – doch nicht?", "Im Aufwärmsatz kannst du jetzt „Doch kein Aufwärmsatz – direkt loslegen“ tippen."],
   ["Doch lieber aufwärmen?", "Beim ersten Arbeitssatz jeder Übung mit Gewicht gibt es „Stattdessen erst einen Aufwärmsatz“ – auch bei kleineren Übungen."],
@@ -705,7 +710,7 @@ function outfitPicker() {
 function defaults() {
   const equip = {};
   Object.keys(EQUIP).forEach((k) => { if (k !== "matte") equip[k] = true; });
-  return { v: 1, setup: false, name: "", outfit: "lavendel", flags: {}, reps: "hoch", backCare: true, restC: 90, restI: 60, days: [], equip, sessions: [], weeks: {}, active: null };
+  return { v: 1, setup: false, name: "", outfit: "lavendel", flags: {}, reps: "hoch", backCare: true, restC: 180, restI: 180, days: [], equip, sessions: [], weeks: {}, active: null };
 }
 let storageOK = true;
 function load() {
@@ -717,6 +722,8 @@ function save() {
 }
 let S = load();
 S.flags = S.flags || {};
+/* 2.7: Satzpause standardmäßig 3 Minuten – alte, nie geänderte Voreinstellungen (90/60 s) werden einmalig angehoben. */
+if (!S.restMig) { if (S.restC === 90) S.restC = 180; if (S.restI === 60) S.restI = 180; S.restMig = 1; save(); }
 const U = { view: S.setup ? (S.active ? (S.active.flow ? "flow" : "train") : "home") : "ob", ob: 0, lib: "all", hist: "list", sheet: null, setup: null, rest: null, done: null };
 const uid = () => Math.random().toString(36).slice(2, 9);
 
@@ -1350,7 +1357,8 @@ function lastFor(id) {
 }
 function makeLog(item) {
   const last = lastFor(item.ex); const ls = last ? last.it.log.filter((s) => s.done && !s.warm) : [];
-  return Array.from({ length: item.sets }, (_, j) => ({ w: (ls[j] || ls[ls.length - 1] || {}).w ?? "", r: "", done: false }));
+  /* Gewicht und Wiederholungen vom letzten Mal übernehmen (Satz für Satz). */
+  return Array.from({ length: item.sets }, (_, j) => { const l = ls[j] || ls[ls.length - 1] || {}; return { w: l.w ?? "", r: l.r ?? "", done: false }; });
 }
 const isBW = (ex) => ex.eq.every((e) => e === "matte") || ex.eq.every((e) => e === "matte" || e === "band" || e === "stepbox");
 function stepFor(ex) { if (isBW(ex)) return "2 Wdh. mehr oder langsamer"; if (ex.eq.includes("kh")) return "die nächstschwerere Hantel"; if (ex.eq.includes("kb")) return "die nächste Kettlebell"; return "+2,5 kg"; }
@@ -1610,11 +1618,11 @@ const TOUR = [
   { v: "home", t: "Willkommen", d: "Selfcare Studio plant dein Training, fragt im Studio, ob das Gerät frei ist, und hat sofort eine passende Ersatzübung. In acht kurzen Stationen zeige ich dir, wo was ist." },
   { v: "home", sel: ".hero", t: "Heute", d: "Hier steht deine nächste Einheit. „Training vorbereiten“ startet sie. Müde? Dann nimm das Mini-Training: 30 Minuten nur mit Körpergewicht." },
   { v: "home", sel: ".list.week", t: "Deine Woche", d: "Tipp eine Einheit an, um sie zu starten oder auf einen anderen Tag zu schieben. Mit „+“ legst du Pilates oder Mobility dazu." },
-  { v: "home", sel: ".hero .btn", t: "Training vorbereiten", d: "Dort wählst du Normal, Kurz oder Mini, sagst kurz, wie du geschlafen hast, und schaltest Aufwärmen und Cool-down an oder aus." },
-  { v: "home", demo: true, t: "Im Training", d: "Immer nur eine Übung. „Frei“ – los geht's. „Besetzt“ – sofort Ersatz mit gleichem Reiz. Sätze mit + und −, danach Pause mit Gong. ☰ zeigt die Übersicht, ♪ deine Musik." },
+  { v: "home", sel: ".hero .btn", t: "Training vorbereiten", d: "Dort wählst du Normal, Kurz oder Mini, sagst kurz, wie du geschlafen hast, und siehst deine Satzpause – antippen zum Ändern. Aufwärmen und Cool-down schaltest du dort an oder aus." },
+  { v: "home", demo: true, t: "Im Training", d: "Immer nur eine Übung: „Frei“ – los geht's, „Besetzt“ – sofort Ersatz. Gewicht und Wiederholungen vom letzten Mal stehen schon drin, du bestätigst nur noch. Bei großen Übungen fragt die App, ob du dich erst aufwärmen möchtest. ☰ zeigt die Übersicht, ♪ deine Musik." },
   { v: "lib", sel: '.tabs [data-v="lib"]', t: "Übungen", d: "Alle Übungen mit Animation, Tipps und typischen Fehlern. Praktisch, wenn du eine Übung vorher anschauen möchtest." },
-  { v: "hist", sel: '.tabs [data-v="hist"]', t: "Verlauf", d: "Deine Einheiten, Erfolge und Abzeichen, Fortschritt pro Übung, Wochenbelastung und Körpermaße." },
-  { v: "prof", sel: '.tabs [data-v="prof"]', t: "Profil", d: "Deine Figur, hell oder dunkel, Plan und Trainingstage, Geräte, Backup – und diese Tour, falls du sie nochmal sehen möchtest." },
+  { v: "hist", sel: '.tabs [data-v="hist"]', t: "Verlauf", d: "Deine Einheiten mit allen Sätzen, Erfolge und Abzeichen, Fortschritt pro Übung, Wochenbelastung, Körpermaße und Gewicht." },
+  { v: "prof", sel: '.tabs [data-v="prof"]', t: "Profil", d: "Über dich, Satzpause, deine Figur, hell oder dunkel, Plan und Trainingstage, Geräte, Backup – und diese Tour, falls du sie nochmal sehen möchtest." },
 ];
 function tourStart() { closeSheet(); U.tour = 0; go(TOUR[0].v); }
 function tourEnd() { U.tour = null; S.tourOffered = true; save(); document.getElementById("tour")?.remove(); document.documentElement.classList.remove("touring"); go("home"); }
@@ -1813,6 +1821,7 @@ function vSetup() {
       ${finOn ? `<div class="row between"><div class="grow"><b>Ausdauer zum Schluss · ${FIN_SEC / 60} Min</b><p class="small muted">Fokus „Körperfett verlieren“: zügig auf Rad, Laufband, Crosstrainer oder Rudergerät</p></div><button class="toggle ${U.setup.fin !== false ? "on" : ""}" data-a="sutoggle" data-k="fin" role="switch" aria-checked="${U.setup.fin !== false}" aria-label="Ausdauer zum Schluss"></button></div>` : ""}
       <div class="row between"><div class="grow"><b>Cool-down · ca. ${cMin} Min</b><p class="small muted">Dehnen für die trainierten Muskeln, mit Timer</p></div><button class="toggle ${U.setup.cool !== false ? "on" : ""}" data-a="sutoggle" data-k="cool" role="switch" aria-checked="${U.setup.cool !== false}" aria-label="Cool-down"></button></div>
     </div>
+    ${mini ? "" : `<button class="card" style="flex-direction:row;align-items:center;gap:12px;text-align:left;width:100%" data-a="restopen"><div class="grow stack" style="gap:2px"><b>Satzpause · ${restLine()}</b><span class="small muted">Zwischen zwei Sätzen. Antippen zum Ändern.</span></div><span class="chev">›</span></button>`}
     <div class="card" style="gap:2px"><div class="row between"><h2>Dein Plan</h2><span class="small muted num">insgesamt ca. ${total} Min</span></div>${rows}</div>
   </div>
   <div class="actionbar"><div class="in"><button class="btn" data-a="go-train">Training beginnen</button></div></div>`;
@@ -1904,12 +1913,32 @@ function prepItem(it, warmSets) {
 /* Aufwärmsätze: Bei großen Übungen mit Gewicht fragt die App vor dem ersten Arbeitssatz, ob ein Aufwärmsatz gewünscht ist – nach jedem Aufwärmsatz erneut. */
 const WARM_STEPS = [[0.5, 10], [0.7, 6], [0.85, 3], [0.9, 2]];
 const warmAskNow = (it) => !!(it && it.warmAsk && !it.log.some((q) => q.done && !q.warm) && !it.log.some((q) => q.warm && !q.done));
-function addWarmSet(it) {
-  const x = EXM[it.ex]; const n = it.log.filter((q) => q.warm).length; const [f, r] = WARM_STEPS[Math.min(n, WARM_STEPS.length - 1)];
-  const w = num(it.log.find((q) => !q.warm)?.w);
-  const j = it.log.findIndex((q) => !q.done);
-  it.log.splice(j < 0 ? it.log.length : j, 0, { w: w ? String(roundW(x, w * f)).replace(".", ",") : "", r: String(r), done: false, warm: true });
+/* Vorschlag für den n-ten Aufwärmsatz: der n-te Aufwärmsatz vom letzten Mal, sonst der vorige Aufwärmsatz dieser Einheit,
+   sonst 50 % × 10 vom Arbeitsgewicht. */
+function warmSuggest(it) {
+  const x = EXM[it.ex]; const n = it.log.filter((q) => q.warm).length;
+  const last = lastFor(it.ex); const lw = last ? last.it.log.filter((q) => q.warm && q.done) : [];
+  if (lw[n]) return { w: lw[n].w || "", r: lw[n].r || "10" };
+  const prev = [...it.log].reverse().find((q) => q.warm);
+  if (prev) return { w: prev.w || "", r: prev.r || "10" };
+  const w = num(it.log.find((q) => !q.warm)?.w); const [f, r] = WARM_STEPS[0];
+  return { w: w ? String(roundW(x, w * f)).replace(".", ",") : "", r: String(r) };
 }
+function addWarmSet(it) {
+  const sg = warmSuggest(it); const j = it.log.findIndex((q) => !q.done);
+  it.log.splice(j < 0 ? it.log.length : j, 0, { w: sg.w, r: sg.r, done: false, warm: true });
+}
+const REST_OPTS = [60, 90, 120, 150, 180, 240];
+const fmtRest = (sec) => `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, "0")} Min`;
+function restPicker() {
+  const row = (key, lbl, sub) => `<div class="stack" style="gap:6px"><div class="row between"><b>${lbl}</b><span class="small muted">${sub}</span></div><div class="chips">${REST_OPTS.map((v) => `<button class="chip ${S[key] === v ? "on" : ""}" data-a="rest" data-k="${key}" data-v="${v}" aria-pressed="${S[key] === v}">${Math.floor(v / 60)}:${String(v % 60).padStart(2, "0")}</button>`).join("")}</div></div>`;
+  return `${row("restC", "Große Übungen", "z. B. Beinpresse, Hip Thrust, Rudern")}${row("restI", "Kleine Übungen", "z. B. Seitheben, Curls, Kickbacks")}
+    <span class="small muted">Aufwärmsätze und Mini-Training: 45 s.${fatFocus() ? " Im Fokus „Körperfett verlieren“ ein Viertel kürzer." : ""}${S.heavy ? " Schwere Sätze: mindestens 2:00." : ""}</span>`;
+}
+function restSheet() {
+  return `<div class="stack" style="gap:4px"><h2>Satz<em>pause</em></h2><p class="small muted">So lange pausierst du zwischen zwei Sätzen. Die App zählt herunter und gongt, wenn es weitergeht.</p></div>${restPicker()}<button class="btn" data-a="sheetclose">Fertig</button>`;
+}
+const restLine = () => S.restC === S.restI ? fmtRest(S.restC) : `${fmtRest(S.restC)} / ${fmtRest(S.restI)}`;
 function restFor(ex) {
   if (S.active?.type === "mini") return 45;
   const r = ex.type === "c" ? (S.heavy ? Math.max(S.restC, 120) : S.restC) : S.restI;
@@ -1961,9 +1990,9 @@ function setDone() {
       let nw = null;
       if (r >= hi + 2) nw = Math.max(w + stepOf(x, w), roundW(x, wFor(e1rm(w, r), midReps(it))));
       else if (r < lo) nw = Math.min(w - stepOf(x, w), roundW(x, wFor(e1rm(w, r), midReps(it))));
-      if (nw && nw > 0 && nw !== w) { nx.forEach((q) => (q.w = String(nw).replace(".", ","))); A.msg = r >= hi + 2 ? `Das ging leicht. Nächster Satz mit ${fmt(nw)} kg.` : `Etwas zu schwer. Nächster Satz mit ${fmt(nw)} kg.`; }
-      else if (r >= lo && r <= hi) A.msg = "Passt. Gewicht beibehalten.";
-    } else if (isBW(x) && r >= hi && nx.length) A.msg = "Ging gut. Nächster Satz langsamer: 3 Sek. runter, unten kurz halten.";
+      if (nw && nw > 0 && nw !== w) { nx.forEach((q) => { q.w = String(nw).replace(".", ","); if (!q.warm) q.r = ""; }); A.msg = r >= hi + 2 ? `Das ging leicht. Nächster Satz mit ${fmt(nw)} kg.` : `Etwas zu schwer. Nächster Satz mit ${fmt(nw)} kg.`; }
+      else { nx.forEach((q) => { if (!q.warm) { q.r = s.r; if (s.w) q.w = s.w; } }); if (r >= lo && r <= hi) A.msg = "Passt. Gewicht und Wiederholungen übernommen."; }
+    } else if (nx.length) { nx.forEach((q) => { if (!q.warm) { q.r = s.r; if (s.w) q.w = s.w; } }); if (isBW(x) && r >= hi) A.msg = "Ging gut. Nächster Satz langsamer: 3 Sek. runter, unten kurz halten."; }
   }
   if (s.warm) { const w0 = num(it.log.find((q) => !q.warm)?.w); A.msg = w0 ? `Aufwärmsatz geschafft. Arbeitsgewicht: ${fmt(w0)} kg.` : "Aufwärmsatz geschafft."; }
   const more = it.log.some((q) => !q.done);
@@ -2117,8 +2146,8 @@ function vTrain() {
           ${ideal ? `<button class="small link" data-a="backideal">${esc(ideal.n)} ist jetzt frei</button>` : ""}
         </div>`;
     } else if (A.ph === "sets" && warmAskNow(it)) {
-      const nW0 = it.log.filter((q) => q.warm).length; const w1 = num(W[0]?.w); const [f, r] = WARM_STEPS[Math.min(nW0, WARM_STEPS.length - 1)];
-      const sug = w1 ? `${fmt(roundW(x, w1 * f))} kg × ${r}` : `leicht × ${r}`;
+      const nW0 = it.log.filter((q) => q.warm).length; const w1 = num(W[0]?.w); const sg = warmSuggest(it);
+      const sug = sg.w ? `${sg.w} kg × ${sg.r}` : `leicht × ${sg.r}`;
       body = `${figSVG(x.id, it.g, "tr-fig")}${head}
         <div class="card ask"><b style="font-size:19px">${nW0 ? "Noch ein Aufwärmsatz?" : "Möchtest du einen Aufwärmsatz machen?"}</b>
           <p class="small muted" style="text-align:center">${nW0 ? `${nW0} ${nW0 === 1 ? "Aufwärmsatz" : "Aufwärmsätze"} geschafft. ` : ""}Vorschlag: ${sug}${w1 ? ` · Arbeitsgewicht ${fmt(w1)} kg` : ""}</p>
@@ -2140,6 +2169,7 @@ function vTrain() {
           ${!s.warm && nW === 1 && it.est ? `<p class="small muted">Geschätzt aus einer ähnlichen Übung. Nimm ein Gewicht, mit dem du ${it.reps[1]} Wdh. schaffen würdest, aber nicht mehr.</p>` : ""}
           ${!s.warm && nW === 1 && !w0?.w && !bw && x.unit !== "s" ? `<p class="small muted">Erstes Mal: Wähle ein Gewicht, mit dem ${it.reps[1]} Wdh. gerade so gehen. Die App merkt es sich.</p>` : ""}
           ${A.msg ? `<p class="note ok">${esc(A.msg)}</p>` : lt ? `<p class="small muted">${esc(lt)}</p>` : ""}
+          ${A.type !== "mini" && !s.warm ? `<button class="small link" style="align-self:flex-start;color:var(--muted)" data-a="restopen">Danach ${fmtRest(restFor(x))} Pause · ändern</button>` : ""}
           <div class="row" style="flex-wrap:wrap;gap:6px">${it.log.filter((q) => q.done).map((q) => `<span class="chip tag okc num">${q.warm ? "A " : ""}${q.w && !bw ? q.w + "×" : ""}${q.r}</span>`).join("")}</div>
         </div>
         ${s.warm && !s.done ? `<button class="small link" style="align-self:center" data-a="warmcancel">Doch kein Aufwärmsatz – direkt loslegen</button>` : !s.warm && !doneWork(it).length && !bw && A.type !== "mini" ? `<button class="small link" style="align-self:center" data-a="warminstead">Stattdessen erst einen Aufwärmsatz</button>` : ""}
@@ -2157,6 +2187,7 @@ function vTrain() {
         ${A.msg ? `<p class="note ok" style="text-align:center">${esc(A.msg)}</p>` : ""}
         <div class="card" style="flex-direction:row;align-items:center;gap:12px">${figSVG(nsx, "", "s")}<div class="stack grow" style="gap:2px"><span class="eyebrow">Als Nächstes</span><b>${esc(next)}</b></div></div>
         ${left > 40 ? `<button class="small link" style="align-self:center" data-a="readlist">Etwas lesen in der Pause</button>` : ""}`;
+      body += `<button class="small link" style="align-self:center" data-a="restopen">Satzpause ${fmtRest(A.total)} · ändern</button>`;
       bar = `<button class="btn ghost" style="width:auto" data-a="tr-rest15">+15 s</button><button class="btn" data-a="tr-restskip">Weiter</button>`;
     }
   }
@@ -2427,7 +2458,6 @@ function newsSheet() {
 }
 function vProf() {
   const opt = (k, n, sub) => `<button class="${S.reps === k ? "on" : ""}" data-a="reps" data-k="${k}">${n}<small>${sub}</small></button>`;
-  const rs = (key, vals) => `<div class="seg">${vals.map((v) => `<button class="${S[key] === v ? "on" : ""}" data-a="rest" data-k="${key}" data-v="${v}">${v} s</button>`).join("")}</div>`;
   const krafts = S.days.filter((d) => (d.type || "kraft") === "kraft").length;
   return `<div class="wrap">
     <h1>Profil</h1>
@@ -2446,7 +2476,7 @@ function vProf() {
       <div class="row between"><div class="grow"><b>Sprachansage</b><p class="small muted">Sagt Übung, Satz und Gewicht an. Läuft über deine Musik. <button class="link" style="font-size:13px" data-a="soundtest">Ton testen</button></p></div><button class="toggle ${S.voice !== false ? "on" : ""}" data-a="ptoggle" data-k="voice" role="switch" aria-checked="${S.voice !== false}" aria-label="Sprachansage"></button></div>
       <div class="row between"><div class="grow"><b>Schwerere Sätze</b><p class="small muted">Eine rückenfreundliche Grundübung pro Einheit mit 6–10 Wdh. Gut für Knochen und Muskelerhalt ab 40.</p></div><button class="toggle ${S.heavy ? "on" : ""}" data-a="ptoggle" data-k="heavy" role="switch" aria-checked="${!!S.heavy}" aria-label="Schwerere Sätze"></button></div>
     </div>
-    <div class="card"><h3>Pausen</h3><span class="small muted">Grundübungen</span>${rs("restC", [60, 90, 120])}<span class="small muted">Isolationsübungen</span>${rs("restI", [45, 60, 90])}</div>
+    <div class="card" style="gap:12px"><div class="stack" style="gap:2px"><h3>Satzpause</h3><p class="small muted">Pause zwischen zwei Sätzen. Jetzt: ${restLine()}</p></div>${restPicker()}</div>
     <div class="list">
       <button class="li" data-a="tab" data-v="days"><div class="grow"><b>Trainingsplan</b><div class="small muted">${krafts} Krafttage${S.days.length > krafts ? ` · ${S.days.length - krafts} weitere` : ""}</div></div><span class="chev">›</span></button>
       <button class="li" data-a="tab" data-v="eq"><div class="grow"><b>Geräte</b><div class="small muted">${(() => { const n = Object.values(S.equip).filter((v) => !v).length; return n ? n + " ausgeblendet" : "alle aktiv"; })()}</div></div><span class="chev">›</span></button>
@@ -2539,6 +2569,7 @@ function vOb() {
   if (st === 1) body = `<div class="stack" style="gap:6px">${eb("Ziel")}<h1>Was möchtest du <em>erreichen</em>?</h1><p class="muted">Danach richten sich Sätze und Wiederholungen. Mehr Wiederholungen mit etwas weniger Gewicht bauen Muskeln auf und schonen Gelenke und Rücken.</p></div>
     <div class="stack">${[["mittel", "Muskelaufbau", "8–12 Wdh. bei Grundübungen, 10–15 bei Isolation"], ["hoch", "Muskelaufbau mit mehr Wiederholungen", "10–15 Wdh. bei Grundübungen, 12–20 bei Isolation. Empfohlen."], ["ausdauer", "Kraftausdauer", "15–20 Wdh., leichteres Gewicht"]].map(([k, n, s]) => `<button class="opt ${S.reps === k ? "on" : ""}" data-a="reps" data-k="${k}"><b>${n}</b><span class="small muted">${s}</span></button>`).join("")}</div>
     <div class="card"><div class="row between"><div class="grow"><b>Rücken schonen</b><p class="small muted">Keine schweren Übungen mit Last auf dem unteren Rücken. Wo der Rücken mitarbeitet, gibt es mehr Wiederholungen mit weniger Gewicht.</p></div><button class="toggle ${S.backCare ? "on" : ""}" data-a="back" role="switch" aria-checked="${S.backCare}" aria-label="Rücken schonen"></button></div></div>
+    <div class="card" style="gap:12px"><div class="stack" style="gap:2px"><b>Satzpause</b><p class="small muted">Wie lange möchtest du zwischen zwei Sätzen pausieren? Empfohlen: 3 Minuten. Jederzeit änderbar, auch im Training.</p></div>${restPicker()}</div>
     ${bodyCard(true)}
     <div class="card" style="gap:8px"><b>Weitere Einschränkungen?</b><p class="small muted">Übungen, die diese Bereiche stark belasten, lässt die App weg. Freiwillig.</p>${limitChips()}</div>`;
   if (st === 2) {
@@ -2860,7 +2891,12 @@ document.addEventListener("click", (e) => {
     case "delsess2": S.sessions = S.sessions.filter((s) => s.id !== d.id); save(); closeSheet(); render(); break;
     case "reps": S.reps = d.k; save(); render(); break;
     case "back": S.backCare = !S.backCare; save(); render(); break;
-    case "rest": S[d.k] = +d.v; save(); render(); break;
+    case "rest": {
+      S[d.k] = +d.v; const A = S.active;
+      if (A && !A.flow && A.ph === "rest" && A.restNext && curStep()?.k === "item") { const it = itemById(curStep().id); const lastDone = [...it.log].reverse().find((q) => q.done); if (lastDone && !lastDone.warm) { const el = A.total - Math.max(0, (A.end - Date.now()) / 1000); A.total = restFor(EXM[it.ex]); A.end = Date.now() + Math.max(0, A.total - el) * 1000; A.beeped = false; } }
+      save(); render(); break;
+    }
+    case "restopen": openSheet(restSheet); break;
     case "eq": S.equip[d.e] = !S.equip[d.e]; save(); render(); break;
     case "daywd": S.days[+d.i].wd = +d.w; save(); render(); break;
     case "dayg": { const gs = S.days[+d.i].groups; const k = gs.indexOf(d.g); k >= 0 ? gs.splice(k, 1) : gs.push(d.g); gs.sort((x, y) => GORDER.indexOf(x) - GORDER.indexOf(y)); save(); render(); break; }

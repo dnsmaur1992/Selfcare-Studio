@@ -17,6 +17,13 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 ## Bewusst nicht umgesetzt
 - **Unhörbarer Dauerton** gegen das Einschlafen der Audioausgabe (Ringzeit-Idee): Er würde laufende Musik auf dem iPhone dauerhaft leiser stellen. Stattdessen Gong als echte Tondatei und Freischalten beim ersten Antippen.
 
+## Erledigt in Version 2.8
+- [x] Werte vom letzten Mal: Arbeitssätze und Aufwärmsätze starten mit Gewicht und Wiederholungen vom letzten Training; ohne Vorlage übernimmt der nächste Aufwärmsatz den vorigen.
+
+## Erledigt in Version 2.7
+- [x] Satzpause standardmäßig 3 Minuten (bestehende Voreinstellung einmalig angehoben), gut sichtbar einstellbar: Einrichtung, Profil, Training vorbereiten, im Satz und in der Pause.
+- [x] Gewicht und Wiederholungen werden in den nächsten Satz übernommen, nur noch bestätigen.
+
 ## Erledigt in Version 2.6
 - [x] Körperdaten (freiwillig): Geburtsjahr, Größe, Gewicht in Einrichtung und Profil; Gewicht mit Verlauf bei den Maßen.
 - [x] Daraus: Alter, Maximalpuls und Pulsbereiche beim Cardio, BMI, Taille-zu-Größe, Kraft im Verhältnis zum Körpergewicht, Körperdaten im Physio-Auszug.
@@ -63,7 +70,7 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 - [x] Auszug für Physio oder Trainerin (letzte 4 Wochen).
 - [x] 6-Wochen-Check.
 - [x] README: Hochladen vom iPhone und „Actions“ erklärt.
-- [x] Tests erweitert (21 Prüfungen, mit 2.3: 28, mit 2.4: 33, mit 2.5: 36, mit 2.6: 41).
+- [x] Tests erweitert (21 Prüfungen, mit 2.3: 28, mit 2.4: 33, mit 2.5: 36, mit 2.6: 41, mit 2.7: 45, mit 2.8: 47).
 
 ## Erledigt in Version 2.1
 - [x] Zoomen mit zwei Fingern und per Doppeltipp verhindert (Viewport, `touch-action: manipulation`, `gesturestart` abgefangen, Eingabefelder ≥ 16 px).

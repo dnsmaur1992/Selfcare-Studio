@@ -60,6 +60,8 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 - **Später nochmal fragen**, **Gibt's hier nicht** (Gerät wird ausgeblendet), **Original ist jetzt frei**
 - **Aufwärmsätze auf Nachfrage:** bei jeder großen Übung „Möchtest du einen Aufwärmsatz machen?“ mit Gewichtsvorschlag – gespeichert und in der Gesamtlast mitgezählt
 - **Gewicht:** letztes Gewicht vorausgefüllt; bei neuen Übungen geschätzt aus ähnlichen Übungen (Testsatz); nach jedem Satz ein Vorschlag für mehr oder weniger
+- **Satzpause** standardmäßig 3 Minuten, jederzeit änderbar – auch mitten in der Pause
+- **Satz übernimmt Satz:** Gewicht und Wiederholungen vom letzten Mal sind vorausgefüllt, und jeder Satz übernimmt die Werte in den nächsten – auch beim Aufwärmen
 - **Pausen im Vollbild** mit Ring, Gong und Sprachansage – über die laufende Musik
 - **Die App lernt dein Studio:** Geräte, die zu bestimmten Zeiten oft besetzt sind, kommen dann später dran
 - **♪-Knopf** öffnet deine Playlist
