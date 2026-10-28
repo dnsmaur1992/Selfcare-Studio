@@ -2,8 +2,51 @@
 
 Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version.
 
+## Bei jedem Update
+- Versionsnummer erhöhen (Profil unten, steuert auch den Cache in `sw.js`).
+- **„Was ist neu“ (`NEWS` in `index.html`) auf die neue Version setzen** und die Änderungen in 3–6 kurzen Punkten beschreiben. Das Fenster erscheint dann bei jeder Nutzerin einmal beim nächsten Öffnen.
+- Erledigtes unten in dieser Liste abhaken, `docs/trainingslogik.md` und Tests nachziehen.
+
 ## Offen
-- (nichts offen)
+- [ ] **Auf dem echten iPhone prüfen** (ging hier nur in der Simulation):
+  - Gong und Pieptöne nach Sprachansagen, mit laufender Musik und mit Lautlos-Schalter.
+  - Abstand oben (Inhalt nicht unter Uhrzeit/Akku), besonders im Vollbild-Training und bei der App-Tour.
+  - Update-Hinweis „Neue Version ist da – Jetzt laden“ nach dem Hochladen.
+- [ ] **Arbeitsweise:** Das Repo direkt in die Claude-Sitzung einbinden (wie bei Ringzeit; claude.ai → Einstellungen → Konnektoren → GitHub). Dann kann Claude `TODO.md`, Doku und Code im Repo lesen und mit Schreibrechten direkt committen, statt dass jede Datei per Handy hochgeladen werden muss. Quellcode dann wie bei Ringzeit unter `src/`, `index.html` wird daraus gebaut.
+
+## Bewusst nicht umgesetzt
+- **Unhörbarer Dauerton** gegen das Einschlafen der Audioausgabe (Ringzeit-Idee): Er würde laufende Musik auf dem iPhone dauerhaft leiser stellen. Stattdessen Gong als echte Tondatei und Freischalten beim ersten Antippen.
+
+## Erledigt in Version 2.2
+**Neu**
+- [x] „Was ist neu“ mit aufklappbaren früheren Versionen.
+- [x] „Deine Figur“: Frisur (Zopf, Dutt, Kurz, Lang offen, Cap, Ohne) und Haarfarbe, in Einrichtung und Profil, in allen Animationen. Voreinstellung Zopf.
+- [x] App-Tour mit Spotlight in 8 Stationen, Training als Beispiel ohne echte Einheit; einmal angeboten, jederzeit im Profil.
+- [x] Zum Lesen: 6 Themen (Mythen-Check, Krafttraining ab 40, Rücken, Schlaf, Entlastungswochen, Ersatzübungen) mit Quellen, im Profil und in längeren Pausen.
+
+**Aus Ringzeit gelernt, Teil 2**
+- [x] Gong als in der App erzeugte WAV-Datei über `<audio>`, Ton und Sprache beim ersten Antippen freigeschaltet, erst Gong, dann Ansage.
+- [x] Letzte 3 Sekunden mit Pieptönen (Bereit machen und Pause).
+- [x] Erfolgsmomente: Häkchen, hochzählende Zahlen, Wochenring, goldene Karte bei kompletter Woche, Abzeichen mit Lichtschimmer, Gesamtbilanz, Funken. Rücksicht auf „Bewegung reduzieren“.
+- [x] Pause lebendiger: Ring pulsiert und färbt sich in den letzten 10 Sekunden, Blitz bei Satzbeginn, „Letzter Satz!“.
+- [x] Lebendige Startseite: Farbstimmung nach Tageszeit, sanfte Übergänge zwischen den Tabs.
+- [x] Fokus-Blöcke (6 Wochen: Po aufbauen, Rücken stärken, Stärker werden) mit Vorher-nachher-Vergleich.
+
+**Aus Ringzeit gelernt, Teil 1**
+- [x] „Erst installieren, dann einrichten“ – Hinweis im ersten Einrichtungsschritt und in `installieren.html`.
+- [x] `navigator.storage.persist()` und Backup-Erinnerung alle 30 Tage.
+- [x] Hinweis zum Lautlos-Schalter und „Ton testen“ im Profil.
+- [x] Pausen (krank / verletzt / Urlaub): Plan ruht, Serie bleibt, sanfter Wiedereinstieg.
+- [x] Verpasste Einheiten: Nachholen / Auslassen mit Rückgängig.
+- [x] Warnung bei gleichen Muskeln an zwei Tagen hintereinander.
+- [x] „Kurz zur Sicherheit“ einmal nach der Einrichtung bzw. nach dem Update.
+- [x] Seite „Hinweise & Datenschutz“.
+- [x] Update-Hinweis „Neue Version ist da – Jetzt laden“.
+- [x] Feedback senden (WhatsApp, Mail, Kopieren) mit Version und Gerät.
+- [x] Auszug für Physio oder Trainerin (letzte 4 Wochen).
+- [x] 6-Wochen-Check.
+- [x] README: Hochladen vom iPhone und „Actions“ erklärt.
+- [x] Tests erweitert (21 Prüfungen).
 
 ## Erledigt in Version 2.1
 - [x] Zoomen mit zwei Fingern und per Doppeltipp verhindert (Viewport, `touch-action: manipulation`, `gesturestart` abgefangen, Eingabefelder ≥ 16 px).

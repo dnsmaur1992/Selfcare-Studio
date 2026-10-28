@@ -47,7 +47,7 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 ## Funktionen
 
 ### Plan, der zu dir passt
-- **Geführte Einrichtung** in fünf Schritten: Name und Outfit, Ziel, Häufigkeit, Wochenplan, „So läuft dein Training“
+- **Geführte Einrichtung** in fünf Schritten: Name und Figur, Ziel, Häufigkeit, Wochenplan, „So läuft dein Training“
 - **Trainingstage frei wählbar**, jederzeit verschiebbar, in einer vollen Woche zusammenlegbar
 - **Automatisch oder selbst gebaut:** Muskelgruppen wählen und die App sucht die Übungen aus – oder eigene Übungen mit Sätzen und Wiederholungen zusammenstellen
 - **Ziel:** Muskelaufbau mit eher höheren Wiederholungen (Standard), klassischer Aufbau oder Kraftausdauer; optional einige schwerere Sätze für Knochen und Muskelerhalt
@@ -70,6 +70,11 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 - **Pilates und Mobility** als eigene 30-Minuten-Einheiten, frei in der Woche planbar
 
 ### Belastung und Alltag
+- **Pause eintragen** (krank, verletzt, Urlaub): Der Plan ruht, die Wochenserie bleibt, danach sanfter Wiedereinstieg
+- **Verpasste Einheiten** nachholen oder auslassen – mit Rückgängig
+- **Warnung**, wenn dieselben Muskeln zwei Tage hintereinander dran wären
+- **Fokus-Blöcke** über 6 Wochen: Po aufbauen, Rücken stärken oder Stärker werden – mit Vorher-nachher-Vergleich
+- **6-Wochen-Check** und ein **Auszug für Physio oder Trainerin**
 - **Anstrengung nach jeder Einheit** mit einem Tipp
 - **Entlastungswochen** automatisch – geplant oder wenn die letzten Einheiten sehr hart waren
 - **Sanfter Wiedereinstieg** nach einer Pause
@@ -78,15 +83,18 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 
 ### Fortschritt und Erfolge
 - Verlauf jeder Einheit mit allen Sätzen, Fortschritt pro Übung als Diagramm
+- **Abschluss zum Feiern:** Wochenring, goldene Karte bei kompletter Woche, Gesamtbilanz
 - **Wochenserie, Rekorde, 15 Abzeichen**, Trainingskalender der letzten 12 Wochen
 - **Körpermaße** (Taille, Hüfte, Po, Oberschenkel) mit Verlauf
 
 ### Persönlich
-- **Gym-Outfit** für die Figur – fünf Vorlagen oder eigene Farben
+- **Deine Figur:** Outfit (fünf Vorlagen oder eigene Farben), Frisur und Haarfarbe
 - **Hell, Dunkel oder automatisch**
 - **Trainingstage im iPhone-Kalender** als wiederkehrende Termine mit Erinnerung
 - **Trainingstag teilen** per Link – die andere übernimmt ihn mit einem Tipp, ohne Server
-- „Erste Schritte“ auf der Startseite und „Was ist neu“ nach jedem Update
+- **App-Tour** in acht Stationen, „Erste Schritte“ auf der Startseite und „Was ist neu“ mit Versionsverlauf
+- **Zum Lesen:** kurze Artikel mit Quellen – Mythen-Check, Krafttraining ab 40, Rücken, Schlaf, Entlastungswochen
+- **Sicherheit & Daten:** einmaliger Sicherheitshinweis, Backup-Erinnerung alle 30 Tage, Feedback direkt aus der App
 
 ---
 
@@ -114,11 +122,11 @@ Ausführliche Anleitung mit QR-Code: [installieren.html](https://dnsmaur1992.git
 
 ## Updates veröffentlichen
 
-1. Neue Dateien ins Repo hochladen (gleichnamige werden überschrieben):
+1. Neue Dateien ins Repo hochladen (gleichnamige werden überschrieben). **Vom iPhone aus:** Die GitHub-App kann keine Dateien hochladen. In Safari github.com öffnen, über „Aa“ → **„Desktop-Website anfordern“** umschalten, dann **Add file → Upload files**, Dateien aus der Dateien-App wählen (mehrere über „Auswählen“), **Commit changes**.
    - Hauptordner: `index.html`, `sw.js` – bei Bedarf `installieren.html`, `manifest.json`, Bilder
    - `docs/` und `tests/`, wenn sie sich geändert haben
-2. Ein, zwei Minuten warten, bis GitHub Pages die neue Version ausliefert.
-3. Die installierte App holt sich das Update im Hintergrund; sichtbar spätestens nach dem zweiten Öffnen. Die Versionsnummer steht unten im Profil.
+2. Ein, zwei Minuten warten, bis GitHub Pages die neue Version ausliefert. Den Stand zeigt der Reiter **„Actions“**: gelber Punkt = läuft, grüner Haken = fertig.
+3. Die installierte App findet das Update beim nächsten Öffnen und zeigt oben **„Neue Version ist da – Jetzt laden“**. Ohne Tipp startet die neue Version beim nächsten vollständigen Öffnen. Die Versionsnummer steht unten im Profil.
 
 ---
 
@@ -144,7 +152,7 @@ Ausführliche Anleitung mit QR-Code: [installieren.html](https://dnsmaur1992.git
 - **Eine Datei, keine Abhängigkeiten:** reines HTML, CSS und JavaScript; Schriften von Google Fonts (Bodoni Moda, Outfit) mit Systemschrift als Rückfall
 - **Animationen** als SVG-Strichfiguren mit inverser Kinematik, berechnet im Browser
 - **Offline-fähig** über den Service Worker
-- **Ton:** Web Audio für den Gong, Sprachausgabe des Systems für Ansagen; `audioSession` „transient“ (iOS 17+), damit Musik weiterläuft
+- **Ton:** Gong als in der App erzeugte WAV-Datei, Sprachausgabe des Systems für Ansagen; `audioSession` „transient“ (iOS 17+), damit Musik weiterläuft. Bei eingeschaltetem Lautlos-Schalter kann der Gong stumm bleiben – Profil → „Ton testen“
 - **Tests** ohne Browser:
 
   ```bash
