@@ -284,7 +284,8 @@ a.tr-x { text-decoration: none; color: var(--accent); }
 @keyframes viewin { from { opacity: 0; transform: translateY(8px); } }
 .lastset { display: inline-block; margin-left: 6px; padding: 2px 8px; border-radius: 99px; background: var(--accent); color: #fff; letter-spacing: .04em; animation: pop .5s cubic-bezier(.2,1.6,.4,1) both; }
 @media (prefers-reduced-motion: reduce) { .viewin .wrap, .lastset { animation: none; } }
-.tour { position: fixed; inset: 0; z-index: 90; }
+.tour { position: fixed; inset: 0; z-index: 90; touch-action: none; overscroll-behavior: none; }
+html.touring, html.touring body { overflow: hidden; overscroll-behavior: none; touch-action: none; }
 .tourhole { position: fixed; border-radius: 18px; box-shadow: 0 0 0 9999px rgba(10, 8, 14, .58); outline: 2px solid var(--accent); outline-offset: 2px; transition: all .3s ease; pointer-events: none; }
 .tourbub { position: fixed; left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); max-width: 520px; margin: 0 auto; background: var(--bg); border-radius: 22px; padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 16px 40px rgba(0,0,0,.3); animation: up .25s ease-out; }
 .tourbub h3 { margin: 0; }
@@ -1555,13 +1556,20 @@ const TOUR = [
   { v: "prof", sel: '.tabs [data-v="prof"]', t: "Profil", d: "Deine Figur, hell oder dunkel, Plan und Trainingstage, Geräte, Backup – und diese Tour, falls du sie nochmal sehen möchtest." },
 ];
 function tourStart() { closeSheet(); U.tour = 0; go(TOUR[0].v); }
-function tourEnd() { U.tour = null; S.tourOffered = true; save(); document.getElementById("tour")?.remove(); go("home"); }
+function tourEnd() { U.tour = null; S.tourOffered = true; save(); document.getElementById("tour")?.remove(); document.documentElement.classList.remove("touring"); go("home"); }
 function tourGo(i) { if (i < 0) return; if (i >= TOUR.length) return tourEnd(); U.tour = i; if (U.view !== TOUR[i].v) go(TOUR[i].v); else renderTour(); }
 function renderTour() {
   let el = document.getElementById("tour");
-  if (U.tour == null) { el?.remove(); return; }
+  if (U.tour == null) { el?.remove(); document.documentElement.classList.remove("touring"); return; }
   const st = TOUR[U.tour]; const n = TOUR.length; const last = U.tour === n - 1;
-  if (!el) { el = document.createElement("div"); el.id = "tour"; el.className = "tour"; el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true"); document.body.appendChild(el); }
+  if (!el) {
+    el = document.createElement("div"); el.id = "tour"; el.className = "tour"; el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true"); document.body.appendChild(el);
+    /* Während der Tour nichts wischen oder scrollen: weiter nur über die Knöpfe. */
+    const stop = (e) => e.preventDefault();
+    ["touchmove", "wheel", "gesturestart"].forEach((t) => el.addEventListener(t, stop, { passive: false }));
+    el.addEventListener("click", (e) => { if (!e.target.closest("[data-a]")) { e.preventDefault(); e.stopPropagation(); } });
+  }
+  document.documentElement.classList.add("touring");
   const demo = st.demo ? `<div class="tourdemo">${figSVG("legpress", "quad")}<b>Beinpresse</b><div class="row" style="gap:8px"><span class="btn sm" style="flex:1">Frei – los</span><span class="btn sm line" style="flex:1">Besetzt</span></div></div>` : "";
   el.innerHTML = `<div class="tourhole"></div><div class="tourbub">
     <div class="row between"><span class="eyebrow">${U.tour + 1} von ${n}</span><button class="small link" data-a="tourend">Tour beenden</button></div>
