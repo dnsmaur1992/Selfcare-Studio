@@ -90,5 +90,15 @@ ok(!prepItem({ g: "po", e: 3, ex: "bridge", ideal: "bridge", sets: 3, reps: [12,
 S.focus = { id: "fett", start: new Date().toISOString() };
 ok(fatFocus() && restFor({ type: "c" }) < S.restC && restFor({ type: "i" }) >= 45 && focusFactor("po") === 1, "Fokus Körperfett: Pausen " + restFor({ type: "c" }) + "/" + restFor({ type: "i" }) + " s, Volumen unverändert");
 S.focus = null;
+// 23 Springen im Training: Ausgelassenes ist übersprungen, nicht erledigt
+const ji = [1, 2, 3].map(() => prepItem({ g: "po", e: 3, ex: "ht_m", ideal: "ht_m", sets: 2, reps: [10, 15] }, false));
+S.active = { items: ji, steps: [{ k: "timed", ex: "katzekuh", sec: 40, sect: "warm" }, ...ji.map((it) => ({ k: "item", id: it.id }))], pos: 0, ph: "" };
+const A0 = S.active; A0.pos = 0; for (let i = 0; i < 3; i++) markSkipped(A0.steps[i]); A0.pos = 3;
+ok(stepStatus(A0.steps[0]) === "skip" && stepStatus(A0.steps[1]) === "skip" && stepStatus(A0.steps[2]) === "skip" && stepStatus(A0.steps[3]) === "open", "Übersprungenes gilt als übersprungen, nicht als erledigt");
+ji[2].log[0].done = true; ok(stepStatus(A0.steps[3]) === "part", "Ein von zwei Sätzen: teilweise");
+ji[2].log.forEach((q) => (q.done = true)); ok(stepStatus(A0.steps[3]) === "done", "Alle Sätze: erledigt");
+unskip(A0.steps[1]); ok(stepStatus(A0.steps[1]) === "open", "Nachholen hebt „übersprungen“ auf");
+removeStep(2); ok(A0.items.length === 2 && A0.steps.length === 3, "Entfernen nimmt die Übung aus der Einheit");
+S.active = null;
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
