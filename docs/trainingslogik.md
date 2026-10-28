@@ -1,6 +1,6 @@
 # Selfcare Studio – Trainingslogik
 
-Stand: Version 2.8. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
+Stand: Version 2.9. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
 
 ## Plan
 - **Muskelgruppen** haben eine Größe (Po 6, Beine vorne 5, Rücken 5 …). Daraus entsteht das Volumen eines Tages in „effektiven Sätzen“, höchstens 22 pro Einheit.
@@ -40,6 +40,10 @@ Ein Bildschirm, ein Schritt: Cardio (Gerät wählen) → Aktivierung mit Timer �
 - **Satz übernimmt Satz:** Nach einem Arbeitssatz stehen dessen Gewicht und Wiederholungen in allen folgenden offenen Arbeitssätzen. Ausnahme: Die Nachsteuerung ändert das Gewicht (2+ Wdh. über bzw. unter dem Bereich) – dann neues Gewicht und Ziel-Wiederholungen.
 - Ton: Gong und Ansage über laufende Musik (`audioSession.type = "transient"` ab iOS 17).
 
+## Pilates & Mobility (`buildFlow`, `flowGoto`, `flowTick`)
+- Pilates: 10 Positionen in 2 Runden, Mobility: 11 Positionen in 1 Runde, Positionen mit Seiten je links/rechts. Zeit pro Position so, dass es ca. 30 Min sind (40–90 s), 10 s Bereitmachen.
+- Ton und Ansage wie im Krafttraining: „Gleich: …“ bzw. „Seitenwechsel: …“ beim Bereitmachen, Signalton bei Start und Ende jeder Position, Countdown in den letzten 3 Sekunden, „Noch 10 Sekunden“ ab 30 s Haltezeit.
+
 ## Gerätefrage und Gerätezeiten
 - Keine „Frei?“-Frage bei Übungen nur mit Matte, Band oder Gymnastikball (`noAsk`). Ist so eine Übung Ersatz, wird nur angeboten: „Original ist jetzt frei“.
 - Jede Antwort „Frei“/„Besetzt“/„Später“ wird mit Gerät, Wochentag und Stunde gespeichert (`eqLog`, max. 400). Gilt ein Gerät zur gleichen Zeit (±1 Std., gleicher Wochentag, mind. 3 Antworten) zu ≥ 60 % als besetzt, rückt die Übung beim Start ans Ende.
@@ -68,6 +72,7 @@ Kein Cardio, keine Aufwärmsätze. 5 Mobilisations- und Dehnübungen nach Tagesa
 ## Ton
 - Gong als in der App erzeugte WAV-Datei über `<audio>` (zuverlässiger als Web Audio auf dem iPhone), freigeschaltet beim ersten Antippen.
 - Letzte 3 Sekunden von Bereit-machen und Pause: kurze Pieptöne, dann Gong, Ansage ca. 1 Sekunde später.
+- **Signalton wählbar** (`S.sound`, `SOUNDS`): Gong (Standard), Klangschale, Sanfter Dreiklang, Küchentimer, Wecker, Ringglocke oder Kein Ton. Alle werden in der App aus Teiltönen als WAV erzeugt, nichts wird geladen. **Countdown** (`S.tick`): Piep (Standard), leises Ticken oder aus. Einstellbar unter Profil → Sprachansage → „Töne wählen & testen“.
 - Ein unhörbarer Dauerton gegen das Einschlafen der Audioausgabe wird bewusst **nicht** genutzt: Er würde laufende Musik dauerhaft leiser stellen.
 
 ## Erfolge
