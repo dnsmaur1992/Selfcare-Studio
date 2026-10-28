@@ -81,10 +81,10 @@ ok(wi.warmAsk && !wi.log.some((q) => q.warm) && warmAskNow(wi), "Große Übung: 
 wi.log.forEach((q) => (q.w = "60")); addWarmSet(wi); const w1 = wi.log[0];
 ok(w1.warm && w1.w === "30" && w1.r === "10" && !warmAskNow(wi), "Aufwärmsatz 1: 50 % × 10 (" + w1.w + " kg × " + w1.r + ")");
 w1.done = true; ok(warmAskNow(wi), "Nach dem Aufwärmsatz fragt die App erneut");
-addWarmSet(wi); ok(wi.log[1].warm && wi.log[1].r === "6", "Aufwärmsatz 2: 70 % × 6 (" + wi.log[1].w + " kg)");
+w1.w = "35"; w1.r = "8"; addWarmSet(wi); ok(wi.log[1].warm && wi.log[1].w === "35" && wi.log[1].r === "8", "Aufwärmsatz 2 übernimmt Aufwärmsatz 1 (35 kg × 8)");
 wi.log[1].done = true; wi.log[2].done = true; wi.log[2].r = "12";
 const ws = { items: [{ ex: "ht_m", log: wi.log }] };
-ok(setsOf(ws) === 1 && warmSetsOf(ws) === 2 && volOf(ws) === 30 * 10 + num(wi.log[1].w) * 6 + 60 * 12 && volOf(ws, true) === 300 + num(wi.log[1].w) * 6, "Gesamtlast inkl. Aufwärmen, Sätze ohne: " + volOf(ws) + " kg");
+ok(setsOf(ws) === 1 && warmSetsOf(ws) === 2 && volOf(ws) === 35 * 8 + 35 * 8 + 60 * 12 && volOf(ws, true) === 35 * 8 * 2, "Gesamtlast inkl. Aufwärmen, Sätze ohne: " + volOf(ws) + " kg");
 ok(!prepItem({ g: "po", e: 3, ex: "bridge", ideal: "bridge", sets: 3, reps: [12, 20] }, true).warmAsk, "Körpergewicht: keine Aufwärmfrage");
 // 21b Rückweg: Aufwärmsatz abbrechen bzw. statt Arbeitssatz nachträglich einschieben
 const fi = prepItem({ g: "po", e: 3, ex: "lateral_kh", ideal: "lateral_kh", sets: 3, reps: [12, 20] }, true); fi.log.forEach((q) => (q.w = "8"));
@@ -113,5 +113,19 @@ ok(bs.BMI === "23" && bs["Taille zu Größe"] === "0,48", "BMI " + bs.BMI + ", T
 ok(pulseRange(0.65, 0.75).startsWith("Puls ca. ") && pulseRange(0.65, 0.75).includes("–"), "Pulsbereich: " + pulseRange(0.65, 0.75));
 ok(weightAt(new Date().toISOString()) === 65, "Gewicht zum Datum gefunden");
 S.body = {}; S.measures = []; ok(!hfMax() && !bodyStats().length, "Ohne Angaben keine Werte");
+// 25 Satzpause 3 Min als Voreinstellung, Übernahme von Gewicht und Wiederholungen
+ok(defaults().restC === 180 && defaults().restI === 180, "Satzpause voreingestellt: 3:00 Min");
+S.restC = 180; S.restI = 180; ok(restFor({ type: "c" }) === 180 && restFor({ type: "i" }) === 180, "Pause im Training: " + restFor({ type: "c" }) + " s");
+const ci = prepItem({ g: "po", e: 3, ex: "ht_m", ideal: "ht_m", sets: 3, reps: [10, 15] }, false); ci.log.forEach((q) => (q.w = "50")); ci.log[0].w = "55"; ci.log[0].r = "12";
+S.active = { items: [ci], steps: [{ k: "item", id: ci.id }], pos: 0, ph: "sets", start: Date.now() }; setDone();
+ok(ci.log[1].w === "55" && ci.log[1].r === "12" && ci.log[2].r === "12", "Satz 2 und 3 übernehmen 55 kg × 12 aus Satz 1");
+ok(S.active.total === 180, "Pause nach dem Satz: " + S.active.total + " s");
+S.active = null;
+// 26 Werte vom letzten Mal: Arbeitssätze und Aufwärmsätze
+S.sessions.push({ id: "lm", date: new Date().toISOString(), items: [{ g: "po", ex: "legpress", reps: [10, 15], log: [{ w: "25", r: "10", done: true, warm: true }, { w: "40", r: "6", done: true, warm: true }, { w: "70", r: "14", done: true }, { w: "70", r: "12", done: true }] }] });
+const lm = prepItem({ g: "quad", e: 3, ex: "legpress", ideal: "legpress", sets: 3, reps: [10, 15] }, true);
+ok(lm.log[0].w === "70" && lm.log[0].r === "14" && lm.log[1].r === "12" && lm.log[2].r === "12", "Arbeitssätze: 70 kg × 14 / 12 / 12 vom letzten Mal");
+addWarmSet(lm); lm.log[0].done = true; addWarmSet(lm); lm.log[1].done = true; addWarmSet(lm);
+ok(lm.log[0].w === "25" && lm.log[0].r === "10" && lm.log[1].w === "40" && lm.log[1].r === "6" && lm.log[2].w === "40" && lm.log[2].r === "6", "Aufwärmsätze: 25×10, 40×6 vom letzten Mal, der dritte übernimmt den vorigen");
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
