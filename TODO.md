@@ -17,6 +17,10 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 ## Bewusst nicht umgesetzt
 - **Unhörbarer Dauerton** gegen das Einschlafen der Audioausgabe (Ringzeit-Idee): Er würde laufende Musik auf dem iPhone dauerhaft leiser stellen. Stattdessen Gong als echte Tondatei und Freischalten beim ersten Antippen.
 
+## Erledigt in Version 3.0
+- [x] Profil aufgeräumt: Übersicht mit Gruppen (Du & deine Figur · Training: Plan, Ziel & Belastung, Satzpause, Ton & Musik, Geräte · App: Darstellung & Kalender, Daten & Backup, Hilfe & Infos), jede Zeile zeigt den aktuellen Stand, Details auf eigenen Seiten.
+- [x] Tour, Hinweistexte („Profil → …“), „Erste Schritte“ (springt direkt zu Daten & Backup) und „Was ist neu“ an die neue Struktur angepasst.
+
 ## Erledigt in Version 2.9
 - [x] Signalton wählbar (Gong, Klangschale, Sanfter Dreiklang, Küchentimer, Wecker, Ringglocke, Kein Ton) und Countdown (Piep, Ticken, aus), mit Anhören beim Antippen.
 - [x] Pilates & Mobility: Sprachansagen, Signalton bei Start und Ende jeder Position, Countdown, „Noch 10 Sekunden“.

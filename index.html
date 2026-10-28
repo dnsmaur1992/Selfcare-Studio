@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.9">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.9">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.0">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.0">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.9">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.0">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -357,6 +357,10 @@ html.touring, html.touring body { overflow: hidden; overscroll-behavior: none; t
 .ring-fg { stroke: var(--accent); transition: stroke-dashoffset .25s linear; }
 .ring-fg.calm { stroke: var(--lav-ink); }
 .sheet > * { flex-shrink: 0; }
+.pic { width: 30px; height: 30px; flex: none; display: grid; place-items: center; border-radius: 10px; background: var(--surface2); font-size: 16px; }
+.profhead { flex-direction: row; align-items: center; gap: 14px; width: 100%; text-align: left; }
+.profhead .figmini { width: 74px; flex: none; }
+.profhead .figmini .figbox { border-radius: 16px; }
 .chip.skipt { background: var(--surface2); color: var(--muted); font-style: italic; }
 .pickh { position: sticky; top: 38px; z-index: 2; display: flex; justify-content: space-between; align-items: baseline; padding: 8px 4px 4px; background: var(--bg); font-family: var(--display); font-size: 20px; font-weight: 600; }
 .pickbar { position: sticky; top: -10px; z-index: 3; background: var(--bg); padding: 6px 0; }
@@ -622,9 +626,11 @@ const LIMITS = {
   wrist: { n: "Handgelenk", ids: ["pushup", "pushup_incline", "benchdips", "kickback_kh", "conc_curl"] },
 };
 const limited = (id) => Object.keys(LIMITS).some((k) => (S.limits || {})[k] && LIMITS[k].ids.includes(id));
-const S_VERSION = "2.9";
-const NEWS = { v: "2.9", items: [
-  ["Dein Signalton", "Gong, Klangschale, sanfter Dreiklang, Küchentimer, Wecker oder Ringglocke – oder gar kein Ton. Dazu Piep, leises Ticken oder Stille für die letzten 3 Sekunden. Profil → Sprachansage → „Töne wählen & testen“."],
+const S_VERSION = "3.0";
+const NEWS = { v: "3.0", items: [
+  ["Aufgeräumtes Profil", "Das Profil ist jetzt nach Themen sortiert: Du & deine Figur, Training (Plan, Ziel & Belastung, Satzpause, Ton & Musik, Geräte) und App (Darstellung & Kalender, Daten & Backup, Hilfe & Infos). Jede Zeile zeigt, was gerade eingestellt ist."],
+
+  ["Dein Signalton", "Gong, Klangschale, sanfter Dreiklang, Küchentimer, Wecker oder Ringglocke – oder gar kein Ton. Dazu Piep, leises Ticken oder Stille für die letzten 3 Sekunden. Profil → Ton & Musik → Signalton."],
   ["Pilates & Mobility mit Ansage", "Jetzt auch hier: Ansage der nächsten Position und beim Seitenwechsel, dein Signalton bei Start und Ende jeder Position, Countdown und „Noch 10 Sekunden“."],
 ], old: [
   { v: "2.8", items: [
@@ -1106,7 +1112,7 @@ function icsText() {
 }
 async function calExport() {
   if (!S.days.some((d) => d.wd)) return toast("Lege zuerst Wochentage für deine Trainingstage fest.");
-  if (!PWA) return openSheet(() => `<h2>Kalender</h2><p class="muted">Das Eintragen in den iPhone-Kalender funktioniert in der installierten App (Home-Bildschirm). Öffne Selfcare Studio dort und tippe im Profil auf „In den Kalender“.</p><button class="btn ghost" data-a="sheetclose">OK</button>`);
+  if (!PWA) return openSheet(() => `<h2>Kalender</h2><p class="muted">Das Eintragen in den iPhone-Kalender funktioniert in der installierten App (Home-Bildschirm). Öffne Selfcare Studio dort und tippe im Profil unter „Darstellung &amp; Kalender“ auf „In den Kalender“.</p><button class="btn ghost" data-a="sheetclose">OK</button>`);
   const txt = icsText(); const blob = new Blob([txt], { type: "text/calendar" });
   try { const f = new File([blob], "selfcare-studio-training.ics", { type: "text/calendar" }); if (navigator.canShare && navigator.canShare({ files: [f] })) { await navigator.share({ files: [f], title: "Trainingstage" }); return; } } catch (e) { if (e && e.name === "AbortError") return; }
   location.href = URL.createObjectURL(blob);
@@ -1567,7 +1573,7 @@ const READS = [
     ["Wechseljahre und Knochen", "Bis zu den Wechseljahren bremsen Östrogene den Knochenabbau. Danach fehlt dieser Schutz, und der Knochenabbau beschleunigt sich bei Frauen etwa ab 50."],
     ["Was hilft", "Regelmäßiges, gezieltes Training stärkt Muskeln und Knochen und verbessert Gleichgewicht und Koordination. Die WHO empfiehlt Erwachsenen an mindestens 2 Tagen pro Woche Krafttraining für alle großen Muskelgruppen."],
     ["Schwerer kann sinnvoll sein", "In einer Studie (LIFTMOR) trainierten Frauen nach den Wechseljahren mit geringer Knochendichte 8 Monate lang zweimal pro Woche 30 Minuten schwer – angeleitet und gut vorbereitet. Ihre Knochendichte an Lendenwirbelsäule und Oberschenkelhals entwickelte sich besser als in der Vergleichsgruppe."],
-    ["Was die App daraus macht", "Im Profil kannst du „Schwerere Sätze“ einschalten: eine rückenfreundliche Grundübung mit 6–10 Wiederholungen. Bei Osteoporose oder Beschwerden vorher ärztlich abklären."],
+    ["Was die App daraus macht", "Im Profil unter „Ziel & Belastung“ kannst du „Schwerere Sätze“ einschalten: eine rückenfreundliche Grundübung mit 6–10 Wiederholungen. Bei Osteoporose oder Beschwerden vorher ärztlich abklären."],
   ], src: [
     ["gesund.bund.de: Osteoporose", "https://gesund.bund.de/osteoporose"],
     ["Ärzteblatt (2020): WHO gibt neue Aktivitätsempfehlungen heraus", "https://www.aerzteblatt.de/news/who-gibt-neue-aktivitaetsempfehlungen-heraus-fuer-die-gesundheit-zaehlt-jede-bewegung-35fe8935-43d0-4130-b000-ae2f7994608e"],
@@ -1629,7 +1635,7 @@ const TOUR = [
   { v: "home", demo: true, t: "Im Training", d: "Immer nur eine Übung: „Frei“ – los geht's, „Besetzt“ – sofort Ersatz. Gewicht und Wiederholungen vom letzten Mal stehen schon drin, du bestätigst nur noch. Bei großen Übungen fragt die App, ob du dich erst aufwärmen möchtest. ☰ zeigt die Übersicht, ♪ deine Musik." },
   { v: "lib", sel: '.tabs [data-v="lib"]', t: "Übungen", d: "Alle Übungen mit Animation, Tipps und typischen Fehlern. Praktisch, wenn du eine Übung vorher anschauen möchtest." },
   { v: "hist", sel: '.tabs [data-v="hist"]', t: "Verlauf", d: "Deine Einheiten mit allen Sätzen, Erfolge und Abzeichen, Fortschritt pro Übung, Wochenbelastung, Körpermaße und Gewicht." },
-  { v: "prof", sel: '.tabs [data-v="prof"]', t: "Profil", d: "Über dich, Satzpause, Signalton und Ansage, deine Figur, hell oder dunkel, Plan und Trainingstage, Geräte, Backup – und diese Tour, falls du sie nochmal sehen möchtest." },
+  { v: "prof", sel: '.tabs [data-v="prof"]', t: "Profil", d: "Nach Themen sortiert: oben du und deine Figur, darunter Training – Plan, Ziel, Satzpause, Ton & Musik, Geräte – und die App mit Darstellung, Backup und Hilfe. Unter „Hilfe & Infos“ findest du auch diese Tour." },
 ];
 function tourStart() { closeSheet(); U.tour = 0; go(TOUR[0].v); }
 function tourEnd() { U.tour = null; S.tourOffered = true; save(); document.getElementById("tour")?.remove(); document.documentElement.classList.remove("touring"); go("home"); }
@@ -1665,7 +1671,7 @@ function renderTour() {
   place(); setTimeout(place, 80);
 }
 function tourOffer() {
-  return `<div class="stack" style="gap:6px"><span class="eyebrow">Kurze Tour</span><h2>Soll ich dir die App <em>zeigen</em>?</h2><p class="muted">Acht Stationen, etwa eine Minute. Du kannst jederzeit abbrechen und die Tour später im Profil starten.</p></div>
+  return `<div class="stack" style="gap:6px"><span class="eyebrow">Kurze Tour</span><h2>Soll ich dir die App <em>zeigen</em>?</h2><p class="muted">Acht Stationen, etwa eine Minute. Du kannst jederzeit abbrechen und die Tour später im Profil unter „Hilfe &amp; Infos“ starten.</p></div>
     ${figSVG("ht_m", "po")}
     <button class="btn" data-a="tour">Tour starten</button><button class="btn ghost" data-a="tourlater">Später</button>`;
 }
@@ -1755,7 +1761,7 @@ function startItems() {
   I.push({ t: "Erstes Training machen", s: "Oben auf „Training vorbereiten“ tippen.", done: S.sessions.some((x) => !x.flow) });
   I.push({ t: "Ausweichübung ausprobieren", s: "Im Training bei einer Übung auf „Besetzt“ tippen.", done: !!S.flags.swap });
   I.push({ t: "Pilates oder Mobility testen", s: "In der Woche auf + tippen.", done: S.sessions.some((x) => x.flow) });
-  I.push({ t: "Erstes Backup speichern", s: "Profil → Backup speichern.", done: !!S.flags.backup, act: "prof" });
+  I.push({ t: "Erstes Backup speichern", s: "Profil → Daten & Backup → Backup speichern.", done: !!S.flags.backup, act: "prof", sec: "daten" });
   return I;
 }
 function startCard() {
@@ -1767,7 +1773,7 @@ function startCard() {
     <div style="height:6px;border-radius:3px;background:var(--surface2);overflow:hidden"><div style="height:100%;width:${pct}%;background:var(--accent);border-radius:3px"></div></div>
     <div class="stack" style="gap:0">${I.map((x) => {
       const inner = `<span class="ckb ${x.done ? "on" : ""}" style="width:28px;height:28px;border-radius:50%;flex:none">${x.done ? IC.check : ""}</span><div class="grow stack" style="gap:1px"><span style="${x.done ? "text-decoration:line-through;color:var(--muted)" : "font-weight:600"}">${x.t}</span>${x.done ? "" : `<span class="small muted">${x.s}</span>`}</div>${!x.done && (x.href || x.act) ? `<span class="chev" style="color:var(--muted)">›</span>` : ""}`;
-      return !x.done && x.href ? `<a class="pi" style="color:inherit;text-decoration:none" href="${x.href}">${inner}</a>` : !x.done && x.act ? `<button class="pi" style="text-align:left;width:100%" data-a="tab" data-v="${x.act}">${inner}</button>` : `<div class="pi">${inner}</div>`;
+      return !x.done && x.href ? `<a class="pi" style="color:inherit;text-decoration:none" href="${x.href}">${inner}</a>` : !x.done && x.act ? `<button class="pi" style="text-align:left;width:100%" data-a="tab" data-v="${x.act}"${x.sec ? ` data-p="${x.sec}"` : ""}>${inner}</button>` : `<div class="pi">${inner}</div>`;
     }).join("")}</div>
     <button class="small link" style="color:var(--muted);align-self:flex-start" data-a="flag" data-f="hideStart">Ausblenden</button></div>`;
 }
@@ -2472,42 +2478,71 @@ function newsSheet() {
 function vProf() {
   const opt = (k, n, sub) => `<button class="${S.reps === k ? "on" : ""}" data-a="reps" data-k="${k}">${n}<small>${sub}</small></button>`;
   const krafts = S.days.filter((d) => (d.type || "kraft") === "kraft").length;
-  return `<div class="wrap">
-    <h1>Profil</h1>
+  const sec = U.psec;
+  const li = (k, n, sub, ic) => `<button class="li" data-a="psec" data-k="${k}"><span class="pic" aria-hidden="true">${ic}</span><div class="grow"><b>${n}</b><div class="small muted">${sub}</div></div><span class="chev">›</span></button>`;
+  const go2 = (a, v, n, sub, ic) => `<button class="li" data-a="${a}"${v ? ` data-v="${v}"` : ""}><span class="pic" aria-hidden="true">${ic}</span><div class="grow"><b>${n}</b><div class="small muted">${sub}</div></div><span class="chev">›</span></button>`;
+  const head = (t, sub) => `<button class="link" style="text-align:left" data-a="psec" data-k="">‹ Profil</button><div class="stack" style="gap:2px"><h1>${t}</h1>${sub ? `<p class="small muted">${sub}</p>` : ""}</div>`;
+  const REPN = { mittel: "Aufbau 8–15", hoch: "Aufbau+ 10–20", ausdauer: "Kraftausdauer 15–25" };
+  const lims = Object.keys(S.limits || {}).filter((k) => S.limits[k]).map((k) => LIMITS[k].n);
+  const hidden = Object.values(S.equip).filter((v) => !v).length;
+  const PAGES = {
+    ich: () => `${head("Du &amp; deine Figur")}
     <div class="card"><label class="small muted" for="pname">Name</label><input id="pname" class="field" data-in="name" value="${esc(S.name)}" placeholder="Wie heißt du?"></div>
     ${bodyCard(false)}
-    ${figureCard("Deine Figur", "Outfit und Frisur – so trainiert deine Figur in allen Animationen.")}
+    ${figureCard("Deine Figur", "Outfit und Frisur – so trainiert deine Figur in allen Animationen.")}`,
+    ziel: () => `${head("Ziel &amp; Belastung", "Wie die App Sätze, Wiederholungen und Übungen für dich auswählt.")}
     <div class="card"><h3>Wiederholungen</h3><div class="seg">${opt("mittel", "Aufbau", "8–15")}${opt("hoch", "Aufbau+", "10–20")}${opt("ausdauer", "Kraftausdauer", "15–25")}</div>
-      <div class="row between"><div class="grow"><b>Rücken schonen</b><p class="small muted">Keine schweren Rückenübungen, dort mehr Wiederholungen mit weniger Gewicht.</p></div><button class="toggle ${S.backCare ? "on" : ""}" data-a="back" role="switch" aria-checked="${S.backCare}" aria-label="Rücken schonen"></button></div></div>
-    <div class="card" style="gap:10px"><h3>Darstellung</h3><div class="seg">${[["auto", "Automatisch"], ["light", "Hell"], ["dark", "Dunkel"]].map(([k, n]) => `<button class="${(S.theme || "auto") === k ? "on" : ""}" data-a="theme" data-k="${k}">${n}</button>`).join("")}</div><span class="small muted">Automatisch folgt der Einstellung deines iPhones.</span></div>
-    <div class="card" style="gap:8px"><h3>Deine Musik</h3><input id="pmusic" class="field" data-in="music" inputmode="url" value="${esc(S.music || "")}" placeholder="Link zur Playlist (Spotify, Apple Music …)"><span class="small muted">Im Training erscheint dann oben ein ♪, der deine Playlist öffnet. Den Link bekommst du in der Musik-App über Teilen → Link kopieren.</span></div>
-    <div class="card" style="gap:8px"><h3>Dein Alltag</h3><p class="small muted">Bestimmt das Aufwärmen beim Mini-Training. Du kannst es vor jedem Mini-Training ändern.</p><div class="chips">${Object.entries(DAYMOB).map(([k, o]) => `<button class="chip ${(S.dayType || "mix") === k ? "on" : ""}" data-a="daytype" data-k="${k}">${o.n}</button>`).join("")}</div></div>
-    <div class="card" style="gap:8px"><h3>Kalender</h3><p class="small muted">Trägt deine Trainingstage als wiederkehrende Termine mit Erinnerung 30 Minuten vorher in den iPhone-Kalender ein.</p><div class="row"><label class="small muted" for="caltime">Uhrzeit</label><input id="caltime" class="field" type="time" style="width:auto" value="${S.calTime || "18:00"}" data-in="caltime"><button class="btn sm" data-a="calexport">In den Kalender</button></div></div>
-    <div class="card" style="gap:8px"><h3>Pause &amp; Fokus</h3><div class="row" style="gap:8px;flex-wrap:wrap">${pauseNow() ? `<button class="btn sm" data-a="pauseend">Pause beenden</button>` : `<button class="btn line sm" data-a="pauseopen">Pause eintragen</button>`}<button class="btn line sm" data-a="focusopen">${focusOn() ? `Fokus: ${FOCI[S.focus.id].n}` : "Fokus-Block starten"}</button></div><span class="small muted">Pause bei Krankheit, Verletzung oder Urlaub. Fokus-Block: 6 Wochen mit Schwerpunkt.</span></div>
-    <div class="card"><h3>Einschränkungen</h3><p class="small muted">Übungen, die diese Bereiche stark belasten, schlägt die App nicht mehr vor.</p>${limitChips()}</div>
-    <div class="card" style="gap:12px"><h3>Im Training</h3>
-      <div class="row between"><div class="grow"><b>Sprachansage</b><p class="small muted">Sagt Übung, Satz und Gewicht an. Läuft über deine Musik. <button class="link" style="font-size:13px" data-a="soundtest">Töne wählen &amp; testen</button></p></div><button class="toggle ${S.voice !== false ? "on" : ""}" data-a="ptoggle" data-k="voice" role="switch" aria-checked="${S.voice !== false}" aria-label="Sprachansage"></button></div>
+      <div class="row between"><div class="grow"><b>Rücken schonen</b><p class="small muted">Keine schweren Rückenübungen, dort mehr Wiederholungen mit weniger Gewicht.</p></div><button class="toggle ${S.backCare ? "on" : ""}" data-a="back" role="switch" aria-checked="${S.backCare}" aria-label="Rücken schonen"></button></div>
       <div class="row between"><div class="grow"><b>Schwerere Sätze</b><p class="small muted">Eine rückenfreundliche Grundübung pro Einheit mit 6–10 Wdh. Gut für Knochen und Muskelerhalt ab 40.</p></div><button class="toggle ${S.heavy ? "on" : ""}" data-a="ptoggle" data-k="heavy" role="switch" aria-checked="${!!S.heavy}" aria-label="Schwerere Sätze"></button></div>
     </div>
-    <div class="card" style="gap:12px"><div class="stack" style="gap:2px"><h3>Satzpause</h3><p class="small muted">Pause zwischen zwei Sätzen. Jetzt: ${restLine()}</p></div>${restPicker()}</div>
+    <div class="card"><h3>Einschränkungen</h3><p class="small muted">Übungen, die diese Bereiche stark belasten, schlägt die App nicht mehr vor.</p>${limitChips()}</div>
+    <div class="card" style="gap:8px"><h3>Dein Alltag</h3><p class="small muted">Bestimmt das Aufwärmen beim Mini-Training. Du kannst es vor jedem Mini-Training ändern.</p><div class="chips">${Object.entries(DAYMOB).map(([k, o]) => `<button class="chip ${(S.dayType || "mix") === k ? "on" : ""}" data-a="daytype" data-k="${k}">${o.n}</button>`).join("")}</div></div>
+    <div class="card" style="gap:8px"><h3>Pause &amp; Fokus</h3><div class="row" style="gap:8px;flex-wrap:wrap">${pauseNow() ? `<button class="btn sm" data-a="pauseend">Pause beenden</button>` : `<button class="btn line sm" data-a="pauseopen">Pause eintragen</button>`}<button class="btn line sm" data-a="focusopen">${focusOn() ? `Fokus: ${FOCI[S.focus.id].n}` : "Fokus-Block starten"}</button></div><span class="small muted">Pause bei Krankheit, Verletzung oder Urlaub. Fokus-Block: 6 Wochen mit Schwerpunkt.</span></div>`,
+    pause: () => `${head("Satzpause")}<div class="card" style="gap:12px"><p class="small muted">Pause zwischen zwei Sätzen. Jetzt: ${restLine()}</p>${restPicker()}</div>`,
+    ton: () => `${head("Ton &amp; Musik")}
+    <div class="card" style="gap:12px"><div class="row between"><div class="grow"><b>Sprachansage</b><p class="small muted">Sagt Übung, Satz und Gewicht an. Läuft über deine Musik. <button class="link" style="font-size:13px" data-a="soundtest">Töne wählen &amp; testen</button></p></div><button class="toggle ${S.voice !== false ? "on" : ""}" data-a="ptoggle" data-k="voice" role="switch" aria-checked="${S.voice !== false}" aria-label="Sprachansage"></button></div></div>
+    <button class="card" style="flex-direction:row;align-items:center;gap:12px;text-align:left;width:100%" data-a="soundtest"><div class="grow stack" style="gap:2px"><b>Signalton · ${SOUNDS[S.sound || "gong"].n}</b><span class="small muted">Countdown: ${TICKS[S.tick || "piep"].n} · antippen zum Wählen und Anhören</span></div><span class="chev">›</span></button>
+    <div class="card" style="gap:8px"><h3>Deine Musik</h3><input id="pmusic" class="field" data-in="music" inputmode="url" value="${esc(S.music || "")}" placeholder="Link zur Playlist (Spotify, Apple Music …)"><span class="small muted">Im Training erscheint dann oben ein ♪, der deine Playlist öffnet. Den Link bekommst du in der Musik-App über Teilen → Link kopieren.</span></div>`,
+    app: () => `${head("Darstellung &amp; Kalender")}
+    <div class="card" style="gap:10px"><h3>Darstellung</h3><div class="seg">${[["auto", "Automatisch"], ["light", "Hell"], ["dark", "Dunkel"]].map(([k, n]) => `<button class="${(S.theme || "auto") === k ? "on" : ""}" data-a="theme" data-k="${k}">${n}</button>`).join("")}</div><span class="small muted">Automatisch folgt der Einstellung deines iPhones.</span></div>
+    <div class="card" style="gap:8px"><h3>Kalender</h3><p class="small muted">Trägt deine Trainingstage als wiederkehrende Termine mit Erinnerung 30 Minuten vorher in den iPhone-Kalender ein.</p><div class="row"><label class="small muted" for="caltime">Uhrzeit</label><input id="caltime" class="field" type="time" style="width:auto" value="${S.calTime || "18:00"}" data-in="caltime"><button class="btn sm" data-a="calexport">In den Kalender</button></div></div>`,
+    hilfe: () => `${head("Hilfe &amp; Infos")}
     <div class="list">
-      <button class="li" data-a="tab" data-v="days"><div class="grow"><b>Trainingsplan</b><div class="small muted">${krafts} Krafttage${S.days.length > krafts ? ` · ${S.days.length - krafts} weitere` : ""}</div></div><span class="chev">›</span></button>
-      <button class="li" data-a="tab" data-v="eq"><div class="grow"><b>Geräte</b><div class="small muted">${(() => { const n = Object.values(S.equip).filter((v) => !v).length; return n ? n + " ausgeblendet" : "alle aktiv"; })()}</div></div><span class="chev">›</span></button>
+      ${go2("tour", "", "App-Tour", "In acht Stationen durch die App", "🧭")}
+      ${go2("readlist", "", "Zum Lesen", "Mythen, Krafttraining ab 40, Rücken, Erholung", "📖")}
+      ${go2("news", "", "Was ist neu", `Version ${S_VERSION} und frühere`, "✨")}
+      ${go2("flagreset", "", "Einführung erneut zeigen", "Erste Schritte und Trainingstipps wieder einblenden", "↺")}
+      ${go2("feedback", "", "Feedback senden", "Fehler melden oder Ideen schicken", "💬")}
+      ${go2("tab", "legal", "Hinweise &amp; Datenschutz", "Sicherheit, Haftung, deine Daten", "§")}
     </div>
-    <div class="stack"><span class="eyebrow">Daten</span><div class="list">
-      <button class="li" data-a="backup"><div class="grow"><b>Backup speichern</b><div class="small muted">Alle Daten als Datei sichern</div></div><span class="chev">›</span></button>
+    <div class="card" style="gap:6px"><h3>Hinweise</h3><p class="small muted">Selfcare Studio ersetzt keine Trainerin und keine ärztliche Beratung. Bei Schmerzen die Übung abbrechen. Mit Beschwerden oder nach Verletzungen vorher ärztlich abklären.</p><button class="small link" style="align-self:flex-start" data-a="news">Was ist neu in Version ${NEWS.v}?</button></div>`,
+    daten: () => `${head("Daten &amp; Backup", "Deine Daten bleiben nur auf diesem Gerät. Mach ab und zu ein Backup, damit bei einem Handywechsel nichts verloren geht.")}
+    <div class="list">
+      <button class="li" data-a="backup"><div class="grow"><b>Backup speichern</b><div class="small muted">${S.lastBackup ? "Zuletzt: " + dShort(new Date(S.lastBackup)) : "Alle Daten als Datei sichern"}</div></div><span class="chev">›</span></button>
       <label class="li" for="imp" style="cursor:pointer"><div class="grow"><b>Backup laden</b><div class="small muted">Aus einer gespeicherten Datei wiederherstellen</div></div><span class="chev">›</span></label>
       <button class="li" data-a="copy"><div class="grow"><b>Als Text kopieren</b><div class="small muted">Falls das Speichern als Datei nicht klappt</div></div><span class="chev">›</span></button>
-      ${PWA ? `<button class="li" data-a="sharelink"><div class="grow"><b>Selfcare Studio weitergeben</b><div class="small muted">Link zur Installationsanleitung teilen</div></div><span class="chev">›</span></button><a class="li" style="color:inherit;text-decoration:none" href="${PWA.install}"><div class="grow"><b>Installationsanleitung</b><div class="small muted">App auf den Home-Bildschirm legen</div></div><span class="chev">›</span></a>` : ""}
       <button class="li" data-a="report"><div class="grow"><b>Auszug für Physio oder Trainerin</b><div class="small muted">Die letzten 4 Wochen als Text</div></div><span class="chev">›</span></button>
-      <button class="li" data-a="tab" data-v="legal"><div class="grow"><b>Hinweise &amp; Datenschutz</b><div class="small muted">Sicherheit, Haftung, deine Daten</div></div><span class="chev">›</span></button>
-      <button class="li" data-a="feedback"><div class="grow"><b>Feedback senden</b><div class="small muted">Fehler melden oder Ideen schicken</div></div><span class="chev">›</span></button>
-      <button class="li" data-a="readlist"><div class="grow"><b>Zum Lesen</b><div class="small muted">Mythen, Krafttraining ab 40, Rücken, Erholung</div></div><span class="chev">›</span></button>
-      <button class="li" data-a="tour"><div class="grow"><b>App-Tour</b><div class="small muted">In acht Stationen durch die App</div></div><span class="chev">›</span></button>
-      <button class="li" data-a="flagreset"><div class="grow"><b>Einführung erneut zeigen</b><div class="small muted">Erste Schritte und Trainingstipps wieder einblenden</div></div><span class="chev">›</span></button>
-      <button class="li" data-a="reset"><div class="grow"><b style="color:var(--warn)">Alle Daten löschen</b></div></button>
-    </div><p class="small muted">Deine Daten bleiben nur auf diesem Gerät. Mach ab und zu ein Backup, damit bei einem Handywechsel nichts verloren geht.</p></div>
-    <div class="card" style="gap:6px"><h3>Hinweise</h3><p class="small muted">Selfcare Studio ersetzt keine Trainerin und keine ärztliche Beratung. Bei Schmerzen die Übung abbrechen. Mit Beschwerden oder nach Verletzungen vorher ärztlich abklären.</p><button class="small link" style="align-self:flex-start" data-a="news">Was ist neu in Version ${NEWS.v}?</button></div>
+      ${PWA ? `<button class="li" data-a="sharelink"><div class="grow"><b>Selfcare Studio weitergeben</b><div class="small muted">Link zur Installationsanleitung teilen</div></div><span class="chev">›</span></button><a class="li" style="color:inherit;text-decoration:none" href="${PWA.install}"><div class="grow"><b>Installationsanleitung</b><div class="small muted">App auf den Home-Bildschirm legen</div></div><span class="chev">›</span></a>` : ""}
+    </div>
+    <div class="list"><button class="li" data-a="reset"><div class="grow"><b style="color:var(--warn)">Alle Daten löschen</b><div class="small muted">Kann nicht rückgängig gemacht werden</div></div></button></div>`,
+  };
+  if (sec && PAGES[sec]) return `<div class="wrap">${PAGES[sec]()}</div>`;
+  const o = getOutfit(S.outfit);
+  return `<div class="wrap">
+    <h1>Profil</h1>
+    <button class="card profhead" data-a="psec" data-k="ich"><div class="figmini">${figSVG("lateral_kh", "schulter", "s")}</div><div class="grow stack" style="gap:2px;text-align:left"><b style="font-size:19px">${esc(S.name || "Dein Name")}</b><span class="small muted">${[ageNow() ? ageNow() + " Jahre" : "", heightCm() ? heightCm() + " cm" : "", lastWeight() ? fmt(lastWeight()) + " kg" : ""].filter(Boolean).join(" · ") || "Name, Körperdaten, Figur"}</span><span class="small muted">Outfit: ${esc(o.n)}</span></div><span class="chev">›</span></button>
+    <div class="stack"><span class="eyebrow">Training</span><div class="list">
+      ${go2("tab", "days", "Trainingsplan", `${krafts} Krafttage${S.days.length > krafts ? ` · ${S.days.length - krafts} weitere` : ""}`, "🗓")}
+      ${li("ziel", "Ziel &amp; Belastung", `${REPN[S.reps] || ""}${S.backCare ? " · Rücken schonen" : ""}${lims.length ? " · " + lims.join(", ") : ""}${pauseNow() ? " · Pause aktiv" : focusOn() ? " · Fokus: " + FOCI[S.focus.id].n : ""}`, "🎯")}
+      ${li("pause", "Satzpause", restLine(), "⏱")}
+      ${li("ton", "Ton &amp; Musik", `${S.voice !== false ? "Ansage an" : "Ansage aus"} · ${SOUNDS[S.sound || "gong"].n}${S.music ? " · Playlist" : ""}`, "🔔")}
+      ${go2("tab", "eq", "Geräte", hidden ? hidden + " ausgeblendet" : "alle aktiv", "🏋")}
+    </div></div>
+    <div class="stack"><span class="eyebrow">App</span><div class="list">
+      ${li("app", "Darstellung &amp; Kalender", `${{ auto: "Automatisch", light: "Hell", dark: "Dunkel" }[S.theme || "auto"]} · Kalender ${S.calTime || "18:00"} Uhr`, "🎨")}
+      ${li("daten", "Daten &amp; Backup", S.lastBackup ? "Letztes Backup: " + dShort(new Date(S.lastBackup)) : "Noch kein Backup", "💾")}
+      ${li("hilfe", "Hilfe &amp; Infos", "Tour, Zum Lesen, Was ist neu, Feedback", "❔")}
+    </div></div>
     <p class="small muted" style="text-align:center">Selfcare Studio · Version ${S_VERSION}</p>
   </div>`;
 }
@@ -2799,7 +2834,8 @@ document.addEventListener("click", (e) => {
   if (a === "scrim") { if (e.target === t && !U.sheetLock) closeSheet(); return; }
   unlockAudio();
   switch (a) {
-    case "tab": go(d.v); break;
+    case "tab": if (d.v === "prof") U.psec = d.p || null; go(d.v); break;
+    case "psec": U.psec = d.k || null; render(); window.scrollTo(0, 0); break;
     case "resume": { const A = S.active; if (!A.flow && A.paused && (A.ph === "prep" || A.ph === "work")) { A.end = Date.now() + A.paused; A.paused = 0; } audioSetup(); wakeLock(); go(A.flow ? "flow" : "train"); break; }
     case "start": closeSheet(); startSetup(d.s); break;
     case "start-mini": closeSheet(); startSetup(d.s, "mini"); break;
@@ -2874,7 +2910,7 @@ document.addEventListener("click", (e) => {
     case "tournext": tourGo(U.tour + 1); break;
     case "tourprev": tourGo(U.tour - 1); break;
     case "tourend": tourEnd(); break;
-    case "tourlater": S.tourOffered = true; save(); closeSheet(); toast("Die Tour findest du jederzeit im Profil."); break;
+    case "tourlater": S.tourOffered = true; save(); closeSheet(); toast("Die Tour findest du jederzeit im Profil unter „Hilfe & Infos“."); break;
     case "newsok": S.newsSeen = NEWS.v; save(); closeSheet(); render(); if (!S.tourOffered) setTimeout(() => openSheet(tourOffer), 300); break;
     case "sutoggle": U.setup[d.k] = U.setup[d.k] === false; render(); break;
     case "busy": { const b = U.setup.busy; const i = b.indexOf(d.e); i >= 0 ? b.splice(i, 1) : b.push(d.e); render(); break; }

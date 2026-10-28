@@ -93,6 +93,7 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 - **Über dich (freiwillig):** Alter, Größe, Gewicht → Maximalpuls und Pulsbereiche beim Cardio, BMI, Taille-zu-Größe, Kraft im Verhältnis zum Körpergewicht
 
 ### Persönlich
+- **Aufgeräumtes Profil:** Übersicht nach Themen (Du & deine Figur, Training, App), jede Zeile zeigt den aktuellen Stand
 - **Deine Figur:** Outfit (fünf Vorlagen oder eigene Farben), Frisur und Haarfarbe
 - **Hell, Dunkel oder automatisch**
 - **Trainingstage im iPhone-Kalender** als wiederkehrende Termine mit Erinnerung
