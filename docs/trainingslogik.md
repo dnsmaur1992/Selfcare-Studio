@@ -1,6 +1,6 @@
 # Selfcare Studio – Trainingslogik
 
-Stand: Version 2.5. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
+Stand: Version 2.6. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
 
 ## Plan
 - **Muskelgruppen** haben eine Größe (Po 6, Beine vorne 5, Rücken 5 …). Daraus entsteht das Volumen eines Tages in „effektiven Sätzen“, höchstens 22 pro Einheit.
@@ -82,6 +82,13 @@ Kein Cardio, keine Aufwärmsätze. 5 Mobilisations- und Dehnübungen nach Tagesa
 - **App-Tour** (`TOUR`, 8 Stationen) mit Spotlight; einmal nach der Einrichtung bzw. nach „Was ist neu“ angeboten, sonst Profil → App-Tour.
 - **Zum Lesen** (`READS`): 6 Themen, Abschnitte mit höchstens 3 Sätzen, jede Seite mit Quellen. Erreichbar über das Profil und in Pausen über 40 Sekunden.
 - **Was ist neu** (`NEWS`) mit aufklappbaren früheren Versionen (`NEWS.old`).
+
+## Körperdaten (freiwillig)
+- **Geburtsjahr und Größe** im Profil (`S.body`), **Gewicht** als Messwert mit Verlauf bei den Maßen (`gewicht` in `S.measures`; Eingabe im Profil schreibt den heutigen Eintrag).
+- **Maximalpuls** nach Tanaka: 208 − 0,7 × Alter. Pulsbereiche: Aufwärm-Cardio 50–65 %, Ausdauer im Fokus „Körperfett verlieren“ 65–75 %. Angezeigt nur, wenn ein Geburtsjahr eingetragen ist.
+- **BMI** = Gewicht ÷ Größe² (Hinweis: unterscheidet nicht zwischen Muskeln und Fett). **Taille zu Größe** = Taille ÷ Größe, unter 0,5 gilt als günstig.
+- **Kraft im Verhältnis:** Im Fortschritt bei Grundübungen bestes Gewicht ÷ Körpergewicht zum jeweiligen Datum.
+- Gewicht und Größe beeinflussen **nicht** Sätze, Wiederholungen oder Startgewichte: Die App rechnet mit dem, was tatsächlich geschafft wird.
 
 ## Daten
 Alles in `localStorage` unter `satzwerk.v1`. Backup als JSON-Datei über das Profil.
