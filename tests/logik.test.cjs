@@ -105,5 +105,13 @@ ji[2].log.forEach((q) => (q.done = true)); ok(stepStatus(A0.steps[3]) === "done"
 unskip(A0.steps[1]); ok(stepStatus(A0.steps[1]) === "open", "Nachholen hebt „übersprungen“ auf");
 removeStep(2); ok(A0.items.length === 2 && A0.steps.length === 3, "Entfernen nimmt die Übung aus der Einheit");
 S.active = null;
+// 24 Körperdaten: Alter, Puls, BMI, Taille zu Größe, Kraft im Verhältnis
+S.body = { year: new Date().getFullYear() - 46, height: 168 }; S.measures = [{ d: new Date().toISOString(), gewicht: 65, taille: 80 }];
+ok(ageNow() === 46 && hfMax() === Math.round(208 - 0.7 * 46), "Alter 46 → Maximalpuls " + hfMax());
+const bs = Object.fromEntries(bodyStats().map(([k, v]) => [k, v]));
+ok(bs.BMI === "23" && bs["Taille zu Größe"] === "0,48", "BMI " + bs.BMI + ", Taille zu Größe " + bs["Taille zu Größe"]);
+ok(pulseRange(0.65, 0.75).startsWith("Puls ca. ") && pulseRange(0.65, 0.75).includes("–"), "Pulsbereich: " + pulseRange(0.65, 0.75));
+ok(weightAt(new Date().toISOString()) === 65, "Gewicht zum Datum gefunden");
+S.body = {}; S.measures = []; ok(!hfMax() && !bodyStats().length, "Ohne Angaben keine Werte");
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
