@@ -1,6 +1,6 @@
 # Selfcare Studio – Trainingslogik
 
-Stand: Version 2.6. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
+Stand: Version 2.8. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
 
 ## Plan
 - **Muskelgruppen** haben eine Größe (Po 6, Beine vorne 5, Rücken 5 …). Daraus entsteht das Volumen eines Tages in „effektiven Sätzen“, höchstens 22 pro Einheit.
@@ -21,14 +21,14 @@ Stand: Version 2.6. Diese Datei beschreibt, wie die App rechnet. Sie ist die Gru
 - Einschränkungen (Knie, Schulter, Handgelenk) schließen belastende Übungen aus (Liste `LIMITS`).
 
 ## Gewichte
-- Bekannte Übung: letztes Arbeitsgewicht.
+- Bekannte Übung: Gewicht **und Wiederholungen** vom letzten Mal, Satz für Satz (`makeLog`).
 - Neue Übung: Schätzung aus der letzten Übung mit gleichem Muster. 1RM nach Epley `w × (1 + r/30)`, umgerechnet mit groben Gerätefaktoren (Maschine 1, Smith 0,9, Kabel 0,62, Kurzhantel/Kettlebell 0,42, einseitig × 0,55). Arbeitsgewicht = 1RM ÷ (1 + (Ziel-Wdh. + 2)/30), also 2 Wdh. im Tank. Angezeigt als „ca.“ mit Testsatz.
 - **Nachsteuern** nach jedem Satz: 2+ Wdh. über dem Bereich → schwerer, unter dem Bereich → leichter (über Epley, mindestens eine Gewichtsstufe). Stufen: Kurzhantel 1 kg (ab 10 kg 2 kg), Kettlebell 4 kg, sonst 2,5 kg.
 
 ## Ablauf im Training
 Ein Bildschirm, ein Schritt: Cardio (Gerät wählen) → Aktivierung mit Timer → Kraftübungen (Gerät frei? → Sätze → Pause) → Cool-down → Abschluss.
 - **Aufwärmen 10–15 Min** (Mini 8–10): Cardio 6 Min (Kurz 5, Mini 4,5), 4–5 Aktivierungsübungen à 40 s passend zu den Muskelgruppen.
-- **Aufwärmsätze auf Nachfrage:** Bei jeder großen Übung mit Gewicht (Grundübung, nicht Mini-Training) fragt die App vor dem ersten Arbeitssatz „Möchtest du einen Aufwärmsatz machen?“ und nach jedem Aufwärmsatz „Noch ein Aufwärmsatz?“. Vorschläge vom Arbeitsgewicht: 50 % × 10, 70 % × 6, 85 % × 3, danach 90 % × 2. Pause nach Aufwärmsätzen 45 s. Nach einem Tausch wird erneut gefragt, solange noch kein Arbeitssatz gemacht ist. **Rückwege:** Im Aufwärmsatz „Doch kein Aufwärmsatz – direkt loslegen“ (Satz wird entfernt, keine weitere Frage). Beim ersten Arbeitssatz jeder Übung mit Gewicht (auch Isolation, nicht Mini) „Stattdessen erst einen Aufwärmsatz“ – danach fragt die App wie gewohnt „Noch ein Aufwärmsatz?“.
+- **Aufwärmsätze auf Nachfrage:** Bei jeder großen Übung mit Gewicht (Grundübung, nicht Mini-Training) fragt die App vor dem ersten Arbeitssatz „Möchtest du einen Aufwärmsatz machen?“ und nach jedem Aufwärmsatz „Noch ein Aufwärmsatz?“. Vorschlag (`warmSuggest`): der n-te Aufwärmsatz vom letzten Training dieser Übung; gibt es ihn nicht, wird der vorige Aufwärmsatz dieser Einheit übernommen, sonst 50 % des Arbeitsgewichts × 10. Pause nach Aufwärmsätzen 45 s. Nach einem Tausch wird erneut gefragt, solange noch kein Arbeitssatz gemacht ist. **Rückwege:** Im Aufwärmsatz „Doch kein Aufwärmsatz – direkt loslegen“ (Satz wird entfernt, keine weitere Frage). Beim ersten Arbeitssatz jeder Übung mit Gewicht (auch Isolation, nicht Mini) „Stattdessen erst einen Aufwärmsatz“ – danach fragt die App wie gewohnt „Noch ein Aufwärmsatz?“.
 - **Speichern:** Aufwärmsätze werden mit der Einheit gespeichert (`warm: true`). Sie zählen **nicht** für Sätze, Wochenvolumen, Rekorde, Fortschritt und Gewichtsvorschläge, aber **für die Gesamtlast** (kg × Wdh. aller Sätze). Verlauf und Abschluss zeigen „davon … kg Aufwärmen“.
 - **Cool-down ca. 5 Min:** eine Dehnung pro trainierter Muskelgruppe, 35 s je Seite.
 - Zeitübungen: 10 s „Bereit machen“, Gong, Ansage, weiter von selbst.
@@ -36,7 +36,8 @@ Ein Bildschirm, ein Schritt: Cardio (Gerät wählen) → Aktivierung mit Timer �
 - **Springen über die Übersicht:** Alles zwischen der aktuellen Position und dem Ziel, das noch offen ist, wird als „übersprungen“ markiert. Springt man zu einem übersprungenen Schritt zurück, ist er wieder offen. „Weiter“ überspringt erledigte und übersprungene Schritte.
 - **Entfernen:** × in der Übersicht nimmt eine offene oder übersprungene Übung aus der Einheit (mit geschafften Sätzen wird sie nur abgeschlossen).
 - **Ende:** Sind noch Übungen offen, teilweise oder übersprungen, zeigt die App sie zum Nachholen, statt sofort zu speichern. Gespeichert werden nur geschaffte Sätze.
-- Pausen: Grundübung 90 s (schwere Sätze 120 s), Isolation 60 s, Mini 45 s, Aufwärmsatz 45 s.
+- **Satzpause** (`S.restC` große Übungen, `S.restI` kleine Übungen): Voreinstellung je **3:00 Min**, wählbar 1:00–4:00. Einstellbar bei der Einrichtung, im Profil, in „Training vorbereiten“, im Satz („Danach … Pause · ändern“) und während der Pause (läuft mit der neuen Länge weiter). Bestehende Nutzerinnen mit den alten Voreinstellungen (90/60 s) werden einmalig auf 3:00 gesetzt (`restMig`). Schwere Sätze mind. 2:00, Fokus „Körperfett verlieren“ × 0,75, Mini-Training und Aufwärmsätze 45 s.
+- **Satz übernimmt Satz:** Nach einem Arbeitssatz stehen dessen Gewicht und Wiederholungen in allen folgenden offenen Arbeitssätzen. Ausnahme: Die Nachsteuerung ändert das Gewicht (2+ Wdh. über bzw. unter dem Bereich) – dann neues Gewicht und Ziel-Wiederholungen.
 - Ton: Gong und Ansage über laufende Musik (`audioSession.type = "transient"` ab iOS 17).
 
 ## Gerätefrage und Gerätezeiten
