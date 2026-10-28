@@ -1,6 +1,6 @@
 # Selfcare Studio – Trainingslogik
 
-Stand: Version 2.3. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
+Stand: Version 2.4. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
 
 ## Plan
 - **Muskelgruppen** haben eine Größe (Po 6, Beine vorne 5, Rücken 5 …). Daraus entsteht das Volumen eines Tages in „effektiven Sätzen“, höchstens 22 pro Einheit.
@@ -32,6 +32,10 @@ Ein Bildschirm, ein Schritt: Cardio (Gerät wählen) → Aktivierung mit Timer �
 - **Speichern:** Aufwärmsätze werden mit der Einheit gespeichert (`warm: true`). Sie zählen **nicht** für Sätze, Wochenvolumen, Rekorde, Fortschritt und Gewichtsvorschläge, aber **für die Gesamtlast** (kg × Wdh. aller Sätze). Verlauf und Abschluss zeigen „davon … kg Aufwärmen“.
 - **Cool-down ca. 5 Min:** eine Dehnung pro trainierter Muskelgruppe, 35 s je Seite.
 - Zeitübungen: 10 s „Bereit machen“, Gong, Ansage, weiter von selbst.
+- **Status jedes Schritts** (`stepStatus`): erledigt (alle Arbeitssätze bzw. Zeit abgelaufen), teilweise (z. B. 1/3), übersprungen, offen. Abgehakt wird nur, was wirklich geschafft ist.
+- **Springen über die Übersicht:** Alles zwischen der aktuellen Position und dem Ziel, das noch offen ist, wird als „übersprungen“ markiert. Springt man zu einem übersprungenen Schritt zurück, ist er wieder offen. „Weiter“ überspringt erledigte und übersprungene Schritte.
+- **Entfernen:** × in der Übersicht nimmt eine offene oder übersprungene Übung aus der Einheit (mit geschafften Sätzen wird sie nur abgeschlossen).
+- **Ende:** Sind noch Übungen offen, teilweise oder übersprungen, zeigt die App sie zum Nachholen, statt sofort zu speichern. Gespeichert werden nur geschaffte Sätze.
 - Pausen: Grundübung 90 s (schwere Sätze 120 s), Isolation 60 s, Mini 45 s, Aufwärmsatz 45 s.
 - Ton: Gong und Ansage über laufende Musik (`audioSession.type = "transient"` ab iOS 17).
 
