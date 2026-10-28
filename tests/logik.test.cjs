@@ -127,5 +127,17 @@ const lm = prepItem({ g: "quad", e: 3, ex: "legpress", ideal: "legpress", sets: 
 ok(lm.log[0].w === "70" && lm.log[0].r === "14" && lm.log[1].r === "12" && lm.log[2].r === "12", "Arbeitssätze: 70 kg × 14 / 12 / 12 vom letzten Mal");
 addWarmSet(lm); lm.log[0].done = true; addWarmSet(lm); lm.log[1].done = true; addWarmSet(lm);
 ok(lm.log[0].w === "25" && lm.log[0].r === "10" && lm.log[1].w === "40" && lm.log[1].r === "6" && lm.log[2].w === "40" && lm.log[2].r === "6", "Aufwärmsätze: 25×10, 40×6 vom letzten Mal, der dritte übernimmt den vorigen");
+// 27 Töne: sechs Signaltöne plus „Kein Ton“, Countdown wählbar
+ok(Object.keys(SOUNDS).length === 7 && Object.values(SOUNDS).filter((o) => o.parts).every((o) => o.dur > 0 && o.parts.every((q) => q[0] > 100 && q[1] > 0)), "Sechs Signaltöne und „Kein Ton“");
+let played = []; const _ps = playSnd; playSnd = (k) => played.push(k);
+S.sound = "schale"; gong(); S.sound = "aus"; gong(); S.tick = "tick"; beep(1046); S.tick = "aus"; beep(1046); S.tick = "piep"; beep(1046);
+ok(played.join(",") === "schale,tick,beep", "Gewählter Ton wird gespielt, „Aus“ bleibt still: " + played.join(","));
+playSnd = _ps; S.sound = "gong"; S.tick = "piep";
+// 28 Pilates/Mobility: Ansage und Signalton bei Start
+const said = [], snd = []; const _say = say, _gong = gong; say = (t) => said.push(t); gong = () => snd.push("g");
+S.active = { flow: true, type: "pilates", blocks: buildFlow("pilates").slice(0, 3), i: 0, phase: "ready", start: Date.now() };
+flowGoto(0, "prep"); flowGoto(0, "work");
+ok(said[0].startsWith("Gleich: ") && snd.length === 1, "Pilates: Ansage beim Bereitmachen, Signalton beim Start");
+say = _say; gong = _gong; S.active = null;
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
