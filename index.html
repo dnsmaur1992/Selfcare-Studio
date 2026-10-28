@@ -1629,7 +1629,7 @@ const TOUR = [
   { v: "home", demo: true, t: "Im Training", d: "Immer nur eine Übung: „Frei“ – los geht's, „Besetzt“ – sofort Ersatz. Gewicht und Wiederholungen vom letzten Mal stehen schon drin, du bestätigst nur noch. Bei großen Übungen fragt die App, ob du dich erst aufwärmen möchtest. ☰ zeigt die Übersicht, ♪ deine Musik." },
   { v: "lib", sel: '.tabs [data-v="lib"]', t: "Übungen", d: "Alle Übungen mit Animation, Tipps und typischen Fehlern. Praktisch, wenn du eine Übung vorher anschauen möchtest." },
   { v: "hist", sel: '.tabs [data-v="hist"]', t: "Verlauf", d: "Deine Einheiten mit allen Sätzen, Erfolge und Abzeichen, Fortschritt pro Übung, Wochenbelastung, Körpermaße und Gewicht." },
-  { v: "prof", sel: '.tabs [data-v="prof"]', t: "Profil", d: "Über dich, Satzpause, deine Figur, hell oder dunkel, Plan und Trainingstage, Geräte, Backup – und diese Tour, falls du sie nochmal sehen möchtest." },
+  { v: "prof", sel: '.tabs [data-v="prof"]', t: "Profil", d: "Über dich, Satzpause, Signalton und Ansage, deine Figur, hell oder dunkel, Plan und Trainingstage, Geräte, Backup – und diese Tour, falls du sie nochmal sehen möchtest." },
 ];
 function tourStart() { closeSheet(); U.tour = 0; go(TOUR[0].v); }
 function tourEnd() { U.tour = null; S.tourOffered = true; save(); document.getElementById("tour")?.remove(); document.documentElement.classList.remove("touring"); go("home"); }
