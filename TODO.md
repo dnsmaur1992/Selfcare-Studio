@@ -17,13 +17,18 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 ## Bewusst nicht umgesetzt
 - **Unhörbarer Dauerton** gegen das Einschlafen der Audioausgabe (Ringzeit-Idee): Er würde laufende Musik auf dem iPhone dauerhaft leiser stellen. Stattdessen Gong als echte Tondatei und Freischalten beim ersten Antippen.
 
+## Erledigt in Version 2.3
+- [x] Aufwärmsätze auf Nachfrage bei jeder großen Übung („Möchtest du einen Aufwärmsatz machen?“, danach „Noch ein Aufwärmsatz?“), mit Gewichtsvorschlag.
+- [x] Aufwärmsätze werden gespeichert, im Verlauf angezeigt und in der Gesamtlast (kg pro Training) mitgezählt; Sätze, Rekorde und Fortschritt zählen nur Arbeitssätze.
+- [x] Fokus-Block „Körperfett verlieren“: Muskeln halten, kürzere Pausen, 12 Min Ausdauer zum Schluss, Vergleich der Maße.
+- [x] „Übung hinzufügen“ scrollt wieder und ist nach Muskelgruppen gruppiert.
+- [x] App-Tour ohne Wischen und Scrollen.
+
 ## Erledigt in Version 2.2
 **Neu**
 - [x] „Was ist neu“ mit aufklappbaren früheren Versionen.
 - [x] „Deine Figur“: Frisur (Zopf, Dutt, Kurz, Lang offen, Cap, Ohne) und Haarfarbe, in Einrichtung und Profil, in allen Animationen. Voreinstellung Zopf.
 - [x] App-Tour mit Spotlight in 8 Stationen, Training als Beispiel ohne echte Einheit; einmal angeboten, jederzeit im Profil.
-- [x] Während der Tour kein Wischen oder Scrollen – weiter nur über „Weiter“, „Zurück“ oder „Tour beenden“.
-- [x] „Übung hinzufügen“ im Trainingsplan: Liste scrollt wieder (Fehler: Liste wurde im Fenster gestaucht und abgeschnitten), Übungen nach Muskelgruppen gruppiert, Filter und Gruppenüberschriften bleiben oben stehen, Position bleibt beim Hinzufügen erhalten.
 - [x] Zum Lesen: 6 Themen (Mythen-Check, Krafttraining ab 40, Rücken, Schlaf, Entlastungswochen, Ersatzübungen) mit Quellen, im Profil und in längeren Pausen.
 
 **Aus Ringzeit gelernt, Teil 2**
@@ -48,7 +53,7 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 - [x] Auszug für Physio oder Trainerin (letzte 4 Wochen).
 - [x] 6-Wochen-Check.
 - [x] README: Hochladen vom iPhone und „Actions“ erklärt.
-- [x] Tests erweitert (21 Prüfungen).
+- [x] Tests erweitert (21 Prüfungen, mit 2.3: 28).
 
 ## Erledigt in Version 2.1
 - [x] Zoomen mit zwei Fingern und per Doppeltipp verhindert (Viewport, `touch-action: manipulation`, `gesturestart` abgefangen, Eingabefelder ≥ 16 px).

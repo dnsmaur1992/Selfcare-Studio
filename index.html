@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.2">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.2">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.3">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.3">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.2">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.3">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -620,15 +620,22 @@ const LIMITS = {
   wrist: { n: "Handgelenk", ids: ["pushup", "pushup_incline", "benchdips", "kickback_kh", "conc_curl"] },
 };
 const limited = (id) => Object.keys(LIMITS).some((k) => (S.limits || {})[k] && LIMITS[k].ids.includes(id));
-const S_VERSION = "2.2";
-const NEWS = { v: "2.2", items: [
+const S_VERSION = "2.3";
+const NEWS = { v: "2.3", items: [
+  ["Aufwärmsätze auf Nachfrage", "Bei jeder großen Übung fragt die App: „Möchtest du einen Aufwärmsatz machen?“ – nach jedem Satz nochmal. Mit Vorschlag fürs Gewicht."],
+  ["Alles wird mitgezählt", "Aufwärmsätze werden gespeichert und stehen im Verlauf. Die bewegten Kilo zeigen die Gesamtlast inklusive Aufwärmen."],
+  ["Fokus „Körperfett verlieren“", "6 Wochen: Muskeln halten, kürzere Pausen und 12 Minuten Ausdauer zum Schluss. Am Ende vergleicht die App deine Maße."],
+  ["Übungen nach Muskelgruppe", "„Übung hinzufügen“ im Trainingsplan ist jetzt nach Muskelgruppen sortiert und scrollt wieder."],
+  ["Ruhige App-Tour", "Während der Tour lässt sich nichts mehr verschieben oder wegwischen – weiter nur über die Knöpfe."],
+], old: [
+  { v: "2.2", items: [
   ["Deine Figur", "Neben dem Outfit jetzt auch Frisur und Haarfarbe – Zopf, Dutt, kurz, lang, Cap oder ohne. Im Profil unter „Deine Figur“."],
   ["Erfolge zum Feiern", "Der Abschluss zeigt deinen Wochenring, eine goldene Karte bei kompletter Woche und deine Gesamtbilanz. Beim letzten Satz gibt's ein „Letzter Satz!“."],
   ["Pause, Nachholen, Fokus", "Krank oder im Urlaub? Der Plan ruht, deine Serie bleibt. Verpasste Einheiten nachholen oder auslassen, dazu 6-Wochen-Fokus-Blöcke und ein Fortschritts-Check."],
   ["Ton, der ankommt", "Gong als echte Tondatei, drei Pieptöne vor dem Start und ein „Ton testen“ im Profil. Tipp: Lautlos-Schalter aus."],
   ["Sicher & gesichert", "Backup-Erinnerung alle 30 Tage, Hinweise zur Sicherheit, ein Bericht für Physio oder Ärztin und Feedback direkt aus der App."],
   ["App-Tour & Zum Lesen", "Eine kurze Tour durch die App (Profil → App-Tour) und kurze Artikel zum Lesen in der Satzpause – mit Quellen."],
-], old: [
+] },
   { v: "2.1", items: [
   ["Training im Vollbild", "Immer nur die aktuelle Übung. Frei? Los geht's. Besetzt? Sofort eine Ersatzübung mit gleichem Reiz. Eigengewicht, Band und Ball fragen gar nicht erst."],
   ["Gewichte, die passen", "Schätzung für neue Übungen, Vorschlag nach jedem Satz, geschaffte Sätze zählen beim Tausch mit."],
@@ -1012,7 +1019,7 @@ function bestBefore(id, beforeDate) {
   return b;
 }
 function prsOf(sess) {
-  return (sess.items || []).map((it) => { const w = Math.max(0, ...(it.log || []).map((q) => num(q.w) || 0)); const b = bestBefore(it.ex, sess.date); return w > 0 && b > 0 && w > b ? { ex: it.ex, w, b } : null; }).filter(Boolean);
+  return (sess.items || []).map((it) => { const w = Math.max(0, ...(it.log || []).filter((q) => !q.warm).map((q) => num(q.w) || 0)); const b = bestBefore(it.ex, sess.date); return w > 0 && b > 0 && w > b ? { ex: it.ex, w, b } : null; }).filter(Boolean);
 }
 const prCount = () => S.sessions.reduce((a, s) => a + (s.prs || 0), 0);
 const totalSets = () => S.sessions.reduce((a, s) => a + setsOf(s), 0);
@@ -1230,16 +1237,26 @@ const FOCI = {
   po: { n: "Po aufbauen", sub: "Mehr Volumen für Po und Hüfte", groups: ["po", "abd", "ham"] },
   ruecken: { n: "Rücken stärken", sub: "Mehr Rücken, Rumpf und Schultern", groups: ["ruecken", "bauch", "schulter"] },
   kraft: { n: "Stärker werden", sub: "Schwere Sätze in jeder Einheit", groups: [], heavy: true },
+  fett: { n: "Körperfett verlieren", sub: "Muskeln halten, kürzere Pausen, 12 Min Ausdauer zum Schluss", groups: [], fat: true,
+    info: "Krafttraining hält die Muskeln, die Ausdauer am Ende und mehr Bewegung im Alltag verbrauchen zusätzlich Energie. Den größten Hebel hat die Ernährung – bei Fragen dazu hilft eine Ernährungsberatung oder deine Ärztin. Gemessen wird am Maßband, nicht an der Waage." },
 };
+const fatFocus = () => !!(focusOn() && FOCI[S.focus.id].fat);
+const FIN_SEC = 12 * 60;
 function focusWeek() { if (!S.focus) return 0; return Math.floor((Date.now() - new Date(S.focus.start)) / (7 * 864e5)) + 1; }
 const focusOn = () => !!(S.focus && focusWeek() <= 6);
 function focusFactor(g) { if (!focusOn()) return 1; const f = FOCI[S.focus.id]; if (!f.groups.length) return 1; return f.groups.includes(g) ? 1.3 : 0.9; }
 function bestNow(exIds) { const o = {}; exIds.forEach((id) => { const b = bestBefore(id, "9999"); if (b) o[id] = b; }); return o; }
 function focusExIds(f) { return EX.filter((x) => (f.groups.length ? f.groups.includes(primary(x)) : x.type === "c")).map((x) => x.id); }
+function lastMeas() { const L = S.measures || []; if (!L.length) return null; const o = {}; MEAS.forEach(([k]) => { const e = [...L].reverse().find((q) => q[k]); if (e) o[k] = e[k]; }); return o; }
 function focusCard() {
   if (!S.focus) return "";
   const f = FOCI[S.focus.id]; const w = focusWeek();
-  if (w <= 6) return `<div class="card" style="gap:8px"><div class="row between"><span class="eyebrow" style="color:var(--accent)">Fokus-Block</span><span class="small muted num">Woche ${w} von 6</span></div><b>${f.n}</b><div style="height:6px;border-radius:3px;background:var(--surface2);overflow:hidden"><div style="height:100%;width:${(w / 6) * 100}%;background:var(--accent)"></div></div></div>`;
+  if (w <= 6) return `<div class="card" style="gap:8px"><div class="row between"><span class="eyebrow" style="color:var(--accent)">Fokus-Block</span><span class="small muted num">Woche ${w} von 6</span></div><b>${f.n}</b>${f.info && w === 1 ? `<span class="small muted">${f.info}</span>` : ""}<div style="height:6px;border-radius:3px;background:var(--surface2);overflow:hidden"><div style="height:100%;width:${(w / 6) * 100}%;background:var(--accent)"></div></div></div>`;
+  if (f.fat) {
+    const a = S.focus.meas || {}; const b = lastMeas() || {};
+    const mrows = MEAS.filter(([k]) => a[k] && b[k] && a[k] !== b[k]).map(([k, n]) => `<div class="row between small"><span>${n}</span><span class="note ok num">${fmt(a[k])} → ${fmt(b[k])} cm</span></div>`).join("");
+    return `<div class="card" style="gap:8px;background:var(--mint)"><span class="eyebrow" style="color:var(--mint-ink)">Fokus-Block geschafft</span><b style="color:var(--mint-ink)">${f.n}: 6 Wochen durchgezogen!</b>${mrows || `<span class="small" style="color:var(--mint-ink)">Trag deine Maße unter Verlauf → Maße ein, dann siehst du hier den Vergleich.</span>`}<button class="btn sm" style="align-self:flex-start" data-a="focusend">Abschließen</button></div>`;
+  }
   const before = S.focus.base || {}; const now = bestNow(Object.keys(before));
   const rows = Object.keys(before).filter((id) => now[id] && now[id] !== before[id]).slice(0, 5).map((id) => `<div class="row between small"><span>${esc(EXM[id].n)}</span><span class="note ok num">${fmt(before[id])} → ${fmt(now[id])} kg</span></div>`).join("");
   return `<div class="card" style="gap:8px;background:var(--mint)"><span class="eyebrow" style="color:var(--mint-ink)">Fokus-Block geschafft</span><b style="color:var(--mint-ink)">${f.n}: 6 Wochen durchgezogen!</b>${rows || `<span class="small" style="color:var(--mint-ink)">Trag weiter deine Gewichte ein, dann siehst du beim nächsten Block den Vergleich.</span>`}<button class="btn sm" style="align-self:flex-start" data-a="focusend">Abschließen</button></div>`;
@@ -1300,14 +1317,14 @@ const isBW = (ex) => ex.eq.every((e) => e === "matte") || ex.eq.every((e) => e =
 function stepFor(ex) { if (isBW(ex)) return "2 Wdh. mehr oder langsamer"; if (ex.eq.includes("kh")) return "die nächstschwerere Hantel"; if (ex.eq.includes("kb")) return "die nächste Kettlebell"; return "+2,5 kg"; }
 function progressHint(item) {
   const last = lastFor(item.ex); if (!last) return "";
-  const done = last.it.log.filter((s) => s.done);
+  const done = last.it.log.filter((s) => s.done && !s.warm);
   const top = last.it.reps?.[1] || 0;
   if (done.length && done.every((s) => (num(s.r) || 0) >= top)) return `Ziel erreicht: heute ${stepFor(EXM[item.ex])} probieren`;
   return "";
 }
 function lastText(item) {
   const last = lastFor(item.ex); if (!last) return "";
-  const done = last.it.log.filter((s) => s.done); const ex = EXM[item.ex];
+  const done = last.it.log.filter((s) => s.done && !s.warm); const ex = EXM[item.ex];
   const ws = done.map((s) => num(s.w)).filter((x) => x != null);
   const reps = done.map((s) => s.r || "–").join(", ");
   const unit = ex.unit === "s" ? " Sek." : "";
@@ -1318,7 +1335,7 @@ function series(id) {
   const pts = [];
   S.sessions.forEach((s) => (s.items || []).forEach((it) => {
     if (it.ex !== id || !it.log) return;
-    const done = it.log.filter((x) => x.done);
+    const done = it.log.filter((x) => x.done && !x.warm);
     if (!done.length) return;
     const ws = done.map((x) => num(x.w)).filter((x) => x != null && x > 0);
     const rs = done.map((x) => num(x.r)).filter((x) => x != null);
@@ -1326,8 +1343,10 @@ function series(id) {
   }));
   return pts;
 }
-const volOf = (s) => (s.items || []).reduce((a, it) => a + (it.log || []).filter((x) => x.done).reduce((b, x) => b + (num(x.w) || 0) * (num(x.r) || 0), 0), 0);
-const setsOf = (s) => (s.items || []).reduce((a, it) => a + (it.log || []).filter((x) => x.done).length, 0);
+/* Gesamtlast inkl. Aufwärmsätze; Sätze zählen nur Arbeitssätze, Aufwärmsätze separat. */
+const volOf = (s, warmOnly) => (s.items || []).reduce((a, it) => a + (it.log || []).filter((x) => x.done && (!warmOnly || x.warm)).reduce((b, x) => b + (num(x.w) || 0) * (num(x.r) || 0), 0), 0);
+const setsOf = (s) => (s.items || []).reduce((a, it) => a + (it.log || []).filter((x) => x.done && !x.warm).length, 0);
+const warmSetsOf = (s) => (s.items || []).reduce((a, it) => a + (it.log || []).filter((x) => x.done && x.warm).length, 0);
 
 /* ---------------- Figuren ---------------- */
 const LEN = { torso: 34, ua: 17, fa: 16, th: 22, sh: 21 };
@@ -1721,9 +1740,10 @@ function vSetup() {
   const wk = thisWeek(); const slot = wk.slots.find((s) => s.id === U.setup.slotId); const info = slotInfo(slot);
   const items = setupItems(); const mini = U.setup.mode === "mini";
   const grp = info.groups.length ? info.groups : [...new Set(items.map((i) => i.g))];
-  const wMin = Math.round(warmSecs(buildWarm(grp, U.setup.mode, U.setup.day || S.dayType)) / 60 + (mini ? 0 : 2.5));
+  const wMin = Math.round(warmSecs(buildWarm(grp, U.setup.mode, U.setup.day || S.dayType)) / 60 + 0);
   const nowD = new Date(); const busyAhead = mini ? [] : items.filter((it) => it.ex && oftenBusy(EXM[it.ex], nowD)); const cMin = Math.max(3, Math.round(buildCool(grp).reduce((a, q) => a + q.sec + 10, 0) / 60));
-  const total = (mini ? 20 : estMin(items)) + (U.setup.warm !== false ? wMin : 0) + (U.setup.cool !== false ? cMin : 0);
+  const finOn = !mini && slot.type === "kraft" && fatFocus();
+  const total = (mini ? 20 : estMin(items)) + (U.setup.warm !== false ? wMin : 0) + (U.setup.cool !== false ? cMin : 0) + (finOn && U.setup.fin !== false ? FIN_SEC / 60 + 1 : 0);
   let eqs = [];
   if (!mini) {
     const set = new Set();
@@ -1750,7 +1770,8 @@ function vSetup() {
     ${mini ? `<div class="card" style="gap:10px"><b>Wie war dein Tag?</b><div class="stack" style="gap:8px">${Object.entries(DAYMOB).map(([k, o]) => `<button class="opt ${(U.setup.day || S.dayType || "mix") === k ? "on" : ""}" data-a="setupday" data-k="${k}"><b>${o.n}</b><span class="small muted">${o.sub}</span></button>`).join("")}</div></div>` : ""}
     ${busyAhead.length ? `<div class="card" style="background:var(--butter);gap:4px"><b style="color:var(--butter-ink)">Um diese Zeit oft besetzt</b><span class="small" style="color:var(--butter-ink)">${esc(busyAhead.map((it) => EXM[it.ex].n).join(", "))} ${busyAhead.length === 1 ? "kommt" : "kommen"} deshalb später dran.</span></div>` : ""}
     <div class="card" style="gap:12px">
-      <div class="row between"><div class="grow"><b>Aufwärmen · ca. ${wMin} Min</b><p class="small muted">${mini ? "Mobilisation und Andehnen passend zu deinem Tag, ohne Geräte" : "Cardio nach Wahl, Übungen passend zu deinen Muskelgruppen, 2 leichte Sätze vor der ersten großen Übung"}</p></div><button class="toggle ${U.setup.warm !== false ? "on" : ""}" data-a="sutoggle" data-k="warm" role="switch" aria-checked="${U.setup.warm !== false}" aria-label="Aufwärmen"></button></div>
+      <div class="row between"><div class="grow"><b>Aufwärmen · ca. ${wMin} Min</b><p class="small muted">${mini ? "Mobilisation und Andehnen passend zu deinem Tag, ohne Geräte" : "Cardio nach Wahl und Übungen passend zu deinen Muskelgruppen. Aufwärmsätze fragt die App bei jeder großen Übung extra ab."}</p></div><button class="toggle ${U.setup.warm !== false ? "on" : ""}" data-a="sutoggle" data-k="warm" role="switch" aria-checked="${U.setup.warm !== false}" aria-label="Aufwärmen"></button></div>
+      ${finOn ? `<div class="row between"><div class="grow"><b>Ausdauer zum Schluss · ${FIN_SEC / 60} Min</b><p class="small muted">Fokus „Körperfett verlieren“: zügig auf Rad, Laufband, Crosstrainer oder Rudergerät</p></div><button class="toggle ${U.setup.fin !== false ? "on" : ""}" data-a="sutoggle" data-k="fin" role="switch" aria-checked="${U.setup.fin !== false}" aria-label="Ausdauer zum Schluss"></button></div>` : ""}
       <div class="row between"><div class="grow"><b>Cool-down · ca. ${cMin} Min</b><p class="small muted">Dehnen für die trainierten Muskeln, mit Timer</p></div><button class="toggle ${U.setup.cool !== false ? "on" : ""}" data-a="sutoggle" data-k="cool" role="switch" aria-checked="${U.setup.cool !== false}" aria-label="Cool-down"></button></div>
     </div>
     <div class="card" style="gap:2px"><div class="row between"><h2>Dein Plan</h2><span class="small muted num">insgesamt ca. ${total} Min</span></div>${rows}</div>
@@ -1838,14 +1859,23 @@ function prepItem(it, warmSets) {
   it.log = makeLog(it);
   const est = estWeight(it);
   if (est) { it.log.forEach((s) => { if (!s.w) s.w = String(est.w).replace(".", ","); }); it.est = est.est; }
-  if (warmSets && !isBW(x) && x.type === "c") {
-    const w = num(it.log[0]?.w);
-    const ws = (f, r) => ({ w: w ? String(roundW(x, w * f)).replace(".", ",") : "", r: String(r), done: false, warm: true });
-    it.log.unshift(ws(0.5, 10), ws(0.75, 5));
-  }
+  it.warmAsk = !!(warmSets && !isBW(x) && x.type === "c");
   return it;
 }
-function restFor(ex) { if (S.active?.type === "mini") return 45; return ex.type === "c" ? (S.heavy ? Math.max(S.restC, 120) : S.restC) : S.restI; }
+/* Aufwärmsätze: Bei großen Übungen mit Gewicht fragt die App vor dem ersten Arbeitssatz, ob ein Aufwärmsatz gewünscht ist – nach jedem Aufwärmsatz erneut. */
+const WARM_STEPS = [[0.5, 10], [0.7, 6], [0.85, 3], [0.9, 2]];
+const warmAskNow = (it) => !!(it && it.warmAsk && !it.log.some((q) => q.done && !q.warm) && !it.log.some((q) => q.warm && !q.done));
+function addWarmSet(it) {
+  const x = EXM[it.ex]; const n = it.log.filter((q) => q.warm).length; const [f, r] = WARM_STEPS[Math.min(n, WARM_STEPS.length - 1)];
+  const w = num(it.log.find((q) => !q.warm)?.w);
+  const j = it.log.findIndex((q) => !q.done);
+  it.log.splice(j < 0 ? it.log.length : j, 0, { w: w ? String(roundW(x, w * f)).replace(".", ",") : "", r: String(r), done: false, warm: true });
+}
+function restFor(ex) {
+  if (S.active?.type === "mini") return 45;
+  const r = ex.type === "c" ? (S.heavy ? Math.max(S.restC, 120) : S.restC) : S.restI;
+  return fatFocus() ? Math.max(45, Math.round((r * 0.75) / 5) * 5) : r;
+}
 const curStep = () => S.active.steps[S.active.pos];
 function goStep(pos) {
   const A = S.active; A.pos = pos; A.msg = ""; A.paused = 0;
@@ -1873,7 +1903,7 @@ function setDone() {
       else if (r >= lo && r <= hi) A.msg = "Passt. Gewicht beibehalten.";
     } else if (isBW(x) && r >= hi && nx.length) A.msg = "Ging gut. Nächster Satz langsamer: 3 Sek. runter, unten kurz halten.";
   }
-  if (j === 0 && s.warm) { const w0 = num(it.log.find((q) => !q.warm)?.w); if (w0) A.msg = `Aufwärmsatz geschafft. Arbeitsgewicht: ${fmt(w0)} kg.`; }
+  if (s.warm) { const w0 = num(it.log.find((q) => !q.warm)?.w); A.msg = w0 ? `Aufwärmsatz geschafft. Arbeitsgewicht: ${fmt(w0)} kg.` : "Aufwärmsatz geschafft."; }
   const more = it.log.some((q) => !q.done);
   const rest = s.warm ? 45 : restFor(x);
   A.ph = "rest"; A.end = Date.now() + rest * 1000; A.total = rest; A.restNext = more ? "set" : "step"; A.beeped = false;
@@ -1883,7 +1913,7 @@ function restEnd() {
   const A = S.active; gong(); if (U.sheet && U.sheet.isRead) U.sheet = null;
   if (A.restNext === "set") { const it = itemById(curStep().id); const j = it.log.findIndex((s) => !s.done); const s = it.log[j]; const nw = workSets(it).indexOf(s);
     const last = !s.warm && nw === workSets(it).length - 1;
-    const txt = s.warm ? "Weiter: Aufwärmsatz" : `${last ? "Letzter Satz" : "Weiter: Satz " + (nw + 1)}${s.w && !isBW(EXM[it.ex]) ? ", " + s.w.replace(",", " Komma ") + " Kilo" : ""}`;
+    const txt = warmAskNow(it) ? "Noch ein Aufwärmsatz?" : s.warm ? "Weiter: Aufwärmsatz" : `${last ? "Letzter Satz" : "Weiter: Satz " + (nw + 1)}${s.w && !isBW(EXM[it.ex]) ? ", " + s.w.replace(",", " Komma ") + " Kilo" : ""}`;
     setTimeout(() => say(txt), 1100);
     A.ph = "sets"; save(); render(); flash(); }
   else advance();
@@ -1896,7 +1926,7 @@ function swapTo(id, xid, confirmed) {
   let ni;
   if (A.type === "mini") ni = { g: it.g, e: 3, ex: xid, ideal: it.ideal || xid, sets: Math.max(1, 3 - done.length), reps: baseReps(x), note: `Statt ${ideal.n}`, why: "" };
   else ni = makeItem(it.g, done.length ? remainingE(it) : it.e, x, ideal, it.rr, done.length > 0);
-  ni.id = uid(); prepItem(ni, it.log.some((q) => q.warm && !q.done)); ni.confirmed = confirmed !== false; S.flags.swap = true;
+  ni.id = uid(); prepItem(ni, A.type !== "mini" && !done.length); ni.confirmed = confirmed !== false; S.flags.swap = true;
   if (done.length) ni.why = `${done.length} ${done.length === 1 ? "Satz zählt" : "Sätze zählen"} schon mit`;
   if (done.length) { it.closed = true; it.log = it.log.filter((s) => s.done); A.items.splice(A.items.indexOf(it) + 1, 0, ni); }
   else A.items[A.items.indexOf(it)] = ni;
@@ -1952,12 +1982,12 @@ function startTrain() {
   const wk = thisWeek(); const slot = wk.slots.find((s) => s.id === U.setup.slotId); const info = slotInfo(slot);
   const mode = U.setup.mode; const mini = mode === "mini";
   const warm = U.setup.warm !== false, cool = U.setup.cool !== false;
-  let first = true;
   const nowD = new Date(); const raw = setupItems().filter((i) => i.ex);
   const ordered = mini ? raw : [...raw.filter((i) => !oftenBusy(EXM[i.ex], nowD)), ...raw.filter((i) => oftenBusy(EXM[i.ex], nowD))];
-  const items = ordered.map((it) => { const w = warm && first && !mini && !isBW(EXM[it.ex]) && EXM[it.ex].type === "c"; if (w) first = false; return prepItem({ ...it }, w); });
+  const items = ordered.map((it) => prepItem({ ...it }, !mini));
   const groups = info.groups.length ? info.groups : [...new Set(items.map((i) => i.g))];
-  const steps = [...(warm ? buildWarm(groups, mode, U.setup.day || S.dayType) : []), ...items.map((it) => ({ k: "item", id: it.id })), ...(cool ? buildCool(groups) : [])];
+  const fin = !mini && fatFocus() && U.setup.fin !== false;
+  const steps = [...(warm ? buildWarm(groups, mode, U.setup.day || S.dayType) : []), ...items.map((it) => ({ k: "item", id: it.id })), ...(fin ? [{ k: "cardio", sec: FIN_SEC, sect: "fin" }] : []), ...(cool ? buildCool(groups) : [])];
   S.active = { id: uid(), slotId: slot.id, type: mini ? "mini" : "kraft", name: mini ? "Mini-Training" : info.name + (mode === "kurz" ? " (kurz)" : ""), groups, start: Date.now(), busyAt: {}, items, steps, pos: 0, ph: "", msg: "" };
   wakeLock(); audioSetup(); U.view = "train"; goStep(0);
 }
@@ -1978,7 +2008,7 @@ function trainTick() {
   else if (A.ph === "rest") restEnd();
 }
 /* Ansicht */
-const SECT = { warm: "Aufwärmen", cool: "Cool-down" };
+const SECT = { warm: "Aufwärmen", cool: "Cool-down", fin: "Ausdauer" };
 function trainTop() {
   const A = S.active; const st = curStep(); const n = A.steps.length;
   const segs = A.steps.map((q, i) => `<i class="${i < A.pos ? "d" : i === A.pos ? "c" : ""} ${q.sect || "m"}"></i>`).join("");
@@ -1995,13 +2025,15 @@ function vTrain() {
   const fmtT = (s) => (s >= 60 ? Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0") : String(s));
   if (st.k === "cardio" && A.ph === "pick") {
     const opts = CARDIO.filter((c) => !c.eq || S.equip[c.eq] !== false);
-    body = `<div class="stack" style="gap:6px"><h1>Erst mal <em>warm</em> werden.</h1><p class="muted">${Math.round(st.sec / 60)} Minuten locker, die letzte Minute etwas zügiger. Welches Gerät ist frei?</p></div>
+    body = st.sect === "fin" ? `<div class="stack" style="gap:6px"><span class="eyebrow">Fokus · Körperfett verlieren</span><h1>Zum Schluss <em>Ausdauer</em>.</h1><p class="muted">${Math.round(st.sec / 60)} Minuten zügig: Du kommst ins Schwitzen, kannst aber noch in ganzen Sätzen sprechen. Welches Gerät ist frei?</p></div>`
+      : `<div class="stack" style="gap:6px"><h1>Erst mal <em>warm</em> werden.</h1><p class="muted">${Math.round(st.sec / 60)} Minuten locker, die letzte Minute etwas zügiger. Welches Gerät ist frei?</p></div>`;
+    body += `
       <div class="cardio">${opts.map((c) => `<button class="opt" data-a="cardio" data-x="${c.id}">${figSVG(c.id, "", "s")}<b>${esc(EXM[c.id].n)}</b></button>`).join("")}</div>`;
-    bar = `<button class="btn ghost" data-a="tr-skipwarm">Aufwärmen überspringen</button>`;
+    bar = st.sect === "fin" ? `<button class="btn ghost" data-a="tr-skipfin">Ausdauer heute auslassen</button>` : `<button class="btn ghost" data-a="tr-skipwarm">Aufwärmen überspringen</button>`;
   } else if (st.k === "cardio" || st.k === "timed") {
     const x = EXM[st.ex]; const nx = A.steps[A.pos + 1];
     const left = A.paused ? Math.ceil(A.paused / 1000) : Math.max(0, Math.ceil((A.end - Date.now()) / 1000));
-    body = `<div class="stack" style="gap:2px;text-align:center"><span class="eyebrow">${A.ph === "prep" ? "Gleich geht's los" : st.sect === "cool" ? "Dehnen & atmen" : "Locker bewegen"}${st.side ? " · " + st.side : ""}</span><h1 class="tr-name">${esc(x.n)}</h1></div>
+    body = `<div class="stack" style="gap:2px;text-align:center"><span class="eyebrow">${A.ph === "prep" ? "Gleich geht's los" : st.sect === "cool" ? "Dehnen & atmen" : st.sect === "fin" ? "Zügig bewegen" : "Locker bewegen"}${st.side ? " · " + st.side : ""}</span><h1 class="tr-name">${esc(x.n)}</h1></div>
       ${figSVG(x.id, "", "tr-fig")}
       ${ring(st.sect === "cool" ? "calm" : "", A.ph === "prep" ? left : fmtT(left), A.paused ? "Pause" : A.ph === "prep" ? "Bereit machen" : left >= 60 ? "Restzeit" : "Sekunden")}
       <p class="small muted" style="text-align:center">${esc(x.tips[0] || "")}</p>
@@ -2022,6 +2054,17 @@ function vTrain() {
           <div class="row" style="justify-content:center;gap:18px;flex-wrap:wrap">${hasLater() ? `<button class="small link" data-a="later">Später nochmal fragen</button>` : ""}<button class="small link" style="color:var(--muted)" data-a="swap">Andere wählen</button><button class="small link" style="color:var(--muted)" data-a="noequip">Gibt's hier nicht</button></div>
           ${ideal ? `<button class="small link" data-a="backideal">${esc(ideal.n)} ist jetzt frei</button>` : ""}
         </div>`;
+    } else if (A.ph === "sets" && warmAskNow(it)) {
+      const nW0 = it.log.filter((q) => q.warm).length; const w1 = num(W[0]?.w); const [f, r] = WARM_STEPS[Math.min(nW0, WARM_STEPS.length - 1)];
+      const sug = w1 ? `${fmt(roundW(x, w1 * f))} kg × ${r}` : `leicht × ${r}`;
+      body = `${figSVG(x.id, it.g, "tr-fig")}${head}
+        <div class="card ask"><b style="font-size:19px">${nW0 ? "Noch ein Aufwärmsatz?" : "Möchtest du einen Aufwärmsatz machen?"}</b>
+          <p class="small muted" style="text-align:center">${nW0 ? `${nW0} ${nW0 === 1 ? "Aufwärmsatz" : "Aufwärmsätze"} geschafft. ` : ""}Vorschlag: ${sug}${w1 ? ` · Arbeitsgewicht ${fmt(w1)} kg` : ""}</p>
+          <button class="btn big ${nW0 ? "line" : ""}" data-a="warmyes">${nW0 ? "Ja, noch einer" : "Ja, Aufwärmsatz"}</button>
+          <button class="btn big ${nW0 ? "" : "line"}" data-a="warmno">${nW0 ? "Nein, los geht's" : "Nein, direkt loslegen"}</button>
+          ${it.log.some((q) => q.done) ? `<div class="row" style="flex-wrap:wrap;gap:6px;justify-content:center">${it.log.filter((q) => q.done).map((q) => `<span class="chip tag okc num">A ${q.w && !bw ? q.w + "×" : ""}${q.r}</span>`).join("")}</div>` : ""}
+        </div>`;
+      bar = "";
     } else if (A.ph === "sets") {
       const j = it.log.findIndex((s) => !s.done); const s = it.log[j] || it.log[it.log.length - 1];
       const nW = W.indexOf(s) + 1; const nWarm = it.log.filter((q) => q.warm).indexOf(s) + 1;
@@ -2029,7 +2072,7 @@ function vTrain() {
       const lt = lastText(it);
       body = `${figSVG(x.id, it.g, "tr-fig")}${head}
         <div class="card setc">
-          <div class="row between"><span class="eyebrow" style="color:var(--accent)">${s.warm ? `Aufwärmsatz ${nWarm} von 2 · leicht` : `Satz ${nW} von ${W.length}`}${!s.warm && nW === 1 && it.est ? " · Testsatz" : ""}${!s.warm && W.length > 1 && nW === W.length ? ` <span class="lastset">Letzter Satz!</span>` : ""}</span><button class="small link" data-a="info" data-x="${x.id}">Tipps</button></div>
+          <div class="row between"><span class="eyebrow" style="color:var(--accent)">${s.warm ? `Aufwärmsatz ${nWarm} · leicht` : `Satz ${nW} von ${W.length}`}${!s.warm && nW === 1 && it.est ? " · Testsatz" : ""}${!s.warm && W.length > 1 && nW === W.length ? ` <span class="lastset">Letzter Satz!</span>` : ""}</span><button class="small link" data-a="info" data-x="${x.id}">Tipps</button></div>
           ${!bw ? `<div class="stp"><span class="lbl">Gewicht</span><button class="pm" data-a="sw" data-v="-1" aria-label="weniger Gewicht">−</button><input id="sw" class="num" inputmode="decimal" value="${esc(s.w)}" placeholder="kg" data-in="sw" aria-label="Gewicht in kg"><button class="pm" data-a="sw" data-v="1" aria-label="mehr Gewicht">+</button><span class="u">kg</span></div>` : `<div class="small muted" style="text-align:center">${x.eq.includes("band") ? "Mit Band" : "Mit Körpergewicht"}</div>`}
           <div class="stp"><span class="lbl">${unit === "Sek." ? "Sekunden" : "Wiederh."}</span><button class="pm" data-a="sr" data-v="-1" aria-label="weniger">−</button><input id="sr" class="num" inputmode="numeric" value="${esc(target)}" data-in="sr" aria-label="${unit}"><button class="pm" data-a="sr" data-v="1" aria-label="mehr">+</button><span class="u">${s.warm ? "" : `${it.reps[0]}–${it.reps[1]}`}</span></div>
           ${!s.warm && nW === 1 && it.est ? `<p class="small muted">Geschätzt aus einer ähnlichen Übung. Nimm ein Gewicht, mit dem du ${it.reps[1]} Wdh. schaffen würdest, aber nicht mehr.</p>` : ""}
@@ -2043,8 +2086,8 @@ function vTrain() {
     } else if (A.ph === "rest") {
       const left = A.paused ? Math.ceil(A.paused / 1000) : Math.max(0, Math.ceil((A.end - Date.now()) / 1000));
       let next = "";
-      if (A.restNext === "set") { const s = it.log.find((q) => !q.done); next = `${s.warm ? "Aufwärmsatz" : `Satz ${W.indexOf(s) + 1} von ${W.length}`}${s.w && !bw ? ` · ${s.w} kg` : ""}`; }
-      else { const ns = A.steps[A.pos + 1]; next = ns ? (ns.k === "item" ? EXM[itemById(ns.id).ex].n : "Cool-down: " + EXM[ns.ex].n) : "Abschluss"; }
+      if (A.restNext === "set") { const s = it.log.find((q) => !q.done); next = warmAskNow(it) ? "Noch ein Aufwärmsatz – oder los" : `${s.warm ? "Aufwärmsatz" : `Satz ${W.indexOf(s) + 1} von ${W.length}`}${s.w && !bw ? ` · ${s.w} kg` : ""}`; }
+      else { const ns = A.steps[A.pos + 1]; next = ns ? (ns.k === "item" ? EXM[itemById(ns.id).ex].n : ns.sect === "fin" ? "Ausdauer, 12 Minuten" : "Cool-down: " + (EXM[ns.ex]?.n || "")) : "Abschluss"; }
       const nsx = A.restNext === "step" && A.steps[A.pos + 1] ? (A.steps[A.pos + 1].k === "item" ? itemById(A.steps[A.pos + 1].id).ex : A.steps[A.pos + 1].ex) : it.ex;
       body = `<div class="stack" style="gap:2px;text-align:center"><span class="eyebrow">Pause</span><h1 class="tr-name">${A.restNext === "set" ? "Kurz durchatmen" : "Geschafft!"}</h1></div>
         ${ring("", Math.floor(left / 60) + ":" + String(left % 60).padStart(2, "0"), "Pause")}
@@ -2078,14 +2121,14 @@ function finishPrompt(auto) {
 }
 function finishSession() {
   const A = S.active;
-  const items = A.items.map((it) => ({ g: it.g, ex: it.ex, reps: it.reps, note: it.note, log: it.log.filter((s) => s.done && !s.warm) })).filter((it) => it.log.length);
+  const items = A.items.map((it) => ({ g: it.g, ex: it.ex, reps: it.reps, note: it.note, log: it.log.filter((s) => s.done) })).filter((it) => it.log.some((s) => !s.warm));
   const dur = Math.max(1, Math.round((Date.now() - A.start) / 60000));
   const prev = {}; items.forEach((it) => { const p = series(it.ex); prev[it.ex] = p.length ? p[p.length - 1] : null; });
   const sess = { id: A.id, slotId: A.slotId, type: A.type, name: A.name, groups: A.groups, date: new Date().toISOString(), dur, items, warm: A.steps.some((q) => q.sect === "warm") };
   const prs = prsOf(sess); sess.prs = prs.length;
   S.sessions.push(sess); S.active = null; const badges = checkBadges(); save();
   const ups = items.map((it) => {
-    const p = prev[it.ex]; const ws = it.log.map((s) => num(s.w)).filter((v) => v != null); const rs = it.log.map((s) => num(s.r)).filter((v) => v != null);
+    const p = prev[it.ex]; const wl = it.log.filter((s) => !s.warm); const ws = wl.map((s) => num(s.w)).filter((v) => v != null); const rs = wl.map((s) => num(s.r)).filter((v) => v != null);
     const w = ws.length ? Math.max(...ws) : null, r = rs.length ? Math.max(...rs) : null;
     if (!p) return null;
     if (w != null && p.w != null && w > p.w) return { n: EXM[it.ex].n, t: `${fmt(p.w)} → ${fmt(w)} kg` };
@@ -2140,6 +2183,7 @@ function vDone() {
       <div class="tile"><b data-count="${sess.dur}">${sess.dur}</b><span>${sess.dur === 1 ? "Minute" : "Minuten"}</span></div>
       ${flow ? `<div class="tile"><b data-count="${sess.items.length}">${sess.items.length}</b><span>Positionen</span></div><div class="tile"><b data-count="${new Set(sess.items.map((i) => i.ex)).size}">${new Set(sess.items.map((i) => i.ex)).size}</b><span>Übungen</span></div>` : `<div class="tile"><b data-count="${setsOf(sess)}">${setsOf(sess)}</b><span>Sätze</span></div><div class="tile"><b data-count="${fmt(volOf(sess) / 1000, 1)}" data-dec="1">${fmt(volOf(sess) / 1000, 1)}</b><span>Tonnen bewegt</span></div>`}
     </div>
+    ${!flow && warmSetsOf(sess) ? `<p class="small muted" style="margin-top:-6px">${setsOf(sess)} ${setsOf(sess) === 1 ? "Arbeitssatz" : "Arbeitssätze"} und ${warmSetsOf(sess)} ${warmSetsOf(sess) === 1 ? "Aufwärmsatz" : "Aufwärmsätze"} · insgesamt ${fmt(volOf(sess), 0)} kg, davon ${fmt(volOf(sess, true), 0)} kg beim Aufwärmen.</p>` : ""}
     ${weekRingCard()}
     ${prs.length ? `<div class="card pr" style="gap:8px"><span class="eyebrow" style="color:var(--accent)">Neuer Rekord</span>${prs.map((p) => `<div class="row between"><b>${esc(EXM[p.ex].n)}</b><span class="note num">${fmt(p.b)} → ${fmt(p.w)} kg</span></div>`).join("")}</div>` : ""}
     ${badges.length ? `<div class="card" style="gap:10px"><span class="eyebrow">Neues Abzeichen</span><div class="badges">${badges.map((b) => `<div class="badge on pop">${MEDAL}<span>${b.n}</span></div>`).join("")}</div></div>` : ""}
@@ -2272,8 +2316,8 @@ function vHist() {
     [...S.sessions].reverse().forEach((s) => { const k = weekKey(new Date(s.date)); (byWeek[k] = byWeek[k] || []).push(s); });
     body += Object.entries(byWeek).map(([k, ss]) => `<div class="stack"><span class="eyebrow">Woche ${weekNo(k)}</span><div class="list">${ss.map((s) => {
       const d = new Date(s.date);
-      const sub = s.flow ? `${s.dur} Min · ${s.items.length} Positionen` : `${setsOf(s)} ${setsOf(s) === 1 ? "Satz" : "Sätze"} · ${fmt(volOf(s), 0)} kg · ${s.dur} Min`;
-      const detail = s.flow ? [...new Set(s.items.map((i) => EXM[i.ex]?.n))].map((n) => `<div class="small">${esc(n)}</div>`).join("") : s.items.map((it) => { const x = EXM[it.ex]; return `<div class="row between" style="align-items:flex-start"><span class="small">${esc(x?.n || it.ex)}</span><span class="small muted num" style="text-align:right">${it.log.map((l) => (num(l.w) ? fmt(num(l.w)) + "×" : "") + (l.r || "–")).join(", ")}</span></div>`; }).join("");
+      const sub = s.flow ? `${s.dur} Min · ${s.items.length} Positionen` : `${setsOf(s)} ${setsOf(s) === 1 ? "Satz" : "Sätze"}${warmSetsOf(s) ? ` + ${warmSetsOf(s)} Aufw.` : ""} · ${fmt(volOf(s), 0)} kg${volOf(s, true) ? ` (davon ${fmt(volOf(s, true), 0)} kg Aufw.)` : ""} · ${s.dur} Min`;
+      const detail = s.flow ? [...new Set(s.items.map((i) => EXM[i.ex]?.n))].map((n) => `<div class="small">${esc(n)}</div>`).join("") : s.items.map((it) => { const x = EXM[it.ex]; return `<div class="row between" style="align-items:flex-start"><span class="small">${esc(x?.n || it.ex)}</span><span class="small muted num" style="text-align:right">${it.log.map((l) => (l.warm ? `<span style="opacity:.6">A ` : "") + (num(l.w) ? fmt(num(l.w)) + "×" : "") + (l.r || "–") + (l.warm ? "</span>" : "")).join(", ")}</span></div>`; }).join("");
       return `<details class="hist li" style="display:block"><summary><div class="row between"><div class="stack" style="gap:1px"><b>${esc(s.name)}</b><span class="small muted">${sub}</span></div><span class="small muted">${dRow(d)}</span></div></summary><div class="stack" style="margin-top:10px">${detail}<button class="link" style="color:var(--warn);text-align:left;font-size:13px" data-a="delsess" data-id="${s.id}">Einheit löschen</button></div></details>`;
     }).join("")}</div></div>`).join("");
   } else {
@@ -2635,7 +2679,7 @@ document.addEventListener("click", (e) => {
     case "skipslot": { const s = thisWeek().slots.find((x) => x.id === d.s); s.skipped = true; save(); render(); toast("Ausgelassen", () => { delete s.skipped; }); break; }
     case "unskip": { const s = thisWeek().slots.find((x) => x.id === d.s); delete s.skipped; s.missedOk = true; save(); closeSheet(); render(); break; }
     case "focusopen": openSheet(focusSheet); break;
-    case "focusstart": { const f = FOCI[d.k]; S.focus = { id: d.k, start: new Date().toISOString(), base: bestNow(focusExIds(f)) }; save(); closeSheet(); render(); toast(`Fokus-Block „${f.n}“ gestartet`); break; }
+    case "focusstart": { const f = FOCI[d.k]; S.focus = { id: d.k, start: new Date().toISOString(), base: bestNow(focusExIds(f)), meas: lastMeas() }; save(); closeSheet(); render(); toast(f.fat && !lastMeas() ? "Tipp: Trag zum Start deine Maße ein – Verlauf → Maße." : `Fokus-Block „${f.n}“ gestartet`); break; }
     case "focusend": S.focus = null; save(); closeSheet(); render(); break;
     case "checkopen": openSheet(checkSheet); break;
     case "checkdone": S.lastCheck = new Date().toISOString(); save(); closeSheet(); render(); break;
@@ -2698,6 +2742,9 @@ document.addEventListener("click", (e) => {
     case "go-train": startTrain(); break;
     case "setdone": setDone(); break;
     case "cardio": { const A = S.active; const st = curStep(); st.ex = d.x; st.eq = (CARDIO.find((c) => c.id === d.x) || {}).eq || ""; if (st.eq) markBusy([]); A.ph = "prep"; A.end = Date.now() + 10000; say(`Gleich: ${EXM[d.x].n}`); save(); render(); break; }
+    case "warmyes": { const it = itemById(curStep().id); addWarmSet(it); S.active.msg = ""; save(); render(); break; }
+    case "warmno": { const it = itemById(curStep().id); it.warmAsk = false; S.active.msg = ""; save(); render(); break; }
+    case "tr-skipfin": { const A = S.active; const p = A.steps.findIndex((q, i) => i > A.pos && q.sect !== "fin"); goStep(p < 0 ? A.steps.length : p); break; }
     case "tr-skipwarm": { const A = S.active; const p = A.steps.findIndex((q) => q.k === "item"); goStep(p < 0 ? A.steps.length : p); break; }
     case "tr-prev": goStep(Math.max(0, S.active.pos - 1)); break;
     case "tr-next": advance(); break;

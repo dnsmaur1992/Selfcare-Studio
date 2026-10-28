@@ -49,7 +49,7 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 ### Plan, der zu dir passt
 - **Geführte Einrichtung** in fünf Schritten: Name und Figur, Ziel, Häufigkeit, Wochenplan, „So läuft dein Training“
 - **Trainingstage frei wählbar**, jederzeit verschiebbar, in einer vollen Woche zusammenlegbar
-- **Automatisch oder selbst gebaut:** Muskelgruppen wählen und die App sucht die Übungen aus – oder eigene Übungen mit Sätzen und Wiederholungen zusammenstellen
+- **Automatisch oder selbst gebaut:** Muskelgruppen wählen und die App sucht die Übungen aus – oder eigene Übungen mit Sätzen und Wiederholungen zusammenstellen, nach Muskelgruppen sortiert
 - **Ziel:** Muskelaufbau mit eher höheren Wiederholungen (Standard), klassischer Aufbau oder Kraftausdauer; optional einige schwerere Sätze für Knochen und Muskelerhalt
 - **Rücksicht auf Einschränkungen:** Rücken, Knie, Schulter, Handgelenk
 - **106 Kraftübungen** an über 30 Geräten und mit Kleingerät, dazu 36 Pilates-, Mobility-, Aufwärm- und Dehnübungen – alle mit Animation und Ausführungstipps, viele mit typischem Fehler
@@ -58,13 +58,14 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 - **„Ist das Gerät frei?“** bei jeder Übung – bei Matte, Band und Ball fragt die App gar nicht erst
 - **Besetzt?** Sofort eine Ersatzübung mit **gleichem Bewegungsmuster**, Sätze und Wiederholungen umgerechnet; bereits geschaffte Sätze zählen mit
 - **Später nochmal fragen**, **Gibt's hier nicht** (Gerät wird ausgeblendet), **Original ist jetzt frei**
+- **Aufwärmsätze auf Nachfrage:** bei jeder großen Übung „Möchtest du einen Aufwärmsatz machen?“ mit Gewichtsvorschlag – gespeichert und in der Gesamtlast mitgezählt
 - **Gewicht:** letztes Gewicht vorausgefüllt; bei neuen Übungen geschätzt aus ähnlichen Übungen (Testsatz); nach jedem Satz ein Vorschlag für mehr oder weniger
 - **Pausen im Vollbild** mit Ring, Gong und Sprachansage – über die laufende Musik
 - **Die App lernt dein Studio:** Geräte, die zu bestimmten Zeiten oft besetzt sind, kommen dann später dran
 - **♪-Knopf** öffnet deine Playlist
 
 ### Aufwärmen und Cool-down
-- **10–15 Minuten Aufwärmen:** Cardio am freien Gerät, Aktivierung passend zu den Muskelgruppen, zwei Aufwärmsätze
+- **10–15 Minuten Aufwärmen:** Cardio am freien Gerät, Aktivierung passend zu den Muskelgruppen
 - **Mini-Training (30 Min, nur Körpergewicht)** für müde Tage – mit 5 Minuten Mobilisation passend zum Alltag: viel gesessen, viel gestanden, viel gehoben
 - **Cool-down:** Dehnen der trainierten Muskeln mit Timer
 - **Pilates und Mobility** als eigene 30-Minuten-Einheiten, frei in der Woche planbar
@@ -73,7 +74,7 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 - **Pause eintragen** (krank, verletzt, Urlaub): Der Plan ruht, die Wochenserie bleibt, danach sanfter Wiedereinstieg
 - **Verpasste Einheiten** nachholen oder auslassen – mit Rückgängig
 - **Warnung**, wenn dieselben Muskeln zwei Tage hintereinander dran wären
-- **Fokus-Blöcke** über 6 Wochen: Po aufbauen, Rücken stärken oder Stärker werden – mit Vorher-nachher-Vergleich
+- **Fokus-Blöcke** über 6 Wochen: Po aufbauen, Rücken stärken, Stärker werden oder Körperfett verlieren (kürzere Pausen, 12 Min Ausdauer zum Schluss, Vergleich der Maße) – mit Vorher-nachher-Vergleich
 - **6-Wochen-Check** und ein **Auszug für Physio oder Trainerin**
 - **Anstrengung nach jeder Einheit** mit einem Tipp
 - **Entlastungswochen** automatisch – geplant oder wenn die letzten Einheiten sehr hart waren
