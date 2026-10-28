@@ -86,6 +86,11 @@ wi.log[1].done = true; wi.log[2].done = true; wi.log[2].r = "12";
 const ws = { items: [{ ex: "ht_m", log: wi.log }] };
 ok(setsOf(ws) === 1 && warmSetsOf(ws) === 2 && volOf(ws) === 30 * 10 + num(wi.log[1].w) * 6 + 60 * 12 && volOf(ws, true) === 300 + num(wi.log[1].w) * 6, "Gesamtlast inkl. Aufwärmen, Sätze ohne: " + volOf(ws) + " kg");
 ok(!prepItem({ g: "po", e: 3, ex: "bridge", ideal: "bridge", sets: 3, reps: [12, 20] }, true).warmAsk, "Körpergewicht: keine Aufwärmfrage");
+// 21b Rückweg: Aufwärmsatz abbrechen bzw. statt Arbeitssatz nachträglich einschieben
+const fi = prepItem({ g: "po", e: 3, ex: "lateral_kh", ideal: "lateral_kh", sets: 3, reps: [12, 20] }, true); fi.log.forEach((q) => (q.w = "8"));
+ok(!fi.warmAsk, "Isolationsübung: keine automatische Frage");
+addWarmSet(fi); fi.warmAsk = true; ok(fi.log[0].warm && !fi.log[0].done && fi.log.filter((q) => !q.warm).length === 3, "„Stattdessen erst einen Aufwärmsatz“ schiebt einen Satz vor den ersten Arbeitssatz");
+fi.log.splice(0, 1); fi.warmAsk = false; ok(!fi.log.some((q) => q.warm) && !warmAskNow(fi), "„Doch kein Aufwärmsatz“ führt direkt zum Arbeitssatz");
 // 22 Fokus Körperfett: kürzere Pausen, Volumen bleibt
 S.focus = { id: "fett", start: new Date().toISOString() };
 ok(fatFocus() && restFor({ type: "c" }) < S.restC && restFor({ type: "i" }) >= 45 && focusFactor("po") === 1, "Fokus Körperfett: Pausen " + restFor({ type: "c" }) + "/" + restFor({ type: "i" }) + " s, Volumen unverändert");
