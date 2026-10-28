@@ -62,7 +62,8 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 - **Gewicht:** letztes Gewicht vorausgefüllt; bei neuen Übungen geschätzt aus ähnlichen Übungen (Testsatz); nach jedem Satz ein Vorschlag für mehr oder weniger
 - **Satzpause** standardmäßig 3 Minuten, jederzeit änderbar – auch mitten in der Pause
 - **Satz übernimmt Satz:** Gewicht und Wiederholungen vom letzten Mal sind vorausgefüllt, und jeder Satz übernimmt die Werte in den nächsten – auch beim Aufwärmen
-- **Pausen im Vollbild** mit Ring, Gong und Sprachansage – über die laufende Musik
+- **Pausen im Vollbild** mit Ring, Signalton und Sprachansage – über die laufende Musik
+- **Töne nach Wahl:** Gong, Klangschale, Dreiklang, Küchentimer, Wecker, Ringglocke oder still; Countdown als Piep, Ticken oder aus
 - **Die App lernt dein Studio:** Geräte, die zu bestimmten Zeiten oft besetzt sind, kommen dann später dran
 - **♪-Knopf** öffnet deine Playlist
 

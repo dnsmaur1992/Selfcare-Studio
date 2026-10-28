@@ -17,6 +17,10 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 ## Bewusst nicht umgesetzt
 - **Unhörbarer Dauerton** gegen das Einschlafen der Audioausgabe (Ringzeit-Idee): Er würde laufende Musik auf dem iPhone dauerhaft leiser stellen. Stattdessen Gong als echte Tondatei und Freischalten beim ersten Antippen.
 
+## Erledigt in Version 2.9
+- [x] Signalton wählbar (Gong, Klangschale, Sanfter Dreiklang, Küchentimer, Wecker, Ringglocke, Kein Ton) und Countdown (Piep, Ticken, aus), mit Anhören beim Antippen.
+- [x] Pilates & Mobility: Sprachansagen, Signalton bei Start und Ende jeder Position, Countdown, „Noch 10 Sekunden“.
+
 ## Erledigt in Version 2.8
 - [x] Werte vom letzten Mal: Arbeitssätze und Aufwärmsätze starten mit Gewicht und Wiederholungen vom letzten Training; ohne Vorlage übernimmt der nächste Aufwärmsatz den vorigen.
 
@@ -70,7 +74,7 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 - [x] Auszug für Physio oder Trainerin (letzte 4 Wochen).
 - [x] 6-Wochen-Check.
 - [x] README: Hochladen vom iPhone und „Actions“ erklärt.
-- [x] Tests erweitert (21 Prüfungen, mit 2.3: 28, mit 2.4: 33, mit 2.5: 36, mit 2.6: 41, mit 2.7: 45, mit 2.8: 47).
+- [x] Tests erweitert (21 Prüfungen, mit 2.3: 28, mit 2.4: 33, mit 2.5: 36, mit 2.6: 41, mit 2.7: 45, mit 2.8: 47, mit 2.9: 49).
 
 ## Erledigt in Version 2.1
 - [x] Zoomen mit zwei Fingern und per Doppeltipp verhindert (Viewport, `touch-action: manipulation`, `gesturestart` abgefangen, Eingabefelder ≥ 16 px).

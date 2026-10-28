@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.8">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.8">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.9">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.9">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.8">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.9">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -622,12 +622,16 @@ const LIMITS = {
   wrist: { n: "Handgelenk", ids: ["pushup", "pushup_incline", "benchdips", "kickback_kh", "conc_curl"] },
 };
 const limited = (id) => Object.keys(LIMITS).some((k) => (S.limits || {})[k] && LIMITS[k].ids.includes(id));
-const S_VERSION = "2.8";
-const NEWS = { v: "2.8", items: [
+const S_VERSION = "2.9";
+const NEWS = { v: "2.9", items: [
+  ["Dein Signalton", "Gong, Klangschale, sanfter Dreiklang, Küchentimer, Wecker oder Ringglocke – oder gar kein Ton. Dazu Piep, leises Ticken oder Stille für die letzten 3 Sekunden. Profil → Sprachansage → „Töne wählen & testen“."],
+  ["Pilates & Mobility mit Ansage", "Jetzt auch hier: Ansage der nächsten Position und beim Seitenwechsel, dein Signalton bei Start und Ende jeder Position, Countdown und „Noch 10 Sekunden“."],
+], old: [
+  { v: "2.8", items: [
   ["Werte vom letzten Mal", "Jeder Satz startet mit Gewicht und Wiederholungen vom letzten Training – auch die Aufwärmsätze. Ohne Vorlage übernimmt der nächste Aufwärmsatz die Werte vom vorigen."],
   ["Satzpause jetzt 3 Minuten", "Zwischen zwei Sätzen pausierst du jetzt standardmäßig 3 Minuten. Ändern kannst du das jederzeit: im Profil unter „Satzpause“, in „Training vorbereiten“ und direkt in der Pause."],
   ["Satz übernimmt Satz", "Gewicht und Wiederholungen aus dem letzten Satz stehen schon im nächsten – du musst nur noch bestätigen. Passt die App das Gewicht an, sagt sie es dir."],
-], old: [
+] },
   { v: "2.6", items: [
   ["Über dich", "Geburtsjahr, Größe und Gewicht im Profil (freiwillig). Daraus: Alter, Maximalpuls, BMI und Taille-zu-Größe – bleibt nur auf deinem Handy."],
   ["Puls beim Cardio", "Beim Aufwärmen und bei der Ausdauer zeigt die App deinen Pulsbereich, passend zu deinem Alter."],
@@ -1216,8 +1220,11 @@ function feedbackSheet() {
     <button class="btn line" data-a="fbcopy">Text kopieren</button>`;
 }
 function soundSheet() {
-  return `<h2>Ton <em>testen</em></h2><p class="small muted">Du solltest einen Gong hören und danach eine Ansage.</p>
-    <button class="btn" data-a="soundgo">Gong und Ansage abspielen</button>
+  const cur = S.sound || "gong", tk = S.tick || "piep";
+  return `<div class="stack" style="gap:4px"><h2>Töne <em>wählen</em></h2><p class="small muted">Der Signalton kommt am Ende jeder Pause und wenn eine Zeitübung startet oder endet. Antippen zum Anhören.</p></div>
+    <div class="list">${Object.entries(SOUNDS).map(([k, o]) => `<button class="li" data-a="soundpick" data-k="${k}" aria-pressed="${cur === k}"><div class="grow stack" style="gap:1px"><b>${o.n}</b><span class="small muted">${o.sub}</span></div>${cur === k ? `<span class="note ok">✓</span>` : k === "aus" ? "" : `<span class="small muted">▶︎</span>`}</button>`).join("")}</div>
+    <div class="stack" style="gap:6px"><b>Countdown in den letzten 3 Sekunden</b><div class="seg">${Object.entries(TICKS).map(([k, o]) => `<button class="${tk === k ? "on" : ""}" data-a="tickpick" data-k="${k}">${o.n}</button>`).join("")}</div></div>
+    <button class="btn line" data-a="soundgo">Signalton und Ansage testen</button>
     <div class="card" style="gap:6px;background:var(--butter)"><b style="color:var(--butter-ink)">Nichts zu hören?</b><ul class="tipl small" style="color:var(--butter-ink)"><li>Lautlos-Schalter an der Seite des iPhones prüfen. Bei „lautlos“ bleibt der Gong oft stumm.</li><li>Lautstärke hochdrehen, während der Ton läuft.</li><li>App einmal ganz schließen und neu öffnen.</li></ul></div>
     <button class="btn ghost" data-a="sheetclose">Schließen</button>`;
 }
@@ -2245,7 +2252,7 @@ function finishSession() {
 }
 /* Ton & Sprache: Gong und Ansage laufen über die Musik, ohne sie zu stoppen (iOS 17+: audioSession „transient“). */
 function audioSetup() { unlockAudio(); }
-function gong() { playSnd("gong", 660); }
+function gong() { const k = S.sound || "gong"; if (k === "aus") return; playSnd(k, SOUNDS[k]?.f || 660); }
 function say(t) {
   if (S.voice === false || !t) return;
   try { const u = new SpeechSynthesisUtterance(t); u.lang = "de-DE"; u.rate = 1.02; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) {}
@@ -2308,10 +2315,14 @@ function startFlow(slot) {
   S.active = { id: uid(), slotId: slot.id, type: slot.type, flow: true, name: TYPES[slot.type].n, groups: [], start: Date.now(), blocks, i: 0, phase: "ready", end: 0, paused: 0 };
   save(); go("flow");
 }
+/* Pilates & Mobility: Ansage beim Bereitmachen, Signalton bei Start und Ende jeder Position, Countdown in den letzten 3 Sekunden. */
 function flowGoto(i, phaseName) {
-  const A = S.active; A.i = i; A.phase = phaseName;
-  const b = A.blocks[i];
-  A.end = Date.now() + 1000 * (phaseName === "prep" ? 10 : b.sec); A.paused = 0; save(); render();
+  const A = S.active; A.i = i; A.phase = phaseName; A.cd = "";
+  const b = A.blocks[i]; const x = EXM[b.ex];
+  A.end = Date.now() + 1000 * (phaseName === "prep" ? 10 : b.sec); A.paused = 0;
+  if (phaseName === "prep") { const pb = A.blocks[i - 1]; const sw = pb && pb.ex === b.ex && b.side; say(sw ? `Seitenwechsel: ${b.side}` : `Gleich: ${x ? x.n : ""}${b.side ? ", " + b.side : ""}`); }
+  if (phaseName === "work") { gong(); flash(); setTimeout(() => say(b.sec >= 60 ? `${Math.round(b.sec / 60) === 1 ? "Eine Minute" : Math.round(b.sec / 60) + " Minuten"}. Ruhig atmen.` : `${b.sec} Sekunden. Ruhig atmen.`), 1100); }
+  save(); render();
 }
 function vFlow() {
   const A = S.active; const b = A.blocks[A.i]; const x = EXM[b.ex]; const nb = A.blocks[A.i + 1];
@@ -2339,10 +2350,12 @@ function flowTick() {
   const b = A.blocks[A.i]; const dur = A.phase === "prep" ? 10 : b.sec;
   const t = document.getElementById("fl-t"); if (t) t.textContent = Math.ceil(left);
   const r = document.getElementById("ring"); if (r) r.setAttribute("stroke-dashoffset", String(276.5 * (1 - left / dur)));
+  if (left > 0 && left <= 3) { const c = Math.ceil(left); const key = c + ":" + A.i + A.phase; if (A.cd !== key) { A.cd = key; beep(1046); } }
+  if (A.phase === "work" && b.sec >= 30 && left <= 10 && !A.ten) { A.ten = A.i + 1; say("Noch 10 Sekunden"); }
   if (left <= 0) {
-    if (A.phase === "prep") { beep(880); flowGoto(A.i, "work"); }
-    else if (A.i + 1 < A.blocks.length) { beep(660); flowGoto(A.i + 1, "prep"); }
-    else { beep(990); finishFlow(true); }
+    if (A.phase === "prep") { A.ten = 0; flowGoto(A.i, "work"); }
+    else if (A.i + 1 < A.blocks.length) { gong(); A.ten = 0; flowGoto(A.i + 1, "prep"); }
+    else { gong(); say("Geschafft. Schön, dass du dir die Zeit genommen hast."); finishFlow(true); }
   }
 }
 function finishFlow(complete) {
@@ -2473,7 +2486,7 @@ function vProf() {
     <div class="card" style="gap:8px"><h3>Pause &amp; Fokus</h3><div class="row" style="gap:8px;flex-wrap:wrap">${pauseNow() ? `<button class="btn sm" data-a="pauseend">Pause beenden</button>` : `<button class="btn line sm" data-a="pauseopen">Pause eintragen</button>`}<button class="btn line sm" data-a="focusopen">${focusOn() ? `Fokus: ${FOCI[S.focus.id].n}` : "Fokus-Block starten"}</button></div><span class="small muted">Pause bei Krankheit, Verletzung oder Urlaub. Fokus-Block: 6 Wochen mit Schwerpunkt.</span></div>
     <div class="card"><h3>Einschränkungen</h3><p class="small muted">Übungen, die diese Bereiche stark belasten, schlägt die App nicht mehr vor.</p>${limitChips()}</div>
     <div class="card" style="gap:12px"><h3>Im Training</h3>
-      <div class="row between"><div class="grow"><b>Sprachansage</b><p class="small muted">Sagt Übung, Satz und Gewicht an. Läuft über deine Musik. <button class="link" style="font-size:13px" data-a="soundtest">Ton testen</button></p></div><button class="toggle ${S.voice !== false ? "on" : ""}" data-a="ptoggle" data-k="voice" role="switch" aria-checked="${S.voice !== false}" aria-label="Sprachansage"></button></div>
+      <div class="row between"><div class="grow"><b>Sprachansage</b><p class="small muted">Sagt Übung, Satz und Gewicht an. Läuft über deine Musik. <button class="link" style="font-size:13px" data-a="soundtest">Töne wählen &amp; testen</button></p></div><button class="toggle ${S.voice !== false ? "on" : ""}" data-a="ptoggle" data-k="voice" role="switch" aria-checked="${S.voice !== false}" aria-label="Sprachansage"></button></div>
       <div class="row between"><div class="grow"><b>Schwerere Sätze</b><p class="small muted">Eine rückenfreundliche Grundübung pro Einheit mit 6–10 Wdh. Gut für Knochen und Muskelerhalt ab 40.</p></div><button class="toggle ${S.heavy ? "on" : ""}" data-a="ptoggle" data-k="heavy" role="switch" aria-checked="${!!S.heavy}" aria-label="Schwerere Sätze"></button></div>
     </div>
     <div class="card" style="gap:12px"><div class="stack" style="gap:2px"><h3>Satzpause</h3><p class="small muted">Pause zwischen zwei Sätzen. Jetzt: ${restLine()}</p></div>${restPicker()}</div>
@@ -2695,17 +2708,33 @@ function wavURL(parts, dur) {
   }
   return URL.createObjectURL(new Blob([buf], { type: "audio/wav" }));
 }
+/* Signaltöne: Teiltöne [Frequenz, Lautstärke, Abklingzeit, Einsatz] – in der App als WAV erzeugt, kein Download. */
+const rep3 = (parts, gap, n) => Array.from({ length: n }, (_, i) => parts.map(([f, a, d]) => [f, a, d, i * gap])).flat();
+const SOUNDS = {
+  gong: { n: "Gong", sub: "Warm, zweistufig", parts: [[660, 0.45, 0.5], [1822, 0.15, 0.25], [990, 0.4, 0.6, 0.18], [2733, 0.12, 0.3, 0.18]], dur: 1.4, f: 660 },
+  schale: { g: 1.4, n: "Klangschale", sub: "Ruhig, lang ausklingend", parts: [[264, 0.4, 1.6], [528, 0.22, 1.2], [796, 0.12, 0.9], [1320, 0.06, 0.6]], dur: 3, f: 528 },
+  sanft: { g: 1.45, n: "Sanfter Dreiklang", sub: "Leise aufsteigend", parts: [[784, 0.3, 0.5], [988, 0.28, 0.5, 0.16], [1175, 0.26, 0.7, 0.32]], dur: 1.4, f: 988 },
+  timer: { g: 1.65, n: "Küchentimer", sub: "Ding-ding-ding", parts: rep3([[1568, 0.4, 0.25], [3136, 0.12, 0.12]], 0.32, 3), dur: 1.4, f: 1568 },
+  wecker: { g: 1.6, n: "Wecker", sub: "Piep-piep, nicht zu überhören", parts: [0, 0.14, 0.42, 0.56, 0.84, 0.98].map((t) => [1760, 0.45, 0.05, t]).concat([0, 0.14, 0.42, 0.56, 0.84, 0.98].map((t) => [3520, 0.12, 0.03, t])), dur: 1.25, f: 1760 },
+  glocke: { g: 1.4, n: "Ringglocke", sub: "Hell, wie beim Boxen", parts: rep3([[1180, 0.38, 0.45], [2950, 0.18, 0.25], [4150, 0.08, 0.15]], 0.28, 3), dur: 1.6, f: 1180 },
+  aus: { n: "Kein Ton", sub: "Nur Ansage, falls eingeschaltet", parts: null },
+};
+const TICKS = { piep: { n: "Piep" }, tick: { n: "Leises Ticken" }, aus: { n: "Aus" } };
 const SND = {};
-function sndInit() {
-  if (SND.ready) return; SND.ready = true;
+function sndGet(k) {
+  if (SND[k] !== undefined) return SND[k];
   try {
-    SND.gong = wavURL([[660, 0.45, 0.5], [1822, 0.15, 0.25], [990, 0.4, 0.6, 0.18], [2733, 0.12, 0.3, 0.18]], 1.4);
-    SND.beep = wavURL([[1046, 0.5, 0.06]], 0.18);
-    SND.low = wavURL([[784, 0.5, 0.07]], 0.2);
-  } catch (e) {}
+    if (k === "beep") SND[k] = wavURL([[1046, 0.5, 0.06]], 0.18);
+    else if (k === "low") SND[k] = wavURL([[784, 0.5, 0.07]], 0.2);
+    else if (k === "tick") SND[k] = wavURL([[2400, 0.35, 0.012], [1200, 0.25, 0.02]], 0.08);
+    else if (SOUNDS[k] && SOUNDS[k].parts) SND[k] = wavURL(SOUNDS[k].parts.map(([f, a, d, t]) => [f, a * (SOUNDS[k].g || 1), d, t]), SOUNDS[k].dur);
+    else SND[k] = null;
+  } catch (e) { SND[k] = null; }
+  return SND[k];
 }
+function sndInit() { if (SND.ready) return; SND.ready = true; sndGet(S.sound || "gong"); sndGet("beep"); sndGet(S.tick === "tick" ? "tick" : "low"); }
 function playSnd(k, fallbackF) {
-  sndInit();
+  sndInit(); sndGet(k);
   try {
     if (SND[k]) { const a = new Audio(SND[k]); a.volume = 1; const p = a.play(); if (p && p.catch) p.catch(() => synth(fallbackF)); return; }
   } catch (e) {}
@@ -2719,7 +2748,7 @@ function synth(f) {
     const p = actx.resume(); if (p && p.then) p.then(go, go); else go();
   } catch (e) {}
 }
-function beep(f) { playSnd(f && f < 900 ? "low" : "beep", f || 1046); }
+function beep(f) { const t = S.tick || "piep"; if (t === "aus") return; if (t === "tick") return playSnd("tick", 2400); playSnd(f && f < 900 ? "low" : "beep", f || 1046); }
 /* Freischalten beim ersten Antippen irgendwo in der App (iOS erlaubt Ton erst nach einer Berührung). */
 let audioUnlocked = false;
 function unlockAudio() {
@@ -2832,7 +2861,9 @@ document.addEventListener("click", (e) => {
     case "feedback": openSheet(feedbackSheet); break;
     case "fbcopy": { const ta = document.getElementById("fbtext"); try { navigator.clipboard.writeText(ta.value).then(() => toast("Kopiert"), () => ta.select()); } catch (err) { ta.select(); } break; }
     case "soundtest": openSheet(soundSheet); break;
-    case "soundgo": unlockAudio(); gong(); setTimeout(() => { const v = S.voice; S.voice = true; say("So klingt die Ansage im Training."); S.voice = v; }, 1300); break;
+    case "soundpick": unlockAudio(); S.sound = d.k; save(); renderSheet(); gong(); break;
+    case "tickpick": unlockAudio(); S.tick = d.k; save(); renderSheet(); if (d.k !== "aus") { beep(1046); setTimeout(() => beep(1046), 1000); setTimeout(() => beep(1046), 2000); } break;
+    case "soundgo": unlockAudio(); gong(); setTimeout(() => { const v = S.voice; S.voice = true; say("So klingt die Ansage im Training."); S.voice = v; }, Math.min(2600, ((SOUNDS[S.sound || "gong"] || {}).dur || 0.3) * 900)); break;
     case "updnow": if (U.updateGo) U.updateGo(); document.getElementById("updbar")?.remove(); break;
     case "limit": S.limits = S.limits || {}; S.limits[d.k] = !S.limits[d.k]; save(); render(); break;
     case "ptoggle": S[d.k] = d.k === "voice" ? S.voice === false : !S[d.k]; save(); render(); if (d.k === "voice" && S.voice !== false) say("Sprachansage ist an."); break;
@@ -2954,7 +2985,7 @@ document.addEventListener("click", (e) => {
     case "cdel": { const day = S.days[+d.i]; day.custom.splice(+d.j, 1); syncGroups(day); save(); render(); break; }
     case "cset": { const c = S.days[+d.i].custom[+d.j]; c.sets = Math.max(1, Math.min(8, c.sets + +d.v)); save(); render(); break; }
     case "cmove": { const L = S.days[+d.i].custom; const j = +d.j, k = j + +d.v; [L[j], L[k]] = [L[k], L[j]]; save(); render(); break; }
-    case "fl-start": flowGoto(S.active.i, "prep"); wakeLock(); break;
+    case "fl-start": audioSetup(); wakeLock(); flowGoto(S.active.i, "prep"); break;
     case "fl-pause": { const A = S.active; if (A.paused) { A.end = Date.now() + A.paused; A.paused = 0; } else { A.paused = Math.max(0, A.end - Date.now()); } save(); render(); break; }
     case "fl-next": { const A = S.active; if (A.i + 1 < A.blocks.length) flowGoto(A.i + 1, "prep"); else finishFlow(true); break; }
     case "fl-prev": flowGoto(Math.max(0, S.active.i - 1), "prep"); break;
