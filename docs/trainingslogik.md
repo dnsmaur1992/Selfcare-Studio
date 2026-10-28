@@ -1,6 +1,6 @@
 # Selfcare Studio – Trainingslogik
 
-Stand: Version 3.0. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
+Stand: Version 3.1. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
 
 ## Plan
 - **Muskelgruppen** haben eine Größe (Po 6, Beine vorne 5, Rücken 5 …). Daraus entsteht das Volumen eines Tages in „effektiven Sätzen“, höchstens 22 pro Einheit.
@@ -70,6 +70,7 @@ Kein Cardio, keine Aufwärmsätze. 5 Mobilisations- und Dehnübungen nach Tagesa
 - **6-Wochen-Check:** ab 8 Krafteinheiten und 42 Tagen seit dem letzten Check: Gewichtsentwicklung pro Übung und Körpermaße.
 
 ## Ton
+- **iPhone-Freischaltung (`POOL`, `primeAudio`):** Pro Ton (gewählter Signalton, Piep hoch/tief, Ticken) gibt es ein festes `<audio>`-Element. Es wird bei jeder Berührung einmal stumm gestartet und gestoppt und danach immer wieder verwendet. Neue `Audio()`-Objekte, die ein Timer startet, blockiert Safari (NotAllowedError) – das war der Grund, warum Signalton und Countdown bei Pilates/Mobility fehlten.
 - Gong als in der App erzeugte WAV-Datei über `<audio>` (zuverlässiger als Web Audio auf dem iPhone), freigeschaltet beim ersten Antippen.
 - Letzte 3 Sekunden von Bereit-machen und Pause: kurze Pieptöne, dann Gong, Ansage ca. 1 Sekunde später.
 - **Signalton wählbar** (`S.sound`, `SOUNDS`): Gong (Standard), Klangschale, Sanfter Dreiklang, Küchentimer, Wecker, Ringglocke oder Kein Ton. Alle werden in der App aus Teiltönen als WAV erzeugt, nichts wird geladen. **Countdown** (`S.tick`): Piep (Standard), leises Ticken oder aus. Einstellbar unter Profil → Sprachansage → „Töne wählen & testen“.
