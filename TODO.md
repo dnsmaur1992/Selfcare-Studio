@@ -23,6 +23,7 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 - [x] „Deine Figur“: Frisur (Zopf, Dutt, Kurz, Lang offen, Cap, Ohne) und Haarfarbe, in Einrichtung und Profil, in allen Animationen. Voreinstellung Zopf.
 - [x] App-Tour mit Spotlight in 8 Stationen, Training als Beispiel ohne echte Einheit; einmal angeboten, jederzeit im Profil.
 - [x] Während der Tour kein Wischen oder Scrollen – weiter nur über „Weiter“, „Zurück“ oder „Tour beenden“.
+- [x] „Übung hinzufügen“ im Trainingsplan: Liste scrollt wieder (Fehler: Liste wurde im Fenster gestaucht und abgeschnitten), Übungen nach Muskelgruppen gruppiert, Filter und Gruppenüberschriften bleiben oben stehen, Position bleibt beim Hinzufügen erhalten.
 - [x] Zum Lesen: 6 Themen (Mythen-Check, Krafttraining ab 40, Rücken, Schlaf, Entlastungswochen, Ersatzübungen) mit Quellen, im Profil und in längeren Pausen.
 
 **Aus Ringzeit gelernt, Teil 2**

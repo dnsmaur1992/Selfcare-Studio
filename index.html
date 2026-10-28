@@ -355,6 +355,9 @@ html.touring, html.touring body { overflow: hidden; overscroll-behavior: none; t
 .ring-bg { stroke: var(--surface2); }
 .ring-fg { stroke: var(--accent); transition: stroke-dashoffset .25s linear; }
 .ring-fg.calm { stroke: var(--lav-ink); }
+.sheet > * { flex-shrink: 0; }
+.pickh { position: sticky; top: 38px; z-index: 2; display: flex; justify-content: space-between; align-items: baseline; padding: 8px 4px 4px; background: var(--bg); font-family: var(--display); font-size: 20px; font-weight: 600; }
+.pickbar { position: sticky; top: -10px; z-index: 3; background: var(--bg); padding: 6px 0; }
 .hscroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
 .hscroll::-webkit-scrollbar { display: none; }
 .hscroll .chip { flex: none; }
@@ -2377,9 +2380,10 @@ function customList(d, i) {
 function pickSheet() {
   const P = U.pick; const d = S.days[P.i]; const have = new Set((d.custom || []).map((c) => c.ex));
   const list = EX.filter((x) => P.f === "all" || (x.m[P.f] || 0) >= 0.6).sort((a, b) => (inStudio(b) - inStudio(a)) || (P.f !== "all" ? (b.m[P.f] || 0) - (a.m[P.f] || 0) : 0));
+  const row = (x) => { const g = P.f !== "all" ? P.f : primary(x); const on = have.has(x.id); return `<button class="li" data-a="pickadd" data-x="${x.id}" data-g="${g}" ${on ? "disabled" : ""} style="${inStudio(x) ? "" : "opacity:.55"}">${figSVG(x.id, g, "s")}<div class="grow stack" style="gap:2px"><b>${esc(x.n)}</b><span class="small muted">${P.f === "all" ? "" : esc(GROUPS[primary(x)].n) + " · "}${x.eq.map((e) => EQUIP[e]).join(" + ")}</span></div><span class="${on ? "note ok" : "chev"}">${on ? "✓" : "+"}</span></button>`; };
   return `<div class="stack" style="gap:2px"><h2>Übung hinzufügen</h2><p class="small muted">${esc(d.name)} · ${(d.custom || []).length} Übungen</p></div>
-    <div class="hscroll">${[["all", "Alle"], ...GORDER.map((g) => [g, GROUPS[g].n])].map(([k, n]) => `<button class="chip ${P.f === k ? "on" : ""}" data-a="pickf" data-f="${k}">${esc(n)}</button>`).join("")}</div>
-    <div class="list">${list.map((x) => { const g = P.f !== "all" ? P.f : primary(x); const on = have.has(x.id); return `<button class="li" data-a="pickadd" data-x="${x.id}" data-g="${g}" ${on ? "disabled" : ""} style="${inStudio(x) ? "" : "opacity:.55"}">${figSVG(x.id, g, "s")}<div class="grow stack" style="gap:2px"><b>${esc(x.n)}</b><span class="small muted">${esc(GROUPS[primary(x)].n)} · ${x.eq.map((e) => EQUIP[e]).join(" + ")}</span></div><span class="${on ? "note ok" : "chev"}">${on ? "✓" : "+"}</span></button>`; }).join("")}</div>
+    <div class="pickbar"><div class="hscroll">${[["all", "Alle"], ...GORDER.map((g) => [g, GROUPS[g].n])].map(([k, n]) => `<button class="chip ${P.f === k ? "on" : ""}" data-a="pickf" data-f="${k}">${esc(n)}</button>`).join("")}</div></div>
+    ${P.f === "all" ? GORDER.map((g) => { const L = list.filter((x) => primary(x) === g); return L.length ? `<div class="stack" style="gap:8px"><div class="pickh"><span>${esc(GROUPS[g].n)}</span><span class="small muted num">${L.length}</span></div><div class="list">${L.map(row).join("")}</div></div>` : ""; }).join("") : `<div class="list">${list.map(row).join("")}</div>`}
     <button class="btn" data-a="sheetclose">Fertig</button>`;
 }
 function vDays() {
@@ -2506,7 +2510,9 @@ function render() {
 function renderSheet() {
   const el = document.getElementById("sheet");
   if (!U.sheet) { el.innerHTML = ""; return; }
+  const keep = U.sheet === U.lastSheet ? el.querySelector(".sheet")?.scrollTop || 0 : 0; U.lastSheet = U.sheet;
   el.innerHTML = `<div class="scrim" data-a="scrim"><div class="sheet" role="dialog" aria-modal="true"><div class="grab"></div>${U.sheet()}</div></div>`;
+  if (keep) { const sh = el.querySelector(".sheet"); sh.style.animation = "none"; sh.scrollTop = keep; }
   mountFigs(el);
 }
 function openSheet(fn) { U.sheet = fn; renderSheet(); }
@@ -2780,7 +2786,7 @@ document.addEventListener("click", (e) => {
       day.mode = d.m; syncGroups(day); save(); render(); break;
     }
     case "cadd": U.pick = { i: +d.i, f: "all" }; openSheet(pickSheet); break;
-    case "pickf": U.pick.f = d.f; renderSheet(); break;
+    case "pickf": U.pick.f = d.f; U.lastSheet = null; renderSheet(); { const sh = document.querySelector(".sheet"); if (sh) sh.style.animation = "none"; } break;
     case "pickadd": { const day = S.days[U.pick.i]; const x = EXM[d.x]; day.custom = day.custom || []; day.custom.push({ ex: x.id, g: d.g, sets: 3, reps: baseReps(x) }); syncGroups(day); save(); renderSheet(); toast(x.n + " hinzugefügt"); break; }
     case "cdel": { const day = S.days[+d.i]; day.custom.splice(+d.j, 1); syncGroups(day); save(); render(); break; }
     case "cset": { const c = S.days[+d.i].custom[+d.j]; c.sets = Math.max(1, Math.min(8, c.sets + +d.v)); save(); render(); break; }
