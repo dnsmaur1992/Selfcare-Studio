@@ -17,6 +17,9 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 ## Bewusst nicht umgesetzt
 - **Unhörbarer Dauerton** gegen das Einschlafen der Audioausgabe (Ringzeit-Idee): Er würde laufende Musik auf dem iPhone dauerhaft leiser stellen. Stattdessen Gong als echte Tondatei und Freischalten beim ersten Antippen.
 
+## Erledigt in Version 3.1
+- [x] Töne auf dem iPhone: feste, bei Berührung freigeschaltete Ton-Elemente statt neuer Elemente je Ton. Signalton und Countdown kamen bei Pilates/Mobility nicht (Ansage schon). In Chromium mit „Ton nur nach Berührung“ nachgestellt: vorher 4 Töne blockiert, jetzt 0. **Auf dem iPhone bestätigen.**
+
 ## Erledigt in Version 3.0
 - [x] Profil aufgeräumt: Übersicht mit Gruppen (Du & deine Figur · Training: Plan, Ziel & Belastung, Satzpause, Ton & Musik, Geräte · App: Darstellung & Kalender, Daten & Backup, Hilfe & Infos), jede Zeile zeigt den aktuellen Stand, Details auf eigenen Seiten.
 - [x] Tour, Hinweistexte („Profil → …“), „Erste Schritte“ (springt direkt zu Daten & Backup) und „Was ist neu“ an die neue Struktur angepasst.

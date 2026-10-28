@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.0">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.0">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.1">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.1">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.0">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.1">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -626,8 +626,9 @@ const LIMITS = {
   wrist: { n: "Handgelenk", ids: ["pushup", "pushup_incline", "benchdips", "kickback_kh", "conc_curl"] },
 };
 const limited = (id) => Object.keys(LIMITS).some((k) => (S.limits || {})[k] && LIMITS[k].ids.includes(id));
-const S_VERSION = "3.0";
-const NEWS = { v: "3.0", items: [
+const S_VERSION = "3.1";
+const NEWS = { v: "3.1", items: [
+  ["Töne auf dem iPhone", "Signalton und Countdown kommen jetzt auch, wenn der Timer von selbst weiterläuft – etwa bei Pilates und Mobility. Vorher hat Safari sie stummgeschaltet."],
   ["Aufgeräumtes Profil", "Das Profil ist jetzt nach Themen sortiert: Du & deine Figur, Training (Plan, Ziel & Belastung, Satzpause, Ton & Musik, Geräte) und App (Darstellung & Kalender, Daten & Backup, Hilfe & Infos). Jede Zeile zeigt, was gerade eingestellt ist."],
 
   ["Dein Signalton", "Gong, Klangschale, sanfter Dreiklang, Küchentimer, Wecker oder Ringglocke – oder gar kein Ton. Dazu Piep, leises Ticken oder Stille für die letzten 3 Sekunden. Profil → Ton & Musik → Signalton."],
@@ -2257,7 +2258,7 @@ function finishSession() {
   U.done = { sess, ups, prs, badges }; go("done");
 }
 /* Ton & Sprache: Gong und Ansage laufen über die Musik, ohne sie zu stoppen (iOS 17+: audioSession „transient“). */
-function audioSetup() { unlockAudio(); }
+function audioSetup() { unlockAudio(); primeAudio(); }
 function gong() { const k = S.sound || "gong"; if (k === "aus") return; playSnd(k, SOUNDS[k]?.f || 660); }
 function say(t) {
   if (S.voice === false || !t) return;
@@ -2768,10 +2769,27 @@ function sndGet(k) {
   return SND[k];
 }
 function sndInit() { if (SND.ready) return; SND.ready = true; sndGet(S.sound || "gong"); sndGet("beep"); sndGet(S.tick === "tick" ? "tick" : "low"); }
+/* iPhone: Safari spielt nur Ton-Elemente, die bei einer Berührung einmal gestartet wurden. Darum gibt es pro Ton ein festes
+   Element, das bei jeder Berührung (stumm) freigeschaltet und danach immer wieder verwendet wird – statt jedes Mal ein neues. */
+const POOL = {};
+const poolKeys = () => [S.sound && S.sound !== "aus" ? S.sound : "gong", "beep", "low", "tick"];
+function primeAudio() {
+  poolKeys().forEach((k) => {
+    const url = sndGet(k); if (!url) return;
+    let el = POOL[k]; if (!el) { el = POOL[k] = new Audio(); el.preload = "auto"; el.setAttribute("playsinline", ""); }
+    if (el._ok && el._src === url) return;
+    if (el._src !== url) { el.src = url; el._src = url; }
+    el.muted = true;
+    try { const pr = el.play(); if (pr && pr.then) pr.then(() => { el.pause(); el.currentTime = 0; el.muted = false; el._ok = true; }).catch(() => { el.muted = false; }); else { el.pause(); el.muted = false; el._ok = true; } } catch (e) { el.muted = false; }
+  });
+}
 function playSnd(k, fallbackF) {
-  sndInit(); sndGet(k);
+  sndInit(); const url = sndGet(k);
+  if (!url) return synth(fallbackF);
+  const el = POOL[k];
   try {
-    if (SND[k]) { const a = new Audio(SND[k]); a.volume = 1; const p = a.play(); if (p && p.catch) p.catch(() => synth(fallbackF)); return; }
+    if (el && el._src === url) { el.muted = false; el.pause(); el.currentTime = 0; const p = el.play(); if (p && p.catch) p.catch(() => synth(fallbackF)); return; }
+    const a = new Audio(url); const p = a.play(); if (p && p.catch) p.catch(() => synth(fallbackF)); return;
   } catch (e) {}
   synth(fallbackF);
 }
@@ -2790,12 +2808,15 @@ function unlockAudio() {
   if (audioUnlocked) return; audioUnlocked = true;
   try { if (navigator.audioSession) navigator.audioSession.type = "transient"; } catch (e) {}
   sndInit();
-  try { const a = new Audio(SND.beep); a.volume = 0; a.play().catch(() => {}); } catch (e) {}
+  primeAudio();
   try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); if (actx.state !== "running") actx.resume(); } catch (e) {}
   try { if (window.speechSynthesis) { const u = new SpeechSynthesisUtterance(" "); u.volume = 0; speechSynthesis.speak(u); } } catch (e) {}
 }
 document.addEventListener("pointerdown", unlockAudio, { once: true, capture: true });
 document.addEventListener("touchend", unlockAudio, { once: true, capture: true });
+/* Bei jeder Berührung prüfen, ob alle Töne (auch ein neu gewählter Signalton) freigeschaltet sind; WebAudio wieder wecken. */
+document.addEventListener("touchend", () => { primeAudio(); try { if (actx && actx.state !== "running") actx.resume(); } catch (e) {} }, { capture: true, passive: true });
+document.addEventListener("click", () => primeAudio(), { capture: true, passive: true });
 let wl = null;
 async function wakeLock() { try { if (navigator.wakeLock) wl = await navigator.wakeLock.request("screen"); } catch (e) {} }
 
@@ -2897,7 +2918,7 @@ document.addEventListener("click", (e) => {
     case "feedback": openSheet(feedbackSheet); break;
     case "fbcopy": { const ta = document.getElementById("fbtext"); try { navigator.clipboard.writeText(ta.value).then(() => toast("Kopiert"), () => ta.select()); } catch (err) { ta.select(); } break; }
     case "soundtest": openSheet(soundSheet); break;
-    case "soundpick": unlockAudio(); S.sound = d.k; save(); renderSheet(); gong(); break;
+    case "soundpick": unlockAudio(); S.sound = d.k; save(); renderSheet(); primeAudio(); setTimeout(gong, 60); break;
     case "tickpick": unlockAudio(); S.tick = d.k; save(); renderSheet(); if (d.k !== "aus") { beep(1046); setTimeout(() => beep(1046), 1000); setTimeout(() => beep(1046), 2000); } break;
     case "soundgo": unlockAudio(); gong(); setTimeout(() => { const v = S.voice; S.voice = true; say("So klingt die Ansage im Training."); S.voice = v; }, Math.min(2600, ((SOUNDS[S.sound || "gong"] || {}).dur || 0.3) * 900)); break;
     case "updnow": if (U.updateGo) U.updateGo(); document.getElementById("updbar")?.remove(); break;
