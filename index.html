@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.5">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.5">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.6">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.6">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.5">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.6">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -622,14 +622,19 @@ const LIMITS = {
   wrist: { n: "Handgelenk", ids: ["pushup", "pushup_incline", "benchdips", "kickback_kh", "conc_curl"] },
 };
 const limited = (id) => Object.keys(LIMITS).some((k) => (S.limits || {})[k] && LIMITS[k].ids.includes(id));
-const S_VERSION = "2.5";
-const NEWS = { v: "2.5", items: [
+const S_VERSION = "2.6";
+const NEWS = { v: "2.6", items: [
+  ["Über dich", "Geburtsjahr, Größe und Gewicht im Profil (freiwillig). Daraus: Alter, Maximalpuls, BMI und Taille-zu-Größe – bleibt nur auf deinem Handy."],
+  ["Puls beim Cardio", "Beim Aufwärmen und bei der Ausdauer zeigt die App deinen Pulsbereich, passend zu deinem Alter."],
+  ["Kraft im Verhältnis", "Im Fortschritt siehst du bei großen Übungen, wie viel du im Verhältnis zu deinem Körpergewicht bewegst. Das Gewicht hat jetzt einen eigenen Verlauf bei den Maßen."],
+], old: [
+  { v: "2.5", items: [
   ["Aufwärmsatz – doch nicht?", "Im Aufwärmsatz kannst du jetzt „Doch kein Aufwärmsatz – direkt loslegen“ tippen."],
   ["Doch lieber aufwärmen?", "Beim ersten Arbeitssatz jeder Übung mit Gewicht gibt es „Stattdessen erst einen Aufwärmsatz“ – auch bei kleineren Übungen."],
 
   ["Springen ohne Schummeln", "Springst du im Training über die Übersicht zu einer anderen Übung, gilt Ausgelassenes als „übersprungen“ – nicht mehr als erledigt. Abgehakt wird nur, was du wirklich geschafft hast."],
   ["Nachholen oder entfernen", "In der Übersicht zeigt jede Übung ihren Stand (✓, 1/3, übersprungen). Mit × entfernst du eine Übung aus der Einheit. Am Ende bietet die App Übersprungenes zum Nachholen an."],
-], old: [
+] },
   { v: "2.3", items: [
   ["Aufwärmsätze auf Nachfrage", "Bei jeder großen Übung fragt die App: „Möchtest du einen Aufwärmsatz machen?“ – nach jedem Satz nochmal. Mit Vorschlag fürs Gewicht."],
   ["Alles wird mitgezählt", "Aufwärmsätze werden gespeichert und stehen im Verlauf. Die bewegten Kilo zeigen die Gesamtlast inklusive Aufwärmen."],
@@ -1096,13 +1101,37 @@ async function calExport() {
   location.href = URL.createObjectURL(blob);
 }
 /* Körpermaße */
-const MEAS = [["taille", "Taille"], ["huefte", "Hüfte"], ["po", "Po"], ["ober", "Oberschenkel"]];
+const MEAS = [["gewicht", "Gewicht", "kg"], ["taille", "Taille", "cm"], ["huefte", "Hüfte", "cm"], ["po", "Po", "cm"], ["ober", "Oberschenkel", "cm"]];
+/* Körperdaten (freiwillig): Geburtsjahr und Größe im Profil, Gewicht mit Verlauf bei den Maßen. */
+const ageNow = () => (S.body && S.body.year ? new Date().getFullYear() - S.body.year : null);
+const heightCm = () => (S.body && S.body.height) || null;
+function weightAt(date) { const L = (S.measures || []).filter((q) => q.gewicht && (!date || new Date(q.d) <= new Date(date))); const e = L[L.length - 1] || (date ? (S.measures || []).find((q) => q.gewicht) : null); return e ? e.gewicht : null; }
+const lastWeight = () => weightAt(null);
+/* Maximalpuls nach Tanaka (208 − 0,7 × Alter); Pulsbereich in Prozent davon. */
+const hfMax = () => (ageNow() ? Math.round(208 - 0.7 * ageNow()) : null);
+function pulseRange(lo, hi) { const m = hfMax(); return m ? `Puls ca. ${Math.round((m * lo) / 5) * 5}–${Math.round((m * hi) / 5) * 5}` : ""; }
+function bodyStats() {
+  const a = ageNow(), h = heightCm(), w = lastWeight(), t = lastMeas()?.taille; const out = [];
+  if (a) out.push(["Alter", `${a} Jahre`, `Maximalpuls ca. ${hfMax()} (Schätzung)`]);
+  if (h && w) out.push(["BMI", fmt(w / Math.pow(h / 100, 2), 1), "Grober Richtwert – unterscheidet nicht zwischen Muskeln und Fett."]);
+  if (h && t) out.push(["Taille zu Größe", fmt(t / h, 2), "Unter 0,5 gilt als günstig. Aussagekräftiger als der BMI."]);
+  return out;
+}
+function bodyStatsHtml() { const L = bodyStats(); return L.length ? L.map(([n, v, d]) => `<div class="row between" style="align-items:flex-start;gap:10px"><div class="stack" style="gap:1px"><b class="small">${n}</b><span class="small muted">${d}</span></div><b class="num">${v}</b></div>`).join("") : `<span class="small muted">Trag Geburtsjahr, Größe und Gewicht ein, dann siehst du hier Alter, Pulsbereiche und BMI.</span>`; }
+function bodyCard(ob) {
+  const b = S.body || {}; const w = lastWeight();
+  return `<div class="card" style="gap:10px"><div class="stack" style="gap:2px"><h3>Über dich${ob ? " <span class='small muted' style='font-weight:400'>· freiwillig</span>" : ""}</h3><p class="small muted">Für Pulsbereiche beim Cardio, Kraft im Verhältnis zum Körpergewicht und deine Körperwerte. Bleibt nur auf deinem Handy.</p></div>
+    <div class="mgrid"><label class="stack" style="gap:4px"><span class="small muted">Geburtsjahr</span><input class="field num" inputmode="numeric" data-in="byear" value="${b.year || ""}" placeholder="z. B. 1980"></label>
+    <label class="stack" style="gap:4px"><span class="small muted">Größe (cm)</span><input class="field num" inputmode="numeric" data-in="bheight" value="${b.height || ""}" placeholder="–"></label>
+    <label class="stack" style="gap:4px"><span class="small muted">Gewicht (kg)</span><input class="field num" inputmode="decimal" data-in="bweight" value="${w ? String(w).replace(".", ",") : ""}" placeholder="–"></label></div>
+    ${ob ? "" : `<div class="stack" id="bodyinfo" style="gap:8px">${bodyStatsHtml()}</div><span class="small muted">Gewicht im Verlauf: Verlauf → Maße.</span>`}</div>`;
+}
 function measTab() {
   const L = S.measures || []; const last = L[L.length - 1] || {};
-  const form = `<div class="card" style="gap:10px"><h2>Neu <em>messen</em></h2><div class="mgrid">${MEAS.map(([k, n]) => `<label class="stack" style="gap:4px"><span class="small muted">${n} (cm)</span><input id="m-${k}" class="field num" inputmode="decimal" placeholder="${last[k] ? String(last[k]).replace(".", ",") : "–"}"></label>`).join("")}</div><button class="btn sm" style="align-self:flex-start" data-a="msave">Speichern</button><p class="small muted">Am besten alle 4 Wochen, morgens, immer an derselben Stelle. Bei Muskelaufbau sagen Maße oft mehr als die Waage. Die Werte bleiben nur auf deinem Handy.</p></div>`;
-  const rows = MEAS.map(([k, n]) => { const v = L.filter((q) => q[k]).map((q) => q[k]); if (!v.length) return ""; const d = v[v.length - 1] - v[0]; return `<div class="pi">${spark(v)}<div class="grow stack" style="gap:2px"><b>${n}</b><span class="small muted num">${fmt(v[0])} → ${fmt(v[v.length - 1])} cm · ${v.length}× gemessen</span></div>${v.length > 1 ? `<span class="note ${d !== 0 ? "ok" : ""} num">${d > 0 ? "+" : ""}${fmt(d)}</span>` : ""}</div>`; }).join("");
+  const form = `<div class="card" style="gap:10px"><h2>Neu <em>messen</em></h2><div class="mgrid">${MEAS.map(([k, n, u]) => `<label class="stack" style="gap:4px"><span class="small muted">${n} (${u})</span><input id="m-${k}" class="field num" inputmode="decimal" placeholder="${last[k] ? String(last[k]).replace(".", ",") : "–"}"></label>`).join("")}</div><button class="btn sm" style="align-self:flex-start" data-a="msave">Speichern</button><p class="small muted">Am besten alle 4 Wochen, morgens, immer an derselben Stelle. Bei Muskelaufbau sagen Maße oft mehr als die Waage. Die Werte bleiben nur auf deinem Handy.</p></div>`;
+  const rows = MEAS.map(([k, n, u]) => { const v = L.filter((q) => q[k]).map((q) => q[k]); if (!v.length) return ""; const d = v[v.length - 1] - v[0]; return `<div class="pi">${spark(v)}<div class="grow stack" style="gap:2px"><b>${n}</b><span class="small muted num">${fmt(v[0])} → ${fmt(v[v.length - 1])} ${u} · ${v.length}× gemessen</span></div>${v.length > 1 ? `<span class="note ${d !== 0 ? "ok" : ""} num">${d > 0 ? "+" : ""}${fmt(d)}</span>` : ""}</div>`; }).join("");
   const hist = L.length ? `<div class="card" style="gap:2px"><h2>Verlauf</h2>${rows}<div class="stack" style="gap:4px;margin-top:8px">${[...L].reverse().slice(0, 6).map((q, i) => `<div class="row between small"><span class="muted">${dShort(new Date(q.d))}</span><span class="num">${MEAS.map(([k]) => (q[k] ? fmt(q[k]) : "–")).join(" · ")}</span><button class="link" style="color:var(--muted);font-size:12px" data-a="mdel" data-i="${L.length - 1 - i}">Löschen</button></div>`).join("")}</div></div>` : "";
-  return form + hist;
+  return form + (bodyStats().length ? `<div class="card" style="gap:8px"><h2>Deine <em>Werte</em></h2>${bodyStatsHtml()}</div>` : "") + hist;
 }
 /* Trainingstag teilen per Link oder Code */
 const b64e = (o) => btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
@@ -1247,7 +1276,7 @@ const FOCI = {
   ruecken: { n: "Rücken stärken", sub: "Mehr Rücken, Rumpf und Schultern", groups: ["ruecken", "bauch", "schulter"] },
   kraft: { n: "Stärker werden", sub: "Schwere Sätze in jeder Einheit", groups: [], heavy: true },
   fett: { n: "Körperfett verlieren", sub: "Muskeln halten, kürzere Pausen, 12 Min Ausdauer zum Schluss", groups: [], fat: true,
-    info: "Krafttraining hält die Muskeln, die Ausdauer am Ende und mehr Bewegung im Alltag verbrauchen zusätzlich Energie. Den größten Hebel hat die Ernährung – bei Fragen dazu hilft eine Ernährungsberatung oder deine Ärztin. Gemessen wird am Maßband, nicht an der Waage." },
+    info: "Krafttraining hält die Muskeln, die Ausdauer am Ende und mehr Bewegung im Alltag verbrauchen zusätzlich Energie. Den größten Hebel hat die Ernährung – bei Fragen dazu hilft eine Ernährungsberatung oder deine Ärztin. Das Maßband sagt dabei mehr als die Waage: Muskeln wiegen, nehmen aber wenig Platz ein." },
 };
 const fatFocus = () => !!(focusOn() && FOCI[S.focus.id].fat);
 const FIN_SEC = 12 * 60;
@@ -1263,7 +1292,7 @@ function focusCard() {
   if (w <= 6) return `<div class="card" style="gap:8px"><div class="row between"><span class="eyebrow" style="color:var(--accent)">Fokus-Block</span><span class="small muted num">Woche ${w} von 6</span></div><b>${f.n}</b>${f.info && w === 1 ? `<span class="small muted">${f.info}</span>` : ""}<div style="height:6px;border-radius:3px;background:var(--surface2);overflow:hidden"><div style="height:100%;width:${(w / 6) * 100}%;background:var(--accent)"></div></div></div>`;
   if (f.fat) {
     const a = S.focus.meas || {}; const b = lastMeas() || {};
-    const mrows = MEAS.filter(([k]) => a[k] && b[k] && a[k] !== b[k]).map(([k, n]) => `<div class="row between small"><span>${n}</span><span class="note ok num">${fmt(a[k])} → ${fmt(b[k])} cm</span></div>`).join("");
+    const mrows = MEAS.filter(([k]) => a[k] && b[k] && a[k] !== b[k]).map(([k, n, u]) => `<div class="row between small"><span>${n}</span><span class="note ok num">${fmt(a[k])} → ${fmt(b[k])} ${u}</span></div>`).join("");
     return `<div class="card" style="gap:8px;background:var(--mint)"><span class="eyebrow" style="color:var(--mint-ink)">Fokus-Block geschafft</span><b style="color:var(--mint-ink)">${f.n}: 6 Wochen durchgezogen!</b>${mrows || `<span class="small" style="color:var(--mint-ink)">Trag deine Maße unter Verlauf → Maße ein, dann siehst du hier den Vergleich.</span>`}<button class="btn sm" style="align-self:flex-start" data-a="focusend">Abschließen</button></div>`;
   }
   const before = S.focus.base || {}; const now = bestNow(Object.keys(before));
@@ -1283,7 +1312,7 @@ function checkSheet() {
   const ids = [...new Set(ks.flatMap((s) => s.items.map((i) => i.ex)))];
   const rows = ids.map((id) => { const p = series(id).filter((q) => q.d >= new Date(since) && q.w); if (p.length < 2) return null; return { id, a: p[0].w, b: p[p.length - 1].w }; }).filter((r) => r && r.b !== r.a).sort((x, y) => (y.b - y.a) / y.a - (x.b - x.a) / x.a).slice(0, 6);
   const L = (S.measures || []).filter((q) => q.d >= since);
-  const meas = L.length >= 2 ? MEAS.map(([k, n]) => { const v = L.filter((q) => q[k]).map((q) => q[k]); return v.length >= 2 ? `<div class="row between small"><span>${n}</span><span class="num">${fmt(v[0])} → ${fmt(v[v.length - 1])} cm</span></div>` : ""; }).join("") : "";
+  const meas = L.length >= 2 ? MEAS.map(([k, n, u]) => { const v = L.filter((q) => q[k]).map((q) => q[k]); return v.length >= 2 ? `<div class="row between small"><span>${n}</span><span class="num">${fmt(v[0])} → ${fmt(v[v.length - 1])} ${u}</span></div>` : ""; }).join("") : "";
   return `<span class="eyebrow">Letzte 6 Wochen</span><h2>Das hat sich <em>getan</em></h2>
     <div class="tiles"><div class="tile"><b>${ks.length}</b><span>Einheiten</span></div><div class="tile"><b>${ks.reduce((a, s) => a + setsOf(s), 0)}</b><span>Sätze</span></div><div class="tile"><b>${weekStreak()}</b><span>Wochen Serie</span></div></div>
     ${rows.length ? `<div class="card" style="gap:6px"><h3>Gewichte</h3>${rows.map((r) => `<div class="row between small"><span>${esc(EXM[r.id].n)}</span><span class="note ${r.b > r.a ? "ok" : ""} num">${fmt(r.a)} → ${fmt(r.b)} kg</span></div>`).join("")}</div>` : ""}
@@ -1300,6 +1329,7 @@ function reportText() {
   const pz = (S.pauses || []).filter((p) => new Date(p.to || Date.now()) >= since).map((p) => `- ${(PAUSE_WHY[p.why] || [""])[0]}: ${dShort(new Date(p.from))}–${p.to ? dShort(new Date(p.to)) : "heute"}`);
   return [`Trainingsauszug ${S.name || ""} – Selfcare Studio`, `Zeitraum: ${dShort(since)} bis ${dShort(new Date())}`, "",
     `Einheiten: ${kr.length} Kraft, ${ks.length - kr.length} Pilates/Mobility${r.length ? `, Anstrengung Ø ${fmt(r.reduce((a, b) => a + b, 0) / r.length, 1)} von 10` : ""}`,
+    ...(ageNow() || heightCm() || lastWeight() ? [`Körperdaten: ${[ageNow() ? ageNow() + " Jahre" : "", heightCm() ? heightCm() + " cm" : "", lastWeight() ? fmt(lastWeight()) + " kg" : ""].filter(Boolean).join(", ")}`] : []),
     `Einschränkungen: ${lim.join(", ") || "keine"}`, "", "Sätze pro Muskelgruppe und Woche (Ø):",
     ...GORDER.filter((g) => sets[g]).map((g) => `- ${GROUPS[g].n}: ${fmt(sets[g] / 4, 1)}`), "", "Übungen:", ...(ex.length ? ex : ["- keine"]),
     ...(pz.length ? ["", "Pausen:", ...pz] : [])].join("\n");
@@ -2057,8 +2087,8 @@ function vTrain() {
   const fmtT = (s) => (s >= 60 ? Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0") : String(s));
   if (st.k === "cardio" && A.ph === "pick") {
     const opts = CARDIO.filter((c) => !c.eq || S.equip[c.eq] !== false);
-    body = st.sect === "fin" ? `<div class="stack" style="gap:6px"><span class="eyebrow">Fokus · Körperfett verlieren</span><h1>Zum Schluss <em>Ausdauer</em>.</h1><p class="muted">${Math.round(st.sec / 60)} Minuten zügig: Du kommst ins Schwitzen, kannst aber noch in ganzen Sätzen sprechen. Welches Gerät ist frei?</p></div>`
-      : `<div class="stack" style="gap:6px"><h1>Erst mal <em>warm</em> werden.</h1><p class="muted">${Math.round(st.sec / 60)} Minuten locker, die letzte Minute etwas zügiger. Welches Gerät ist frei?</p></div>`;
+    body = st.sect === "fin" ? `<div class="stack" style="gap:6px"><span class="eyebrow">Fokus · Körperfett verlieren</span><h1>Zum Schluss <em>Ausdauer</em>.</h1><p class="muted">${Math.round(st.sec / 60)} Minuten zügig: Du kommst ins Schwitzen, kannst aber noch in ganzen Sätzen sprechen.${hfMax() ? ` ${pulseRange(0.65, 0.75)}.` : ""} Welches Gerät ist frei?</p></div>`
+      : `<div class="stack" style="gap:6px"><h1>Erst mal <em>warm</em> werden.</h1><p class="muted">${Math.round(st.sec / 60)} Minuten locker, die letzte Minute etwas zügiger.${hfMax() ? ` ${pulseRange(0.5, 0.65)}.` : ""} Welches Gerät ist frei?</p></div>`;
     body += `
       <div class="cardio">${opts.map((c) => `<button class="opt" data-a="cardio" data-x="${c.id}">${figSVG(c.id, "", "s")}<b>${esc(EXM[c.id].n)}</b></button>`).join("")}</div>`;
     bar = st.sect === "fin" ? `<button class="btn ghost" data-a="tr-skipfin">Ausdauer heute auslassen</button>` : `<button class="btn ghost" data-a="tr-skipwarm">Aufwärmen überspringen</button>`;
@@ -2068,7 +2098,7 @@ function vTrain() {
     body = `<div class="stack" style="gap:2px;text-align:center"><span class="eyebrow">${A.ph === "prep" ? "Gleich geht's los" : st.sect === "cool" ? "Dehnen & atmen" : st.sect === "fin" ? "Zügig bewegen" : "Locker bewegen"}${st.side ? " · " + st.side : ""}</span><h1 class="tr-name">${esc(x.n)}</h1></div>
       ${figSVG(x.id, "", "tr-fig")}
       ${ring(st.sect === "cool" ? "calm" : "", A.ph === "prep" ? left : fmtT(left), A.paused ? "Pause" : A.ph === "prep" ? "Bereit machen" : left >= 60 ? "Restzeit" : "Sekunden")}
-      <p class="small muted" style="text-align:center">${esc(x.tips[0] || "")}</p>
+      <p class="small muted" style="text-align:center">${st.k === "cardio" && hfMax() ? `<b>${st.sect === "fin" ? pulseRange(0.65, 0.75) : pulseRange(0.5, 0.65)}</b> · ` : ""}${esc(x.tips[0] || "")}</p>
       ${nx ? `<p class="small muted" style="text-align:center">Danach: ${esc(nx.k === "item" ? EXM[itemById(nx.id).ex].n : EXM[nx.ex]?.n || "")}</p>` : ""}`;
     bar = `<button class="btn ghost" style="width:auto" data-a="tr-prev" aria-label="Zurück">‹</button><button class="btn ghost" data-a="tr-hold">${A.paused ? "Weiter" : "Pause"}</button><button class="btn ghost" style="width:auto" data-a="tr-next" aria-label="Überspringen">›</button>`;
   } else if (st.k === "item") {
@@ -2372,7 +2402,7 @@ function vHist() {
       const useW = p.some((q) => q.w); const vals = p.map((q) => (useW ? q.w : q.r)).filter((v) => v != null);
       const first = vals[0], last = vals[vals.length - 1];
       const d = last - first;
-      return `<button class="li" data-a="info" data-x="${id}">${spark(vals)}<div class="grow stack" style="gap:2px"><b>${esc(EXM[id].n)}</b><span class="small muted num">${p.length}× trainiert · ${fmt(first)} → ${fmt(last)} ${useW ? "kg" : "Wdh."}</span></div>${d > 0 ? `<span class="note ok num">+${fmt(d)}</span>` : ""}</button>`;
+      return `<button class="li" data-a="info" data-x="${id}">${spark(vals)}<div class="grow stack" style="gap:2px"><b>${esc(EXM[id].n)}</b><span class="small muted num">${p.length}× trainiert · ${fmt(first)} → ${fmt(last)} ${useW ? "kg" : "Wdh."}${useW && EXM[id].type === "c" && weightAt(p[p.length - 1].d) ? ` · ${fmt(last / weightAt(p[p.length - 1].d), 2)}× Körpergewicht` : ""}</span></div>${d > 0 ? `<span class="note ok num">+${fmt(d)}</span>` : ""}</button>`;
     }).join("") || `<div class="li muted">Noch keine Kraftübungen.</div>`}</div>`;
   }
   return `<div class="wrap"><h1>Verlauf</h1>${seg}${body}</div>`;
@@ -2402,6 +2432,7 @@ function vProf() {
   return `<div class="wrap">
     <h1>Profil</h1>
     <div class="card"><label class="small muted" for="pname">Name</label><input id="pname" class="field" data-in="name" value="${esc(S.name)}" placeholder="Wie heißt du?"></div>
+    ${bodyCard(false)}
     ${figureCard("Deine Figur", "Outfit und Frisur – so trainiert deine Figur in allen Animationen.")}
     <div class="card"><h3>Wiederholungen</h3><div class="seg">${opt("mittel", "Aufbau", "8–15")}${opt("hoch", "Aufbau+", "10–20")}${opt("ausdauer", "Kraftausdauer", "15–25")}</div>
       <div class="row between"><div class="grow"><b>Rücken schonen</b><p class="small muted">Keine schweren Rückenübungen, dort mehr Wiederholungen mit weniger Gewicht.</p></div><button class="toggle ${S.backCare ? "on" : ""}" data-a="back" role="switch" aria-checked="${S.backCare}" aria-label="Rücken schonen"></button></div></div>
@@ -2508,6 +2539,7 @@ function vOb() {
   if (st === 1) body = `<div class="stack" style="gap:6px">${eb("Ziel")}<h1>Was möchtest du <em>erreichen</em>?</h1><p class="muted">Danach richten sich Sätze und Wiederholungen. Mehr Wiederholungen mit etwas weniger Gewicht bauen Muskeln auf und schonen Gelenke und Rücken.</p></div>
     <div class="stack">${[["mittel", "Muskelaufbau", "8–12 Wdh. bei Grundübungen, 10–15 bei Isolation"], ["hoch", "Muskelaufbau mit mehr Wiederholungen", "10–15 Wdh. bei Grundübungen, 12–20 bei Isolation. Empfohlen."], ["ausdauer", "Kraftausdauer", "15–20 Wdh., leichteres Gewicht"]].map(([k, n, s]) => `<button class="opt ${S.reps === k ? "on" : ""}" data-a="reps" data-k="${k}"><b>${n}</b><span class="small muted">${s}</span></button>`).join("")}</div>
     <div class="card"><div class="row between"><div class="grow"><b>Rücken schonen</b><p class="small muted">Keine schweren Übungen mit Last auf dem unteren Rücken. Wo der Rücken mitarbeitet, gibt es mehr Wiederholungen mit weniger Gewicht.</p></div><button class="toggle ${S.backCare ? "on" : ""}" data-a="back" role="switch" aria-checked="${S.backCare}" aria-label="Rücken schonen"></button></div></div>
+    ${bodyCard(true)}
     <div class="card" style="gap:8px"><b>Weitere Einschränkungen?</b><p class="small muted">Übungen, die diese Bereiche stark belasten, lässt die App weg. Freiwillig.</p>${limitChips()}</div>`;
   if (st === 2) {
     const n = S.days.filter((d) => (d.type || "kraft") === "kraft").length;
@@ -2897,6 +2929,16 @@ document.addEventListener("click", (e) => {
 document.addEventListener("input", (e) => {
   const t = e.target; const k = t.dataset.in; if (!k) return;
   if (k === "name") { S.name = t.value.trim(); save(); }
+  if (k === "byear" || k === "bheight" || k === "bweight") {
+    const v = num(t.value); S.body = S.body || {};
+    if (k === "byear") S.body.year = v >= 1920 && v <= new Date().getFullYear() - 10 ? Math.round(v) : null;
+    if (k === "bheight") S.body.height = v >= 100 && v <= 230 ? Math.round(v) : null;
+    if (k === "bweight" && v >= 30 && v <= 250) {
+      S.measures = S.measures || []; const today = dayKey(new Date()); const e = S.measures.find((q) => dayKey(new Date(q.d)) === today);
+      if (e) e.gewicht = Math.round(v * 10) / 10; else S.measures.push({ d: new Date().toISOString(), gewicht: Math.round(v * 10) / 10 });
+    }
+    save(); const bi = document.getElementById("bodyinfo"); if (bi) bi.innerHTML = bodyStatsHtml();
+  }
   if (k === "music") { const v = t.value.trim(); S.music = /^https?:\/\//.test(v) ? v : ""; save(); }
   if (k === "caltime") { S.calTime = t.value || "18:00"; save(); }
   if (k === "ocolor") { S.outfitCustom = Object.assign(customOutfit(), { [t.dataset.k]: t.value }); delete S.outfitCustom.id; delete S.outfitCustom.n; save(); applyOutfit(); }

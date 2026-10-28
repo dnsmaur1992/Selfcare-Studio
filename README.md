@@ -86,7 +86,8 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 - Verlauf jeder Einheit mit allen Sätzen, Fortschritt pro Übung als Diagramm
 - **Abschluss zum Feiern:** Wochenring, goldene Karte bei kompletter Woche, Gesamtbilanz
 - **Wochenserie, Rekorde, 15 Abzeichen**, Trainingskalender der letzten 12 Wochen
-- **Körpermaße** (Taille, Hüfte, Po, Oberschenkel) mit Verlauf
+- **Körpermaße und Gewicht** (Taille, Hüfte, Po, Oberschenkel) mit Verlauf
+- **Über dich (freiwillig):** Alter, Größe, Gewicht → Maximalpuls und Pulsbereiche beim Cardio, BMI, Taille-zu-Größe, Kraft im Verhältnis zum Körpergewicht
 
 ### Persönlich
 - **Deine Figur:** Outfit (fünf Vorlagen oder eigene Farben), Frisur und Haarfarbe
