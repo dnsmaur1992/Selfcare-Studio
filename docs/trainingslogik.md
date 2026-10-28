@@ -1,6 +1,6 @@
 # Selfcare Studio – Trainingslogik
 
-Stand: Version 2.4. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
+Stand: Version 2.5. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
 
 ## Plan
 - **Muskelgruppen** haben eine Größe (Po 6, Beine vorne 5, Rücken 5 …). Daraus entsteht das Volumen eines Tages in „effektiven Sätzen“, höchstens 22 pro Einheit.
@@ -28,7 +28,7 @@ Stand: Version 2.4. Diese Datei beschreibt, wie die App rechnet. Sie ist die Gru
 ## Ablauf im Training
 Ein Bildschirm, ein Schritt: Cardio (Gerät wählen) → Aktivierung mit Timer → Kraftübungen (Gerät frei? → Sätze → Pause) → Cool-down → Abschluss.
 - **Aufwärmen 10–15 Min** (Mini 8–10): Cardio 6 Min (Kurz 5, Mini 4,5), 4–5 Aktivierungsübungen à 40 s passend zu den Muskelgruppen.
-- **Aufwärmsätze auf Nachfrage:** Bei jeder großen Übung mit Gewicht (Grundübung, nicht Mini-Training) fragt die App vor dem ersten Arbeitssatz „Möchtest du einen Aufwärmsatz machen?“ und nach jedem Aufwärmsatz „Noch ein Aufwärmsatz?“. Vorschläge vom Arbeitsgewicht: 50 % × 10, 70 % × 6, 85 % × 3, danach 90 % × 2. Pause nach Aufwärmsätzen 45 s. Nach einem Tausch wird erneut gefragt, solange noch kein Arbeitssatz gemacht ist.
+- **Aufwärmsätze auf Nachfrage:** Bei jeder großen Übung mit Gewicht (Grundübung, nicht Mini-Training) fragt die App vor dem ersten Arbeitssatz „Möchtest du einen Aufwärmsatz machen?“ und nach jedem Aufwärmsatz „Noch ein Aufwärmsatz?“. Vorschläge vom Arbeitsgewicht: 50 % × 10, 70 % × 6, 85 % × 3, danach 90 % × 2. Pause nach Aufwärmsätzen 45 s. Nach einem Tausch wird erneut gefragt, solange noch kein Arbeitssatz gemacht ist. **Rückwege:** Im Aufwärmsatz „Doch kein Aufwärmsatz – direkt loslegen“ (Satz wird entfernt, keine weitere Frage). Beim ersten Arbeitssatz jeder Übung mit Gewicht (auch Isolation, nicht Mini) „Stattdessen erst einen Aufwärmsatz“ – danach fragt die App wie gewohnt „Noch ein Aufwärmsatz?“.
 - **Speichern:** Aufwärmsätze werden mit der Einheit gespeichert (`warm: true`). Sie zählen **nicht** für Sätze, Wochenvolumen, Rekorde, Fortschritt und Gewichtsvorschläge, aber **für die Gesamtlast** (kg × Wdh. aller Sätze). Verlauf und Abschluss zeigen „davon … kg Aufwärmen“.
 - **Cool-down ca. 5 Min:** eine Dehnung pro trainierter Muskelgruppe, 35 s je Seite.
 - Zeitübungen: 10 s „Bereit machen“, Gong, Ansage, weiter von selbst.
