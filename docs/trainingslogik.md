@@ -1,6 +1,6 @@
 # Selfcare Studio – Trainingslogik
 
-Stand: Version 3.4. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
+Stand: Version 3.5. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
 
 ## Plan
 - **Muskelgruppen** haben eine Größe (Po 6, Beine vorne 5, Rücken 5 …). Daraus entsteht das Volumen eines Tages in „effektiven Sätzen“, höchstens 22 pro Einheit.
@@ -106,6 +106,10 @@ Kein Cardio, keine Aufwärmsätze. 5 Mobilisations- und Dehnübungen nach Tagesa
 - **BMI** = Gewicht ÷ Größe² (Hinweis: unterscheidet nicht zwischen Muskeln und Fett). **Taille zu Größe** = Taille ÷ Größe, unter 0,5 gilt als günstig.
 - **Kraft im Verhältnis:** Im Fortschritt bei Grundübungen bestes Gewicht ÷ Körpergewicht zum jeweiligen Datum.
 - Gewicht und Größe beeinflussen **nicht** Sätze, Wiederholungen oder Startgewichte: Die App rechnet mit dem, was tatsächlich geschafft wird.
+
+## Darstellung
+- Hell, Dunkel oder Automatisch (`S.theme`).
+- **Akzentfarbe** (`S.accent`, `ACCENTS`): Pink (Standard), Koralle, Lavendel, Petrol, Blau, Graphit – je eigene Werte für Hell und Dunkel (Akzent, Schrift auf Akzent, zarter Hintergrund, Leuchten). Kontrast der Knopfschrift mindestens 4,3 : 1 (Test). Pastellflächen und Outfits bleiben unverändert.
 
 ## Daten
 Alles in `localStorage` unter `satzwerk.v1`. Backup als JSON-Datei über das Profil.
