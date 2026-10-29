@@ -25,11 +25,12 @@ Die Umrechnung ist eine Faustregel aus Muskelwirkung und Bewegungsmuster – „
 
 ## Gewichte
 - **Bedeutung:** Kurzhantel/Kettlebell = Gewicht je Hantel, Smith-Maschine = nur Scheiben, Kabel = Steckgewicht. Hinweis steht im Satz.
-- **Assistenzgeräte** (`isAssist`): eingetragen wird die Unterstützung. Weniger ist besser: Nachsteuerung, Rekorde, Fortschritt und „Steigerungen“ rechnen umgekehrt; keine Schätzung aus anderen Übungen, keine Aufwärmfrage; Gesamtlast = (Körpergewicht − Hilfe) × Wdh., ohne Körpergewicht 0.
+- **Assistenzgeräte** (`isAssist`): eingetragen wird die Unterstützung. **0 kg ist ein gültiger Wert** (ganz ohne Hilfe), ein leeres Feld bedeutet „nichts eingetragen“ (`validW`). Weniger ist besser: Nachsteuerung, Rekorde, Fortschritt und „Steigerungen“ rechnen umgekehrt; keine Schätzung aus anderen Übungen, keine Aufwärmfrage; Gesamtlast = (Körpergewicht − Hilfe) × Wdh., ohne Körpergewicht 0.
 - **Testsatz:** Gewicht so, dass die obere Wiederholungszahl geht und noch 1–2 übrig wären.
 - Bekannte Übung: Gewicht **und Wiederholungen** vom letzten Mal, Satz für Satz (`makeLog`).
 - Neue Übung: Schätzung aus der letzten Übung mit gleichem Muster. 1RM nach Epley `w × (1 + r/30)`, umgerechnet mit groben Gerätefaktoren (Maschine 1, Smith 0,9, Kabel 0,62, Kurzhantel/Kettlebell 0,42, einseitig × 0,55). Arbeitsgewicht = 1RM ÷ (1 + (Ziel-Wdh. + 2)/30), also 2 Wdh. im Tank. Angezeigt als „ca.“ mit Testsatz.
-- **Nachsteuern** nach jedem Satz: 2+ Wdh. über dem Bereich → schwerer, unter dem Bereich → leichter (über Epley, mindestens eine Gewichtsstufe). Stufen: Kurzhantel 1 kg (ab 10 kg 2 kg), Kettlebell 4 kg, sonst 2,5 kg.
+- **Nachsteuern** nach jedem Satz: 2+ Wdh. über dem Bereich → schwerer, unter dem Bereich → leichter (über Epley, mindestens eine Gewichtsstufe). Stufen: Kurzhantel 1 kg (ab 10 kg 2 kg), Kettlebell 4 kg, sonst 2,5 kg. Assist umgekehrt, auch von 0 kg aus (zu wenige Wdh. ohne Hilfe → eine Stufe Hilfe).
+- **Steigerung zwischen Einheiten** (`progressInfo`): Die App protokolliert und schlägt vor, ändert aber nichts ohne Antippen. Vorschlag nur, wenn beim letzten Mal **alle geplanten Arbeitssätze** (gespeichert als `sets`) gemacht wurden und **jeder** das obere Wiederholungsziel erreichte. Kein Vorschlag bei reinen Aufwärmprotokollen, fehlenden Gewichten, getauschten/abgebrochenen Übungen (`part`) oder geschätztem Testsatz. Vorschlag: Gewicht + eine Stufe; Assist − eine Stufe Hilfe (bei 0 kg: langsamer/mehr Wdh.); Körpergewicht: 3 Sek. absenken oder 2 Wdh. mehr; Halteübungen: 5–10 Sek. länger. Angezeigt vor dem ersten Arbeitssatz („Auf X kg erhöhen“ / „Beim Alten bleiben“) und als Markierung in der Vorbereitung.
 
 ## Ablauf im Training
 Ein Bildschirm, ein Schritt: Cardio (Gerät wählen) → Aktivierung mit Timer → Kraftübungen (Gerät frei? → Sätze → Pause) → Cool-down → Abschluss.
@@ -61,7 +62,7 @@ Ein Bildschirm, ein Schritt: Cardio (Gerät wählen) → Aktivierung mit Timer �
 - Jede Antwort „Frei“/„Besetzt“/„Später“ wird mit Gerät, Wochentag und Stunde gespeichert (`eqLog`, max. 400). Gilt ein Gerät zur gleichen Zeit (±1 Std., gleicher Wochentag, mind. 3 Antworten) zu ≥ 60 % als besetzt, rückt die Übung beim Start ans Ende.
 
 ## Mini-Training
-Runden: 3 je Übung, bei Satzpause über 1:00 nur 2, damit es bei etwa 30 Minuten bleibt. Die angezeigte Dauer rechnet mit Sätzen, Seiten und der eingestellten Mini-Pause.
+**Zeitbudget 30 Min inklusive Aufwärmen und Cool-down** (`MINI_BUDGET`, `miniTotal`). Runden: 3 je Übung, bei Mini-Pause über 1:00 nur 2. Gerechnet wie in der Vorschau (`estMin`: je Satz 0,75 Min, einseitig 1,4 Min, plus Mini-Pause). Passt es nicht, fallen zuerst Füllübungen weg (mindestens 3 bleiben), dann gibt es 2 Runden. Startseite, Auswahl „Mini“ und Vorbereitung zeigen dieselbe geschätzte Dauer; das Training nutzt genau die Sätze der Vorschau (auch beim Tausch).
 Nur Übungen ohne Gerät (Matte). Pro Muskelgruppe des Tages die beste Übung, aufgefüllt aus `MINI_FILL`. Für alle großen Gruppen außer Bizeps gibt es eine Körpergewichtsübung (u. a. Y-Heben, enge Liegestütz, Bridge mit Fersen weit vorn).
 
 ## Mini-Aufwärmen
@@ -125,7 +126,10 @@ Kein Cardio, keine Aufwärmsätze. 5 Mobilisations- und Dehnübungen nach Tagesa
 - **Notizen** (`S.notes`, je Übung, max. 300 Zeichen): unter „Tipps“ bearbeiten; erscheinen im Training unter dem Übungsnamen, in „Training vorbereiten“ und im Übungskatalog.
 
 ## Daten
-- **Robustheit:** Geteilte Codes und Backups werden vor dem Übernehmen geprüft (Trainingstyp, Wochentag, Muskelgruppen, Übungen, Sätze 1–6, Wiederholungen); Freitext wird von HTML-Zeichen befreit (`cleanTxt`). Beim Start repariert `normalizeState`/`normalizeDays` beschädigte Daten. Falls eine Ansicht trotzdem scheitert, erscheint eine Rettungsansicht statt eines weißen Bildschirms.
+- **Robustheit:** Geteilte Codes werden vor dem Übernehmen geprüft (Trainingstyp, Wochentag, Muskelgruppen, Übungen, Sätze 1–6, Wiederholungen); Freitext wird von HTML-Zeichen befreit (`cleanTxt`).
+- **Backup laden** (`checkBackup` → `applyBackup`): 1. Format prüfen (sonst Ablehnung). 2. In einer Kopie reparieren (`normalizeState`, `normalizeDays`): Einheiten, Übungen und einzelne Sätze, unbekannte Übungen, Zahlenwerte, Einstellungen (Wiederholungsziel, Pausen, Ton, Farbe, Darstellung, Fokus, Pause …). 3. Probeaufbau von Woche, Planung, Mini, Verlauf und Fortschritt ohne Speichern. Erst dann Bestätigung mit Liste der Reparaturen. Scheitert etwas – auch das Speichern –, bleibt der bisherige Stand unverändert.
+- **Beim Start** läuft dieselbe Reparatur. Wurde etwas geändert, liegt die Originalfassung unter `satzwerk.v1.vorReparatur` und die Startseite zeigt, was repariert wurde. Eine nicht fortsetzbare laufende Einheit wird nicht gelöscht, sondern als `rescued` beiseitegelegt (im Backup enthalten).
+- **Rettungsansicht:** Scheitert eine Ansicht, erscheint sie statt eines weißen Bildschirms. „Einheit speichern und beenden“ nutzt bei Pilates/Mobility `finishFlow`, sonst `finishSession`. Scheitert das Speichern, wird die laufende Einheit unverändert wiederhergestellt, der Fehler angezeigt und ein Backup angeboten. Eine schon gespeicherte Einheit (gleiche ID) wird nie doppelt angelegt.
 - **Tage** werden nach lokalem Kalendertag geführt (`dayKey`), nicht nach UTC.
 - Schlägt das Speichern fehl, erscheint oben eine Warnung.
 Alles in `localStorage` unter `satzwerk.v1`. Backup als JSON-Datei über das Profil.
