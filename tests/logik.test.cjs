@@ -154,5 +154,9 @@ S.equip.hack = true;
 // 31 Mini-Training: Oberkörper-Tag bekommt Oberkörper-Übungen
 const mo = buildMini(["ruecken", "brust", "schulter", "tri"]).map((i) => i.g);
 ok(["ruecken", "brust", "schulter", "tri"].every((g) => mo.includes(g)), "Mini-Training Oberkörper deckt Rücken, Brust, Schultern, Trizeps ab");
+// 32 Geräte-Einweisung für jede Maschine
+const freeKit = ["kh", "kb", "bank", "stepbox", "ball", "band", "miniband", "matte"];
+ok(Object.keys(EQUIP).filter((k) => !freeKit.includes(k)).every((k) => MACHINES[k] && MACHINES[k].s.length && MACHINES[k].g.length && MACHINES[k].b.length), "Jede Maschine hat Einstellen, So gelingt's und Stolpersteine");
+S.sessions = []; ok(!usedMachineBefore("beinpresse") && machineOf(EXM.legpress) === "beinpresse", "Beinpresse noch nie benutzt → Einweisung wird angeboten");
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
