@@ -168,5 +168,24 @@ S.active = { items: [wr], steps: [{ k: "item", id: wr.id }], pos: 0, ph: "sets",
 ok(S.active.total === 90, "Pause nach Aufwärmsatz: " + S.active.total + " s (eingestellt 90)");
 S.active = null; delete S.restW; ok(warmRest() === 45, "Ohne Einstellung weiterhin 45 s");
 S.restM = 60; S.active = { type: "mini" }; ok(restFor(EXM.bridge) === 60, "Mini-Training: eingestellte Pause 60 s"); S.active = null; delete S.restM;
+// 35 Eigene Übungen
+S.sessions = []; S.customEx = []; S.customEq = {};
+const cid = saveCustom({ n: "Glute-Drive-Maschine", base: "ht_m", eq: "base", neq: "Glute Drive", tips: "Gurt fest über die Hüfte" });
+const cxo = EXM[cid];
+ok(cxo && cxo.custom && cxo.pat === EXM.ht_m.pat && EQUIP[cxo.eq[0]] === "Glute Drive" && cxo.tips[0].startsWith("Gurt"), "Eigene Übung übernimmt Muster und Muskeln der Vorlage, eigenes Gerät angelegt");
+ok(cands("po", [], new Set()).some((q) => q.id === cid), "Eigene Übung kann im Plan vorkommen");
+const ai = makeItem("po", 3, EXM.ht_m, EXM.ht_m); ok(altsFor(ai, ["hipthrust"], new Set(["ht_m"])).slice(0, 3).some((q) => q.id === cid), "Hip-Thrust-Maschine besetzt → eigene Glute-Drive als Ersatz vorne mit dabei");
+S.equip[cxo.eq[0]] = false; ok(!cands("po", [], new Set()).some((q) => q.id === cid), "Eigenes Gerät ausgeblendet → Übung wird nicht geplant"); S.equip[cxo.eq[0]] = true;
+// Teilen: Trainingstag mit eigener Übung
+S.days[0].mode = "custom"; S.days[0].custom = [{ ex: cid, g: "po", sets: 3, reps: [10, 15] }];
+const code35 = dayCode(S.days[0]); S.customEx = []; S.customEq = {}; registerCustom();
+ok(!EXM[cid], "Ohne Definition kennt die App die Übung nicht");
+const nd35 = importDay(code35); ok(EXM[cid] && nd35.custom[0].ex === cid && EQUIP[EXM[cid].eq[0]] === "Glute Drive", "Geteilter Tag bringt die eigene Übung samt Gerät mit");
+// Löschen: im Verlauf benutzt → bleibt unsichtbar erhalten
+S.sessions.push({ id: "c1", date: new Date().toISOString(), items: [{ g: "po", ex: cid, reps: [10, 15], log: [{ w: "40", r: "12", done: true }] }] });
+deleteCustom(cid); ok(EXM[cid] && EXM[cid].hidden && !cands("po", [], new Set()).some((q) => q.id === cid) && !S.days.some((d) => (d.custom || []).some((q) => q.ex === cid)), "Gelöschte, schon trainierte Übung bleibt für den Verlauf lesbar, taucht aber nirgends mehr auf");
+S.sessions = []; S.customEx = []; S.customEq = {}; registerCustom();
+// 36 Notizen
+S.notes = { legpress: "Sitz Stufe 4" }; ok(exNote("legpress") === "Sitz Stufe 4" && noteLine("legpress").includes("Stufe 4") && noteLine("hack") === "", "Notiz zur Übung wird angezeigt, ohne Notiz nichts");
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
