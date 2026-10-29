@@ -1,6 +1,6 @@
 # Selfcare Studio – Trainingslogik
 
-Stand: Version 3.3. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
+Stand: Version 3.4. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
 
 ## Plan
 - **Muskelgruppen** haben eine Größe (Po 6, Beine vorne 5, Rücken 5 …). Daraus entsteht das Volumen eines Tages in „effektiven Sätzen“, höchstens 22 pro Einheit.
@@ -45,6 +45,11 @@ Ein Bildschirm, ein Schritt: Cardio (Gerät wählen) → Aktivierung mit Timer �
 ## Pilates & Mobility (`buildFlow`, `flowGoto`, `flowTick`)
 - Pilates: 10 Positionen in 2 Runden, Mobility: 11 Positionen in 1 Runde, Positionen mit Seiten je links/rechts. Zeit pro Position so, dass es ca. 30 Min sind (40–90 s), 10 s Bereitmachen.
 - Ton und Ansage wie im Krafttraining: „Gleich: …“ bzw. „Seitenwechsel: …“ beim Bereitmachen, Signalton bei Start und Ende jeder Position, Countdown in den letzten 3 Sekunden, „Noch 10 Sekunden“ ab 30 s Haltezeit.
+
+## Geräte-Einweisung (`MACHINES`)
+- Für jede Maschine (alles außer Kurzhantel, Kettlebell, Bank, Step-Box, Ball, Bändern, Matte): **Einstellen**, **So gelingt's**, **Stolpersteine** – je 1–3 kurze Punkte.
+- **Erstes Mal** (`usedMachineBefore`: noch kein geschaffter Satz an einer Übung mit diesem Gerät): aufklappbare Karte „Erstes Mal an der …?“ bei der Frage „Ist … frei?“ bzw. vor dem ersten Aufwärmsatz.
+- **Immer** unter „Tipps“ der Übung; dort beim ersten Mal schon aufgeklappt.
 
 ## Gerätefrage und Gerätezeiten
 - Keine „Frei?“-Frage bei Übungen nur mit Matte, Band oder Gymnastikball (`noAsk`). Ist so eine Übung Ersatz, wird nur angeboten: „Original ist jetzt frei“.
