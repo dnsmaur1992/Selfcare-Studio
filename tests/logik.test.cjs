@@ -162,5 +162,11 @@ S.sessions = []; ok(!usedMachineBefore("beinpresse") && machineOf(EXM.legpress) 
 const lum = (h) => { const c = [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4))); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
 const cr = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
 ok(Object.values(ACCENTS).every((o) => cr(o.l[0], o.l[1]) >= 4.3 && cr(o.d[0], o.d[1]) >= 4.3), "Sechs Akzentfarben, Knopfschrift überall mindestens 4,3 : 1 Kontrast");
+// 34 Pause nach Aufwärmsätzen einstellbar
+S.restW = 90; const wr = prepItem({ g: "po", e: 3, ex: "ht_m", ideal: "ht_m", sets: 2, reps: [10, 15] }, true); wr.log.forEach((q) => (q.w = "50")); addWarmSet(wr);
+S.active = { items: [wr], steps: [{ k: "item", id: wr.id }], pos: 0, ph: "sets", start: Date.now() }; setDone();
+ok(S.active.total === 90, "Pause nach Aufwärmsatz: " + S.active.total + " s (eingestellt 90)");
+S.active = null; delete S.restW; ok(warmRest() === 45, "Ohne Einstellung weiterhin 45 s");
+S.restM = 60; S.active = { type: "mini" }; ok(restFor(EXM.bridge) === 60, "Mini-Training: eingestellte Pause 60 s"); S.active = null; delete S.restM;
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
