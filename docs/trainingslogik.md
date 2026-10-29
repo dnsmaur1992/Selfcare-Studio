@@ -1,6 +1,6 @@
 # Selfcare Studio – Trainingslogik
 
-Stand: Version 3.6. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
+Stand: Version 3.7. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
 
 ## Plan
 - **Muskelgruppen** haben eine Größe (Po 6, Beine vorne 5, Rücken 5 …). Daraus entsteht das Volumen eines Tages in „effektiven Sätzen“, höchstens 22 pro Einheit.
@@ -110,6 +110,13 @@ Kein Cardio, keine Aufwärmsätze. 5 Mobilisations- und Dehnübungen nach Tagesa
 ## Darstellung
 - Hell, Dunkel oder Automatisch (`S.theme`).
 - **Akzentfarbe** (`S.accent`, `ACCENTS`): Pink (Standard), Koralle, Lavendel, Petrol, Blau, Graphit – je eigene Werte für Hell und Dunkel (Akzent, Schrift auf Akzent, zarter Hintergrund, Leuchten). Kontrast der Knopfschrift mindestens 4,3 : 1 (Test). Pastellflächen und Outfits bleiben unverändert.
+
+## Eigene Übungen & Notizen
+- **Eigene Übung** (`S.customEx`: Name, Vorlage `base`, Gerät, Tipps): übernimmt von der Vorlage Animation, Muskelwirkung `m`, Bewegungsmuster, Übungsart, Last- und Rückenkennzeichen. Wird beim Start und nach jeder Änderung in `EX`/`EXM` eingehängt (`registerCustom`) und verhält sich danach wie eine eingebaute Übung: Planung, Ersatz bei „besetzt“, Satzberechnung, Gewichtsschätzung, Wochenvolumen.
+- **Eigenes Gerät** (`S.customEq`): erscheint unter Profil → Geräte bei „Eigene Geräte“ und lässt sich ausblenden.
+- **Löschen:** Wurde die Übung schon trainiert, bleibt sie unsichtbar erhalten (`hidden`), damit alte Einheiten lesbar bleiben; aus eigenen Trainingstagen wird sie entfernt.
+- **Teilen:** Ein geteilter Trainingstag enthält die Definition seiner eigenen Übungen und Geräte; beim Übernehmen werden sie ergänzt.
+- **Notizen** (`S.notes`, je Übung, max. 300 Zeichen): unter „Tipps“ bearbeiten; erscheinen im Training unter dem Übungsnamen, in „Training vorbereiten“ und im Übungskatalog.
 
 ## Daten
 Alles in `localStorage` unter `satzwerk.v1`. Backup als JSON-Datei über das Profil.
