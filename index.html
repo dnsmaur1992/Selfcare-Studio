@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.9">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.9">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.9.1">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.9.1">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.9">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.9.1">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -680,12 +680,16 @@ function wHint(x) {
   if (x.eq.includes("kabel")) return "Wie am Steckgewicht angezeigt.";
   return "";
 }
-const S_VERSION = "3.9";
-const NEWS = { v: "3.9", items: [
+const S_VERSION = "3.9.1";
+const NEWS = { v: "3.9.1", items: [
+  ["Kleine Korrektur", "Deine Angabe „Wie anstrengend war's?“ bleibt jetzt auch nach einem Neustart oder Backup erhalten – die App erkennt damit wieder rechtzeitig, wann eine Entlastungswoche guttut."],
+  ["Mini wirklich in 30 Minuten", "Auch mit 2 Minuten Pause bleibt das Mini-Training inklusive Aufwärmen und Cool-down bei höchstens 30 Minuten."],
+], old: [
+  { v: "3.9", items: [
   ["Steigerung vorgeschlagen", "Hast du letztes Mal alle Sätze bis zum oberen Ziel geschafft, schlägt die App vor dem ersten Satz mehr Gewicht vor – bei Assist-Geräten weniger Hilfe. Ein Tipp übernimmt es, sonst bleibt alles wie gehabt."],
   ["Mini-Training passt in 30 Minuten", "Die App rechnet Aufwärmen, Pausen, Seiten und Cool-down mit und kürzt notfalls Übungen oder Runden. Die geschätzte Dauer steht vorher dabei."],
   ["Daten noch sicherer", "Backups werden vor dem Laden vollständig geprüft; Reparaturen werden angezeigt. Die Rettungsansicht verliert keine laufende Einheit mehr. 0 kg Hilfe zählt beim Assist als echter Wert."],
-], old: [
+] },
   { v: "3.8", items: [
   ["Sicherer & genauer", "Nach einer gründlichen Prüfung: Einschränkungen gelten jetzt auch in eigenen Plänen, Klimmzug- und Dip-Assist zählen richtig herum (weniger Hilfe = Fortschritt), geteilte Pläne werden streng geprüft."],
   ["Ehrlichere Zahlen", "Pilates und Mobility speichern nur, was du wirklich gehalten hast. Mini-Training rechnet mit deiner Pause. Aufwärmsätze bleiben beim Gerätewechsel erhalten."],
@@ -873,12 +877,13 @@ function cleanLogs(list, cnt) {
   }).filter(Boolean);
 }
 const cleanReps = (v) => { const r = arrOf(v).map((x) => intIn(x, 1, 300, null)); return r.length === 2 && r[0] && r[1] && r[0] <= r[1] ? r : null; };
-const counter = () => ({ sess: 0, item: 0, log: 0, val: 0, ex: 0, set: [], misc: [] });
+const counter = () => ({ sess: 0, item: 0, log: 0, val: 0, ex: 0, rpe: 0, set: [], misc: [] });
 function cntNotes(c, notes) {
   if (c.sess) notes.push(`${c.sess} beschädigte ${c.sess === 1 ? "Einheit" : "Einheiten"} entfernt`);
   if (c.ex) notes.push(`${c.ex} ${c.ex === 1 ? "Eintrag" : "Einträge"} zu unbekannten Übungen entfernt`);
   if (c.item) notes.push(`${c.item} beschädigte ${c.item === 1 ? "Übung" : "Übungen"} in Einheiten entfernt`);
   if (c.log) notes.push(`${c.log} beschädigte ${c.log === 1 ? "Satz" : "Sätze"} entfernt`);
+  if (c.rpe) notes.push(`${c.rpe} ungültige ${c.rpe === 1 ? "Anstrengungsbewertung" : "Anstrengungsbewertungen"} entfernt`);
   if (c.val) notes.push(`${c.val} ungültige Gewichts-/Wiederholungswerte geleert`);
   if (c.set.length) notes.push(`Einstellungen zurückgesetzt: ${c.set.join(", ")}`);
   c.misc.forEach((m) => notes.push(m));
@@ -895,24 +900,27 @@ function normalizeState(st, notes) {
     const flow = x.flow === true || x.type === "pilates" || x.type === "mobility";
     const items = x.items.map((it) => {
       if (!it || typeof it !== "object") { c.item++; return null; }
-      if (flow) { if (!flowKnown(it.ex)) { c.ex++; return null; } return { ex: it.ex, side: typeof it.side === "string" ? cleanTxt(it.side, 10) : "", sec: clampInt(it.sec, 0, 3600, 0) }; }
+      if (flow) { if (!flowKnown(it.ex)) { c.ex++; return null; } return Object.assign({}, it, { ex: it.ex, side: typeof it.side === "string" ? cleanTxt(it.side, 10) : "", sec: clampInt(it.sec, 0, 3600, 0) }); }
       if (!known(it.ex)) { c.ex++; return null; }
       if (!Array.isArray(it.log)) { c.item++; return null; }
-      const o = { ex: it.ex, log: cleanLogs(it.log, c) };
-      if (GROUPS[it.g]) o.g = it.g; const rr = cleanReps(it.reps); if (rr) o.reps = rr;
-      if (it.note) o.note = cleanTxt(it.note, 120); if (it.sets != null) o.sets = intIn(it.sets, 0, 30, 0); if (it.part) o.part = true;
+      /* Bekannte Felder prüfen, alle übrigen gültigen Daten unverändert mitnehmen. */
+      const o = Object.assign({}, it, { ex: it.ex, log: cleanLogs(it.log, c) });
+      if (!GROUPS[it.g]) delete o.g; const rr = cleanReps(it.reps); if (rr) o.reps = rr; else delete o.reps;
+      if (it.note) o.note = cleanTxt(it.note, 120); else delete o.note; if (it.sets != null) o.sets = intIn(it.sets, 0, 30, 0); if (it.part) o.part = true; else delete o.part;
       return o.log.length ? o : (c.item++, null);
     }).filter(Boolean);
     if (!items.length) { c.sess++; return null; }
-    const o = { id: typeof x.id === "string" ? x.id.slice(0, 20) : uid(), date: x.date, type: SESS_TYPES.includes(x.type) ? x.type : flow ? "pilates" : "kraft", name: cleanTxt(x.name, 60) || (TYPES[x.type] || TYPES.kraft).n, groups: arr(x.groups).filter((g) => GROUPS[g]), dur: clampInt(x.dur, 1, 600, 1), items };
-    if (flow) { o.flow = true; o.skipped = clampInt(x.skipped, 0, 999, 0); }
-    if (x.slotId && typeof x.slotId === "string") o.slotId = x.slotId.slice(0, 20);
-    if (x.warm) o.warm = true; if (x.prs != null) o.prs = clampInt(x.prs, 0, 999, 0);
+    const o = Object.assign({}, x, { id: typeof x.id === "string" ? x.id.slice(0, 20) : uid(), date: x.date, type: SESS_TYPES.includes(x.type) ? x.type : flow ? "pilates" : "kraft", name: cleanTxt(x.name, 60) || (TYPES[x.type] || TYPES.kraft).n, groups: arr(x.groups).filter((g) => GROUPS[g]), dur: clampInt(x.dur, 1, 600, 1), items });
+    if (flow) { o.flow = true; o.skipped = clampInt(x.skipped, 0, 999, 0); } else delete o.flow;
+    if (x.slotId && typeof x.slotId === "string") o.slotId = x.slotId.slice(0, 20); else delete o.slotId;
+    if (x.warm) o.warm = true; else delete o.warm; if (x.prs != null) o.prs = clampInt(x.prs, 0, 999, 0);
+    /* Anstrengung (RPE) bleibt erhalten: ganze Zahl 1–10 wie in der Auswahl; fehlt sie, bleibt sie fehlend. */
+    if (x.rpe != null) { const v = Number(x.rpe); if (Number.isInteger(v) && v >= 1 && v <= 10) o.rpe = v; else { delete o.rpe; c.rpe++; } }
     return o;
   }).filter(Boolean);
   /* Maße */
   const nm = arr(st.measures).length;
-  st.measures = arr(st.measures).filter((x) => x && isDate(x.d)).map((x) => { const o = { d: x.d }; MEAS.forEach(([k]) => { const v = num(x[k]); if (v != null && v > 0 && v < 1000) o[k] = v; }); return o; });
+  st.measures = arr(st.measures).filter((x) => x && typeof x === "object" && isDate(x.d)).map((x) => { const o = Object.assign({}, x); MEAS.forEach(([k]) => { const v = num(x[k]); if (v != null && v > 0 && v < 1000) o[k] = v; else delete o[k]; }); return o; });
   if (st.measures.length < nm) c.misc.push(`${nm - st.measures.length} ungültige Messungen entfernt`);
   /* Objekte und einfache Listen */
   st.equip = Object.fromEntries(Object.entries(obj(st.equip)).filter(([k]) => EQUIP[k] || st.customEq[k]).map(([k, v]) => [k, !!v]));
@@ -1156,9 +1164,9 @@ function planFor(slot, factor, busy) {
   return buildPlan(info.groups, info.factor * factor, busy);
 }
 const MINI_FILL = ["bridge", "bwsquat", "pushup", "donkey", "deadbug", "lunge_bw", "frog", "sideplank", "superman", "sidelift"];
-/* Mini-Training: Zeitbudget von ca. 30 Min inklusive Aufwärmen und Cool-down.
+/* Mini-Training: harte Grenze von 30 geschätzten Minuten inklusive Aufwärmen und Cool-down.
    Gerechnet wird wie in der Vorschau (estMin: Sätze, Pausen, einseitige Übungen je Seite). Passt es nicht,
-   fallen zuerst Füllübungen weg (mindestens 3 Übungen bleiben), dann gibt es 2 statt 3 Runden. */
+   fallen zuerst Füllübungen weg (bis 3 Übungen), dann gibt es 2 statt 3 Runden, dann fällt die aufwendigste Übung weg. */
 const MINI_BUDGET = 30;
 const MINI_SETS = () => (miniRest() > 60 ? 2 : 3);
 const miniCoolMin = (grp) => Math.max(3, Math.round(buildCool(grp).reduce((a, q) => a + q.sec + 10, 0) / 60));
@@ -1183,6 +1191,8 @@ function buildMini(groups, day) {
   while (items.length > 3 && over()) { const k = items.map((it) => !it.core).lastIndexOf(true); items.splice(k >= 0 ? k : items.length - 1, 1); }
   if (over()) items.forEach((it) => { it.sets = Math.min(it.sets, 2); });
   while (items.length > 3 && over()) items.pop();
+  /* Harte Grenze: Reicht das nicht (lange Pause, viele einseitige Übungen), fällt die aufwendigste Übung weg – notfalls bis auf eine. */
+  while (items.length > 1 && over()) { const cost = items.map((it) => estMin([it], true)); items.splice(cost.indexOf(Math.max(...cost)), 1); }
   items.forEach((it) => delete it.core);
   return items;
 }

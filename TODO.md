@@ -24,6 +24,11 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 ## Bewusst nicht umgesetzt
 - **Unhörbarer Dauerton** gegen das Einschlafen der Audioausgabe (Ringzeit-Idee): Er würde laufende Musik auf dem iPhone dauerhaft leiser stellen. Stattdessen Gong als echte Tondatei und Freischalten beim ersten Antippen.
 
+## Erledigt in Version 3.9.1 (Restpunkte aus dem Review zu 3.9, Commit 360a305)
+- [x] **Anstrengung (rpe) ging bei der Datenprüfung verloren** – jetzt bleibt sie bei Start, Speichern und Backup erhalten; ungültige Werte werden gemeldet. Die Prüfung nimmt grundsätzlich alle übrigen gültigen Felder mit, statt nur bekannte neu aufzubauen.
+- [x] **Mini-Training: harte Grenze 30 Min** – auch bei 2:00 Pause und vielen einseitigen Übungen; Test über 11 960 Kombinationen.
+- [x] 7 neue Regressionstests (insgesamt 135) und 3 Browser-Prüfungen (RPE über den echten Knopf, Neustart, Backup).
+
 ## Erledigt in Version 3.9 (offene Punkte aus dem Review zu 3.8, Commit db6ee3d)
 - [x] **Backup- und Zustandsprüfung vollständig:** Einheiten, Übungen, Sätze und Einstellungen (u. a. Wiederholungsziel) werden geprüft; Backups erst in einer Kopie repariert und probeweise aufgebaut, dann übernommen. Reparaturen werden angezeigt, bei Fehlern bleibt alles beim Alten. Start-Reparatur hebt das Original auf.
 - [x] **Rettung ohne Datenverlust:** Pilates/Mobility über `finishFlow`; scheitert das Speichern, bleibt die laufende Einheit erhalten, mit Fehlermeldung und Backup-Knopf. Keine Doppelspeicherung.
