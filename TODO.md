@@ -23,6 +23,11 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 ## Bewusst nicht umgesetzt
 - **Unhörbarer Dauerton** gegen das Einschlafen der Audioausgabe (Ringzeit-Idee): Er würde laufende Musik auf dem iPhone dauerhaft leiser stellen. Stattdessen Gong als echte Tondatei und Freischalten beim ersten Antippen.
 
+## Erledigt in Version 3.7
+- [x] Eigene Übungen: Name, „ähnlich wie“-Vorlage (übernimmt Animation, Muskeln, Muster), Gerät aus der Liste oder eigenes Gerät, eigene Tipps. Im Katalog („Eigene“), in „Übung hinzufügen“ (auch direkt dort anlegen), als Ersatz, beim Teilen eines Trainingstags. Löschen bewahrt den Verlauf.
+- [x] Notizfeld für jede Übung (z. B. Sitzhöhe), sichtbar im Training, in der Vorbereitung und im Katalog.
+- [x] Tour-Station „Übungen“ erwähnt Notizen und eigene Übungen.
+
 ## Erledigt in Version 3.6
 - [x] Pause nach Aufwärmsätzen und Satzpause im Mini-Training einstellbar (0:30–2:00, Standard 0:45): Profil → Satzpause, im Satz und in der laufenden Pause.
 
@@ -109,7 +114,7 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 - [x] Auszug für Physio oder Trainerin (letzte 4 Wochen).
 - [x] 6-Wochen-Check.
 - [x] README: Hochladen vom iPhone und „Actions“ erklärt.
-- [x] Tests erweitert (21 Prüfungen, mit 2.3: 28, mit 2.4: 33, mit 2.5: 36, mit 2.6: 41, mit 2.7: 45, mit 2.8: 47, mit 2.9: 49, mit 3.3: 56, mit 3.4: 58, mit 3.5: 59, mit 3.6: 62).
+- [x] Tests erweitert (21 Prüfungen, mit 2.3: 28, mit 2.4: 33, mit 2.5: 36, mit 2.6: 41, mit 2.7: 45, mit 2.8: 47, mit 2.9: 49, mit 3.3: 56, mit 3.4: 58, mit 3.5: 59, mit 3.6: 62, mit 3.7: 70).
 
 ## Erledigt in Version 2.1
 - [x] Zoomen mit zwei Fingern und per Doppeltipp verhindert (Viewport, `touch-action: manipulation`, `gesturestart` abgefangen, Eingabefelder ≥ 16 px).

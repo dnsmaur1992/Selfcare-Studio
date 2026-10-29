@@ -1,24 +1,14 @@
-<p align="center">
-  <img src="docs/banner.jpg" alt="Ringzeit – Dein persönlicher Trainingsplan fürs Kickboxen" width="100%">
-</p>
+# Selfcare Studio
 
-<p align="center">
-  <a href="https://dnsmaur1992.github.io/ringzeit/"><img src="https://img.shields.io/badge/App%20%C3%B6ffnen-dnsmaur1992.github.io%2Fringzeit-C8404A?style=for-the-badge" alt="App öffnen"></a>
-</p>
+**Dein Training im Studio – ohne Nachdenken, auch wenn das Gerät besetzt ist.**
 
-<p align="center">
-  <img src="https://img.shields.io/badge/kostenlos-ohne%20Konto-C9A86A?style=flat-square" alt="Kostenlos, ohne Konto">
-  <img src="https://img.shields.io/badge/offline-nutzbar-5FB3A6?style=flat-square" alt="Offline nutzbar">
-  <img src="https://img.shields.io/badge/Daten-nur%20auf%20dem%20Handy-8EC9A4?style=flat-square" alt="Daten nur auf dem Handy">
-  <img src="https://img.shields.io/badge/iPhone%20%26%20Android-installierbar-6F9FE0?style=flat-square" alt="iPhone und Android">
-  <img src="https://img.shields.io/badge/Sprache-DE%20%C2%B7%20EN-8C9099?style=flat-square" alt="Deutsch und Englisch">
-</p>
+Selfcare Studio plant Krafttraining nach Muskelgruppen, fragt bei jeder Übung, ob das Gerät frei ist, und hat sofort eine Ausweichübung mit dem gleichen Trainingsreiz parat – Sätze, Wiederholungen und Gewicht passend umgerechnet. Dazu kommen geführtes Aufwärmen und Cool-down, Pilates und Mobility, ein Mini-Training für müde Tage und ein Verlauf, der zeigt, wie du stärker wirst.
 
-**Ringzeit** plant dein Kickbox-Training neben dem Verein – passend zu deiner Disziplin, deinem Level und deinen Trainingstagen. Runden, Kombinationen und Übungen kommen fertig dosiert aufs Handy, der Rundentimer läutet die Glocke, und am Ende siehst du, was du geschafft hast. Die Regeln richten sich nach der WAKO.
+Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bleiben auf dem Handy.
 
-> **Neu hier?** Öffne die [Installationsanleitung](https://dnsmaur1992.github.io/ringzeit/installieren.html) auf deinem Handy – mit QR-Code und Schritt-für-Schritt-Hilfe für iPhone und Android.
-
-**Dein erster Trainingsstart:** Heute → Tagesplan sichten und Ausrüstung bereitlegen → **Training beginnen** (oben oder unter dem Plan). Danach führt dich Ringzeit **Übung für Übung im Vollbild** durch die Einheit – mit 10 Sekunden Vorbereitung, Gong und Ansage, bei Kraft mit Satz-Tabelle – bis zum Abschluss. ✕ führt zurück zur Planübersicht und pausiert die Timer. Die Tour hat nur sechs Schritte; Einrichtung und Tour können übersprungen werden; die Tour ist unter **Profil → App & Daten** erneut erreichbar.
+> **Neu hier?** Öffne die [Installationsanleitung](https://dnsmaur1992.github.io/Selfcare-Studio/installieren.html) auf deinem Handy – mit QR-Code und Schritt-für-Schritt-Hilfe für iPhone und Android.
+>
+> **Direkt zur App:** [dnsmaur1992.github.io/Selfcare-Studio](https://dnsmaur1992.github.io/Selfcare-Studio/)
 
 ---
 
@@ -29,6 +19,7 @@
 - [Installation](#installation)
 - [Deine Daten](#deine-daten)
 - [Updates veröffentlichen](#updates-veröffentlichen)
+- [Aufbau des Repos](#aufbau-des-repos)
 - [Technik](#technik)
 - [Hinweise](#hinweise)
 
@@ -38,22 +29,16 @@
 
 <table>
   <tr>
-    <td align="center"><img src="docs/heute.jpg" width="200" alt="Heute"><br><sub><b>Heute</b> – nächste Einheit und Fortschritt</sub></td>
-    <td align="center"><img src="docs/einheit.jpg" width="200" alt="Einheit"><br><sub><b>Einheit</b> – Runden mit Kombinationen</sub></td>
-    <td align="center"><img src="docs/timer.jpg" width="200" alt="Timer im Vollbild"><br><sub><b>Vollbild-Timer</b> mit Ansage</sub></td>
-    <td align="center"><img src="docs/abschluss.jpg" width="200" alt="Abschluss"><br><sub><b>Abschluss</b> – Woche und Serie</sub></td>
+    <td align="center"><img src="docs/woche.jpg" width="200" alt="Woche"><br><sub><b>Woche</b> – nächste Einheit, Serie, Tagesplan</sub></td>
+    <td align="center"><img src="docs/frei.jpg" width="200" alt="Ist das Gerät frei?"><br><sub><b>Gerät frei?</b> – eine Frage, zwei Knöpfe</sub></td>
+    <td align="center"><img src="docs/ersatz.jpg" width="200" alt="Ersatzübung"><br><sub><b>Besetzt</b> – Ersatz mit gleichem Reiz</sub></td>
+    <td align="center"><img src="docs/saetze.jpg" width="200" alt="Sätze"><br><sub><b>Sätze</b> – Gewicht geschätzt, Testsatz</sub></td>
   </tr>
   <tr>
-    <td align="center"><img src="docs/schwerpunkt.jpg" width="200" alt="Schwerpunkt-Block"><br><sub><b>Schwerpunkt</b> – 6-Wochen-Blöcke</sub></td>
-    <td align="center"><img src="docs/test.jpg" width="200" alt="Fitnesstest"><br><sub><b>Fitnesstest</b> mit Vergleich</sub></td>
-    <td align="center"><img src="docs/verlauf.jpg" width="200" alt="Verlauf"><br><sub><b>Verlauf</b> – Abzeichen und Kalender</sub></td>
-    <td align="center"><img src="docs/rundentimer.jpg" width="200" alt="Rundentimer"><br><sub><b>Rundentimer</b> mit Ringglocke</sub></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="docs/coach.jpg" width="200" alt="Coach-Modus"><br><sub><b>Coach-Modus</b> – Kombis werden angesagt</sub></td>
-    <td align="center"><img src="docs/bandagieren.jpg" width="200" alt="Bandagieren"><br><sub><b>Bandagieren</b> – Schritt für Schritt</sub></td>
-    <td align="center"><img src="docs/packliste.jpg" width="200" alt="Turnier-Packliste"><br><sub><b>Packliste</b> für den Turniertag</sub></td>
-    <td align="center"><img src="docs/feste.jpg" width="200" alt="Feiertage"><br><sub><b>Feiertage</b> – hier Chanukka</sub></td>
+    <td align="center"><img src="docs/aufwaermen.jpg" width="200" alt="Aufwärmen"><br><sub><b>Aufwärmen</b> – Cardio nach freiem Gerät</sub></td>
+    <td align="center"><img src="docs/pause.jpg" width="200" alt="Pause"><br><sub><b>Pause</b> – Ring, Gong, Ansage</sub></td>
+    <td align="center"><img src="docs/abschluss.jpg" width="200" alt="Abschluss"><br><sub><b>Abschluss</b> – Rekorde, Abzeichen, Anstrengung</sub></td>
+    <td align="center"><img src="docs/verlauf.jpg" width="200" alt="Verlauf"><br><sub><b>Verlauf</b> – Serie, Kalender, Abzeichen</sub></td>
   </tr>
 </table>
 
@@ -61,182 +46,132 @@
 
 ## Funktionen
 
-### 🥊 Training, das zu dir passt
-- **Wochenplan** für Light Contact, Kick Light, Full Contact und K1 Style – abgestimmt auf Trainingstage, Dauer, Level und Vereinstraining
-- **Einheiten** für Technik, Technik & Kondition, Sparring, Kraft, Kondition und Mobility – zu Hause, in der Halle, draußen oder im Fitnessstudio
-- **Kombinationen** passend zum Level, mit Führ- und Schlaghand-Hinweis; eigene Kombis aus dem Verein werden eingebaut
-- **Vereinstage und Ringzeit-Tage** getrennt eintragen: eigene Einheiten werden neben dem Verein geplant
-- **Kinder-Modus (8–12 Jahre):** kürzere Einheiten und angepasste Übungen und Belastungen
-- **Weitere Kicks:** Brazilian Kick, Spinning Hook Kick, Tornado Kick und gesprungenes Knie; Axe-Kick ab Fortgeschritten
-- **Full Contact und K1 Style erst ab 15 Jahren** und mit freigeschaltetem Trainingslevel
-- **Klare Dosierung** bei jeder Übung: Wiederholungen, Sekunden, Strecke oder Minuten
-- **Sicherer Einstieg:** Aufwärmen mit kurzem Andehnen, Einstiegsrunden ohne Kopftritte
-- **Skizzen** zu allen Übungen, die nicht selbsterklärend sind
-- Rücksicht auf **Einschränkungen** (Knie, Schulter, Handgelenk, Rücken, Sprunggelenk), Alter und Erholungsbedarf
+### Plan, der zu dir passt
+- **Geführte Einrichtung** in fünf Schritten: Name und Figur, Ziel, Häufigkeit, Wochenplan, „So läuft dein Training“
+- **Trainingstage frei wählbar**, jederzeit verschiebbar, in einer vollen Woche zusammenlegbar
+- **Automatisch oder selbst gebaut:** Muskelgruppen wählen und die App sucht die Übungen aus – oder eigene Übungen mit Sätzen und Wiederholungen zusammenstellen, nach Muskelgruppen sortiert
+- **Ziel:** Muskelaufbau mit eher höheren Wiederholungen (Standard), klassischer Aufbau oder Kraftausdauer; optional einige schwerere Sätze für Knochen und Muskelerhalt
+- **Rücksicht auf Einschränkungen:** Rücken, Knie, Schulter, Handgelenk
+- **117 Kraftübungen** an rund 40 Geräten und mit Kleingerät, dazu 37 Pilates-, Mobility-, Aufwärm-, Cardio- und Dehnübungen – alle mit Animation und Ausführungstipps, viele mit typischem Fehler
 
-### ⏱️ Rundentimer
-- **Vollbild-Timer** mit Ringglocke, 10 Sekunden Vorbereitungszeit und Ansage der Übung
-- **Planvorschau vor dem Training:** „Einheit“ zeigt den Tagesplan zum Ansehen und Bereitlegen der Ausrüstung; „Training beginnen“ steht oben und unter dem Plan
-- **Ein Bildschirm, eine Übung:** Nach „Training beginnen“ läuft die Einheit Schritt für Schritt im Vollbild – Aufwärmen, Hauptteil, Zusatzteil, Abhärtung, Cool-down, Abschluss
-  - **Zeitübungen** starten mit 10 Sekunden „Bereit machen“ und Ansage, laufen mit Gong und gehen danach von selbst zur nächsten Übung
-  - **Übungen ohne feste Zeit** (Wiederholungen, Strecke, Gelenkkreise) schließt du mit ✓ ab – Zeiten werden nicht erfunden
-  - **Kraft:** Satz-Tabelle auf demselben Bildschirm, Wiederholungen von Hand eintragen, ✓ startet die Satzpause mit Gong
-  - **Halteübungen** wie Unterarmstütz laufen wie Runden: Halten → Pause → nächster Satz, die Sekunden werden eingetragen
-  - **Einbeinige Übungen** mit eigenem Feld für links und rechts, egal ob Wiederholungen oder Sekunden
-  - **10 Sekunden vor Ende** jeder Phase ein Ton und eine Ansage („Noch 10 Sekunden“, in Pausen: was als Nächstes kommt)
-  - **Ton-Hinweis:** iPhone – Schalter an der Seite auf Ton; Android – Medienlautstärke hochdrehen
-  - **Zirkel** Durchgang für Durchgang, alle Übungen des Durchgangs sichtbar, mit Pause zwischen den Durchgängen
-  - **Runden** über den bekannten Rundentimer; danach geht es direkt weiter
-  - Zurück, Weiter, Pause und „Vorzeitig abschließen“ jederzeit; die Abschnittsübersicht liegt unter ☰. Die Position wird pro Einheit gespeichert
-- **Übungstimer:** Zeitvorgaben im Aufwärmen und Cool-down, beidseitige Dehnungen mit Seitenwechsel, Conditioning-Intervalle sowie einzelne zeitbasierte Kraftsätze. Bei Zeitspannen kann die Dauer gewählt werden; Wiederholungsübungen bleiben ohne erfundene Zeitvorgabe.
-- **Gemeinsame Timersteuerung:** Runden-, Übungs- und freier Timer teilen sich eine Uhr; beim Wechsel wird der andere Timer pausiert, beim endgültigen Einheitsabschluss werden Timer und ausstehende Ansagen beendet
-- **Weniger Hintergrundarbeit:** sekundengenau geplante Timeraufrufe während des Trainings, keine dauernde Abfrage im Leerlauf; verdeckte Anzeigen werden nicht laufend neu geschrieben
-- **Bildschirm und Animationen bleiben erhalten:** Die Restzeit ist während laufender Runden und Pausen sichtbar. Die Audiowachhaltung bleibt auf Apple-Mobilgeräten erhalten; andere Audiokontexte können zwischen Signalen ruhen
-- Eigener **Rundentimer** mit Vorlagen (WAKO, K1, Sparring, Pratzen, HIIT)
-- Im Vollbild bleiben **Start, Zurück und Weiter immer sichtbar**, auch bei langen Übungstexten und kleinen Handys
-- Leuchtring mit Fortschritt, pulsierende letzte 10 Sekunden und ein Blitz zum Rundenende
-- **Automatischer Rundenwechsel im geführten Training:** Nach der Pause läuft die nächste Runde direkt weiter; die 10 Sekunden Vorlauf gibt es nur beim manuellen Start
-- **Musik bei den Rundentimern** im Profil wählen; der Bildschirm bleibt mit unterstütztem Wake Lock während des Timers an
-- **Coach-Modus:** ruft während der Runde Kombis aus deinem Level aus – wie der Trainer am Ring
-  - Im freien Rundentimer schaltet der Knopf oben rechts (🔊/🔈) die Ansagen an und aus; wer die Coach-Ansagen einschaltet, schaltet die Sprache automatisch mit ein
-  - Auf dem iPhone wird die Sprachausgabe beim ersten Tipp nach jedem App-Start automatisch freigeschaltet – ohne Umschalten
-  - Ringzeit nutzt automatisch die **beste installierte Stimme** (Premium vor Erweitert vor Standard, keine Spaß- oder reinen Online-Stimmen). Unter Profil → App & Daten steht, welche gerade läuft, wie man eine bessere lädt, und es gibt eine Hörprobe
+### Im Studio: eine Übung, ein Bildschirm
+- **Eigene Übungen** mit einer ähnlichen Übung als Vorlage – die App plant sie ein und findet Ersatz wie bei eingebauten; **Notizen** zu jeder Übung (z. B. Sitzhöhe) direkt im Training
+- **„Ist das Gerät frei?“** bei jeder Übung – bei Matte, Band, Mini-Band und Ball fragt die App gar nicht erst
+- **Geräte nach Bereichen** (Beine & Po, Rücken, Brust & Schultern, Arme & Bauch, Freie Gewichte, Kleingeräte, Cardio) – Ausgeblendetes plant die App nirgends ein, auch nicht in eigenen Trainingstagen
+- **Besetzt?** Sofort eine Ersatzübung mit **gleichem Bewegungsmuster**, Sätze und Wiederholungen umgerechnet; bereits geschaffte Sätze zählen mit
+- **Später nochmal fragen**, **Gibt's hier nicht** (Gerät wird ausgeblendet), **Original ist jetzt frei**
+- **Aufwärmsätze auf Nachfrage:** bei jeder großen Übung „Möchtest du einen Aufwärmsatz machen?“ mit Gewichtsvorschlag – gespeichert und in der Gesamtlast mitgezählt
+- **Erstes Mal an einem Gerät?** Einstellen, So gelingt's und Stolpersteine für jede Maschine – ideal für Einsteigerinnen
+- **Gewicht:** letztes Gewicht vorausgefüllt; bei neuen Übungen geschätzt aus ähnlichen Übungen (Testsatz); nach jedem Satz ein Vorschlag für mehr oder weniger
+- **Satzpause** standardmäßig 3 Minuten, jederzeit änderbar – auch mitten in der Pause
+- **Satz übernimmt Satz:** Gewicht und Wiederholungen vom letzten Mal sind vorausgefüllt, und jeder Satz übernimmt die Werte in den nächsten – auch beim Aufwärmen
+- **Pausen im Vollbild** mit Ring, Signalton und Sprachansage – über die laufende Musik
+- **Töne nach Wahl:** Gong, Klangschale, Dreiklang, Küchentimer, Wecker, Ringglocke oder still; Countdown als Piep, Ticken oder aus
+- **Die App lernt dein Studio:** Geräte, die zu bestimmten Zeiten oft besetzt sind, kommen dann später dran
+- **♪-Knopf** öffnet deine Playlist
 
-### 🏆 Ziele und Motivation
-- **Turniervorbereitung** im Wettkampf-Format der WAKO, Formkurve bis zum Wettkampftag
-  - **Gewichtsklasse:** In den 8 Wochen vor dem Turnier erinnert „Heute“ einmal pro Woche ans Wiegen, mit Eingabefeld direkt im Hinweis. Verglichen wird der Schnitt der letzten zwei Wochen. Es gibt nur sachliche Hinweise, keine Tipps zum Gewichtmachen; unter 15 Jahren keine Erinnerungen
-- **Gürtelprüfung** nach der Prüfungsordnung, mit Theorie-Quiz und Selbstverteidigung
-- **Schwerpunkt-Blöcke** über 6 Wochen: Kampfausdauer, Schnellkraft oder Beweglichkeit
-- **Fitnesstest** mit Netzdiagramm und Vorher-nachher-Vergleich
-- **Abzeichen, Wochenserie und Trainingskalender**
-- **Turnier-Packliste** zum Abhaken, eine Woche vor dem Wettkampf
-- Automatische **Entlastungswochen** und Pausen bei Krankheit, Verletzung oder Urlaub
-- **Ramadan-Modus:** leichtere Einheiten für alle, die fasten – freiwillig
+### Aufwärmen und Cool-down
+- **10–15 Minuten Aufwärmen:** Cardio am freien Gerät, Aktivierung passend zu den Muskelgruppen
+- **Mini-Training (30 Min, nur Körpergewicht)** für müde Tage – mit 5 Minuten Mobilisation passend zum Alltag: viel gesessen, viel gestanden, viel gehoben
+- **Cool-down:** Dehnen der trainierten Muskeln mit Timer
+- **Pilates und Mobility** als eigene 30-Minuten-Einheiten, frei in der Woche planbar
 
-### ✅ Übungen und Einheiten abhaken
-- Übungen auch ohne Eingabe antippen: Aufwärmen, Cool-down, Abhärtung und weitere Übungen
-- Einheitliche Darstellung: grüner Balken, Haken und durchgestrichener Titel
-- Runden werden nach Ablauf automatisch abgehakt und lassen sich zusätzlich manuell an- und abhaken
-- Kraftsätze gelten mit eingetragenem Wiederholungs- oder Sekundenwert als erledigt
-- Haken und Satzwerte bleiben pro Einheit gespeichert, auch nach Neuladen und in Sicherungen
-- **Abschließen bleibt immer möglich:** Sind Übungen offen, erscheint eine Rückfrage; die tatsächliche Dauer und Anstrengung zählen trotzdem für Belastung und Verlauf
-- Sind alle Übungen erledigt, wird **„Einheit abschließen“** grün hervorgehoben
-- **Übersichtlicher Einstieg:** kurze Tour, „Erste Schritte“ zeigt nur den nächsten Schritt, im Profil stehen die Trainingstage oben und Seltenes unter „Mehr“
-- **Kompakte Einheitenansicht:** Einstellungen unter „Einheit anpassen“, Erklärungen unter „Warum diese Einheit?“, wichtige Kontakt-/Einschränkungshinweise separat
-  - Geänderte Einstellungen (z. B. kein Sandsack) gelten erst nach **„Neu erstellen“**. Bis dahin ist der Knopf hervorgehoben; wer vorher „Training beginnen“ tippt, wird einmal gefragt: neu erstellen oder so starten
-- **Sichtbarer Fortschritt** und Sprung zur nächsten offenen Übung; Hakenflächen und Timer-Symbolschalter tragen eindeutige zugängliche Namen
-- **Ziele in leeren Satzfeldern** stehen blass und kursiv („Ziel 8“) – so sieht man sofort, was noch nicht eingetragen ist
-- **Schneller Abschluss:** Anstrengung von 1–10 antippen, fertig. Die geplante Dauer ist vorgeschlagen; wer früher aufhört, wird beim Abschließen daran erinnert, sie anzupassen
+### Belastung und Alltag
+- **Pause eintragen** (krank, verletzt, Urlaub): Der Plan ruht, die Wochenserie bleibt, danach sanfter Wiedereinstieg
+- **Verpasste Einheiten** nachholen oder auslassen – mit Rückgängig
+- **Warnung**, wenn dieselben Muskeln zwei Tage hintereinander dran wären
+- **Fokus-Blöcke** über 6 Wochen: Po aufbauen, Rücken stärken, Stärker werden oder Körperfett verlieren (kürzere Pausen, 12 Min Ausdauer zum Schluss, Vergleich der Maße) – mit Vorher-nachher-Vergleich
+- **6-Wochen-Check** und ein **Auszug für Physio oder Trainerin**
+- **Anstrengung nach jeder Einheit** mit einem Tipp
+- **Entlastungswochen** automatisch – geplant oder wenn die letzten Einheiten sehr hart waren
+- **Sanfter Wiedereinstieg** nach einer Pause
+- **Wochen-Check-in** (entspannt / normal / stressig) und **Tagesform** (Schlaf, Energie) machen schwere Tage leichter
+- **Wochenvolumen:** effektive Sätze pro Muskelgruppe mit Zielbereich
 
-### 📈 Leistungsabhängige Progression
-- Fünf-Wochen-Wellen im Grundlagentraining mit vier Aufbauwochen und anschließender Entlastung; Schwerpunkt-Blöcke behalten ihre sechs Wochen
-- Vollständig absolvierte, vergleichbare Einheiten und die eingetragene Anstrengung entscheiden über Steigerung, Wiederholung oder Reduktion im nächsten Zyklus
-- **Datengrundlage statt bloßer Eintragszahl:** Anzahl, Regelmäßigkeit, Vollständigkeit und Abdeckung des geplanten Trainings werden je Trainingsbereich ausgewertet; wenige oder lückenhafte Daten verhindern eine Steigerung
-- **Lernhinweis** einmalig in der ersten Einheit; der Stand der Datengrundlage steht unter „Warum diese Einheit?“
-- Bei Technik und Kondition wird die **Pausendichte** in kleinen Schritten angepasst, innerhalb der eingeplanten Trainingszeit
-- Wiederkehrende **Grundübungen** schaffen vergleichbare Kraftprotokolle; zusätzliches, für die Übung irrelevantes Equipment unterbricht den Vergleich nicht
-- Freiwillige Rückmeldung **„Leicht / Passend / Zu schwer“** je Kraftübung; wiederholtes „Zu schwer“ wird bei der nächsten Zielanpassung berücksichtigt
-- Bei geeigneten Kraftübungen entstehen **individuelle Wiederholungs-, Haltezeit- oder Gewichtsziele** aus tatsächlich protokollierten Sätzen; Ziele sind Vorschläge und füllen keine Leistungswerte automatisch aus
-- Wettkampfvorbereitung, Entlastung, Wiedereinstieg und eingeschränkte Tagesform haben Vorrang
-- Alte Einträge bleiben erhalten; ohne ausreichende Leistungsdaten wird keine Steigerung daraus abgeleitet
-- Die App erklärt die Anpassungen direkt in der Einheit. Details und Grenzwerte: [Trainingslogik](docs/trainingslogik.md)
+### Fortschritt und Erfolge
+- Verlauf jeder Einheit mit allen Sätzen, Fortschritt pro Übung als Diagramm
+- **Abschluss zum Feiern:** Wochenring, goldene Karte bei kompletter Woche, Gesamtbilanz
+- **Wochenserie, Rekorde, 15 Abzeichen**, Trainingskalender der letzten 12 Wochen
+- **Körpermaße und Gewicht** (Taille, Hüfte, Po, Oberschenkel) mit Verlauf
+- **Über dich (freiwillig):** Alter, Größe, Gewicht → Maximalpuls und Pulsbereiche beim Cardio, BMI, Taille-zu-Größe, Kraft im Verhältnis zum Körpergewicht
 
-### 🩹 Ratgeber
-- **Bandagieren** als animierte Schritt-für-Schritt-Anleitung, dazu ein Video
-- **Materialpflege** für Handschuhe, Bandagen, Schoner und Mundschutz – mit Erinnerung nach dem Training
-- **Pflege & Erste Hilfe:** PECH-Regel, Thai-Boxing-Öl, Nasenbluten und wann man zum Arzt sollte
-- **Zum Lesen:** zehn kurze Themen mit Quellenangabe – Mythen-Check, was in einer Runde im Körper passiert, warum Schienbeine härter werden, wie Punktrichter werten, die WAKO-Disziplinen im Vergleich, der Turniertag von innen, die häufigsten Anfängerfehler, Kopf und Nerven, Schlaf und Erholung, Handschuhe erklärt. „Nächstes Thema“ blättert weiter. Bewusst ohne Anleitungen zum Gewichtmachen
-
-### ✨ Liebe zum Detail
-- Lebendige Startseite, die sich der **Tages- und Jahreszeit** anpasst – mit Mütze im Winter und Badehose im Sommer
-- **Feiertage** verschiedener Kulturen: Weihnachten, Silvester, Ostern, Karneval, Ramadan, Zuckerfest, Opferfest, Chanukka, Nouruz, Diwali und mehr
-- **Feedback senden** unter Profil → App & Daten: öffnet ein Tally-Formular, mitgeschickt werden nur App-Version, Geräteart und Sprache – keine Trainingsdaten
-- **Fun Facts und Technik-Tipps** beim Laden – „Weiter“ blättert weiter, nach spätestens 10 Sekunden öffnet sich die App von selbst
-- **Sicherheitshinweis beim Start**, dazu Hinweise und Datenschutz im Profil
-- **„Was ist neu“:** nach größeren Updates einmal ein kurzer Hinweis mit den wichtigsten Neuerungen; jederzeit nachlesbar unter Profil → App & Daten
-- **Freiwillige Geschlechtsangabe** zur Einordnung des Fitnesstests
-- **Deutsch und Englisch**, komplett offline nutzbar
+### Persönlich
+- **Aufgeräumtes Profil:** Übersicht nach Themen (Du & deine Figur, Training, App), jede Zeile zeigt den aktuellen Stand
+- **Deine Figur:** Outfit (fünf Vorlagen oder eigene Farben), Frisur und Haarfarbe
+- **Hell, Dunkel oder automatisch**, dazu sechs Akzentfarben (Pink, Koralle, Lavendel, Petrol, Blau, Graphit)
+- **Trainingstage im iPhone-Kalender** als wiederkehrende Termine mit Erinnerung
+- **Trainingstag teilen** per Link – die andere übernimmt ihn mit einem Tipp, ohne Server
+- **App-Tour** in acht Stationen, „Erste Schritte“ auf der Startseite und „Was ist neu“ mit Versionsverlauf
+- **Zum Lesen:** kurze Artikel mit Quellen – Mythen-Check, Krafttraining ab 40, Rücken, Schlaf, Entlastungswochen
+- **Sicherheit & Daten:** einmaliger Sicherheitshinweis, Backup-Erinnerung alle 30 Tage, Feedback direkt aus der App
 
 ---
 
 ## Installation
 
-Ringzeit ist eine Web-App (PWA) – sie wird über den Browser installiert und startet danach wie jede andere App, ohne App Store.
+1. Den Link **in Safari** öffnen (nicht im WhatsApp- oder Instagram-Browser): [dnsmaur1992.github.io/Selfcare-Studio](https://dnsmaur1992.github.io/Selfcare-Studio/)
+2. **Teilen-Symbol** antippen (bei neueren iPhones hinter den drei Punkten neben der Adresse)
+3. **„Zum Home-Bildschirm“** wählen – fehlt der Eintrag: ganz unten „Aktionen bearbeiten“
+4. **„Hinzufügen“** – ab jetzt immer über das Symbol starten
 
-| iPhone & iPad (Safari) | Android (Chrome) |
-|---|---|
-| 1. [Ringzeit öffnen](https://dnsmaur1992.github.io/ringzeit/) | 1. [Ringzeit öffnen](https://dnsmaur1992.github.io/ringzeit/) |
-| 2. Auf **Teilen** tippen | 2. Menü **⋮** oben rechts |
-| 3. **„Zum Home-Bildschirm“** | 3. **„App installieren“** |
-| 4. **„Hinzufügen“** | 4. Bestätigen |
+Android: Link in Chrome öffnen → Menü ⋮ → „App installieren“.
 
-> **Tipp:** Erst installieren, dann einrichten. Auf dem iPhone speichern Safari und die installierte App ihre Daten getrennt.
-
-Die ausführliche Anleitung mit QR-Code (auch zum Ausdrucken für die Halle): **[installieren.html](https://dnsmaur1992.github.io/ringzeit/installieren.html)**
+Ausführliche Anleitung mit QR-Code: [installieren.html](https://dnsmaur1992.github.io/Selfcare-Studio/installieren.html)
 
 ---
 
 ## Deine Daten
 
-- **Kein Konto, kein Server, keine Werbung, kein Tracking.**
-- Alle Angaben und Trainingseinträge bleiben **nur auf deinem Handy**.
-- Sicherung: **Profil → Daten & Teilen → Sicherung speichern**. Beim Handywechsel dort **„Sicherung laden“**.
-- Die App erinnert alle 30 Tage an eine Sicherung.
+- Alles bleibt **nur auf dem Handy** (`localStorage`). Kein Konto, kein Server, keine Werbung, kein Tracking.
+- Die installierte App speichert **getrennt vom Browser**.
+- **Backup:** Profil → „Backup speichern“ sichert alles als Datei; „Backup laden“ stellt es wieder her – wichtig vor einem Handywechsel oder vor dem Neu-Installieren.
+- Geteilte Trainingstage stecken komplett im Link; es wird nichts hochgeladen.
 
 ---
 
-## Entwicklung und Prüfungen
-
-```bash
-node --test tests/training.test.mjs
-python3 tools/build_pwa.py
-cp pwa/index.html index.html
-cp pwa/sw.js sw.js
-```
-
-Die Tests führen die echte Trainingslogik und Ereignisbehandlung in Node aus. Timer-Signale, Musik und die Bildschirmsperre sollten zusätzlich auf echten iPhones und Android-Geräten geprüft werden.
-
 ## Updates veröffentlichen
 
-Für den Betreiber des Repositorys:
+1. Neue Dateien ins Repo hochladen (gleichnamige werden überschrieben). **Vom iPhone aus:** Die GitHub-App kann keine Dateien hochladen. In Safari github.com öffnen, über „Aa“ → **„Desktop-Website anfordern“** umschalten, dann **Add file → Upload files**, Dateien aus der Dateien-App wählen (mehrere über „Auswählen“), **Commit changes**.
+   - Hauptordner: `index.html`, `sw.js` – bei Bedarf `installieren.html`, `manifest.json`, Bilder
+   - `docs/` und `tests/`, wenn sie sich geändert haben
+2. Ein, zwei Minuten warten, bis GitHub Pages die neue Version ausliefert. Den Stand zeigt der Reiter **„Actions“**: gelber Punkt = läuft, grüner Haken = fertig.
+3. Die installierte App findet das Update beim nächsten Öffnen und zeigt oben **„Neue Version ist da – Jetzt laden“**. Ohne Tipp startet die neue Version beim nächsten vollständigen Öffnen. Die Versionsnummer steht unten im Profil.
 
-1. Die neuen Dateien `index.html` und `sw.js` hochladen (*Add file → Upload files*) und committen – dazu die neue `ringzeit.html` in den Ordner `src`. Die Quelldatei `ringzeit.html` gehört **nur** nach `src`, nicht in den Hauptordner: Dort wäre sie öffentlich als zweite, veraltete App-Version erreichbar.
-2. GitHub Pages veröffentlicht die neue Version nach ein bis zwei Minuten.
-3. Die App lädt das Update beim nächsten Öffnen im Hintergrund – nach einem Neustart der App ist es aktiv. Die Versionsnummer steht unten im Profil.
-4. **„Was ist neu“ nur bei größeren Updates:** In `src/ringzeit.html` die Zahl `NEWS_V` um eins erhöhen und die drei Punkte unter `news` (Deutsch und Englisch) neu schreiben. Alle, die die App schon nutzen, sehen den Hinweis dann einmal beim nächsten Öffnen. Bei kleinen Korrekturen `NEWS_V` einfach lassen.
+---
+
+## Aufbau des Repos
+
+| Datei / Ordner | Inhalt |
+|---|---|
+| `index.html` | Die komplette App (HTML, CSS, JavaScript in einer Datei) |
+| `sw.js` | Service Worker für Offline-Betrieb und Updates |
+| `manifest.json` | App-Name, Farben, Symbole für den Home-Bildschirm |
+| `installieren.html` | Installationsanleitung mit QR-Code |
+| `icon-192.png`, `icon-512.png`, `apple-touch-icon.png` | App-Symbole |
+| `og-image.jpg` | Vorschaubild für Links in WhatsApp & Co. |
+| `docs/trainingslogik.md` | Wie die App rechnet: Plan, Ausweichen, Gewichte, Belastung |
+| `docs/*.jpg` | Screenshots für diese Seite |
+| `tests/logik.test.cjs` | Tests der Trainingslogik |
+| `TODO.md` | Merkliste für die nächsten Versionen |
 
 ---
 
 ## Technik
 
-| | |
-|---|---|
-| **Aufbau** | Eine einzige HTML-Datei: HTML, CSS und JavaScript ohne Frameworks; für die App komprimiert |
-| **Grafiken** | Alle Figuren, Skizzen und Diagramme als SVG im Code gezeichnet |
-| **Offline** | Service Worker (`sw.js`) speichert die App auf dem Gerät |
-| **Speicher** | `localStorage` auf dem Gerät |
-| **Ton** | Web Audio (Ringglocke) und Sprachausgabe des Geräts |
+- **Eine Datei, keine Abhängigkeiten:** reines HTML, CSS und JavaScript; Schriften von Google Fonts (Bodoni Moda, Outfit) mit Systemschrift als Rückfall
+- **Animationen** als SVG-Strichfiguren mit inverser Kinematik, berechnet im Browser
+- **Offline-fähig** über den Service Worker
+- **Ton:** Gong als in der App erzeugte WAV-Datei, Sprachausgabe des Systems für Ansagen; `audioSession` „transient“ (iOS 17+), damit Musik weiterläuft. Bei eingeschaltetem Lautlos-Schalter kann der Gong stumm bleiben – Profil → „Ton testen“
+- **Tests** ohne Browser:
 
-```
-ringzeit/
-├── index.html             Die App
-├── sw.js                  Service Worker (Offline, Updates)
-├── manifest.webmanifest   App-Name, Icons, Farben
-├── installieren.html      Installationsanleitung mit QR-Code
-├── icon-*.png             App-Icons
-├── src/ringzeit.html      Lesbarer Quellcode
-├── tools/build_pwa.py     Baut aus dem Quellcode index.html und sw.js
-└── docs/                  Bilder für diese Seite
-```
+  ```bash
+  node tests/logik.test.cjs index.html
+  ```
 
 ---
 
 ## Hinweise
 
-- Ringzeit **ersetzt keinen Trainer** und plant das Training neben dem Verein. Bei Schmerzen abbrechen; Sparring nur unter Aufsicht und mit kompletter Schutzausrüstung.
-- Ringzeit ist ein privates Projekt und **kein offizielles Angebot** der WAKO, der WAKO Deutschland oder des BFVKB. Verbindlich sind immer die aktuellen [Regelwerke der WAKO Deutschland](https://www.wako-deutschland.de/downloads/).
-- Feedback und Fehler gern über [Issues](../../issues) oder direkt beim Training.
-
----
-
-<p align="center"><sub>© 2026 dnsmaur1992 · Alle Rechte vorbehalten</sub></p>
+- Selfcare Studio ersetzt **keine Trainerin und keine ärztliche Beratung**. Bei Schmerzen die Übung abbrechen; mit Beschwerden oder nach Verletzungen vorher ärztlich abklären.
+- Gewichtsschätzungen für neue Übungen sind Richtwerte – der erste Satz ist ein Testsatz.
+- Privates, nicht-kommerzielles Projekt.
