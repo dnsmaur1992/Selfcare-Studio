@@ -3,7 +3,7 @@ const fs = require("fs");
 const file = process.argv[2] || "index.html";
 const html = fs.readFileSync(file, "utf8");
 const js = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]).sort((a, b) => b.length - a.length)[0];
-const el = () => ({ addEventListener() {}, innerHTML: "", querySelectorAll: () => [], insertAdjacentHTML() {}, appendChild() {}, style: { setProperty() {}, removeProperty() {} }, dataset: {}, getAttribute: () => null, setAttribute() {}, removeAttribute() {} });
+const el = () => ({ addEventListener() {}, innerHTML: "", querySelectorAll: () => [], insertAdjacentHTML() {}, appendChild() {}, style: { setProperty() {}, removeProperty() {} }, dataset: {}, getAttribute: () => null, setAttribute() {}, removeAttribute() {}, classList: { add() {}, remove() {}, toggle() {}, contains: () => false }, remove() {}, scrollTo() {} });
 global.document = { getElementById: () => el(), addEventListener() {}, querySelector: () => null, body: el(), documentElement: el() };
 global.window = { scrollTo() {} }; global.matchMedia = () => ({ matches: false, addEventListener() {} });
 global.requestAnimationFrame = () => {}; global.setInterval = () => {}; global.setTimeout = () => {};
@@ -187,5 +187,72 @@ deleteCustom(cid); ok(EXM[cid] && EXM[cid].hidden && !cands("po", [], new Set())
 S.sessions = []; S.customEx = []; S.customEq = {}; registerCustom();
 // 36 Notizen
 S.notes = { legpress: "Sitz Stufe 4" }; ok(exNote("legpress") === "Sitz Stufe 4" && noteLine("legpress").includes("Stufe 4") && noteLine("hack") === "", "Notiz zur Übung wird angezeigt, ohne Notiz nichts");
+// ===== Review 29.10. (externes Review zu 3.7): Regressionstests =====
+S.sessions = []; S.customEx = []; S.customEq = {}; registerCustom(); S.days = tmplDays(3); S.weeks = {};
+// R1 Einschränkungen gelten auch in eigenen Plänen und für eigene Übungen
+S.limits = { knee: true };
+ok(!buildCustom([{ ex: "goblet", g: "quad", sets: 3, reps: [10, 15] }], 1, []).some((i) => i.ex === "goblet" || i.ideal === "goblet"), "R1: Knie-Einschränkung ersetzt Goblet Squat auch im eigenen Plan");
+const rk = saveCustom({ n: "Goblet Kopie", base: "goblet", eq: "base", neq: "", tips: "" });
+ok(limited(rk) && !cands("quad", [], new Set()).some((q) => q.id === rk), "R1: Eigene Übung erbt die Einschränkung ihrer Vorlage");
+S.limits = {}; S.customEx = []; registerCustom();
+// R2 Assistenzgeräte: weniger Hilfe = Fortschritt
+const ap = prepItem({ g: "ruecken", e: 3, ex: "assist_pull", ideal: "assist_pull", sets: 3, reps: [6, 10] }, true);
+ap.log.forEach((q) => (q.w = "40")); ap.log[0].r = "14";
+S.active = { items: [ap], steps: [{ k: "item", id: ap.id }], pos: 0, ph: "sets", start: Date.now() }; setDone();
+ok(num(ap.log[1].w) < 40 && !ap.warmAsk, "R2: 14 Wdh. mit 40 kg Hilfe → nächster Satz mit weniger Hilfe (" + ap.log[1].w + " kg), keine Aufwärmfrage");
+S.active = null;
+S.sessions = [{ id: "a1", date: "2026-10-01T10:00:00.000Z", items: [{ ex: "assist_pull", log: [{ w: "30", r: "8", done: true }] }] }];
+ok(!prsOf({ date: "2026-10-08T10:00:00.000Z", items: [{ ex: "assist_pull", log: [{ w: "40", r: "8", done: true }] }] }).length && prsOf({ date: "2026-10-08T10:00:00.000Z", items: [{ ex: "assist_pull", log: [{ w: "25", r: "8", done: true }] }] }).length === 1, "R2: Rekord nur bei weniger Hilfe (30 → 25), nicht bei mehr (30 → 40)");
+S.sessions = [{ id: "a2", date: "2026-10-01T10:00:00.000Z", items: [{ ex: "latzug", log: [{ w: "40", r: "10", done: true }] }] }];
+ok(estWeight({ ex: "assist_pull", reps: [6, 10], g: "ruecken" }) === null, "R2: Keine Schätzung der Hilfe aus dem Latzug");
+S.sessions = [];
+// R3 HTML-Einschleusung über geteilte Pläne
+const evil = b64e({ v: 1, d: { name: "Tag", type: "kraft", mode: "custom", custom: [{ ex: "cx_evil1", g: "po", sets: 3, reps: [10, 15] }] }, cx: [{ id: "cx_evil1", n: "<img src=x onerror=alert(1)>", base: "ht_m" }] });
+ok(!importSheet(evil).includes("<img"), "R3: Vorschau eines manipulierten Codes enthält kein eingeschleustes HTML");
+const nd3 = importDay(evil); ok(!EXM.cx_evil1.n.includes("<") && !nd3.name.includes("<"), "R3: Importierte Namen werden bereinigt");
+S.customEx = []; registerCustom(); S.days = tmplDays(3);
+// R4 Ungültige Importe ändern nichts; kaputte Daten werden repariert
+const before4 = S.days.length; let threw = false;
+try { importDay(b64e({ v: 1, d: { name: "X", type: "quatsch" } })); } catch (e) { threw = true; }
+ok(threw && S.days.length === before4, "R4: Unbekannter Trainingstyp wird abgelehnt, Plan bleibt unverändert");
+S.days.push({ id: "bad", type: "quatsch", name: "Kaputt", groups: [] }); S.days.push({ id: "bad2", type: "kraft", name: "<b>x</b>", groups: ["po", "gibtsnicht"], mode: "custom", custom: [{ ex: "gibtsnicht" }, { ex: "ht_m", sets: 99, reps: ["a"] }], wd: 42 });
+normalizeDays(); const b2 = S.days.find((d) => d.id === "bad2");
+ok(!S.days.some((d) => d.id === "bad") && b2 && !b2.name.includes("<") && b2.groups.join() === "po" && b2.wd === 0 && b2.custom.length === 1 && b2.custom[0].sets === 6, "R4: Reparatur beim Start entfernt Ungültiges und begrenzt Werte");
+S.days = tmplDays(3);
+// R5 Eigene Übung während laufender Einheit löschen
+const r5 = saveCustom({ n: "Mein Hip Thrust", base: "ht_m", eq: "base", neq: "", tips: "" });
+S.active = { items: [{ id: "i5", ex: r5, ideal: r5, log: [] }], steps: [], pos: 0 };
+deleteCustom(r5); ok(EXM[r5] && EXM[r5].hidden, "R5: In laufender Einheit verwendete Übung bleibt erhalten (nur ausgeblendet)");
+S.active = null; S.customEx = []; registerCustom();
+// R6 Aufwärmsätze bleiben beim Gerätewechsel erhalten
+const w6 = prepItem({ g: "po", e: 3, ex: "ht_m", ideal: "ht_m", sets: 3, reps: [10, 15] }, true); w6.log.forEach((q) => (q.w = "60")); addWarmSet(w6); w6.log[0].done = true;
+S.active = { type: "kraft", items: [w6], steps: [{ k: "item", id: w6.id }], pos: 0, ph: "sets", start: Date.now() - 60000, busyAt: {} };
+swapTo(w6.id, "ht_smith", true);
+ok(S.active.items.length === 2 && S.active.items[0].closed && S.active.items[0].log.some((q) => q.warm && q.done), "R6: Erledigter Aufwärmsatz bleibt nach dem Tausch erhalten");
+S.active = null;
+// R7 Mini-Training: Zeit aus Sätzen und eingestellter Pause, Runden passen sich an
+S.restM = 120; const m7 = buildMini(["po", "quad"]);
+ok(m7.every((i) => i.sets === 2) && estMin(m7, true) === Math.round(1 + m7.reduce((a, i) => a + i.sets * ((EXM[i.ex].side ? 1.4 : 0.75) + 2), 0)), "R7: 2:00 Pause → 2 Runden, Zeit " + estMin(m7, true) + " Min aus echten Pausen");
+delete S.restM; ok(buildMini(["po"]).every((i) => i.sets === 3), "R7: Standardpause → 3 Runden");
+// R8 Satzgrenze 6 überall
+ok(cleanCustomList([{ ex: "ht_m", g: "po", sets: 8, reps: [10, 15] }])[0].sets === 6, "R8: Eigene Pläne höchstens 6 Sätze (wie die Ausführung)");
+// R9 Volumengrenze 22 effektive Sätze
+const p9 = buildPlan([...GORDER], 1.1, []); const e9 = p9.reduce((a, it) => a + (it.ex ? it.sets * (EXM[it.ex].m[it.g] || 0.6) : 0), 0);
+ok(e9 <= 22.05, "R9: Alle Muskelgruppen → " + e9.toFixed(1) + " effektive Sätze (≤ 22)");
+// R10 Pilates: nur Gehaltenes wird gespeichert
+S.sessions = []; S.active = { id: "f", flow: true, type: "pilates", name: "Pilates", start: Date.now(), blocks: buildFlow("pilates").slice(0, 4), i: 0, phase: "prep", end: Date.now() + 10000, paused: 0 };
+for (let k = 0; k < 4; k++) { flowMark(S.active); S.active.i = k + 1; S.active.phase = "prep"; }
+S.active.i = 3; finishFlow(false); ok(!S.sessions.length, "R10: Alles übersprungen → nichts gespeichert");
+S.active = { id: "f2", flow: true, type: "pilates", name: "Pilates", start: Date.now(), blocks: buildFlow("pilates").slice(0, 3), i: 0, phase: "work", end: Date.now() + 5000, paused: 0 };
+S.active.blocks[0].sec = 60; flowMark(S.active); S.active.i = 1; S.active.phase = "prep"; finishFlow(false);
+ok(S.sessions.length === 1 && S.sessions[0].items.length === 1 && S.sessions[0].items[0].sec === 55, "R10: Gehaltene Position mit echter Zeit (55 s), übersprungene nicht");
+S.sessions = []; S.active = null;
+// R11 Lokaler Kalendertag
+ok(dayKey(new Date(2026, 9, 29, 0, 30)) === "2026-10-29", "R11: 29.10. 00:30 Uhr → Tagesschlüssel 29.10. (nicht Vortag)");
+// Tabelle: Bänder, Erholungswarnung, Gewichtsangaben
+S.equip.band = false; ok(!buildWarm(["po", "ruecken"], "normal").some((q) => q.ex === "band_walk" || q.ex === "band_pullapart"), "Bandübungen im Aufwärmen nur, wenn das Band eingeblendet ist"); S.equip.band = true;
+S.weeks = {}; const wkT = thisWeek(); const poT = wkT.slots.filter((q) => q.type === "kraft" && slotInfo(q).groups.includes("po"));
+poT[0].wd = 3; ok(neighborClash(poT[1], 3).includes(GROUPS.po.n), "Erholungswarnung auch am selben Tag");
+ok(wHint(EXM.lateral_kh).includes("je Hantel") && wHint(EXM.assist_pull).includes("leichter") && wHint(EXM.legpress) === "", "Gewichtsangabe erklärt: je Hantel, Unterstützung");
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
