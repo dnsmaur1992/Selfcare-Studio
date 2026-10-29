@@ -23,6 +23,9 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 ## Bewusst nicht umgesetzt
 - **Unhörbarer Dauerton** gegen das Einschlafen der Audioausgabe (Ringzeit-Idee): Er würde laufende Musik auf dem iPhone dauerhaft leiser stellen. Stattdessen Gong als echte Tondatei und Freischalten beim ersten Antippen.
 
+## Erledigt in Version 3.4
+- [x] Geräte-Einweisung: für alle 33 Maschinen „Einstellen · So gelingt's · Stolpersteine“, beim ersten Mal an einem Gerät im Training aufklappbar, immer unter „Tipps“. Hilft besonders Anfängerinnen.
+
 ## Erledigt in Version 3.3 (Abschlussprüfung 29.10.)
 - [x] Automatische Prüfung aller 154 Übungen: IDs in allen Listen vorhanden, Geräte zugeordnet, Animationen ohne Rechenfehler, keine doppelten Namen.
 - [x] Mini-Training: Oberkörper-Tage bekamen mangels Übungen ohne Gerät nur Beinübungen. Neu: Y-Heben in Bauchlage (Schultern), enge Liegestütz (Trizeps), Bridge mit Fersen weit vorn (Beinrückseite); Seitliches Beinheben zählt jetzt für die Abduktoren.
@@ -100,7 +103,7 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 - [x] Auszug für Physio oder Trainerin (letzte 4 Wochen).
 - [x] 6-Wochen-Check.
 - [x] README: Hochladen vom iPhone und „Actions“ erklärt.
-- [x] Tests erweitert (21 Prüfungen, mit 2.3: 28, mit 2.4: 33, mit 2.5: 36, mit 2.6: 41, mit 2.7: 45, mit 2.8: 47, mit 2.9: 49, mit 3.3: 56).
+- [x] Tests erweitert (21 Prüfungen, mit 2.3: 28, mit 2.4: 33, mit 2.5: 36, mit 2.6: 41, mit 2.7: 45, mit 2.8: 47, mit 2.9: 49, mit 3.3: 56, mit 3.4: 58).
 
 ## Erledigt in Version 2.1
 - [x] Zoomen mit zwei Fingern und per Doppeltipp verhindert (Viewport, `touch-action: manipulation`, `gesturestart` abgefangen, Eingabefelder ≥ 16 px).

@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.3">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.3">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.4">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.4">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.3">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.4">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -359,6 +359,11 @@ html.touring, html.touring body { overflow: hidden; overscroll-behavior: none; t
 .ring-fg { stroke: var(--accent); transition: stroke-dashoffset .25s linear; }
 .ring-fg.calm { stroke: var(--lav-ink); }
 .sheet > * { flex-shrink: 0; }
+.mcard summary { font-weight: 700; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 8px; color: var(--lav-ink, var(--fg)); }
+.mcard summary::-webkit-details-marker { display: none; }
+.mcard summary::after { content: "›"; transform: rotate(90deg); transition: transform .2s; font-size: 20px; }
+.mcard[open] summary::after { transform: rotate(-90deg); }
+.card .mcard summary { color: inherit; }
 .pic { width: 30px; height: 30px; flex: none; display: grid; place-items: center; border-radius: 10px; background: var(--surface2); font-size: 16px; }
 .profhead { flex-direction: row; align-items: center; gap: 14px; width: 100%; text-align: left; }
 .profhead .figmini { width: 74px; flex: none; }
@@ -649,12 +654,15 @@ const LIMITS = {
   wrist: { n: "Handgelenk", ids: ["pushup", "pushup_incline", "benchdips", "kickback_kh", "conc_curl", "trx_press", "pushup_tri"] },
 };
 const limited = (id) => Object.keys(LIMITS).some((k) => (S.limits || {})[k] && LIMITS[k].ids.includes(id));
-const S_VERSION = "3.3";
-const NEWS = { v: "3.3", items: [
+const S_VERSION = "3.4";
+const NEWS = { v: "3.4", items: [
+  ["Erstes Mal an einem Gerät?", "Bei einer Maschine, an der du noch nie trainiert hast, zeigt die App aufklappbar: wie du sie einstellst, worauf es ankommt und typische Stolpersteine. Für alle Geräte jederzeit unter „Tipps“."],
+], old: [
+  { v: "3.2 – 3.3", items: [
   ["Feinschliff", "Mini-Training für Oberkörper-Tage jetzt mit passenden Übungen ohne Geräte (Y-Heben, enge Liegestütz, Bridge für die Beinrückseite). Dazu Korrekturen für kleine iPhones und beim Laden eines Backups."],
   ["Geräte sortiert & erweitert", "Die Geräteliste ist nach Bereichen gruppiert, mit „Alle an/aus“. Neu: Pendel-Kniebeuge, Rückenstrecker-Maschine, Rotations-Maschine, TRX, Mini-Band und Treppensteiger – mit 8 neuen Übungen. Neue Geräte sind erst mal an: Bitte einmal unter Profil → Geräte prüfen, was es in deinem Studio gibt."],
   ["Ausgeblendet heißt ausgeblendet", "Nimmst du ein Gerät raus, taucht es auch in selbst gebauten Trainingstagen nicht mehr auf. Die App setzt eine passende Übung ein und bietet im Trainingsplan an, sie dauerhaft zu tauschen."],
-], old: [
+] },
   { v: "2.9 – 3.1", items: [
   ["Töne auf dem iPhone", "Signalton und Countdown kommen jetzt auch, wenn der Timer von selbst weiterläuft – etwa bei Pilates und Mobility. Vorher hat Safari sie stummgeschaltet."],
   ["Aufgeräumtes Profil", "Das Profil ist jetzt nach Themen sortiert: Du & deine Figur, Training (Plan, Ziel & Belastung, Satzpause, Ton & Musik, Geräte) und App (Darstellung & Kalender, Daten & Backup, Hilfe & Infos). Jede Zeile zeigt, was gerade eingestellt ist."],
@@ -2187,7 +2195,9 @@ function vTrain() {
     const head = `<div class="stack" style="gap:4px;text-align:center"><h1 class="tr-name">${esc(x.n)}</h1><span class="presc num">${presc}</span>${ideal ? `<span class="note">Statt ${esc(ideal.n)}${it.why ? " · " + esc(it.why.replace(/\.$/, "")) : ""}</span>` : ""}${it.tempo ? `<span class="small muted">Tempo: 3 Sek. runter, unten kurz halten</span>` : ""}</div>`;
     if (A.ph === "ask") {
       const eqs = x.eq.filter((e) => e !== "matte").map((e) => EQUIP[e]).join(" + ");
+      const mk = machineOf(x); const mFirst = mk && !usedMachineBefore(mk);
       body = `${figSVG(x.id, it.g, "tr-fig")}${head}
+        ${mFirst ? `<div class="card" style="background:var(--lav)">${machineCard(mk, false, true)}</div>` : ""}
         <div class="card ask"><b style="font-size:19px">Ist ${esc(eqs)} frei?</b>
           <button class="btn big" data-a="isfree">Frei – los geht's</button>
           <button class="btn big warnb" data-a="occupied">Besetzt</button>
@@ -2195,9 +2205,11 @@ function vTrain() {
           ${ideal && inStudio(ideal) ? `<button class="small link" data-a="backideal">${esc(ideal.n)} ist jetzt frei</button>` : ""}
         </div>`;
     } else if (A.ph === "sets" && warmAskNow(it)) {
+      const mk = machineOf(x); const mFirst = mk && !usedMachineBefore(mk);
       const nW0 = it.log.filter((q) => q.warm).length; const w1 = num(W[0]?.w); const sg = warmSuggest(it);
       const sug = sg.w ? `${sg.w} kg × ${sg.r}` : `leicht × ${sg.r}`;
       body = `${figSVG(x.id, it.g, "tr-fig")}${head}
+        ${mFirst && !nW0 ? `<div class="card" style="background:var(--lav)">${machineCard(mk, false, true)}</div>` : ""}
         <div class="card ask"><b style="font-size:19px">${nW0 ? "Noch ein Aufwärmsatz?" : "Möchtest du einen Aufwärmsatz machen?"}</b>
           <p class="small muted" style="text-align:center">${nW0 ? `${nW0} ${nW0 === 1 ? "Aufwärmsatz" : "Aufwärmsätze"} geschafft. ` : ""}Vorschlag: ${sug}${w1 ? ` · Arbeitsgewicht ${fmt(w1)} kg` : ""}</p>
           <button class="btn big ${nW0 ? "line" : ""}" data-a="warmyes">${nW0 ? "Ja, noch einer" : "Ja, Aufwärmsatz"}</button>
@@ -2425,6 +2437,50 @@ function vLib() {
     }).join("")}</div>
   </div>`;
 }
+/* Geräte-Einweisung: Einstellen · So gelingt's · Stolpersteine. Erscheint beim ersten Mal an einem Gerät und immer unter „Tipps“. */
+const MACHINES = {
+  beinpresse: { a: "an der", s: ["Rückenlehne so einstellen, dass die Knie unten etwa rechtwinklig gebeugt sind, ohne dass sich das Becken abhebt.", "Füße hüftbreit mittig auf die Platte, ganze Sohle aufsetzen.", "Sicherung erst lösen, wenn die Beine das Gewicht tragen – und am Ende wieder einrasten."], g: ["Po und unterer Rücken bleiben die ganze Zeit am Polster.", "2–3 Sekunden runter, kontrolliert hoch.", "Knie zeigen in Richtung Fußspitzen."], b: ["Knie oben nicht ganz durchdrücken.", "Nicht so tief, dass das Becken abrollt – das belastet den unteren Rücken.", "Füße höher auf der Platte trifft mehr den Po, tiefer mehr die Oberschenkel vorn."] },
+  hack: { a: "an der", s: ["Schulterpolster so einstellen, dass du ohne Bücken in die Startposition kommst.", "Füße schulterbreit, etwa mittig auf die Plattform.", "Sicherung erst nach dem ersten Hochdrücken lösen."], g: ["Rücken liegt komplett am Polster.", "So tief gehen, wie der Rücken anliegen bleibt.", "Über die ganze Fußsohle drücken."], b: ["Heben die Fersen ab, Füße etwas höher setzen.", "Knie fallen nach innen – lieber leichter.", "Knie oben nicht durchstrecken."] },
+  pendel: { a: "an der", s: ["Schulterpolster und ggf. Hüftgurt so einstellen, dass du ohne Bücken hineinkommst.", "Füße schulterbreit auf die Plattform.", "Mit wenig Gewicht die Bahn erst einmal ausprobieren."], g: ["Rücken bleibt am Polster, Blick geradeaus.", "Langsam tief, zügig hoch.", "Ganze Fußsohle belasten."], b: ["Nicht in die Knie fallen lassen – die Bahn fühlt sich anfangs ungewohnt an.", "Knie oben nicht durchstrecken."] },
+  beinstrecker: { a: "am", s: ["Drehpunkt der Maschine auf Höhe des Kniegelenks (meist farbig markiert).", "Rolle vorn knapp über dem Sprunggelenk.", "Rückenlehne so, dass die Kniekehle an der Sitzkante liegt."], g: ["Oben kurz halten und den Oberschenkel fest anspannen.", "Langsam ablassen.", "An den Griffen festhalten, Po bleibt im Sitz."], b: ["Kein Schwung, Gewicht nicht fallen lassen.", "Bei Kniebeschwerden den Startwinkel kleiner einstellen."] },
+  beinbeuger: { a: "an der", s: ["Kniegelenk auf Höhe des Drehpunkts.", "Rolle oberhalb der Ferse an der Wade; sitzend das Oberschenkelpolster fest auf die Beine.", "Start so, dass die Beine vorn fast gestreckt sind."], g: ["Hüfte bleibt am Polster.", "Fußspitzen leicht zu dir ziehen.", "Langsam zurück in die Streckung."], b: ["Hohlkreuz oder Hüfte, die abhebt – dann ist es zu schwer.", "Schwung statt Muskelarbeit."] },
+  hipthrust: { a: "an der", s: ["Rückenpolster knapp unter den Schulterblättern.", "Polster oder Gurt auf die Hüftknochen, bei Bedarf zusätzlich abpolstern.", "Füße so, dass die Schienbeine oben senkrecht stehen."], g: ["Kinn leicht zur Brust, Blick nach vorn.", "Oben den Po fest anspannen und 1 Sekunde halten.", "Rippen unten lassen."], b: ["Hohlkreuz statt Hüftstreckung.", "Füße zu weit vorn – dann arbeitet eher die Beinrückseite.", "Knie fallen nach innen."] },
+  glute: { a: "an der", s: ["Brust oder Unterarme aufs Polster, Standbein sicher.", "Fußplatte oder Polster an Fußsohle bzw. Kniekehle.", "Startposition mit leicht gebeugter Hüfte."], g: ["Bewegung aus dem Po, Becken bleibt gerade.", "Oben kurz halten.", "Bauch fest."], b: ["Am Ende ins Hohlkreuz gehen.", "Becken dreht zur Seite auf.", "Zu schwer – dann wird geschwungen."] },
+  abd: { a: "an der", s: ["Polster außen an den Knien.", "Startweite so, dass schon leichte Spannung da ist.", "Aufrecht sitzen – leicht vorgebeugt trifft mehr den Po."], g: ["Langsam öffnen, kurz halten, langsam schließen.", "Gewicht nicht zurückknallen lassen."], b: ["Mit dem Oberkörper mitziehen.", "Schwung statt Kontrolle."] },
+  add: { a: "an der", s: ["Polster innen an den Knien.", "Startweite nur so groß, wie es angenehm dehnt.", "Aufrecht sitzen."], g: ["Kontrolliert schließen, kurz zusammendrücken.", "Langsam öffnen."], b: ["Zu weite Startposition – Zerrungsgefahr in der Leiste.", "Ruckartige Bewegungen."] },
+  waden: { a: "an der", s: ["Polster so, dass du mit fast gestreckten Knien stehst bzw. sitzt.", "Fußballen auf die Kante, Fersen frei."], g: ["Ganz tief in die Dehnung, ganz hoch auf die Zehen.", "Oben 1 Sekunde halten."], b: ["Wippen mit Schwung.", "Nur den halben Weg gehen."] },
+  latzug: { a: "am", s: ["Kniepolster so, dass die Oberschenkel fest darunter klemmen.", "Griff etwas breiter als schulterbreit.", "Zum Greifen aufstehen, dann mit gestreckten Armen hinsetzen."], g: ["Brust raus, Stange zur oberen Brust ziehen.", "Erst die Schultern nach unten ziehen, dann die Ellbogen.", "Langsam nach oben zurück."], b: ["Hinter den Nacken ziehen.", "Weit zurücklehnen und mit Schwung ziehen.", "Nur aus den Armen arbeiten."] },
+  rudern: { a: "an der", s: ["Sitzhöhe: Griffe etwa auf Höhe des unteren Brustbeins.", "Brustpolster so, dass du die Griffe mit gestreckten Armen gerade erreichst."], g: ["Brust bleibt am Polster.", "Schulterblätter zusammenziehen.", "Ellbogen eng am Körper trifft mehr den breiten Rücken, seitlich mehr den oberen Rücken."], b: ["Schultern wandern zu den Ohren.", "Oberkörper schwingt mit."] },
+  tbar: { a: "am", s: ["Brustpolster so, dass du sicher stehst bzw. liegst.", "Füße fest auf den Tritten."], g: ["Rücken gerade, Brust am Polster.", "Schulterblätter zusammen, langsam ablassen."], b: ["Rundrücken.", "Schwung aus den Beinen."] },
+  assist: { a: "am", s: ["Gegengewicht wählen: Je mehr Gewicht, desto leichter wird es.", "Erst sicher greifen, dann Knie oder Füße auf die Plattform."], g: ["Klimmzug: Brust zur Stange, Schultern nach unten.", "Dips: Oberkörper aufrecht, nur bis etwa 90° im Ellbogen."], b: ["Die Gewichtslogik verwechseln – mehr Gewicht heißt mehr Hilfe.", "Bei Dips zu tief gehen – das belastet die Schultern."] },
+  hyper: { a: "an der", s: ["Polster knapp unter den Hüftknochen, damit du in der Hüfte beugen kannst.", "Fersen unter die Rolle."], g: ["Bewegung aus der Hüfte, Po anspannen.", "Nur bis zur geraden Linie hochkommen."], b: ["Oben ins Hohlkreuz überstrecken.", "Polster zu hoch – dann kommt die Bewegung aus dem Rücken."] },
+  rueckenm: { a: "an der", s: ["Hüft- bzw. Oberschenkelgurt fest anlegen.", "Rückenpolster etwa auf Höhe der Schulterblätter.", "Mit leichtem Gewicht starten."], g: ["Langsam und ohne Schwung.", "Bauch leicht anspannen."], b: ["Überstrecken nach hinten.", "Zu viel Gewicht – hier geht es um Kräftigung, nicht um Rekorde."] },
+  brustpresse: { a: "an der", s: ["Sitzhöhe: Griffe auf Höhe der mittleren Brust.", "Startposition so, dass die Griffe knapp vor der Brust sind, nicht hinter der Schulterlinie.", "Gibt es einen Fußhebel, bringt er die Griffe in Startposition."], g: ["Schulterblätter nach hinten unten, Brust raus.", "Langsam zurück."], b: ["Schultern rollen nach vorn.", "Ellbogen ganz auf Schulterhöhe – das stresst die Schultern."] },
+  butterfly: { a: "an der", s: ["Sitzhöhe: Oberarme etwa waagerecht, Ellbogen knapp unter Schulterhöhe.", "Startweite so, dass die Arme nicht hinter den Körper gehen."], g: ["Ellbogen leicht gebeugt, Bewegung aus der Brust.", "Reverse Butterfly: umstellen, Brust ans Polster, Bewegung aus der hinteren Schulter."], b: ["Hinten zu weit aufdehnen.", "Schultern hochziehen."] },
+  schulterpresse: { a: "an der", s: ["Sitzhöhe: Griffe beim Sitzen etwa auf Schulterhöhe.", "Rücken komplett an die Lehne."], g: ["Nach oben drücken, ohne die Arme ganz durchzustrecken.", "Langsam ablassen."], b: ["Hohlkreuz.", "Zu tiefe Startposition – das belastet die Schultern."] },
+  latraise: { a: "an der", s: ["Schulter auf Höhe des Drehpunkts.", "Polster außen an den Oberarmen."], g: ["Nur bis Schulterhöhe heben.", "Langsam ablassen."], b: ["Schultern zu den Ohren ziehen.", "Schwung."] },
+  curlm: { a: "an der", s: ["Sitzhöhe so, dass die Oberarme flach auf dem Polster liegen.", "Ellbogen auf Höhe des Drehpunkts."], g: ["Unten ganz strecken, oben kurz halten.", "Langsam ablassen."], b: ["Po hebt ab.", "Schwung."] },
+  trim: { a: "an der", s: ["Ellbogen auf Höhe des Drehpunkts.", "Oberarme liegen fest auf."], g: ["Ganz strecken, Ellbogen bleiben stehen.", "Langsam zurück."], b: ["Schultern kippen nach vorn.", "Schwung."] },
+  abm: { a: "an der", s: ["Polster so, dass du aufrecht sitzt.", "Füße unter die Rolle."], g: ["Einrollen: Rippen Richtung Becken, dabei ausatmen.", "Langsam zurück."], b: ["Mit den Armen ziehen.", "Aus der Hüfte beugen statt einzurollen."] },
+  kneelift: { a: "an der", s: ["Unterarme auf die Polster, Rücken an die Lehne."], g: ["Knie hochziehen, Becken leicht einrollen.", "Langsam absenken."], b: ["Schwingen.", "Ins Hohlkreuz fallen."] },
+  rotation: { a: "an der", s: ["Polster so, dass Becken und Beine fest sitzen.", "Aufrecht sitzen, klein anfangen mit dem Drehwinkel."], g: ["Drehung aus dem Oberkörper, langsam.", "Beide Seiten gleich oft."], b: ["Schwung.", "Zu großer Drehwinkel."] },
+  smith: { a: "an der", s: ["Stange durch Drehen der Handgelenke ein- und aushaken.", "Sicherheitsstopper knapp unter der tiefsten Position einstellen.", "Bank oder Fußposition ausrichten, bevor Gewicht drauf ist."], g: ["Stopper immer nutzen.", "Langsam und kontrolliert."], b: ["Die Stange gibt die Bahn vor – die Fußposition entscheidet, z. B. bei Kniebeugen Füße leicht vor die Stange.", "Vergessen, die Stange am Ende einzuhaken."] },
+  kabel: { a: "am", s: ["Rolle auf die passende Höhe stellen (unten, Brust, oben).", "Passenden Griff einhaken, Gewicht einstecken."], g: ["Stabil stehen, einen Schritt vom Turm weg für Spannung.", "Langsam zurück."], b: ["Gewicht schlägt unten auf – dann stehst du zu nah.", "Schwung."] },
+  trx: { a: "am", s: ["Gurte auf die passende Länge (kurz, mittel, lang je Übung).", "Prüfen, dass der Anker sicher hängt."], g: ["Je steiler du stehst, desto leichter.", "Körperspannung von Kopf bis Fuß."], b: ["Gurte reiben am Arm.", "Hüfte hängt durch."] },
+  rad: { a: "am", s: ["Sattelhöhe: Das Bein ist unten fast gestreckt, mit leichtem Knick.", "Widerstand so, dass du ohne Hin- und Herwackeln trittst."], g: ["Locker im Oberkörper, gleichmäßig treten."], b: ["Sattel zu tief – das belastet die Knie."] },
+  cross: { a: "am", s: ["Aufrecht auf die Pedale, Griffe locker halten."], g: ["Gleichmäßig, ganze Fußsohle."], b: ["Sich auf die Griffe lehnen."] },
+  laufband: { a: "am", s: ["Not-Aus-Clip an der Kleidung befestigen.", "Langsam starten, erst dann schneller werden."], g: ["Aufrecht gehen, nicht festhalten.", "Leichte Steigung macht zügiges Gehen effektiver."], b: ["Am Geländer festhalten – das verfälscht die Haltung."] },
+  ruderg: { a: "am", s: ["Fußgurte über den breitesten Teil des Fußes.", "Widerstand mittel – höher ist nicht automatisch besser."], g: ["Reihenfolge: Beine, Oberkörper, Arme – zurück umgekehrt."], b: ["Nur aus den Armen ziehen.", "Mit rundem Rücken rudern."] },
+  stepper: { a: "am", s: ["Aufrecht hinstellen, Griffe nur leicht halten."], g: ["Ganze Fußsohle auf die Stufe, gleichmäßiges Tempo."], b: ["Sich auf die Griffe stützen."] },
+};
+const machineOf = (x) => x && x.eq.find((e) => MACHINES[e]);
+const usedMachineBefore = (k) => S.sessions.some((s) => (s.items || []).some((it) => EXM[it.ex] && EXM[it.ex].eq.includes(k) && (it.log || []).some((q) => q.done)));
+function machineCard(k, open, first) {
+  const m = MACHINES[k]; if (!m) return "";
+  const sec = (t, L, ic) => `<div class="stack" style="gap:4px"><b class="small">${ic} ${t}</b><ul class="tipl small">${L.map((q) => `<li>${esc(q)}</li>`).join("")}</ul></div>`;
+  return `<details class="mcard" ${open ? "open" : ""}><summary>${first ? `Erstes Mal ${m.a} ${esc(EQUIP[k])}?` : `${esc(EQUIP[k])}: einstellen & Tipps`}</summary>
+    <div class="stack" style="gap:10px;margin-top:10px">${sec("Einstellen", m.s, "⚙️")}${sec("So gelingt's", m.g, "✓")}${sec("Stolpersteine", m.b, "!")}</div></details>`;
+}
 function infoSheet(id, g) {
   const x = EXM[id]; g = g || primary(x);
   const pts = series(id);
@@ -2434,6 +2490,7 @@ function infoSheet(id, g) {
     <span class="small muted">${x.cat === "kraft" ? `Hauptmuskel: ${esc(GROUPS[primary(x)].n)}${secs.length ? " · Mit: " + esc(secs.join(", ")) : ""}` : TYPES[x.cat].n}${x.side ? " · je Seite" : ""}</span></div>
     ${x.cat === "kraft" ? `<div class="chips">${x.eq.map((e) => `<span class="chip tag ${e === "matte" || S.equip[e] ? "" : "busy"}">${esc(EQUIP[e])}</span>`).join("")}${S.backCare && x.back === "mid" ? `<span class="chip tag calm">rückenschonend: leichter, mehr Wdh.</span>` : ""}</div>` : ""}
     <div class="card"><h3>So geht's</h3><ul class="tipl">${x.tips.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></div>
+    ${machineOf(x) ? `<div class="card">${machineCard(machineOf(x), !usedMachineBefore(machineOf(x)), false)}</div>` : ""}
     ${ERR[id] ? `<div class="card" style="background:var(--peach);gap:4px"><b style="color:var(--peach-ink)">Typischer Fehler</b><span class="small" style="color:var(--peach-ink)">${esc(ERR[id])}</span></div>` : ""}
     ${limited(id) ? `<p class="small" style="color:var(--warn)">Wegen deiner Einschränkung wird diese Übung nicht vorgeschlagen.</p>` : ""}
     ${pts.length ? `<div class="card"><h3>${pts.some((p) => p.w) ? "Bestes Gewicht pro Einheit" : "Beste Wiederholungen pro Einheit"}</h3>${chart(pts.map((p) => ({ d: p.d, v: pts.some((q) => q.w) ? p.w : p.r })).filter((p) => p.v != null), pts.some((p) => p.w) ? "kg" : "")}</div>` : ""}

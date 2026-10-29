@@ -60,6 +60,7 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 - **Besetzt?** Sofort eine Ersatzübung mit **gleichem Bewegungsmuster**, Sätze und Wiederholungen umgerechnet; bereits geschaffte Sätze zählen mit
 - **Später nochmal fragen**, **Gibt's hier nicht** (Gerät wird ausgeblendet), **Original ist jetzt frei**
 - **Aufwärmsätze auf Nachfrage:** bei jeder großen Übung „Möchtest du einen Aufwärmsatz machen?“ mit Gewichtsvorschlag – gespeichert und in der Gesamtlast mitgezählt
+- **Erstes Mal an einem Gerät?** Einstellen, So gelingt's und Stolpersteine für jede Maschine – ideal für Einsteigerinnen
 - **Gewicht:** letztes Gewicht vorausgefüllt; bei neuen Übungen geschätzt aus ähnlichen Übungen (Testsatz); nach jedem Satz ein Vorschlag für mehr oder weniger
 - **Satzpause** standardmäßig 3 Minuten, jederzeit änderbar – auch mitten in der Pause
 - **Satz übernimmt Satz:** Gewicht und Wiederholungen vom letzten Mal sind vorausgefüllt, und jeder Satz übernimmt die Werte in den nächsten – auch beim Aufwärmen
