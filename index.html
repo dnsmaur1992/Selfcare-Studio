@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.4">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.4">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.5">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.5">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.4">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.5">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -359,6 +359,12 @@ html.touring, html.touring body { overflow: hidden; overscroll-behavior: none; t
 .ring-fg { stroke: var(--accent); transition: stroke-dashoffset .25s linear; }
 .ring-fg.calm { stroke: var(--lav-ink); }
 .sheet > * { flex-shrink: 0; }
+.accents { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.acc { display: flex; align-items: center; gap: 8px; padding: 9px 10px; border-radius: 14px; background: var(--surface2); font-weight: 600; font-size: 14px; }
+.acc .dot { width: 18px; height: 18px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(0,0,0,.12); }
+.acc.on { background: var(--accent-soft); box-shadow: inset 0 0 0 2px var(--accent); }
+.acc { min-width: 0; }
+@media (max-width: 360px) { .accents { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .mcard summary { font-weight: 700; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 8px; color: var(--lav-ink, var(--fg)); }
 .mcard summary::-webkit-details-marker { display: none; }
 .mcard summary::after { content: "›"; transform: rotate(90deg); transition: transform .2s; font-size: 20px; }
@@ -654,8 +660,9 @@ const LIMITS = {
   wrist: { n: "Handgelenk", ids: ["pushup", "pushup_incline", "benchdips", "kickback_kh", "conc_curl", "trx_press", "pushup_tri"] },
 };
 const limited = (id) => Object.keys(LIMITS).some((k) => (S.limits || {})[k] && LIMITS[k].ids.includes(id));
-const S_VERSION = "3.4";
-const NEWS = { v: "3.4", items: [
+const S_VERSION = "3.5";
+const NEWS = { v: "3.5", items: [
+  ["Deine Akzentfarbe", "Knöpfe, Ringe und Hervorhebungen in Pink, Koralle, Lavendel, Petrol, Blau oder Graphit – in Hell und Dunkel gut lesbar. Profil → Darstellung & Kalender."],
   ["Erstes Mal an einem Gerät?", "Bei einer Maschine, an der du noch nie trainiert hast, zeigt die App aufklappbar: wie du sie einstellst, worauf es ankommt und typische Stolpersteine. Für alle Geräte jederzeit unter „Tipps“."],
 ], old: [
   { v: "3.2 – 3.3", items: [
@@ -737,7 +744,27 @@ const QUOTES = [
 ];
 const isDark = () => { const t = document.documentElement.dataset.theme; return t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches; };
 function outfitVars(o) { const d = isDark(); return `--top:${(d && o.dtop) || o.top};--legs:${(d && o.dlegs) || o.legs};--shoe:${(d && o.dshoe) || o.shoe}`; }
+/* Akzentfarben: je [Akzent, Schrift auf Akzent, zarter Hintergrund, Leuchten-RGB] für Hell und Dunkel; Kontrast der Knopfschrift ≥ 4,3 : 1. */
+const ACCENTS = {
+  pink: { n: "Pink", l: ["#E0306E", "#FFFFFF", "#FDE3ED", "224, 48, 110"], d: ["#FF5C93", "#2A0716", "#4A1A2E", "255, 92, 147"] },
+  koralle: { n: "Koralle", l: ["#C8412A", "#FFFFFF", "#FDE4DC", "200, 65, 42"], d: ["#FF8A6B", "#2B0A02", "#4D2A22", "255, 138, 107"] },
+  violett: { n: "Lavendel", l: ["#7448D6", "#FFFFFF", "#ECE4FC", "116, 72, 214"], d: ["#B79CFF", "#1B0D3A", "#33285A", "183, 156, 255"] },
+  petrol: { n: "Petrol", l: ["#0E7470", "#FFFFFF", "#D6F1EE", "14, 116, 112"], d: ["#4FD1C5", "#04201E", "#163C3A", "79, 209, 197"] },
+  blau: { n: "Blau", l: ["#2F5FD0", "#FFFFFF", "#E0E9FC", "47, 95, 208"], d: ["#82AEFF", "#061A3A", "#1E2E52", "130, 174, 255"] },
+  graphit: { n: "Graphit", l: ["#3A3340", "#FFFFFF", "#ECE8EF", "58, 51, 64"], d: ["#E8E2EC", "#1A161D", "#3A3340", "232, 226, 236"] },
+};
+function applyAccent() {
+  const r = document.documentElement.style; const k = S.accent || "pink";
+  if (k === "pink" || !ACCENTS[k]) { ["--accent", "--accent-ink", "--accent-soft", "--glow"].forEach((v) => r.removeProperty(v)); return; }
+  const dark = isDark(); const [a, ink, soft, rgb] = ACCENTS[k][dark ? "d" : "l"];
+  r.setProperty("--accent", a); r.setProperty("--accent-ink", ink); r.setProperty("--accent-soft", soft); r.setProperty("--glow", `rgba(${rgb}, ${dark ? 0.34 : 0.26})`);
+}
+function accentPicker() {
+  const cur = S.accent || "pink"; const dark = isDark();
+  return `<div class="stack" style="gap:8px"><span class="small muted">Akzentfarbe für Knöpfe, Ringe und Hervorhebungen</span><div class="accents">${Object.entries(ACCENTS).map(([k, o]) => `<button class="acc ${cur === k ? "on" : ""}" data-a="accent" data-k="${k}" aria-pressed="${cur === k}"><span class="dot" style="background:${o[dark ? "d" : "l"][0]}"></span>${o.n}</button>`).join("")}</div></div>`;
+}
 function applyOutfit() {
+  applyAccent();
   const o = getOutfit(S.outfit); const r = document.documentElement.style;
   if (S.hair && S.hair.color) r.setProperty("--hair", S.hair.color); else r.removeProperty("--hair");
   outfitVars(o).split(";").forEach((kv) => { const [k, v] = kv.split(":"); r.setProperty(k, v); });
@@ -2597,7 +2624,7 @@ function vProf() {
     <button class="card" style="flex-direction:row;align-items:center;gap:12px;text-align:left;width:100%" data-a="soundtest"><div class="grow stack" style="gap:2px"><b>Signalton · ${SOUNDS[S.sound || "gong"].n}</b><span class="small muted">Countdown: ${TICKS[S.tick || "piep"].n} · antippen zum Wählen und Anhören</span></div><span class="chev">›</span></button>
     <div class="card" style="gap:8px"><h3>Deine Musik</h3><input id="pmusic" class="field" data-in="music" inputmode="url" value="${esc(S.music || "")}" placeholder="Link zur Playlist (Spotify, Apple Music …)"><span class="small muted">Im Training erscheint dann oben ein ♪, der deine Playlist öffnet. Den Link bekommst du in der Musik-App über Teilen → Link kopieren.</span></div>`,
     app: () => `${head("Darstellung &amp; Kalender")}
-    <div class="card" style="gap:10px"><h3>Darstellung</h3><div class="seg">${[["auto", "Automatisch"], ["light", "Hell"], ["dark", "Dunkel"]].map(([k, n]) => `<button class="${(S.theme || "auto") === k ? "on" : ""}" data-a="theme" data-k="${k}">${n}</button>`).join("")}</div><span class="small muted">Automatisch folgt der Einstellung deines iPhones.</span></div>
+    <div class="card" style="gap:10px"><h3>Darstellung</h3><div class="seg">${[["auto", "Automatisch"], ["light", "Hell"], ["dark", "Dunkel"]].map(([k, n]) => `<button class="${(S.theme || "auto") === k ? "on" : ""}" data-a="theme" data-k="${k}">${n}</button>`).join("")}</div><span class="small muted">Automatisch folgt der Einstellung deines iPhones.</span>${accentPicker()}</div>
     <div class="card" style="gap:8px"><h3>Kalender</h3><p class="small muted">Trägt deine Trainingstage als wiederkehrende Termine mit Erinnerung 30 Minuten vorher in den iPhone-Kalender ein.</p><div class="row" style="flex-wrap:wrap;gap:8px"><label class="small muted" for="caltime">Uhrzeit</label><input id="caltime" class="field" type="time" style="width:auto" value="${S.calTime || "18:00"}" data-in="caltime"><button class="btn sm" data-a="calexport">In den Kalender</button></div></div>`,
     hilfe: () => `${head("Hilfe &amp; Infos")}
     <div class="list">
@@ -2632,7 +2659,7 @@ function vProf() {
       ${go2("tab", "eq", "Geräte", hidden ? hidden + " ausgeblendet" : "alle aktiv", "🏋")}
     </div></div>
     <div class="stack"><span class="eyebrow">App</span><div class="list">
-      ${li("app", "Darstellung &amp; Kalender", `${{ auto: "Automatisch", light: "Hell", dark: "Dunkel" }[S.theme || "auto"]} · Kalender ${S.calTime || "18:00"} Uhr`, "🎨")}
+      ${li("app", "Darstellung &amp; Kalender", `${{ auto: "Automatisch", light: "Hell", dark: "Dunkel" }[S.theme || "auto"]} · ${ACCENTS[S.accent || "pink"].n} · Kalender ${S.calTime || "18:00"} Uhr`, "🎨")}
       ${li("daten", "Daten &amp; Backup", S.lastBackup ? "Letztes Backup: " + dShort(new Date(S.lastBackup)) : "Noch kein Backup", "💾")}
       ${li("hilfe", "Hilfe &amp; Infos", "Tour, Zum Lesen, Was ist neu, Feedback", "❔")}
     </div></div>
@@ -3099,6 +3126,7 @@ document.addEventListener("click", (e) => {
     case "restopen": openSheet(restSheet); break;
     case "eq": S.equip[d.e] = !S.equip[d.e]; save(); render(); if (!S.equip[d.e]) { const n = customUses(d.e); if (n) toast(`${EQUIP[d.e]} ist raus. In ${n} eigenen ${n === 1 ? "Übung" : "Übungen"} setzt die App automatisch Ersatz ein.`); } break;
     case "creplace": { const c = S.days[+d.i].custom[+d.j]; c.ex = d.x; save(); render(); toast("Übung ersetzt"); break; }
+    case "accent": S.accent = d.k; save(); applyOutfit(); render(); break;
     case "eqgrp": d.ks.split(",").forEach((k) => (S.equip[k] = d.v === "1")); save(); render(); break;
     case "daywd": S.days[+d.i].wd = +d.w; save(); render(); break;
     case "dayg": { const gs = S.days[+d.i].groups; const k = gs.indexOf(d.g); k >= 0 ? gs.splice(k, 1) : gs.push(d.g); gs.sort((x, y) => GORDER.indexOf(x) - GORDER.indexOf(y)); save(); render(); break; }
