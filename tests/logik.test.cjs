@@ -158,5 +158,9 @@ ok(["ruecken", "brust", "schulter", "tri"].every((g) => mo.includes(g)), "Mini-T
 const freeKit = ["kh", "kb", "bank", "stepbox", "ball", "band", "miniband", "matte"];
 ok(Object.keys(EQUIP).filter((k) => !freeKit.includes(k)).every((k) => MACHINES[k] && MACHINES[k].s.length && MACHINES[k].g.length && MACHINES[k].b.length), "Jede Maschine hat Einstellen, So gelingt's und Stolpersteine");
 S.sessions = []; ok(!usedMachineBefore("beinpresse") && machineOf(EXM.legpress) === "beinpresse", "Beinpresse noch nie benutzt → Einweisung wird angeboten");
+// 33 Akzentfarben: lesbare Knopfschrift in Hell und Dunkel
+const lum = (h) => { const c = [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4))); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
+const cr = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
+ok(Object.values(ACCENTS).every((o) => cr(o.l[0], o.l[1]) >= 4.3 && cr(o.d[0], o.d[1]) >= 4.3), "Sechs Akzentfarben, Knopfschrift überall mindestens 4,3 : 1 Kontrast");
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
