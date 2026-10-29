@@ -24,6 +24,14 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 ## Bewusst nicht umgesetzt
 - **Unhörbarer Dauerton** gegen das Einschlafen der Audioausgabe (Ringzeit-Idee): Er würde laufende Musik auf dem iPhone dauerhaft leiser stellen. Stattdessen Gong als echte Tondatei und Freischalten beim ersten Antippen.
 
+## Erledigt in Version 3.9 (offene Punkte aus dem Review zu 3.8, Commit db6ee3d)
+- [x] **Backup- und Zustandsprüfung vollständig:** Einheiten, Übungen, Sätze und Einstellungen (u. a. Wiederholungsziel) werden geprüft; Backups erst in einer Kopie repariert und probeweise aufgebaut, dann übernommen. Reparaturen werden angezeigt, bei Fehlern bleibt alles beim Alten. Start-Reparatur hebt das Original auf.
+- [x] **Rettung ohne Datenverlust:** Pilates/Mobility über `finishFlow`; scheitert das Speichern, bleibt die laufende Einheit erhalten, mit Fehlermeldung und Backup-Knopf. Keine Doppelspeicherung.
+- [x] **0 kg Hilfe bei Assistenzgeräten** gilt als Wert: Rekord 10 → 0 kg, im Verlauf sichtbar, zu wenige Wdh. bei 0 kg → mehr Hilfe.
+- [x] **Mini-Training mit echtem 30-Minuten-Budget** inkl. Aufwärmen, Pausen, Seiten, Cool-down; überall dieselbe geschätzte Dauer, Training = Vorschau.
+- [x] **Steigerungsvorschlag zwischen Einheiten** vor dem ersten Arbeitssatz (Gewicht, Assist umgekehrt, Körpergewicht/Zeit), nur nach vollständigen Einheiten; Artikel „Wann die App steigert“, Tour ergänzt.
+- [x] 37 neue Regressionstests (insgesamt 128) und 20 Browser-Prüfungen über die echten Knöpfe (Import-Datei-Feld, Rettung, Steigerung, Mini).
+
 ## Erledigt in Version 3.8 (externes Review vom 29.10.)
 **Hohe Priorität**
 - [x] Einschränkungen gelten auch in eigenen Plänen, für eigene Übungen (über die Vorlage) und bei Ersatz.

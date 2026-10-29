@@ -62,7 +62,7 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 - **Später nochmal fragen**, **Gibt's hier nicht** (Gerät wird ausgeblendet), **Original ist jetzt frei**
 - **Aufwärmsätze auf Nachfrage:** bei jeder großen Übung „Möchtest du einen Aufwärmsatz machen?“ mit Gewichtsvorschlag – gespeichert und in der Gesamtlast mitgezählt
 - **Erstes Mal an einem Gerät?** Einstellen, So gelingt's und Stolpersteine für jede Maschine – ideal für Einsteigerinnen
-- **Gewicht:** letztes Gewicht vorausgefüllt; bei neuen Übungen geschätzt aus ähnlichen Übungen (Testsatz); nach jedem Satz ein Vorschlag für mehr oder weniger
+- **Gewicht:** letztes Gewicht vorausgefüllt; bei neuen Übungen geschätzt aus ähnlichen Übungen (Testsatz); nach jedem Satz ein Vorschlag für mehr oder weniger; **Steigerungsvorschlag**, wenn letztes Mal alle Sätze bis zum oberen Ziel geschafft wurden – übernommen wird nur auf Antippen
 - **Satzpause** standardmäßig 3 Minuten, jederzeit änderbar – auch mitten in der Pause
 - **Satz übernimmt Satz:** Gewicht und Wiederholungen vom letzten Mal sind vorausgefüllt, und jeder Satz übernimmt die Werte in den nächsten – auch beim Aufwärmen
 - **Pausen im Vollbild** mit Ring, Signalton und Sprachansage – über die laufende Musik
@@ -72,7 +72,7 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 
 ### Aufwärmen und Cool-down
 - **10–15 Minuten Aufwärmen:** Cardio am freien Gerät, Aktivierung passend zu den Muskelgruppen
-- **Mini-Training (30 Min, nur Körpergewicht)** für müde Tage – mit 5 Minuten Mobilisation passend zum Alltag: viel gesessen, viel gestanden, viel gehoben
+- **Mini-Training (ca. 30 Min inkl. Auf- und Abwärmen, nur Körpergewicht – die App kürzt passend zur eingestellten Pause)** für müde Tage – mit 5 Minuten Mobilisation passend zum Alltag: viel gesessen, viel gestanden, viel gehoben
 - **Cool-down:** Dehnen der trainierten Muskeln mit Timer
 - **Pilates und Mobility** als eigene 30-Minuten-Einheiten, frei in der Woche planbar
 
@@ -124,7 +124,7 @@ Ausführliche Anleitung mit QR-Code: [installieren.html](https://dnsmaur1992.git
 
 - Alles bleibt **nur auf dem Handy** (`localStorage`). Kein Konto, kein Server, keine Werbung, kein Tracking.
 - Die installierte App speichert **getrennt vom Browser**.
-- **Backup:** Profil → „Backup speichern“ sichert alles als Datei; „Backup laden“ stellt es wieder her – wichtig vor einem Handywechsel oder vor dem Neu-Installieren.
+- **Backup:** Profil → „Backup speichern“ sichert alles als Datei; „Backup laden“ stellt es wieder her – wichtig vor einem Handywechsel oder vor dem Neu-Installieren. Ein Backup wird vor dem Laden vollständig geprüft; beschädigte Teile werden repariert und angezeigt, ein unbrauchbares Backup ändert nichts.
 - Geteilte Trainingstage stecken komplett im Link; es wird nichts hochgeladen.
 
 ---

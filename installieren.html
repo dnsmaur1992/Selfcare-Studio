@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio installieren">
 <meta property="og:description" content="So legst du Selfcare Studio in einer Minute auf den Home-Bildschirm deines iPhones.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/installieren.html">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.2">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.2">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.9">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.9">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=2.2">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.9">
 <title>Selfcare Studio installieren</title>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;1,6..96,500;1,6..96,600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet"><style>
@@ -96,8 +96,10 @@ p { margin: 0; }
 .btn.sm { min-height: 42px; font-size: 14.5px; border-radius: 999px; width: auto; padding: 0 14px; }
 .btn.danger { background: var(--warn-soft); color: var(--warn); }
 .link { color: var(--accent); font-weight: 600; font-size: 14.5px; }
-.seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; background: var(--surface2); border-radius: 12px; padding: 3px; gap: 3px; }
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); background: var(--surface2); border-radius: 12px; padding: 3px; gap: 3px; }
 .seg button { border-radius: 9px; padding: 8px 6px; font-size: 14px; font-weight: 600; color: var(--muted); line-height: 1.2; }
+.seg button { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 350px) { .seg button { font-size: 12.5px; padding: 8px 3px; } .seg button small { font-size: 10.5px; } }
 .seg button.on { background: var(--surface); color: var(--fg); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
 .seg button small { display: block; font-weight: 500; font-size: 11.5px; opacity: .8; }
 .list { background: var(--surface); border-radius: 24px; box-shadow: 0 10px 30px -20px rgba(120, 40, 90, 0.18); overflow: hidden; }
@@ -156,6 +158,7 @@ svg.fig .pad { fill: var(--prop); stroke: var(--muted); stroke-width: .8; }
 .tr-prog i.cool { background: color-mix(in srgb, var(--lav-ink) 20%, var(--line)); }
 .tr-prog i.d { background: var(--accent); opacity: .45; }
 .tr-prog i.c { background: var(--accent); }
+.tr-prog i.s { background: repeating-linear-gradient(90deg, var(--muted) 0 2px, transparent 2px 4px); opacity: .5; }
 .tr-body { display: flex; flex-direction: column; gap: 14px; }
 .tr-name { font-size: 32px; text-align: center; }
 .figbox.tr-fig svg.fig { height: min(220px, 34vh) !important; }
@@ -272,7 +275,8 @@ a.tr-x { text-decoration: none; color: var(--accent); }
 @keyframes viewin { from { opacity: 0; transform: translateY(8px); } }
 .lastset { display: inline-block; margin-left: 6px; padding: 2px 8px; border-radius: 99px; background: var(--accent); color: #fff; letter-spacing: .04em; animation: pop .5s cubic-bezier(.2,1.6,.4,1) both; }
 @media (prefers-reduced-motion: reduce) { .viewin .wrap, .lastset { animation: none; } }
-.tour { position: fixed; inset: 0; z-index: 90; }
+.tour { position: fixed; inset: 0; z-index: 90; touch-action: none; overscroll-behavior: none; }
+html.touring, html.touring body { overflow: hidden; overscroll-behavior: none; touch-action: none; }
 .tourhole { position: fixed; border-radius: 18px; box-shadow: 0 0 0 9999px rgba(10, 8, 14, .58); outline: 2px solid var(--accent); outline-offset: 2px; transition: all .3s ease; pointer-events: none; }
 .tourbub { position: fixed; left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); max-width: 520px; margin: 0 auto; background: var(--bg); border-radius: 22px; padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 16px 40px rgba(0,0,0,.3); animation: up .25s ease-out; }
 .tourbub h3 { margin: 0; }
@@ -342,6 +346,29 @@ a.tr-x { text-decoration: none; color: var(--accent); }
 .ring-bg { stroke: var(--surface2); }
 .ring-fg { stroke: var(--accent); transition: stroke-dashoffset .25s linear; }
 .ring-fg.calm { stroke: var(--lav-ink); }
+.sheet > * { flex-shrink: 0; }
+.savebar { position: fixed; left: 12px; right: 12px; top: calc(8px + env(safe-area-inset-top, 0px)); z-index: 95; background: var(--warn); color: #fff; border-radius: 14px; padding: 10px 14px; font-size: 13.5px; line-height: 1.35; box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+.owntag { font-size: 10.5px; padding: 1px 7px; vertical-align: 2px; background: var(--accent-soft); color: var(--accent); }
+.exnote { align-self: center; max-width: 100%; padding: 6px 12px; border-radius: 12px; background: var(--butter); color: var(--butter-ink); font-size: 13.5px; font-weight: 600; text-align: left; }
+select.field { appearance: none; -webkit-appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 34px; }
+.accents { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.acc { display: flex; align-items: center; gap: 8px; padding: 9px 10px; border-radius: 14px; background: var(--surface2); font-weight: 600; font-size: 14px; }
+.acc .dot { width: 18px; height: 18px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1px rgba(0,0,0,.12); }
+.acc.on { background: var(--accent-soft); box-shadow: inset 0 0 0 2px var(--accent); }
+.acc { min-width: 0; }
+@media (max-width: 360px) { .accents { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.mcard summary { font-weight: 700; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 8px; color: var(--lav-ink, var(--fg)); }
+.mcard summary::-webkit-details-marker { display: none; }
+.mcard summary::after { content: "›"; transform: rotate(90deg); transition: transform .2s; font-size: 20px; }
+.mcard[open] summary::after { transform: rotate(-90deg); }
+.card .mcard summary { color: inherit; }
+.pic { width: 30px; height: 30px; flex: none; display: grid; place-items: center; border-radius: 10px; background: var(--surface2); font-size: 16px; }
+.profhead { flex-direction: row; align-items: center; gap: 14px; width: 100%; text-align: left; }
+.profhead .figmini { width: 74px; flex: none; }
+.profhead .figmini .figbox { border-radius: 16px; }
+.chip.skipt { background: var(--surface2); color: var(--muted); font-style: italic; }
+.pickh { position: sticky; top: 38px; z-index: 2; display: flex; justify-content: space-between; align-items: baseline; padding: 8px 4px 4px; background: var(--bg); font-family: var(--display); font-size: 20px; font-weight: 600; }
+.pickbar { position: sticky; top: -10px; z-index: 3; background: var(--bg); padding: 6px 0; }
 .hscroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
 .hscroll::-webkit-scrollbar { display: none; }
 .hscroll .chip { flex: none; }
@@ -364,6 +391,6 @@ details.hist summary::-webkit-details-marker { display: none; }
   <h2>iPhone</h2><div class="card" style="flex-direction:row;gap:14px;align-items:flex-start"><span style="flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700">1</span><div class="stack" style="gap:3px"><b>Link in <b>Safari</b> öffnen</b><span class="small muted">Nicht im WhatsApp- oder Instagram-Browser. Tippe dort unten rechts auf das Kompass-Symbol oder „In Safari öffnen“. Oder kopiere den Link und füge ihn in Safari ein.</span></div></div><div class="card" style="flex-direction:row;gap:14px;align-items:flex-start"><span style="flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700">2</span><div class="stack" style="gap:3px"><b>Teilen-Symbol antippen</b><span class="small muted">Das Quadrat mit dem Pfeil nach oben, unten in der Mitte. Bei neueren iPhones steckt es hinter den drei Punkten (…) neben der Adresse.</span></div></div><div class="card" style="flex-direction:row;gap:14px;align-items:flex-start"><span style="flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700">3</span><div class="stack" style="gap:3px"><b>„Zum Home-Bildschirm“ wählen</b><span class="small muted">Etwas nach unten wischen, der Eintrag steht in der Liste. Fehlt er: ganz unten „Aktionen bearbeiten“ und ihn hinzufügen.</span></div></div><div class="card" style="flex-direction:row;gap:14px;align-items:flex-start"><span style="flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700">4</span><div class="stack" style="gap:3px"><b>„Hinzufügen“ tippen</b><span class="small muted">Jetzt liegt Selfcare Studio als App auf deinem Home-Bildschirm. Ab hier immer über das Symbol starten.</span></div></div>
   <h2>Android</h2><div class="card" style="flex-direction:row;gap:14px;align-items:flex-start"><span style="flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700">1</span><div class="stack" style="gap:3px"><b>Link in <b>Chrome</b> öffnen</b><span class="small muted">Am besten direkt in Chrome, nicht im Browser einer anderen App.</span></div></div><div class="card" style="flex-direction:row;gap:14px;align-items:flex-start"><span style="flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700">2</span><div class="stack" style="gap:3px"><b>Menü mit den drei Punkten öffnen</b><span class="small muted">Oben rechts.</span></div></div><div class="card" style="flex-direction:row;gap:14px;align-items:flex-start"><span style="flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700">3</span><div class="stack" style="gap:3px"><b>„App installieren“ oder „Zum Startbildschirm hinzufügen“</b><span class="small muted">Bestätigen, fertig.</span></div></div>
   <div class="card" style="background:var(--lav);gap:6px"><b style="color:var(--lav-ink)">Deine Daten</b><span class="small" style="color:var(--lav-ink)">Alles bleibt nur auf deinem Handy. Die installierte App speichert getrennt vom Browser. Darum: ab und zu im Profil „Backup speichern“, dann geht bei einem Handywechsel nichts verloren.</span></div>
-  <div class="card" style="background:var(--butter);gap:6px"><b style="color:var(--butter-ink)">Update</b><span class="small" style="color:var(--butter-ink)">Neue Versionen kommen von selbst. Falls nicht: App ganz schließen und neu öffnen. Die Versionsnummer steht unten im Profil (aktuell 2.2).</span></div>
+  <div class="card" style="background:var(--butter);gap:6px"><b style="color:var(--butter-ink)">Update</b><span class="small" style="color:var(--butter-ink)">Neue Versionen kommen von selbst. Falls nicht: App ganz schließen und neu öffnen. Die Versionsnummer steht unten im Profil (aktuell 3.9).</span></div>
 </div>
 </body></html>
