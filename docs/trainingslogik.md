@@ -1,9 +1,9 @@
 # Selfcare Studio – Trainingslogik
 
-Stand: Version 3.7. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
+Stand: Version 3.8. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
 
 ## Plan
-- **Muskelgruppen** haben eine Größe (Po 6, Beine vorne 5, Rücken 5 …). Daraus entsteht das Volumen eines Tages in „effektiven Sätzen“, höchstens 22 pro Einheit.
+- **Muskelgruppen** haben eine Größe (Po 6, Beine vorne 5, Rücken 5 …). Daraus entsteht das Volumen eines Tages in „effektiven Sätzen“ (Arbeitssätze × Wirkung auf die Zielgruppe), **höchstens 22 pro Einheit** – nach der Planung wird nachgeprüft und notfalls bei den Übungen mit den meisten Sätzen gekürzt (erst bis 2, dann bis 1 Satz).
 - Pro Muskelgruppe 1–2 Übungen. Bei zwei Übungen wird ein anderes **Bewegungsmuster** bevorzugt (z. B. Hip Thrust + Kickback statt zweimal Hip Thrust).
 - Jede Übung hat eine **Wirkung pro Muskel** `m` (1 = ideal). Sätze = Volumen ÷ Wirkung, gerundet, 2–5 Sätze (eigene Pläne 1–6).
 - **Wiederholungen** nach Ziel: Aufbau 8–12/10–15, Aufbau+ 10–15/12–20 (Standard), Kraftausdauer 15–20/15–25 (Grund-/Isolationsübung).
@@ -11,7 +11,8 @@ Stand: Version 3.7. Diese Datei beschreibt, wie die App rechnet. Sie ist die Gru
   - Körpergewicht/Band: +3/+5 Wdh., aber **höchstens 20**. Darüber gibt es stattdessen langsames Tempo (3 Sek. runter).
   - Option „Schwerere Sätze“: die erste rückenfreundliche Grundübung mit 6–10 Wdh.
 
-## Ausweichen (gleicher Reiz)
+## Ausweichen (möglichst gleicher Reiz)
+Die Umrechnung ist eine Faustregel aus Muskelwirkung und Bewegungsmuster – „möglichst gleicher Reiz“, keine exakte Gleichwertigkeit.
 - Reihenfolge der Alternativen: zuerst **gleiches Bewegungsmuster** (wenn höchstens 0,3 schwächer), dann nach Wirkung auf den Muskel. Hantel vor Körpergewicht.
 - Volumen wird immer vom **ursprünglich geplanten** Ersatz-Ziel aus gerechnet, nie von Ersatz zu Ersatz.
 - **Restvolumen:** Wurden schon Sätze gemacht, zählen sie mit: Rest = Ziel − geschaffte Sätze × Wirkung der alten Übung. Ist der Rest < 0,45, gilt die Übung als geschafft.
@@ -20,9 +21,12 @@ Stand: Version 3.7. Diese Datei beschreibt, wie die App rechnet. Sie ist die Gru
 - „Gibt's hier nicht“ blendet das Hauptgerät dauerhaft aus (Profil → Geräte).
 - **Ausgeblendete Geräte in eigenen Trainingstagen** (`buildCustom`, `sameAlt`): Die Übung wird dauerhaft durch die beste vorhandene Übung ersetzt, gleiches Bewegungsmuster bevorzugt. Sie gilt dann als Original – kein „Statt …“, kein „… ist jetzt frei“. Im Trainingsplan steht der Hinweis mit „Dauerhaft ersetzen“. Im Training wird „Original ist jetzt frei“ nur angeboten, wenn das Originalgerät eingeblendet ist.
 - **Geräteliste** (`EQ_GROUPS`) nach Bereichen mit „Alle an/aus“ und Zahl der Übungen je Gerät. Neu in 3.2: Pendel-Kniebeuge, Rückenstrecker-Maschine, Rotations-Maschine, TRX, Mini-Band, Treppensteiger. TRX und Mini-Band zählen als Körpergewicht (kein Gewichtsfeld), Mini-Band ohne „Frei?“-Frage.
-- Einschränkungen (Knie, Schulter, Handgelenk) schließen belastende Übungen aus (Liste `LIMITS`).
+- Einschränkungen (Knie, Schulter, Handgelenk) schließen belastende Übungen aus (Liste `LIMITS`) – im automatischen Plan, in eigenen Trainingstagen (dauerhafter Ersatz mit Hinweis), bei Ersatzübungen und für eigene Übungen über ihre Vorlage.
 
 ## Gewichte
+- **Bedeutung:** Kurzhantel/Kettlebell = Gewicht je Hantel, Smith-Maschine = nur Scheiben, Kabel = Steckgewicht. Hinweis steht im Satz.
+- **Assistenzgeräte** (`isAssist`): eingetragen wird die Unterstützung. Weniger ist besser: Nachsteuerung, Rekorde, Fortschritt und „Steigerungen“ rechnen umgekehrt; keine Schätzung aus anderen Übungen, keine Aufwärmfrage; Gesamtlast = (Körpergewicht − Hilfe) × Wdh., ohne Körpergewicht 0.
+- **Testsatz:** Gewicht so, dass die obere Wiederholungszahl geht und noch 1–2 übrig wären.
 - Bekannte Übung: Gewicht **und Wiederholungen** vom letzten Mal, Satz für Satz (`makeLog`).
 - Neue Übung: Schätzung aus der letzten Übung mit gleichem Muster. 1RM nach Epley `w × (1 + r/30)`, umgerechnet mit groben Gerätefaktoren (Maschine 1, Smith 0,9, Kabel 0,62, Kurzhantel/Kettlebell 0,42, einseitig × 0,55). Arbeitsgewicht = 1RM ÷ (1 + (Ziel-Wdh. + 2)/30), also 2 Wdh. im Tank. Angezeigt als „ca.“ mit Testsatz.
 - **Nachsteuern** nach jedem Satz: 2+ Wdh. über dem Bereich → schwerer, unter dem Bereich → leichter (über Epley, mindestens eine Gewichtsstufe). Stufen: Kurzhantel 1 kg (ab 10 kg 2 kg), Kettlebell 4 kg, sonst 2,5 kg.
@@ -42,7 +46,8 @@ Ein Bildschirm, ein Schritt: Cardio (Gerät wählen) → Aktivierung mit Timer �
 - **Satz übernimmt Satz:** Nach einem Arbeitssatz stehen dessen Gewicht und Wiederholungen in allen folgenden offenen Arbeitssätzen. Ausnahme: Die Nachsteuerung ändert das Gewicht (2+ Wdh. über bzw. unter dem Bereich) – dann neues Gewicht und Ziel-Wiederholungen.
 - Ton: Gong und Ansage über laufende Musik (`audioSession.type = "transient"` ab iOS 17).
 
-## Pilates & Mobility (`buildFlow`, `flowGoto`, `flowTick`)
+## Pilates & Mobility (`buildFlow`, `flowGoto`, `flowTick`, `flowMark`)
+- **Protokoll:** Gespeichert wird nur, was gehalten wurde, mit der echten Zeit. Eine vorzeitig verlassene Position zählt ab der Hälfte der Zeit, sonst gilt sie als übersprungen (Anzahl in `skipped`). Ganz ohne gehaltene Position wird nichts gespeichert.
 - Pilates: 10 Positionen in 2 Runden, Mobility: 11 Positionen in 1 Runde, Positionen mit Seiten je links/rechts. Zeit pro Position so, dass es ca. 30 Min sind (40–90 s), 10 s Bereitmachen.
 - Ton und Ansage wie im Krafttraining: „Gleich: …“ bzw. „Seitenwechsel: …“ beim Bereitmachen, Signalton bei Start und Ende jeder Position, Countdown in den letzten 3 Sekunden, „Noch 10 Sekunden“ ab 30 s Haltezeit.
 
@@ -56,6 +61,7 @@ Ein Bildschirm, ein Schritt: Cardio (Gerät wählen) → Aktivierung mit Timer �
 - Jede Antwort „Frei“/„Besetzt“/„Später“ wird mit Gerät, Wochentag und Stunde gespeichert (`eqLog`, max. 400). Gilt ein Gerät zur gleichen Zeit (±1 Std., gleicher Wochentag, mind. 3 Antworten) zu ≥ 60 % als besetzt, rückt die Übung beim Start ans Ende.
 
 ## Mini-Training
+Runden: 3 je Übung, bei Satzpause über 1:00 nur 2, damit es bei etwa 30 Minuten bleibt. Die angezeigte Dauer rechnet mit Sätzen, Seiten und der eingestellten Mini-Pause.
 Nur Übungen ohne Gerät (Matte). Pro Muskelgruppe des Tages die beste Übung, aufgefüllt aus `MINI_FILL`. Für alle großen Gruppen außer Bizeps gibt es eine Körpergewichtsübung (u. a. Y-Heben, enge Liegestütz, Bridge mit Fersen weit vorn).
 
 ## Mini-Aufwärmen
@@ -74,7 +80,7 @@ Kein Cardio, keine Aufwärmsätze. 5 Mobilisations- und Dehnübungen nach Tagesa
 - **Pause** (krank / verletzt / Urlaub): Der Plan ruht, verpasste Einheiten werden nicht angemahnt. Wochen, die ganz oder teilweise in einer Pause liegen, unterbrechen die Wochenserie nicht.
 - **Nach der Pause** sanfter Wiedereinstieg über einige Tage (`S.ramp`, Faktor 0,75), unabhängig von der 14-Tage-Regel.
 - **Verpasste Einheiten** der laufenden Woche: „Nachholen“ (heute) oder „Auslassen“ mit Rückgängig. Ausgelassene Einheiten zählen nicht als offen.
-- **48-Stunden-Warnung:** Wird eine Krafteinheit neben eine andere gelegt, die eine große Muskelgruppe (Zielbereich ab 6 Sätzen) teilt, fragt die App „Trotzdem?“.
+- **48-Stunden-Warnung:** Am selben Tag, am Vor- oder Folgetag und über den Wochenwechsel (Sonntag ↔ Montag) prüft die App, ob große Muskelgruppen (Zielbereich ab 6 Sätzen) doppelt belastet werden – nach den tatsächlich geplanten Übungen (Wirkung ≥ 0,5), nicht nur nach den gewählten Gruppen.
 - **Fokus-Block** (6 Wochen): Po aufbauen, Rücken stärken, Stärker werden oder Körperfett verlieren. Fokus-Muskeln × 1,3, übrige × 0,9; „Stärker werden“ schaltet die schwereren Sätze ein. Am Ende Vergleich der besten Gewichte vorher/nachher.
 - **Körperfett verlieren:** Volumen unverändert (Muskeln halten), Pausen × 0,75 (mind. 45 s), nach den Kraftübungen 12 Min zügiges Cardio (Gerät nach Wahl, in „Training vorbereiten“ abschaltbar, im Training „Ausdauer heute auslassen“). Keine Ernährungs- oder Kalorienangaben. Vergleich am Ende über die Körpermaße (Stand beim Start → letzter Stand).
 - **6-Wochen-Check:** ab 8 Krafteinheiten und 42 Tagen seit dem letzten Check: Gewichtsentwicklung pro Übung und Körpermaße.
@@ -119,4 +125,7 @@ Kein Cardio, keine Aufwärmsätze. 5 Mobilisations- und Dehnübungen nach Tagesa
 - **Notizen** (`S.notes`, je Übung, max. 300 Zeichen): unter „Tipps“ bearbeiten; erscheinen im Training unter dem Übungsnamen, in „Training vorbereiten“ und im Übungskatalog.
 
 ## Daten
+- **Robustheit:** Geteilte Codes und Backups werden vor dem Übernehmen geprüft (Trainingstyp, Wochentag, Muskelgruppen, Übungen, Sätze 1–6, Wiederholungen); Freitext wird von HTML-Zeichen befreit (`cleanTxt`). Beim Start repariert `normalizeState`/`normalizeDays` beschädigte Daten. Falls eine Ansicht trotzdem scheitert, erscheint eine Rettungsansicht statt eines weißen Bildschirms.
+- **Tage** werden nach lokalem Kalendertag geführt (`dayKey`), nicht nach UTC.
+- Schlägt das Speichern fehl, erscheint oben eine Warnung.
 Alles in `localStorage` unter `satzwerk.v1`. Backup als JSON-Datei über das Profil.
