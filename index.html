@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.1">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.1">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.3">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.3">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.1">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.3">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -108,8 +108,10 @@ p { margin: 0; }
 .btn.sm { min-height: 42px; font-size: 14.5px; border-radius: 999px; width: auto; padding: 0 14px; }
 .btn.danger { background: var(--warn-soft); color: var(--warn); }
 .link { color: var(--accent); font-weight: 600; font-size: 14.5px; }
-.seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; background: var(--surface2); border-radius: 12px; padding: 3px; gap: 3px; }
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); background: var(--surface2); border-radius: 12px; padding: 3px; gap: 3px; }
 .seg button { border-radius: 9px; padding: 8px 6px; font-size: 14px; font-weight: 600; color: var(--muted); line-height: 1.2; }
+.seg button { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 350px) { .seg button { font-size: 12.5px; padding: 8px 3px; } .seg button small { font-size: 10.5px; } }
 .seg button.on { background: var(--surface); color: var(--fg); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
 .seg button small { display: block; font-weight: 500; font-size: 11.5px; opacity: .8; }
 .list { background: var(--surface); border-radius: 24px; box-shadow: 0 10px 30px -20px rgba(120, 40, 90, 0.18); overflow: hidden; }
@@ -410,6 +412,8 @@ const EQUIP = {
   latraise: "Seitheben-Maschine", curlm: "Bizeps-Maschine", trim: "Trizeps-Maschine", abm: "Bauchmaschine", kneelift: "Beinheben-Station",
   rad: "Fahrrad-Ergometer", cross: "Crosstrainer", laufband: "Laufband", ruderg: "Rudergerät",
   stepbox: "Step-Box", ball: "Gymnastikball", band: "Widerstandsband", matte: "Matte (Körpergewicht)",
+  pendel: "Pendel-Kniebeuge (Pendulum)", rueckenm: "Rückenstrecker-Maschine", rotation: "Rotations-Maschine (Bauch)", trx: "Schlingentrainer (TRX)",
+  miniband: "Mini-Band (Loop)", stepper: "Treppensteiger",
 };
 const TYPES = {
   kraft: { n: "Krafttraining" },
@@ -478,7 +482,7 @@ const EX = [
   X("abd_m", "Abduktoren-Maschine", { abd: 1 }, ["abd"], { anim: A_ABD(true), tips: ["Leicht nach vorn lehnen trifft den oberen Po mehr.", "Außen kurz halten."] }),
   X("abd_kabel", "Abduktion am Kabel", { abd: 0.8 }, ["kabel"], { anim: { v: "front", A: { hip: [80, 57], hw: 5, sw: 9, t: 0, f1: [86, 99], f2: [74, 99], h1: [94, 72], h2: [52, 42], ep2: [-1, 0.6] }, B: { f1: [106, 94] }, props: [...post(48), { k: "cable", from: [40, 99], to: "f1" }] }, tips: ["Oberkörper ruhig, nicht zur Seite kippen.", "Bein seitlich wegführen, Fußspitze nach vorn."], side: true }),
   X("abd_band", "Abduktion mit Band", { abd: 0.6 }, ["band"], { load: "lim", anim: { v: "front", A: { hip: [80, 57], hw: 5, sw: 9, t: 0, f1: [86, 99], f2: [74, 99], h1: [94, 58], h2: [66, 58] }, B: { f1: [106, 94] }, props: [{ k: "band", from: "a2", to: "a1" }] }, tips: ["Band um die Fußgelenke.", "Spannung auch beim Zurückführen halten."], side: true }),
-  X("sidelift", "Seitliches Beinheben (liegend)", { abd: 0.55 }, ["matte"], { load: "lim", anim: { v: "side", A: { hip: [70, 93], t: 88, f1: [27, 95], f2: [27, 97], h1: [100, 86], h2: [116, 92] }, B: { f1: [32, 72] }, props: mat }, tips: ["Becken nicht nach hinten kippen.", "Ferse führt die Bewegung."], side: true }),
+  X("sidelift", "Seitliches Beinheben (liegend)", { abd: 0.6 }, ["matte"], { load: "lim", anim: { v: "side", A: { hip: [70, 93], t: 88, f1: [27, 95], f2: [27, 97], h1: [100, 86], h2: [116, 92] }, B: { f1: [32, 72] }, props: mat }, tips: ["Becken nicht nach hinten kippen.", "Ferse führt die Bewegung."], side: true }),
   X("add_m", "Adduktoren-Maschine", { add: 1 }, ["add"], { anim: A_ABD(false), tips: ["Kontrolliert schließen, kurz halten.", "Nicht zu weit öffnen."] }),
   X("add_kabel", "Adduktion am Kabel", { add: 0.8 }, ["kabel"], { anim: { v: "front", A: { hip: [80, 57], hw: 5, sw: 9, t: 0, f1: [104, 94], f2: [74, 99], h1: [108, 42], h2: [66, 58], ep1: [1, 0.6] }, B: { f1: [80, 99] }, props: [...post(112), { k: "cable", from: [126, 99], to: "f1" }] }, tips: ["Bein vor dem Standbein vorbeiführen.", "Langsam zurück."], side: true }),
   X("calf_m", "Wadenmaschine", { waden: 1 }, ["waden"], { anim: A_CALF([{ k: "disc", at: "neck", off: [0, 0], r: 4 }]), tips: ["Ganz nach oben auf die Zehenballen.", "Unten kurz dehnen."] }),
@@ -605,6 +609,25 @@ const FLOW = [
   F("str_tri", "Trizeps dehnen", "cool", "uarm", { v: "front", A: { hip: [80, 57], hw: 5, sw: 9, t: 0, f1: [86, 99], f2: [74, 99], h1: [76, 22], h2: [88, 8], ep1: [0.4, -1], ep2: [-0.4, -1] }, B: { h1: [74, 26] } }, ["Hand zwischen die Schulterblätter.", "Mit der anderen Hand sanft am Ellbogen ziehen."], true),
 ];
 const PAT = { ht_m: "ht", ht_smith: "ht", ht_kh: "ht", bridge: "ht", kick_kabel: "kick", kick_band: "kick", donkey: "kick", bulgarian: "lunge", lunge: "lunge", lunge_bw: "lunge", stepup: "lunge", goblet: "sq", goblet_kb: "sq", smith_sq: "sq", bwsquat: "sq", sumo: "sq", legpress: "lp", legpress_wide: "lp", legcurl: "curlL", legcurl_kabel: "curlL", legcurl_band: "curlL", abd_m: "abd", abd_kabel: "abd", abd_band: "abd", sidelift: "abd", add_m: "add", add_kabel: "add", latzug: "vpull", assist_pull: "vpull", lat_band: "vpull", row_m: "row", row_kabel: "row", row_kh: "row", chestpress: "hpush", db_bench: "hpush", db_incline: "hpush", pushup: "hpush", fly_m: "fly", crossover: "fly", shpress_m: "vpush", shpress_kh: "vpush", lateral_kh: "lat", lateral_kabel: "lat", lateral_band: "lat", curl_kh: "curl", hammer: "curl", curl_kabel: "curl", curl_band: "curl", pushdown: "tri", pushdown_band: "tri", overhead_kh: "triO", calf_m: "calf", calf_lp: "calf", calf_kh: "calf", calf_bw: "calf", glute_kick: "kick", pullthrough: "hinge", frog: "ht", ht_single: "ht", ht_band: "ht", stepup_kh: "lunge", hack: "sq", smith_split: "lunge", wallsit: "sq", legpress_single: "lp", sl_rdl: "hinge", rdl: "hinge", hyper: "hinge", ball_curl: "curlL", clam: "abd", abd_band_seat: "abd", add_side: "add", calf_seat: "calf", tbar: "row", row_incline: "row", straightarm: "vpull", lat_single: "vpull", row_band: "row", db_fly: "fly", pushup_incline: "hpush", latraise_m: "lat", arnold: "vpush", frontraise: "lat", revfly_kh: "rear", cable_rear: "rear", revfly_m: "rear", facepull: "rear", curl_m: "curl", conc_curl: "curl", tri_m: "tri", dips_assist: "tri", benchdips: "tri", kickback_kh: "tri", tri_over_cable: "triO", ab_m: "crunch", cablecrunch: "crunch", crunch: "crunch", ballcrunch: "crunch", kneeraise: "legraise", legraise: "legraise", pallof: "stab", deadbug: "stab", plank: "stab", sideplank: "stab", superman: "hinge" };
+/* Neue Geräte (3.2): Übungen mit Animation einer bewegungsähnlichen Übung. */
+{
+  const an = (id) => (EX.find((x) => x.id === id) || FLOW.find((x) => x.id === id)).anim;
+  EX.push(
+    X("pendulum", "Pendel-Kniebeuge", { quad: 0.9, po: 0.6 }, ["pendel"], { type: "c", anim: an("hack"), tips: ["Rücken fest ans Polster, Füße schulterbreit auf der Plattform.", "Langsam tief gehen, so weit es ohne Ziehen im Rücken geht.", "Über die ganze Fußsohle hochdrücken, Knie nicht ganz durchstrecken."] }),
+    X("backext_m", "Rückenstrecker an der Maschine", { ruecken: 0.6, po: 0.35, ham: 0.3 }, ["rueckenm"], { back: "mid", load: "lim", anim: an("hyper"), tips: ["Leichtes Gewicht, ruhiges Tempo – das ist Kräftigung, kein Maximaltraining.", "Nur bis zur geraden Linie aufrichten, nicht ins Hohlkreuz.", "Bauch leicht anspannen."] }),
+    X("rot_m", "Rumpfrotation an der Maschine", { bauch: 0.7 }, ["rotation"], { load: "lim", anim: an("pallof"), tips: ["Die Drehung kommt aus dem Oberkörper, das Becken bleibt ruhig.", "Langsam und kontrolliert, nicht schwungvoll.", "Beide Seiten gleich oft."] , side: true }),
+    X("trx_row", "TRX-Rudern", { ruecken: 0.8, bi: 0.3 }, ["trx"], { type: "c", load: "lim", anim: an("row_kabel"), tips: ["Körper bleibt ein Brett von Kopf bis Fuß.", "Brust zu den Griffen ziehen, Schulterblätter zusammen.", "Je steiler du stehst, desto leichter."] }),
+    X("trx_squat", "TRX-Kniebeuge", { quad: 0.65, po: 0.55 }, ["trx"], { type: "c", load: "lim", anim: an("bwsquat"), tips: ["Griffe halten nur zur Sicherheit, die Arbeit machen die Beine.", "Weit nach hinten setzen, Brust bleibt oben.", "Gut für den Einstieg, wenn freie Kniebeugen noch wackeln."] }),
+    X("trx_press", "TRX-Brustpresse", { brust: 0.65, tri: 0.3 }, ["trx"], { type: "c", load: "lim", anim: an("pushup_incline"), tips: ["Körper gerade, Bauch fest.", "Langsam nach vorn sinken, Ellbogen etwa 45° vom Körper.", "Je steiler du stehst, desto leichter."] }),
+    X("ham_bridge", "Bridge mit Fersen weit vorn", { ham: 0.65, po: 0.5 }, ["matte"], { load: "lim", anim: an("bridge"), tips: ["Fersen weit weg vom Po aufstellen, nur auf die Fersen drücken.", "Hüfte heben, bis Knie, Hüfte und Schultern eine Linie bilden.", "Langsam ablassen – das trifft die Beinrückseite."] }),
+    X("yraise", "Y-Heben in Bauchlage", { schulter: 0.6, ruecken: 0.45 }, ["matte"], { load: "lim", anim: an("superman"), tips: ["Arme in Y-Form nach vorn, Daumen zeigen nach oben.", "Arme und Brust nur leicht abheben, Blick bleibt zum Boden.", "Schulterblätter nach hinten unten ziehen, 2 Sekunden halten."] }),
+    X("pushup_tri", "Enge Liegestütz (auch auf Knien)", { tri: 0.65, brust: 0.45 }, ["matte"], { type: "c", load: "lim", anim: an("pushup"), tips: ["Hände schulterbreit oder enger, Ellbogen nah am Körper.", "Auf den Knien ist es leichter – genauso wirksam für den Anfang.", "Körper bleibt gerade, Bauch fest."] }),
+    X("lateralwalk", "Seitwärtsgehen mit Mini-Band", { abd: 0.75, po: 0.35 }, ["miniband"], { load: "lim", anim: an("abd_band"), tips: ["Band um die Oberschenkel oder Knöchel, leicht in die Knie gehen.", "Kleine Schritte, Spannung im Band halten.", "Wdh. = Schritte je Richtung."] }),
+    X("bridge_band", "Glute Bridge mit Mini-Band", { po: 0.7, abd: 0.35, ham: 0.3 }, ["miniband"], { load: "lim", anim: an("bridge"), tips: ["Band knapp über den Knien, Knie leicht nach außen drücken.", "Oben 2 Sekunden halten.", "Rippen unten lassen, kein Hohlkreuz."] }),
+  );
+  FLOW.push(F("cardio_stepper", "Treppensteiger", "cardio", "thigh", an("cardio_march"), ["Aufrecht stehen, nur leicht an den Griffen festhalten.", "Ganze Fußsohle auf die Stufe.", "Tempo so, dass du noch sprechen kannst."]));
+  Object.assign(PAT, { pendulum: "sq", backext_m: "hinge", rot_m: "stab", trx_row: "row", trx_squat: "sq", trx_press: "hpush", lateralwalk: "abd", bridge_band: "ht", ham_bridge: "ht", yraise: "yraise", pushup_tri: "hpush" });
+}
 EX.forEach((x) => (x.pat = PAT[x.id] || x.id));
 /* Typische Fehler (im Info-Blatt und über „Tipps“ im Training) */
 const ERR = {
@@ -621,19 +644,23 @@ const ERR = {
 };
 /* Einschränkungen: Übungen, die den Bereich stark belasten, werden nicht vorgeschlagen. */
 const LIMITS = {
-  knee: { n: "Knie", ids: ["bulgarian", "stepup", "stepup_kh", "lunge", "lunge_bw", "smith_split", "goblet", "goblet_kb", "smith_sq", "sumo", "bwsquat", "hack", "legext", "wallsit", "legpress_single", "m_squat"] },
+  knee: { n: "Knie", ids: ["bulgarian", "stepup", "stepup_kh", "lunge", "lunge_bw", "smith_split", "goblet", "goblet_kb", "smith_sq", "sumo", "bwsquat", "hack", "legext", "wallsit", "legpress_single", "m_squat", "pendulum", "trx_squat"] },
   shoulder: { n: "Schulter", ids: ["shpress_m", "shpress_kh", "arnold", "dips_assist", "benchdips", "db_bench", "db_incline", "pushup", "pushup_incline", "crossover", "overhead_kh", "tri_over_cable", "assist_pull", "frontraise", "lat_band", "wallslide"] },
-  wrist: { n: "Handgelenk", ids: ["pushup", "pushup_incline", "benchdips", "kickback_kh", "conc_curl"] },
+  wrist: { n: "Handgelenk", ids: ["pushup", "pushup_incline", "benchdips", "kickback_kh", "conc_curl", "trx_press", "pushup_tri"] },
 };
 const limited = (id) => Object.keys(LIMITS).some((k) => (S.limits || {})[k] && LIMITS[k].ids.includes(id));
-const S_VERSION = "3.1";
-const NEWS = { v: "3.1", items: [
+const S_VERSION = "3.3";
+const NEWS = { v: "3.3", items: [
+  ["Feinschliff", "Mini-Training für Oberkörper-Tage jetzt mit passenden Übungen ohne Geräte (Y-Heben, enge Liegestütz, Bridge für die Beinrückseite). Dazu Korrekturen für kleine iPhones und beim Laden eines Backups."],
+  ["Geräte sortiert & erweitert", "Die Geräteliste ist nach Bereichen gruppiert, mit „Alle an/aus“. Neu: Pendel-Kniebeuge, Rückenstrecker-Maschine, Rotations-Maschine, TRX, Mini-Band und Treppensteiger – mit 8 neuen Übungen. Neue Geräte sind erst mal an: Bitte einmal unter Profil → Geräte prüfen, was es in deinem Studio gibt."],
+  ["Ausgeblendet heißt ausgeblendet", "Nimmst du ein Gerät raus, taucht es auch in selbst gebauten Trainingstagen nicht mehr auf. Die App setzt eine passende Übung ein und bietet im Trainingsplan an, sie dauerhaft zu tauschen."],
+], old: [
+  { v: "2.9 – 3.1", items: [
   ["Töne auf dem iPhone", "Signalton und Countdown kommen jetzt auch, wenn der Timer von selbst weiterläuft – etwa bei Pilates und Mobility. Vorher hat Safari sie stummgeschaltet."],
   ["Aufgeräumtes Profil", "Das Profil ist jetzt nach Themen sortiert: Du & deine Figur, Training (Plan, Ziel & Belastung, Satzpause, Ton & Musik, Geräte) und App (Darstellung & Kalender, Daten & Backup, Hilfe & Infos). Jede Zeile zeigt, was gerade eingestellt ist."],
-
   ["Dein Signalton", "Gong, Klangschale, sanfter Dreiklang, Küchentimer, Wecker oder Ringglocke – oder gar kein Ton. Dazu Piep, leises Ticken oder Stille für die letzten 3 Sekunden. Profil → Ton & Musik → Signalton."],
   ["Pilates & Mobility mit Ansage", "Jetzt auch hier: Ansage der nächsten Position und beim Seitenwechsel, dein Signalton bei Start und Ende jeder Position, Countdown und „Noch 10 Sekunden“."],
-], old: [
+  ] },
   { v: "2.8", items: [
   ["Werte vom letzten Mal", "Jeder Satz startet mit Gewicht und Wiederholungen vom letzten Training – auch die Aufwärmsätze. Ohne Vorlage übernimmt der nächste Aufwärmsatz die Werte vom vorigen."],
   ["Satzpause jetzt 3 Minuten", "Zwischen zwei Sätzen pausierst du jetzt standardmäßig 3 Minuten. Ändern kannst du das jederzeit: im Profil unter „Satzpause“, in „Training vorbereiten“ und direkt in der Pause."],
@@ -826,14 +853,21 @@ function buildPlan(groups, factor, busy) {
   if (S.heavy || (focusOn() && FOCI[S.focus.id].heavy)) { const h = items.find((it) => it.ex && EXM[it.ex].type === "c" && EXM[it.ex].back !== "mid" && EXM[it.ex].load !== "lim"); if (h) { h.reps = [6, 10]; h.rr = [6, 10]; h.heavy = true; } }
   return items;
 }
+/* Dauerhafter Ersatz für eine Übung, deren Gerät ausgeblendet ist: gleiches Bewegungsmuster bevorzugt. */
+function sameAlt(ideal, g, used, busy) {
+  const c = cands(g, busy || [], used || new Set()); if (!c.length) return null;
+  return c.find((x) => x.pat === ideal.pat && score(x, g) >= score(c[0], g) - 0.3) || c[0];
+}
 function buildCustom(list, factor, busy) {
   const used = new Set(list.map((c) => c.ex)); const items = [];
   list.forEach((c) => {
     const ideal = EXM[c.ex]; if (!ideal) return; const g = c.g || primary(ideal);
     const sets = Math.max(1, Math.round(c.sets * factor)); const e = sets * (ideal.m[g] || 1);
-    let ex = ideal;
-    if (!isFree(ideal, busy) || !inStudio(ideal)) { ex = pickFor(g, busy, used, null); if (ex) used.add(ex.id); }
-    items.push(makeItem(g, e, ex, ideal, c.reps));
+    let ex = ideal, base = ideal;
+    /* Gerät ausgeblendet: dauerhaft durch die beste vorhandene Übung ersetzen – ohne „Statt …“ und ohne Rückweg zum Original. */
+    if (!inStudio(ideal)) { base = sameAlt(ideal, g, used); if (base) used.add(base.id); ex = base; }
+    if (ex && !isFree(ex, busy)) { const alt = pickFor(g, busy, used, null); if (alt) { used.add(alt.id); ex = alt; } }
+    items.push(base ? makeItem(g, e, ex, base, base === ideal ? c.reps : null) : makeItem(g, e, null, null));
   });
   return items;
 }
@@ -986,7 +1020,7 @@ function nextUpText() {
 
 /* ---------------- Extras: Alltag-Mobilisation, Darstellung, Gerätezeiten, Erfolge, Kalender, Maße, Teilen ---------------- */
 /* Eigengewicht und Kleingerät, das man immer greifen kann: keine „Frei?“-Frage. */
-const noAsk = (x) => x.eq.every((e) => e === "matte" || e === "band" || e === "ball");
+const noAsk = (x) => x.eq.every((e) => e === "matte" || e === "band" || e === "ball" || e === "miniband");
 /* Mini-Aufwärmen: 5 Min Mobilisation & Andehnen passend zum Tag. */
 const DAYMOB = {
   sitzen: { n: "Viel gesessen", sub: "Hüfte öffnen, Brustwirbelsäule, Brust", ids: ["m_hipflex", "m_catcow", "m_openbook", "str_chest", "m_arms"] },
@@ -1021,7 +1055,7 @@ function outfitEditor() {
 /* Gerätezeiten lernen: jedes „Frei“/„Besetzt“ mit Wochentag und Uhrzeit. */
 function logEq(eqs, busy) {
   const d = new Date(); S.eqLog = S.eqLog || [];
-  eqs.filter((e) => e !== "matte" && e !== "band" && e !== "ball").forEach((e) => S.eqLog.push({ e, wd: wdOf(d), h: d.getHours(), b: busy ? 1 : 0 }));
+  eqs.filter((e) => e !== "matte" && e !== "band" && e !== "ball" && e !== "miniband").forEach((e) => S.eqLog.push({ e, wd: wdOf(d), h: d.getHours(), b: busy ? 1 : 0 }));
   if (S.eqLog.length > 400) S.eqLog.splice(0, S.eqLog.length - 400);
 }
 function busyProb(e, d) {
@@ -1374,7 +1408,7 @@ function makeLog(item) {
   /* Gewicht und Wiederholungen vom letzten Mal übernehmen (Satz für Satz). */
   return Array.from({ length: item.sets }, (_, j) => { const l = ls[j] || ls[ls.length - 1] || {}; return { w: l.w ?? "", r: l.r ?? "", done: false }; });
 }
-const isBW = (ex) => ex.eq.every((e) => e === "matte") || ex.eq.every((e) => e === "matte" || e === "band" || e === "stepbox");
+const isBW = (ex) => ex.eq.every((e) => ["matte", "band", "stepbox", "miniband", "trx"].includes(e));
 function stepFor(ex) { if (isBW(ex)) return "2 Wdh. mehr oder langsamer"; if (ex.eq.includes("kh")) return "die nächstschwerere Hantel"; if (ex.eq.includes("kb")) return "die nächste Kettlebell"; return "+2,5 kg"; }
 function progressHint(item) {
   const last = lastFor(item.ex); if (!last) return "";
@@ -1849,6 +1883,7 @@ const CARDIO = [
   { id: "cardio_cross", eq: "cross" },
   { id: "cardio_lauf", eq: "laufband" },
   { id: "cardio_ruder", eq: "ruderg" },
+  { id: "cardio_stepper", eq: "stepper" },
   { id: "cardio_march", eq: null },
 ];
 const LOWER = ["po", "quad", "ham", "abd", "add", "waden"], UPPER = ["ruecken", "brust", "schulter", "bi", "tri"];
@@ -2157,7 +2192,7 @@ function vTrain() {
           <button class="btn big" data-a="isfree">Frei – los geht's</button>
           <button class="btn big warnb" data-a="occupied">Besetzt</button>
           <div class="row" style="justify-content:center;gap:18px;flex-wrap:wrap">${hasLater() ? `<button class="small link" data-a="later">Später nochmal fragen</button>` : ""}<button class="small link" style="color:var(--muted)" data-a="swap">Andere wählen</button><button class="small link" style="color:var(--muted)" data-a="noequip">Gibt's hier nicht</button></div>
-          ${ideal ? `<button class="small link" data-a="backideal">${esc(ideal.n)} ist jetzt frei</button>` : ""}
+          ${ideal && inStudio(ideal) ? `<button class="small link" data-a="backideal">${esc(ideal.n)} ist jetzt frei</button>` : ""}
         </div>`;
     } else if (A.ph === "sets" && warmAskNow(it)) {
       const nW0 = it.log.filter((q) => q.warm).length; const w1 = num(W[0]?.w); const sg = warmSuggest(it);
@@ -2187,7 +2222,7 @@ function vTrain() {
           <div class="row" style="flex-wrap:wrap;gap:6px">${it.log.filter((q) => q.done).map((q) => `<span class="chip tag okc num">${q.warm ? "A " : ""}${q.w && !bw ? q.w + "×" : ""}${q.r}</span>`).join("")}</div>
         </div>
         ${s.warm && !s.done ? `<button class="small link" style="align-self:center" data-a="warmcancel">Doch kein Aufwärmsatz – direkt loslegen</button>` : !s.warm && !doneWork(it).length && !bw && A.type !== "mini" ? `<button class="small link" style="align-self:center" data-a="warminstead">Stattdessen erst einen Aufwärmsatz</button>` : ""}
-        ${ideal && !noAsk(ideal) ? `<button class="small link" style="align-self:center" data-a="backideal">${esc(ideal.n)} ist jetzt frei</button>` : ""}
+        ${ideal && !noAsk(ideal) && inStudio(ideal) ? `<button class="small link" style="align-self:center" data-a="backideal">${esc(ideal.n)} ist jetzt frei</button>` : ""}
         <div class="row" style="justify-content:center;gap:18px;flex-wrap:wrap">${noAsk(x) ? "" : `<button class="small link" data-a="occupied">Gerät weg? Tauschen</button>`}<button class="small link" style="color:var(--muted)" data-a="tr-addset">+ Satz</button><button class="small link" style="color:var(--muted)" data-a="tr-skip">Übung beenden</button></div>`;
       bar = `<button class="btn big" data-a="setdone">${IC.check} ${s.warm ? "Aufwärmsatz geschafft" : "Satz geschafft"}</button>`;
     } else if (A.ph === "rest") {
@@ -2301,7 +2336,7 @@ function vDone() {
     <div class="stack" style="gap:6px"><span class="eyebrow">Gespeichert · Note 1,0</span><h1>Stark, <em>${esc(S.name || "geschafft")}</em>!</h1><p class="quote">${esc(sess.name)} ist erledigt und im Verlauf.</p></div>
     <div class="tiles">
       <div class="tile"><b data-count="${sess.dur}">${sess.dur}</b><span>${sess.dur === 1 ? "Minute" : "Minuten"}</span></div>
-      ${flow ? `<div class="tile"><b data-count="${sess.items.length}">${sess.items.length}</b><span>Positionen</span></div><div class="tile"><b data-count="${new Set(sess.items.map((i) => i.ex)).size}">${new Set(sess.items.map((i) => i.ex)).size}</b><span>Übungen</span></div>` : `<div class="tile"><b data-count="${setsOf(sess)}">${setsOf(sess)}</b><span>Sätze</span></div><div class="tile"><b data-count="${fmt(volOf(sess) / 1000, 1)}" data-dec="1">${fmt(volOf(sess) / 1000, 1)}</b><span>Tonnen bewegt</span></div>`}
+      ${flow ? `<div class="tile"><b data-count="${sess.items.length}">${sess.items.length}</b><span>Positionen</span></div><div class="tile"><b data-count="${new Set(sess.items.map((i) => i.ex)).size}">${new Set(sess.items.map((i) => i.ex)).size}</b><span>Übungen</span></div>` : `<div class="tile"><b data-count="${setsOf(sess)}">${setsOf(sess)}</b><span>${setsOf(sess) === 1 ? "Satz" : "Sätze"}</span></div><div class="tile"><b data-count="${fmt(volOf(sess) / 1000, 1)}" data-dec="1">${fmt(volOf(sess) / 1000, 1)}</b><span>Tonnen bewegt</span></div>`}
     </div>
     ${!flow && warmSetsOf(sess) ? `<p class="small muted" style="margin-top:-6px">${setsOf(sess)} ${setsOf(sess) === 1 ? "Arbeitssatz" : "Arbeitssätze"} und ${warmSetsOf(sess)} ${warmSetsOf(sess) === 1 ? "Aufwärmsatz" : "Aufwärmsätze"} · insgesamt ${fmt(volOf(sess), 0)} kg, davon ${fmt(volOf(sess, true), 0)} kg beim Aufwärmen.</p>` : ""}
     ${weekRingCard()}
@@ -2506,7 +2541,7 @@ function vProf() {
     <div class="card" style="gap:8px"><h3>Deine Musik</h3><input id="pmusic" class="field" data-in="music" inputmode="url" value="${esc(S.music || "")}" placeholder="Link zur Playlist (Spotify, Apple Music …)"><span class="small muted">Im Training erscheint dann oben ein ♪, der deine Playlist öffnet. Den Link bekommst du in der Musik-App über Teilen → Link kopieren.</span></div>`,
     app: () => `${head("Darstellung &amp; Kalender")}
     <div class="card" style="gap:10px"><h3>Darstellung</h3><div class="seg">${[["auto", "Automatisch"], ["light", "Hell"], ["dark", "Dunkel"]].map(([k, n]) => `<button class="${(S.theme || "auto") === k ? "on" : ""}" data-a="theme" data-k="${k}">${n}</button>`).join("")}</div><span class="small muted">Automatisch folgt der Einstellung deines iPhones.</span></div>
-    <div class="card" style="gap:8px"><h3>Kalender</h3><p class="small muted">Trägt deine Trainingstage als wiederkehrende Termine mit Erinnerung 30 Minuten vorher in den iPhone-Kalender ein.</p><div class="row"><label class="small muted" for="caltime">Uhrzeit</label><input id="caltime" class="field" type="time" style="width:auto" value="${S.calTime || "18:00"}" data-in="caltime"><button class="btn sm" data-a="calexport">In den Kalender</button></div></div>`,
+    <div class="card" style="gap:8px"><h3>Kalender</h3><p class="small muted">Trägt deine Trainingstage als wiederkehrende Termine mit Erinnerung 30 Minuten vorher in den iPhone-Kalender ein.</p><div class="row" style="flex-wrap:wrap;gap:8px"><label class="small muted" for="caltime">Uhrzeit</label><input id="caltime" class="field" type="time" style="width:auto" value="${S.calTime || "18:00"}" data-in="caltime"><button class="btn sm" data-a="calexport">In den Kalender</button></div></div>`,
     hilfe: () => `${head("Hilfe &amp; Infos")}
     <div class="list">
       ${go2("tour", "", "App-Tour", "In acht Stationen durch die App", "🧭")}
@@ -2564,7 +2599,7 @@ function customList(d, i) {
     const x = EXM[c.ex]; if (!x) return "";
     const unit = x.unit === "s" ? "Sek." : "Wdh.";
     return `<div class="pi" style="align-items:flex-start">${figSVG(x.id, c.g || primary(x), "s")}<div class="grow stack" style="gap:6px">
-      <div class="row between" style="align-items:flex-start"><div class="stack" style="gap:1px"><b>${esc(x.n)}</b><span class="small muted">${esc(GROUPS[c.g || primary(x)].n)}${inStudio(x) ? "" : " · Gerät nicht im Studio, wird ersetzt"}</span></div><button class="link" style="color:var(--muted);font-size:20px;line-height:1" data-a="cdel" data-i="${i}" data-j="${j}" aria-label="Entfernen">×</button></div>
+      <div class="row between" style="align-items:flex-start"><div class="stack" style="gap:1px"><b>${esc(x.n)}</b><span class="small muted">${esc(GROUPS[c.g || primary(x)].n)}</span>${inStudio(x) ? "" : (() => { const alt = sameAlt(x, c.g || primary(x), new Set(L.map((q) => q.ex))); return `<span class="small" style="color:var(--warn)">${esc(x.eq.filter((e) => e !== "matte" && !S.equip[e]).map((e) => EQUIP[e]).join(", "))} ist ausgeblendet${alt ? ` – im Training: ${esc(alt.n)}` : ""}</span>${alt ? `<button class="small link" style="align-self:flex-start" data-a="creplace" data-i="${i}" data-j="${j}" data-x="${alt.id}">Dauerhaft durch ${esc(alt.n)} ersetzen</button>` : ""}`; })()}</div><button class="link" style="color:var(--muted);font-size:20px;line-height:1" data-a="cdel" data-i="${i}" data-j="${j}" aria-label="Entfernen">×</button></div>
       <div class="row" style="flex-wrap:wrap;gap:8px">
         <div class="row" style="gap:4px"><button class="plus" data-a="cset" data-i="${i}" data-j="${j}" data-v="-1" aria-label="Satz weniger">−</button><span class="num" style="min-width:52px;text-align:center;font-weight:600">${c.sets} Sätze</span><button class="plus" data-a="cset" data-i="${i}" data-j="${j}" data-v="1" aria-label="Satz mehr">+</button></div>
         <div class="row" style="gap:4px"><input id="clo-${i}-${j}" class="field num" style="width:52px;padding:8px 4px;text-align:center" inputmode="numeric" data-in="clo" data-i="${i}" data-j="${j}" value="${c.reps[0]}" aria-label="${unit} von"><span class="muted">–</span><input id="chi-${i}-${j}" class="field num" style="width:52px;padding:8px 4px;text-align:center" inputmode="numeric" data-in="chi" data-i="${i}" data-j="${j}" value="${c.reps[1]}" aria-label="${unit} bis"><span class="small muted">${unit}</span></div>
@@ -2579,7 +2614,7 @@ function customList(d, i) {
 function pickSheet() {
   const P = U.pick; const d = S.days[P.i]; const have = new Set((d.custom || []).map((c) => c.ex));
   const list = EX.filter((x) => P.f === "all" || (x.m[P.f] || 0) >= 0.6).sort((a, b) => (inStudio(b) - inStudio(a)) || (P.f !== "all" ? (b.m[P.f] || 0) - (a.m[P.f] || 0) : 0));
-  const row = (x) => { const g = P.f !== "all" ? P.f : primary(x); const on = have.has(x.id); return `<button class="li" data-a="pickadd" data-x="${x.id}" data-g="${g}" ${on ? "disabled" : ""} style="${inStudio(x) ? "" : "opacity:.55"}">${figSVG(x.id, g, "s")}<div class="grow stack" style="gap:2px"><b>${esc(x.n)}</b><span class="small muted">${P.f === "all" ? "" : esc(GROUPS[primary(x)].n) + " · "}${x.eq.map((e) => EQUIP[e]).join(" + ")}</span></div><span class="${on ? "note ok" : "chev"}">${on ? "✓" : "+"}</span></button>`; };
+  const row = (x) => { const g = P.f !== "all" ? P.f : primary(x); const on = have.has(x.id); return `<button class="li" data-a="pickadd" data-x="${x.id}" data-g="${g}" ${on ? "disabled" : ""} style="${inStudio(x) ? "" : "opacity:.55"}">${figSVG(x.id, g, "s")}<div class="grow stack" style="gap:2px"><b>${esc(x.n)}</b><span class="small muted">${P.f === "all" ? "" : esc(GROUPS[primary(x)].n) + " · "}${x.eq.map((e) => EQUIP[e]).join(" + ")}${inStudio(x) ? "" : " · ausgeblendet"}</span></div><span class="${on ? "note ok" : "chev"}">${on ? "✓" : "+"}</span></button>`; };
   return `<div class="stack" style="gap:2px"><h2>Übung hinzufügen</h2><p class="small muted">${esc(d.name)} · ${(d.custom || []).length} Übungen</p></div>
     <div class="pickbar"><div class="hscroll">${[["all", "Alle"], ...GORDER.map((g) => [g, GROUPS[g].n])].map(([k, n]) => `<button class="chip ${P.f === k ? "on" : ""}" data-a="pickf" data-f="${k}">${esc(n)}</button>`).join("")}</div></div>
     ${P.f === "all" ? GORDER.map((g) => { const L = list.filter((x) => primary(x) === g); return L.length ? `<div class="stack" style="gap:8px"><div class="pickh"><span>${esc(GROUPS[g].n)}</span><span class="small muted num">${L.length}</span></div><div class="list">${L.map(row).join("")}</div></div>` : ""; }).join("") : `<div class="list">${list.map(row).join("")}</div>`}
@@ -2596,11 +2631,31 @@ function vDays() {
     <button class="btn line" data-a="importopen">Geteilten Trainingstag übernehmen</button>
   </div>`;
 }
+const EQ_GROUPS = [
+  ["Beine & Po", ["beinpresse", "hack", "pendel", "beinstrecker", "beinbeuger", "hipthrust", "glute", "abd", "add", "waden"]],
+  ["Rücken", ["latzug", "rudern", "tbar", "assist", "hyper", "rueckenm"]],
+  ["Brust & Schultern", ["brustpresse", "butterfly", "schulterpresse", "latraise"]],
+  ["Arme & Bauch", ["curlm", "trim", "abm", "kneelift", "rotation"]],
+  ["Freie Gewichte & Kabel", ["kh", "kb", "kabel", "smith", "bank"]],
+  ["Kleingeräte", ["stepbox", "ball", "band", "miniband", "trx"]],
+  ["Cardio", ["rad", "cross", "laufband", "ruderg", "stepper"]],
+];
+const customUses = (k) => S.days.reduce((a, d) => a + (d.custom || []).filter((c) => EXM[c.ex]?.eq.includes(k)).length, 0);
+const exCountFor = (k) => EX.filter((x) => x.eq.includes(k)).length + CARDIO.filter((c) => c.eq === k).length;
+function eqGroups() {
+  const seen = new Set(EQ_GROUPS.flatMap(([, ks]) => ks));
+  const rest = Object.keys(EQUIP).filter((k) => k !== "matte" && !seen.has(k));
+  return [...EQ_GROUPS, ...(rest.length ? [["Weitere", rest]] : [])].map(([n, ks]) => {
+    const on = ks.filter((k) => S.equip[k]).length;
+    return `<div class="card" style="gap:10px"><div class="row between"><h3>${n}</h3><button class="small link" data-a="eqgrp" data-ks="${ks.join(",")}" data-v="${on === ks.length ? 0 : 1}">${on === ks.length ? "Alle aus" : "Alle an"}</button></div>
+      <div class="chips">${ks.map((k) => `<button class="chip ${S.equip[k] ? "on" : ""}" data-a="eq" data-e="${k}" aria-pressed="${!!S.equip[k]}">${esc(EQUIP[k])}<span class="small" style="opacity:.6;margin-left:6px">${exCountFor(k)}</span></button>`).join("")}</div></div>`;
+  }).join("");
+}
 function eqGrid() {
   return `<div class="chips">${Object.keys(EQUIP).filter((k) => k !== "matte").map((k) => `<button class="chip ${S.equip[k] ? "on" : ""}" data-a="eq" data-e="${k}" aria-pressed="${!!S.equip[k]}">${esc(EQUIP[k])}</button>`).join("")}</div>`;
 }
 function vEq() {
-  return `<div class="wrap"><button class="link" style="text-align:left" data-a="tab" data-v="prof">‹ Profil</button><div class="stack" style="gap:4px"><h1>Geräte</h1><p class="muted small">Alle markierten Geräte können in deinen Plänen vorkommen. Gibt es eins in deinem Studio nicht, tippst du im Training „Gibt's in meinem Studio nicht“ oder nimmst es hier raus.</p></div>${rushHours().length ? `<div class="card" style="gap:6px"><h3>Oft besetzt</h3>${rushHours().map((r) => `<div class="row between small"><span>${esc(EQUIP[r.e] || r.e)}</span><span class="muted">${WDL[r.wd]} gegen ${r.h} Uhr</span></div>`).join("")}<p class="small muted">Gelernt aus deinen „Frei“- und „Besetzt“-Antworten. Solche Geräte kommen zu diesen Zeiten später im Training dran.</p></div>` : ""}<div class="card">${eqGrid()}</div></div>`;
+  return `<div class="wrap"><button class="link" style="text-align:left" data-a="tab" data-v="prof">‹ Profil</button><div class="stack" style="gap:4px"><h1>Geräte</h1><p class="muted small">Alle markierten Geräte können in deinen Plänen vorkommen. Gibt es eins in deinem Studio nicht, nimm den Haken raus – dann plant die App es nirgends mehr ein, auch nicht in eigenen Trainingstagen. Die Zahl zeigt, wie viele Übungen das Gerät nutzen.</p></div>${rushHours().length ? `<div class="card" style="gap:6px"><h3>Oft besetzt</h3>${rushHours().map((r) => `<div class="row between small"><span>${esc(EQUIP[r.e] || r.e)}</span><span class="muted">${WDL[r.wd]} gegen ${r.h} Uhr</span></div>`).join("")}<p class="small muted">Gelernt aus deinen „Frei“- und „Besetzt“-Antworten. Solche Geräte kommen zu diesen Zeiten später im Training dran.</p></div>` : ""}${eqGroups()}</div>`;
 }
 
 /* --- Einrichtung --- */
@@ -2985,7 +3040,9 @@ document.addEventListener("click", (e) => {
       save(); render(); break;
     }
     case "restopen": openSheet(restSheet); break;
-    case "eq": S.equip[d.e] = !S.equip[d.e]; save(); render(); break;
+    case "eq": S.equip[d.e] = !S.equip[d.e]; save(); render(); if (!S.equip[d.e]) { const n = customUses(d.e); if (n) toast(`${EQUIP[d.e]} ist raus. In ${n} eigenen ${n === 1 ? "Übung" : "Übungen"} setzt die App automatisch Ersatz ein.`); } break;
+    case "creplace": { const c = S.days[+d.i].custom[+d.j]; c.ex = d.x; save(); render(); toast("Übung ersetzt"); break; }
+    case "eqgrp": d.ks.split(",").forEach((k) => (S.equip[k] = d.v === "1")); save(); render(); break;
     case "daywd": S.days[+d.i].wd = +d.w; save(); render(); break;
     case "dayg": { const gs = S.days[+d.i].groups; const k = gs.indexOf(d.g); k >= 0 ? gs.splice(k, 1) : gs.push(d.g); gs.sort((x, y) => GORDER.indexOf(x) - GORDER.indexOf(y)); save(); render(); break; }
     case "dayadd": S.days.push({ id: uid(), type: d.t, name: d.t === "kraft" ? "Neuer Tag" : TYPES[d.t].n, groups: d.t === "kraft" ? ["po"] : [], wd: 0 }); save(); render(); break;
@@ -3018,7 +3075,7 @@ document.addEventListener("click", (e) => {
       else openSheet(() => copySheet(txt));
       break;
     }
-    case "import2": if (pendingImport) { S = Object.assign(defaults(), pendingImport.data); pendingImport = null; save(); toast("Backup geladen"); U.view = S.setup ? "home" : "ob"; closeSheet(); render(); } break;
+    case "import2": if (pendingImport) { const dd = defaults(); S = Object.assign(dd, pendingImport.data); S.equip = Object.assign({}, dd.equip, pendingImport.data.equip || {}); S.flags = S.flags || {}; if (!S.restMig) { if (S.restC === 90) S.restC = 180; if (S.restI === 60) S.restI = 180; S.restMig = 1; } pendingImport = null; save(); toast("Backup geladen"); U.view = S.setup ? "home" : "ob"; closeSheet(); render(); } break;
     case "reset": openSheet(() => confirmSheet("Alle Daten löschen?", "Plan, Verlauf und Einstellungen werden auf diesem Gerät gelöscht. Das lässt sich nicht rückgängig machen.", "reset2", "Endgültig löschen")); break;
     case "reset2": S = defaults(); save(); U.ob = 0; U.view = "ob"; closeSheet(); render(); break;
     case "sheetclose": closeSheet(); render(); break;

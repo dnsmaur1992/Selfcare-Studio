@@ -52,10 +52,11 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 - **Automatisch oder selbst gebaut:** Muskelgruppen wählen und die App sucht die Übungen aus – oder eigene Übungen mit Sätzen und Wiederholungen zusammenstellen, nach Muskelgruppen sortiert
 - **Ziel:** Muskelaufbau mit eher höheren Wiederholungen (Standard), klassischer Aufbau oder Kraftausdauer; optional einige schwerere Sätze für Knochen und Muskelerhalt
 - **Rücksicht auf Einschränkungen:** Rücken, Knie, Schulter, Handgelenk
-- **106 Kraftübungen** an über 30 Geräten und mit Kleingerät, dazu 36 Pilates-, Mobility-, Aufwärm- und Dehnübungen – alle mit Animation und Ausführungstipps, viele mit typischem Fehler
+- **117 Kraftübungen** an rund 40 Geräten und mit Kleingerät, dazu 37 Pilates-, Mobility-, Aufwärm-, Cardio- und Dehnübungen – alle mit Animation und Ausführungstipps, viele mit typischem Fehler
 
 ### Im Studio: eine Übung, ein Bildschirm
-- **„Ist das Gerät frei?“** bei jeder Übung – bei Matte, Band und Ball fragt die App gar nicht erst
+- **„Ist das Gerät frei?“** bei jeder Übung – bei Matte, Band, Mini-Band und Ball fragt die App gar nicht erst
+- **Geräte nach Bereichen** (Beine & Po, Rücken, Brust & Schultern, Arme & Bauch, Freie Gewichte, Kleingeräte, Cardio) – Ausgeblendetes plant die App nirgends ein, auch nicht in eigenen Trainingstagen
 - **Besetzt?** Sofort eine Ersatzübung mit **gleichem Bewegungsmuster**, Sätze und Wiederholungen umgerechnet; bereits geschaffte Sätze zählen mit
 - **Später nochmal fragen**, **Gibt's hier nicht** (Gerät wird ausgeblendet), **Original ist jetzt frei**
 - **Aufwärmsätze auf Nachfrage:** bei jeder großen Übung „Möchtest du einen Aufwärmsatz machen?“ mit Gewichtsvorschlag – gespeichert und in der Gesamtlast mitgezählt

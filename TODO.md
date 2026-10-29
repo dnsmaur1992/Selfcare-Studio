@@ -9,16 +9,35 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 
 ## Offen
 - [ ] **Auf dem echten iPhone prüfen** (ging hier nur in der Simulation):
-  - Gong und Pieptöne nach Sprachansagen, mit laufender Musik und mit Lautlos-Schalter.
+  - Gong und Pieptöne mit laufender Musik (ohne Musik auf dem iPhone bestätigt, 28.10.).
   - Abstand oben (Inhalt nicht unter Uhrzeit/Akku), besonders im Vollbild-Training und bei der App-Tour.
   - Update-Hinweis „Neue Version ist da – Jetzt laden“ nach dem Hochladen.
 - [ ] **Arbeitsweise:** Das Repo direkt in die Claude-Sitzung einbinden (wie bei Ringzeit; claude.ai → Einstellungen → Konnektoren → GitHub). Dann kann Claude `TODO.md`, Doku und Code im Repo lesen und mit Schreibrechten direkt committen, statt dass jede Datei per Handy hochgeladen werden muss. Quellcode dann wie bei Ringzeit unter `src/`, `index.html` wird daraus gebaut.
+- [ ] **Eigene Animationen** für Rumpfrotation, TRX-Rudern, TRX-Brustpresse und Rückenstrecker-Maschine. Sie nutzen vorerst die Animation einer ähnlichen Übung (Pallof Press, Rudern am Kabel, Liegestütz an der Bank, Hyperextension).
+
+## Ideen (besprochen, noch nicht beauftragt)
+- **Varianten für Pilates und Mobility:** Themen (Bauch & Mitte, Po & Beine, Rücken & Haltung, Ganzkörper sanft · Hüfte & Rücken, Schultern & Nacken, Ganzkörper, Abends runterfahren), 10–15 neue Positionen mit Animation, Rotation, 15 oder 30 Minuten. Bisher sind die Einheiten jedes Mal gleich.
+- **Ruhige Phase & Runterkommen:** Woche mit Pilates/Mobility statt Kraft ohne Serien-Druck, geführte Atemübung (3–5 Min) von der Startseite.
+- **Signalton auch beim Start der Satzpause** (bisher nur am Ende, weil der Start durch Antippen ausgelöst wird).
 
 ## Bewusst nicht umgesetzt
 - **Unhörbarer Dauerton** gegen das Einschlafen der Audioausgabe (Ringzeit-Idee): Er würde laufende Musik auf dem iPhone dauerhaft leiser stellen. Stattdessen Gong als echte Tondatei und Freischalten beim ersten Antippen.
 
+## Erledigt in Version 3.3 (Abschlussprüfung 29.10.)
+- [x] Automatische Prüfung aller 154 Übungen: IDs in allen Listen vorhanden, Geräte zugeordnet, Animationen ohne Rechenfehler, keine doppelten Namen.
+- [x] Mini-Training: Oberkörper-Tage bekamen mangels Übungen ohne Gerät nur Beinübungen. Neu: Y-Heben in Bauchlage (Schultern), enge Liegestütz (Trizeps), Bridge mit Fersen weit vorn (Beinrückseite); Seitliches Beinheben zählt jetzt für die Abduktoren.
+- [x] Kleine iPhones (320 px): Reiter im Verlauf und Kalenderzeile liefen über den Rand – behoben. Alle Ansichten bei 320 und 390 px, hell und dunkel ohne Überlauf und ohne Fehler.
+- [x] Backup laden: neue Geräte werden ergänzt, alte Pausen-Voreinstellung angehoben (wie beim normalen Start).
+- [x] Daten aus einer alten Version (vor 2.2) in 3.3 geöffnet: alles übernommen, keine Fehler.
+- [x] „1 Sätze“ → „1 Satz“ im Abschluss; „Was ist neu“ auf die aktuellen Punkte gekürzt, Rest im Verlauf.
+
+## Erledigt in Version 3.2
+- [x] Fehler: Ausgeblendete Geräte (z. B. Hackenschmidt) tauchten in eigenen Trainingstagen weiter auf („Statt …“, „… ist jetzt frei“). Jetzt dauerhafter Ersatz mit gleichem Bewegungsmuster, Hinweis und „Dauerhaft ersetzen“ im Trainingsplan.
+- [x] Geräteliste nach Bereichen gruppiert, „Alle an/aus“, Zahl der Übungen je Gerät.
+- [x] Neue Geräte: Pendel-Kniebeuge, Rückenstrecker-Maschine, Rotations-Maschine, TRX, Mini-Band, Treppensteiger. Neue Übungen: Pendel-Kniebeuge, Rückenstrecker an der Maschine, Rumpfrotation, TRX-Rudern, TRX-Kniebeuge, TRX-Brustpresse, Seitwärtsgehen mit Mini-Band, Glute Bridge mit Mini-Band, Cardio Treppensteiger.
+
 ## Erledigt in Version 3.1
-- [x] Töne auf dem iPhone: feste, bei Berührung freigeschaltete Ton-Elemente statt neuer Elemente je Ton. Signalton und Countdown kamen bei Pilates/Mobility nicht (Ansage schon). In Chromium mit „Ton nur nach Berührung“ nachgestellt: vorher 4 Töne blockiert, jetzt 0. **Auf dem iPhone bestätigen.**
+- [x] Töne auf dem iPhone: feste, bei Berührung freigeschaltete Ton-Elemente statt neuer Elemente je Ton. Signalton und Countdown kamen bei Pilates/Mobility nicht (Ansage schon). In Chromium mit „Ton nur nach Berührung“ nachgestellt: vorher 4 Töne blockiert, jetzt 0. Auf dem iPhone bestätigt (28.10.).
 
 ## Erledigt in Version 3.0
 - [x] Profil aufgeräumt: Übersicht mit Gruppen (Du & deine Figur · Training: Plan, Ziel & Belastung, Satzpause, Ton & Musik, Geräte · App: Darstellung & Kalender, Daten & Backup, Hilfe & Infos), jede Zeile zeigt den aktuellen Stand, Details auf eigenen Seiten.
@@ -81,7 +100,7 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 - [x] Auszug für Physio oder Trainerin (letzte 4 Wochen).
 - [x] 6-Wochen-Check.
 - [x] README: Hochladen vom iPhone und „Actions“ erklärt.
-- [x] Tests erweitert (21 Prüfungen, mit 2.3: 28, mit 2.4: 33, mit 2.5: 36, mit 2.6: 41, mit 2.7: 45, mit 2.8: 47, mit 2.9: 49).
+- [x] Tests erweitert (21 Prüfungen, mit 2.3: 28, mit 2.4: 33, mit 2.5: 36, mit 2.6: 41, mit 2.7: 45, mit 2.8: 47, mit 2.9: 49, mit 3.3: 56).
 
 ## Erledigt in Version 2.1
 - [x] Zoomen mit zwei Fingern und per Doppeltipp verhindert (Viewport, `touch-action: manipulation`, `gesturestart` abgefangen, Eingabefelder ≥ 16 px).
