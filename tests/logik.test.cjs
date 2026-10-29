@@ -340,5 +340,34 @@ S.sessions = [{ id: "pa0", date: T0, items: [{ ex: "assist_pull", reps: [6, 10],
 S.sessions = [{ id: "pb", date: T0, items: [{ ex: "bridge", reps: [12, 20], sets: 3, log: [1, 2, 3].map(() => ({ w: "", r: "20", done: true })) }] }];
 { const P = progressInfo({ ex: "bridge" }); ok(P && P.kind === "bw" && P.w == null, "P5: Körpergewicht → langsamer/mehr Wdh., kein Gewicht"); }
 S.sessions = [];
+// ---- Version 3.9.1: Restpunkte aus dem Review zu 3.9 (Commit 360a305) ----
+// Q1 Anstrengung (RPE) bleibt bei Prüfung, Neustart und Backup erhalten
+{ const sx = (id, d, rpe) => Object.assign({ id, date: d, type: "kraft", name: "Tag", slotId: "s" + id, items: [{ g: "po", ex: "ht_m", reps: [10, 15], sets: 1, log: [{ w: "60", r: "12", done: true }] }] }, rpe === undefined ? {} : { rpe });
+  const st0 = Object.assign(defaults(), { setup: true, days: tmplDays(3), sessions: [sx("r1", T0, 9), sx("r2", T1)] });
+  const notes = []; normalizeState(st0, notes);
+  ok(st0.sessions[0].rpe === 9 && !("rpe" in st0.sessions[1]) && !notes.length && st0.sessions[0].slotId === "sr1", "Q1: rpe = 9 bleibt nach normalizeState, fehlende Bewertung bleibt fehlend, kein Hinweis");
+  const bad = Object.assign(defaults(), { sessions: [sx("r3", T0, 42), sx("r4", T0, "x"), sx("r5", T0, 7.5)] }); const n2 = []; normalizeState(bad, n2);
+  ok(bad.sessions.length === 3 && bad.sessions.every((q) => !("rpe" in q)) && n2.some((t) => t.includes("Anstrengungsbewertungen")), "Q1: Ungültige Bewertungen (42, „x“, 7,5) werden entfernt und gemeldet, Einheiten bleiben");
+  const st1 = JSON.parse(JSON.stringify(st0)); st1.sessions[0].extra = { keep: 1 }; st1.measures = [{ d: T0, gewicht: 70, notiz: "morgens" }];
+  const re = JSON.parse(JSON.stringify(st1)); normalizeState(re, []);
+  ok(re.sessions[0].rpe === 9 && re.sessions[0].extra.keep === 1 && re.measures[0].notiz === "morgens" && re.sessions[0].items[0].sets === 1, "Q1: Speichern + Neustart: rpe und übrige gültige Felder bleiben");
+  S = Object.assign(defaults(), st0); registerCustom();
+  const c = checkBackup(JSON.parse(backupText())); ok(c.ok && c.st.sessions[0].rpe === 9 && !c.notes.length, "Q1: Backup-Export und -Prüfung erhalten die Bewertung");
+  /* Entlastung nach sehr harten Einheiten – auch nach Neustart (Daten durch normalizeState gelaufen) */
+  const wkAgo = (w, d) => { const m = mondayOf(new Date()); m.setDate(m.getDate() - 7 * w + d); m.setHours(10); return m.toISOString(); };
+  const hard = [sx("h1", wkAgo(2, 0), 9), sx("h2", wkAgo(2, 2), 9), sx("h3", wkAgo(1, 0), 10), sx("h4", wkAgo(1, 2), 9)];
+  const st2 = JSON.parse(JSON.stringify(Object.assign(defaults(), { setup: true, days: tmplDays(3), sessions: hard }))); normalizeState(st2, []);
+  S = st2; registerCustom(); normalizeDays(); const wkx = { slots: [] }; weekFlags(wkx, weekKey(new Date()));
+  ok(wkx.deload === "rpe", "Q1: Entlastungswoche wegen hoher Anstrengung wird nach Neustart erkannt");
+  S = Object.assign(defaults(), goodData()); registerCustom(); }
+// Q2 Mini-Training: harte Grenze 30 Min für alle Kombinationen
+{ S.restM = 120; const g = ["quad", "abd", "add"]; const m = buildMini(g); ok(miniTotal(g, m) <= 30, "Q2: Beispiel 2:00 Pause, quad/abd/add → " + miniTotal(g, m) + " Min (≤ 30)");
+  const combos = [[]]; GORDER.forEach((a, i) => { combos.push([a]); GORDER.slice(i + 1).forEach((b, j) => { combos.push([a, b]); GORDER.slice(i + j + 2).forEach((c) => combos.push([a, b, c])); }); });
+  let worst = 0, cnt = 0, fail = null;
+  for (const back of [true, false]) for (const r of WARM_REST_OPTS) for (const day of Object.keys(DAYMOB)) for (const gg of combos) {
+    S.backCare = back; S.restM = r; const mm = buildMini(gg, day); const t = miniTotal(gg, mm, day); cnt++; worst = Math.max(worst, t);
+    if (t > MINI_BUDGET || !mm.length) fail = fail || \`\${gg.join("/")} · \${r}s · \${day} → \${t} Min\`; }
+  ok(!fail, \`Q2: \${cnt} Kombinationen (Gruppen, alle Mini-Pausen, Tagesformen, Rücken an/aus): höchstens \${worst} Min\${fail ? " – zu lang: " + fail : ""}\`);
+  S.backCare = true; delete S.restM; }
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
