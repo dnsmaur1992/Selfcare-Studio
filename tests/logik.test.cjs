@@ -254,5 +254,91 @@ S.equip.band = false; ok(!buildWarm(["po", "ruecken"], "normal").some((q) => q.e
 S.weeks = {}; const wkT = thisWeek(); const poT = wkT.slots.filter((q) => q.type === "kraft" && slotInfo(q).groups.includes("po"));
 poT[0].wd = 3; ok(neighborClash(poT[1], 3).includes(GROUPS.po.n), "Erholungswarnung auch am selben Tag");
 ok(wHint(EXM.lateral_kh).includes("je Hantel") && wHint(EXM.assist_pull).includes("leichter") && wHint(EXM.legpress) === "", "Gewichtsangabe erklärt: je Hantel, Unterstützung");
+// ---- Version 3.9: offene Punkte aus dem Review (P1–P5) ----
+const snap = () => JSON.stringify(S);
+const T0 = "2026-10-01T10:00:00.000Z", T1 = "2026-10-08T10:00:00.000Z";
+const goodData = () => ({ setup: true, name: "Test", reps: "hoch", days: tmplDays(3), sessions: [{ id: "g1", date: T0, type: "kraft", name: "Tag", items: [{ g: "ruecken", ex: "latzug", reps: [10, 15], log: [{ w: "40", r: "12", done: true }] }] }] });
+S.days = tmplDays(3); S.sessions = []; S.active = null; S.setup = true;
+// P1 Backup- und Zustandsvalidierung
+{ const d = goodData(); d.sessions.push({ id: "n1", date: T1, type: "kraft", name: "Kaputt", items: [null] });
+  const c = checkBackup({ app: "satzwerk", data: d });
+  ok(c.ok && c.st.sessions.length === 1 && c.notes.some((t) => t.includes("Einheit")), "P1: Einheit mit items [null] wird entfernt und gemeldet (" + c.notes.join("; ") + ")");
+  const keep = snap(); applyBackup(c); let fine = true; try { vHome(); ["list", "prog", "load", "meas"].forEach((h) => { U.hist = h; vHist(); }); } catch (e) { fine = false; } U.hist = "list";
+  ok(fine && S.sessions.length === 1, "P1: Startseite und Verlauf bauen nach dem Import mit items [null] auf"); }
+{ const d = goodData(); d.reps = "unknown"; const c = checkBackup({ app: "satzwerk", data: d });
+  ok(c.ok && c.st.reps === "hoch" && c.notes.some((t) => t.includes("Wiederholungsziel")), "P1: reps = \\"unknown\\" wird auf „hoch“ zurückgesetzt und gemeldet");
+  applyBackup(c); let fine = true; try { thisWeek().slots.forEach((sl) => sl.type === "kraft" && planFor(sl, 1, [])); buildMini(["po"]); } catch (e) { fine = false; }
+  ok(fine, "P1: Trainingsplanung baut nach dem Import mit ungültigem Wiederholungsziel auf"); }
+{ S = Object.assign(defaults(), goodData()); registerCustom(); const keep = snap();
+  const bad = [null, { app: "x", data: {} }, { app: "satzwerk", data: [] }, { app: "satzwerk", data: { sessions: "x" } }];
+  ok(bad.every((o) => !checkBackup(o).ok) && snap() === keep, "P1: Fremde/kaputte Dateien werden abgelehnt, bisherige Daten unverändert");
+  const ce = console.error; console.error = () => {}; const vh = vHist; vHist = () => { throw new Error("Probeaufbau"); }; const c = checkBackup({ app: "satzwerk", data: goodData() }); vHist = vh; console.error = ce;
+  ok(!c.ok && snap() === keep, "P1: Scheitert der Probeaufbau, wird nichts übernommen"); }
+{ const old = { setup: true, restC: 90, days: tmplDays(2), sessions: [{ date: T0, items: [{ ex: "ht_m", log: [{ w: 60, r: 12, done: true }] }] }, { date: T1, type: "pilates", items: [{ ex: FLOW.find((f) => f.cat === "pilates").id, sec: 45 }] }] };
+  const c = checkBackup({ app: "satzwerk", data: old });
+  ok(c.ok && !c.notes.length && c.st.sessions.length === 2 && c.st.sessions[0].items[0].log[0].w === "60" && c.st.sessions[1].flow && c.st.restC === 180, "P1: Älteres gültiges Backup (Zahlen statt Text, ohne flow-Kennung) lädt ohne Verlust"); }
+{ const d = goodData(); d.sessions[0].items[0].log.push({ w: "<b>", r: "10", done: true }, "kaputt"); d.sessions[0].items.push({ ex: "gibtsnicht", log: [] }); d.sound = "laut"; d.accent = "neon"; d.focus = { id: "x" }; d.restM = "lang";
+  const c = checkBackup({ app: "satzwerk", data: d }); const lg = c.st.sessions[0].items[0].log;
+  ok(c.ok && lg.length === 2 && lg[1].w === "" && c.st.sessions[0].items.length === 1 && !c.st.sound && !c.st.accent && c.st.focus === null && c.st.restM === undefined && c.notes.length >= 4, "P1: Sätze, Übungen und Einstellungen werden einzeln repariert, Rest bleibt (" + c.notes.length + " Hinweise)"); }
+{ const d = goodData(); d.active = { type: "kraft", items: [{ ex: "latzug" }], steps: [], pos: 0 }; const c = checkBackup({ app: "satzwerk", data: d });
+  ok(c.ok && c.st.active === null && c.st.rescued && c.st.rescued.raw.items[0].ex === "latzug", "P1: Beschädigte laufende Einheit wird beiseitegelegt, nicht gelöscht"); }
+// P2 Verlustfreie Rettung
+S = Object.assign(defaults(), goodData()); S.sessions = []; registerCustom(); U.rescueErr = null;
+{ const blocks = buildFlow("pilates").slice(0, 3); S.active = { id: "pf", flow: true, type: "pilates", name: "Pilates", start: Date.now() - 600000, blocks, i: 1, phase: "work", end: Date.now() + 20000, paused: 0 }; blocks[0].secDone = 60;
+  rescueFinish(); ok(S.active === null && S.sessions.length === 1 && S.sessions[0].flow && S.sessions[0].type === "pilates", "P2: Rettung speichert eine laufende Pilates-Einheit über finishFlow"); }
+{ const blocks = buildFlow("mobility").slice(0, 2); S.active = { id: "mf", flow: true, type: "mobility", name: "Mobility", start: Date.now() - 300000, blocks, i: 0, phase: "work", end: Date.now() + 10000, paused: 0 }; blocks[0].sec = 40;
+  rescueFinish(); ok(S.active === null && S.sessions.length === 2 && S.sessions[1].type === "mobility", "P2: Rettung speichert eine laufende Mobility-Einheit"); }
+{ const it = prepItem({ g: "ruecken", e: 3, ex: "latzug", ideal: "latzug", sets: 3, reps: [10, 15] }, false); it.log[0] = { w: "40", r: "12", done: true };
+  S.active = { id: "kk", type: "kraft", name: "Tag", items: [it], steps: [{ k: "item", id: it.id }], pos: 0, ph: "sets", start: Date.now() - 600000, busyAt: {} };
+  rescueFinish(); ok(S.active === null && S.sessions.length === 3 && S.sessions[2].items[0].log.length === 1, "P2: Rettung speichert eine Kraft-Einheit");
+  const n = S.sessions.length; S.active = { id: "kk", type: "kraft", name: "Tag", items: [it], steps: [{ k: "item", id: it.id }], pos: 0, ph: "sets", start: Date.now(), busyAt: {} };
+  rescueFinish(); ok(S.sessions.length === n && S.active === null, "P2: Schon gespeicherte Einheit wird nicht doppelt angelegt"); }
+{ const n = S.sessions.length; const raw = { id: "broken", type: "kraft", name: "Tag", items: [{ ex: "latzug", log: null }], steps: [{ k: "item", id: "x" }], pos: 0, ph: "sets", start: Date.now() };
+  S.active = JSON.parse(JSON.stringify(raw)); const ce2 = console.error; console.error = () => {}; rescueFinish(); console.error = ce2;
+  ok(S.sessions.length === n && S.active && JSON.stringify(S.active) === JSON.stringify(raw) && U.rescueErr && backupText().includes("\\"broken\\""), "P2: Scheitert das Speichern, bleibt die Einheit unverändert erhalten und steckt im Backup");
+  S.active = null; U.rescueErr = null; }
+// P3 0 kg Unterstützung
+S.sessions = [{ id: "z1", date: T0, items: [{ ex: "assist_pull", reps: [10, 15], log: [{ w: "10", r: "10", done: true }] }] }];
+{ const pr = prsOf({ date: T1, items: [{ ex: "assist_pull", log: [{ w: "0", r: "10", done: true }] }] });
+  ok(pr.length === 1 && pr[0].w === 0 && pr[0].b === 10, "P3: 10 → 0 kg Hilfe zählt als Rekord");
+  S.sessions.push({ id: "z2", date: T1, items: [{ ex: "assist_pull", reps: [10, 15], log: [{ w: "0", r: "10", done: true }] }] });
+  const sr = series("assist_pull"); ok(sr.length === 2 && sr[1].w === 0, "P3: 0 kg bleibt im Verlauf sichtbar (series: " + sr.map((q) => q.w).join(" → ") + ")");
+  ok(lastText({ ex: "assist_pull" }).includes("0 kg Hilfe"), "P3: „Letztes Mal“ zeigt 0 kg Hilfe");
+  const it = prepItem({ g: "ruecken", e: 3, ex: "assist_pull", ideal: "assist_pull", sets: 3, reps: [10, 15] }, true); it.log.forEach((q) => (q.w = "0")); it.log[0].r = "3";
+  S.active = { items: [it], steps: [{ k: "item", id: it.id }], pos: 0, ph: "sets", start: Date.now() }; setDone();
+  ok(num(it.log[1].w) > 0 && S.active.msg.includes("mehr Hilfe"), "P3: 3 Wdh. bei 0 kg → nächster Satz mit mehr Hilfe (" + it.log[1].w + " kg)"); S.active = null;
+  const e0 = estWeight({ ex: "assist_pull", reps: [10, 15], g: "ruecken" }); ok(e0 && e0.w === 0, "P3: Vorschlag übernimmt 0 kg Hilfe");
+  S.sessions = [{ id: "n1", date: T0, items: [{ ex: "legpress", log: [{ w: "80", r: "10", done: true }] }] }];
+  ok(!prsOf({ date: T1, items: [{ ex: "legpress", log: [{ w: "0", r: "10", done: true }] }] }).length && bestW(EXM.legpress, [0, null]) === null && prsOf({ date: T1, items: [{ ex: "legpress", log: [{ w: "90", r: "10", done: true }] }] }).length === 1, "P3: Normale Übungen: 0 kg ist kein Wert, mehr Gewicht bleibt Rekord");
+  ok(bestW(EXM.assist_pull, [null, ""].map(num)) === null, "P3: Leere Eingabe ist nicht 0"); }
+S.sessions = [];
+// P4 Mini-Training: Zeitbudget
+[[120, ["po", "quad"]], [30, ["po", "quad"]], [60, ["ruecken", "brust", "schulter", "po"]], [90, []]].forEach(([r, g]) => {
+  S.restM = r; const m = buildMini(g); const t = miniTotal(g, m);
+  ok(t <= MINI_BUDGET && m.length >= 3, \`P4: Mini mit \${fmtRest(r)} Pause, \${g.join("/") || "ohne Gruppen"}: \${m.length} Übungen, \${m[0].sets} Runden, ca. \${t} Min\`);
+});
+{ S.restM = 120; const sx = MINI_FILL.find((id) => EXM[id].side); ok(estMin([{ ex: sx, sets: 2 }], true) > estMin([{ ex: "bridge", sets: 2 }], true), "P4: Einseitige Übungen zählen je Seite (" + EXM[sx].n + ")"); }
+{ S.restM = 120; const wk = thisWeek(); const sl = wk.slots.find((q) => q.type === "kraft"); U.setup = { slotId: sl.id, mode: "mini" }; const html = vSetup(); const items = setupItems(); const t = miniTotal(slotInfo(sl).groups, items);
+  ok(!/[^.] 30 Min/.test(html.replace(/ca\\. 30 Min/g, "")) && html.includes(\`insgesamt ca. \${t} Min\`) && html.includes(\`Mini<small>ca. \${t} Min\`) && items.every((it) => html.includes(\`\${it.sets} × \${it.reps[0]}–\${it.reps[1]}\`)), "P4: Vorschau zeigt geschätzte Dauer (" + t + " Min) und dieselben Sätze wie der Plan"); U.setup = null; }
+delete S.restM;
+// P5 Progressionshinweis
+const lat = (log, extra) => ({ id: "p" + Math.random(), date: T0, items: [Object.assign({ ex: "latzug", reps: [10, 15], sets: 3, log }, extra || {})] });
+const w15 = () => [1, 2, 3].map(() => ({ w: "40", r: "15", done: true }));
+S.sessions = [lat(w15())];
+{ const it = prepItem({ g: "ruecken", e: 3, ex: "latzug", ideal: "latzug", sets: 3, reps: [10, 15] }, true);
+  ok(it.prog && it.prog.w === 42.5 && it.log.every((q) => q.w === "40"), "P5: 3×15 bei 40 kg → Vorschlag 42,5 kg, Gewicht bleibt bis zur Zustimmung 40 kg");
+  ok(progressHint(it).includes("42,5"), "P5: Hinweistext nennt das neue Gewicht"); }
+S.sessions = [lat([{ w: "30", r: "10", done: true, warm: true }])]; ok(!progressInfo({ ex: "latzug" }), "P5: Nur Aufwärmsatz → kein Vorschlag");
+S.sessions = [lat(w15().slice(0, 2))]; ok(!progressInfo({ ex: "latzug" }), "P5: 2 von 3 geplanten Sätzen → kein Vorschlag");
+S.sessions = [lat(w15().map((q, i) => (i === 1 ? Object.assign(q, { w: "" }) : q)))]; ok(!progressInfo({ ex: "latzug" }), "P5: Satz ohne Gewicht → kein Vorschlag");
+S.sessions = [lat(w15(), { part: true })]; ok(!progressInfo({ ex: "latzug" }), "P5: Abgebrochene (getauschte) Übung → kein Vorschlag");
+S.sessions = [lat(w15().map((q, i) => (i === 2 ? Object.assign(q, { r: "12" }) : q)))]; ok(!progressInfo({ ex: "latzug" }), "P5: Oberes Ziel nicht in allen Sätzen → kein Vorschlag");
+S.sessions = [{ id: "pa", date: T0, items: [{ ex: "assist_pull", reps: [6, 10], sets: 2, log: [{ w: "20", r: "10", done: true }, { w: "20", r: "11", done: true }] }] }];
+{ const P = progressInfo({ ex: "assist_pull" }); ok(P && P.kind === "assist" && P.w === 17.5, "P5: Assistenz → weniger Hilfe vorgeschlagen (20 → " + (P && P.w) + " kg)"); }
+S.sessions = [{ id: "pa0", date: T0, items: [{ ex: "assist_pull", reps: [6, 10], sets: 2, log: [{ w: "0", r: "10", done: true }, { w: "0", r: "10", done: true }] }] }];
+{ const P = progressInfo({ ex: "assist_pull" }); ok(P && P.w == null && P.kind === "bw", "P5: Ohne Hilfe geschafft → Tempo/Wdh.-Hinweis statt negativer Hilfe"); }
+S.sessions = [{ id: "pb", date: T0, items: [{ ex: "bridge", reps: [12, 20], sets: 3, log: [1, 2, 3].map(() => ({ w: "", r: "20", done: true })) }] }];
+{ const P = progressInfo({ ex: "bridge" }); ok(P && P.kind === "bw" && P.w == null, "P5: Körpergewicht → langsamer/mehr Wdh., kein Gewicht"); }
+S.sessions = [];
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
