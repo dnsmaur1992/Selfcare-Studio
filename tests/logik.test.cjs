@@ -139,5 +139,20 @@ S.active = { flow: true, type: "pilates", blocks: buildFlow("pilates").slice(0, 
 flowGoto(0, "prep"); flowGoto(0, "work");
 ok(said[0].startsWith("Gleich: ") && snd.length === 1, "Pilates: Ansage beim Bereitmachen, Signalton beim Start");
 say = _say; gong = _gong; S.active = null;
+// 29 Ausgeblendetes Gerät taucht auch in eigenen Trainingstagen nicht mehr auf
+S.equip.hack = false;
+const cu = buildCustom([{ ex: "hack", g: "quad", sets: 3, reps: [10, 15] }, { ex: "legext", g: "quad", sets: 3, reps: [12, 15] }], 1, []);
+ok(cu.every((i) => i.ex !== "hack" && i.ideal !== "hack") && cu[0].ex && !cu[0].note, "Hackenschmidt ausgeblendet: eigener Tag nimmt " + cu[0].ex + ", ohne „Statt …“");
+ok(![1, 2, 3].some(() => buildPlan(["quad", "po"], 1, []).some((i) => i.ex === "hack" || i.ideal === "hack")), "Automatischer Plan ohne Hackenschmidt");
+S.equip.hack = true;
+// 30 Neue Geräte und Übungen
+ok(["pendel", "rueckenm", "rotation", "trx", "miniband", "stepper"].every((k) => EQUIP[k]) && ["pendulum", "backext_m", "rot_m", "trx_row", "trx_squat", "trx_press", "lateralwalk", "bridge_band"].every((id) => EXM[id] && EXM[id].anim && EXM[id].pat), "6 neue Geräte, 8 neue Übungen mit Animation und Bewegungsmuster");
+ok(isBW(EXM.trx_row) && noAsk(EXM.lateralwalk) && !noAsk(EXM.trx_row), "TRX/Mini-Band ohne Gewichtsfeld, Mini-Band ohne Frei-Frage");
+S.equip.hack = false; const it30 = makeItem("quad", 3, EXM.legpress, EXM.legpress);
+ok(altsFor(it30, [], new Set(["legpress"])).some((x) => x.id === "pendulum") && !altsFor(it30, [], new Set(["legpress"])).some((x) => x.id === "hack"), "Ersatz für Beinpresse: Pendel-Kniebeuge ja, ausgeblendete Hackenschmidt nein");
+S.equip.hack = true;
+// 31 Mini-Training: Oberkörper-Tag bekommt Oberkörper-Übungen
+const mo = buildMini(["ruecken", "brust", "schulter", "tri"]).map((i) => i.g);
+ok(["ruecken", "brust", "schulter", "tri"].every((g) => mo.includes(g)), "Mini-Training Oberkörper deckt Rücken, Brust, Schultern, Trizeps ab");
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
