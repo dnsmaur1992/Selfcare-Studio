@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.5">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.5">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.6">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.6">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.5">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.6">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -660,8 +660,9 @@ const LIMITS = {
   wrist: { n: "Handgelenk", ids: ["pushup", "pushup_incline", "benchdips", "kickback_kh", "conc_curl", "trx_press", "pushup_tri"] },
 };
 const limited = (id) => Object.keys(LIMITS).some((k) => (S.limits || {})[k] && LIMITS[k].ids.includes(id));
-const S_VERSION = "3.5";
-const NEWS = { v: "3.5", items: [
+const S_VERSION = "3.6";
+const NEWS = { v: "3.6", items: [
+  ["Pausen nach Wunsch", "Auch die Pause nach Aufwärmsätzen und die Satzpause im Mini-Training sind jetzt einstellbar (0:30 bis 2:00, bisher fest 45 s) – unter Profil → Satzpause, im Satz oder direkt in der Pause."],
   ["Deine Akzentfarbe", "Knöpfe, Ringe und Hervorhebungen in Pink, Koralle, Lavendel, Petrol, Blau oder Graphit – in Hell und Dunkel gut lesbar. Profil → Darstellung & Kalender."],
   ["Erstes Mal an einem Gerät?", "Bei einer Maschine, an der du noch nie trainiert hast, zeigt die App aufklappbar: wie du sie einstellst, worauf es ankommt und typische Stolpersteine. Für alle Geräte jederzeit unter „Tipps“."],
 ], old: [
@@ -2016,15 +2017,20 @@ const REST_OPTS = [60, 90, 120, 150, 180, 240];
 const fmtRest = (sec) => `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, "0")} Min`;
 function restPicker() {
   const row = (key, lbl, sub) => `<div class="stack" style="gap:6px"><div class="row between"><b>${lbl}</b><span class="small muted">${sub}</span></div><div class="chips">${REST_OPTS.map((v) => `<button class="chip ${S[key] === v ? "on" : ""}" data-a="rest" data-k="${key}" data-v="${v}" aria-pressed="${S[key] === v}">${Math.floor(v / 60)}:${String(v % 60).padStart(2, "0")}</button>`).join("")}</div></div>`;
-  return `${row("restC", "Große Übungen", "z. B. Beinpresse, Hip Thrust, Rudern")}${row("restI", "Kleine Übungen", "z. B. Seitheben, Curls, Kickbacks")}
-    <span class="small muted">Aufwärmsätze und Mini-Training: 45 s.${fatFocus() ? " Im Fokus „Körperfett verlieren“ ein Viertel kürzer." : ""}${S.heavy ? " Schwere Sätze: mindestens 2:00." : ""}</span>`;
+  const wrow = `<div class="stack" style="gap:6px"><div class="row between"><b>Nach Aufwärmsätzen</b><span class="small muted">leichte Sätze vorab</span></div><div class="chips">${WARM_REST_OPTS.map((v) => `<button class="chip ${warmRest() === v ? "on" : ""}" data-a="rest" data-k="restW" data-v="${v}" aria-pressed="${warmRest() === v}">${Math.floor(v / 60)}:${String(v % 60).padStart(2, "0")}</button>`).join("")}</div></div>`;
+  const mrow = `<div class="stack" style="gap:6px"><div class="row between"><b>Mini-Training</b><span class="small muted">Körpergewicht, 30 Min</span></div><div class="chips">${WARM_REST_OPTS.map((v) => `<button class="chip ${miniRest() === v ? "on" : ""}" data-a="rest" data-k="restM" data-v="${v}" aria-pressed="${miniRest() === v}">${Math.floor(v / 60)}:${String(v % 60).padStart(2, "0")}</button>`).join("")}</div></div>`;
+  return `${row("restC", "Große Übungen", "z. B. Beinpresse, Hip Thrust, Rudern")}${row("restI", "Kleine Übungen", "z. B. Seitheben, Curls, Kickbacks")}${wrow}${mrow}
+    <span class="small muted">${fatFocus() ? " Im Fokus „Körperfett verlieren“ ein Viertel kürzer." : ""}${S.heavy ? " Schwere Sätze: mindestens 2:00." : ""}</span>`;
 }
 function restSheet() {
   return `<div class="stack" style="gap:4px"><h2>Satz<em>pause</em></h2><p class="small muted">So lange pausierst du zwischen zwei Sätzen. Die App zählt herunter und gongt, wenn es weitergeht.</p></div>${restPicker()}<button class="btn" data-a="sheetclose">Fertig</button>`;
 }
+const WARM_REST_OPTS = [30, 45, 60, 90, 120];
+const warmRest = () => S.restW || 45;
+const miniRest = () => S.restM || 45;
 const restLine = () => S.restC === S.restI ? fmtRest(S.restC) : `${fmtRest(S.restC)} / ${fmtRest(S.restI)}`;
 function restFor(ex) {
-  if (S.active?.type === "mini") return 45;
+  if (S.active?.type === "mini") return miniRest();
   const r = ex.type === "c" ? (S.heavy ? Math.max(S.restC, 120) : S.restC) : S.restI;
   return fatFocus() ? Math.max(45, Math.round((r * 0.75) / 5) * 5) : r;
 }
@@ -2080,7 +2086,7 @@ function setDone() {
   }
   if (s.warm) { const w0 = num(it.log.find((q) => !q.warm)?.w); A.msg = w0 ? `Aufwärmsatz geschafft. Arbeitsgewicht: ${fmt(w0)} kg.` : "Aufwärmsatz geschafft."; }
   const more = it.log.some((q) => !q.done);
-  const rest = s.warm ? 45 : restFor(x);
+  const rest = s.warm ? warmRest() : restFor(x);
   A.ph = "rest"; A.end = Date.now() + rest * 1000; A.total = rest; A.restNext = more ? "set" : "step"; A.beeped = false;
   S.flags.firstSet = true; save(); render();
 }
@@ -2257,7 +2263,7 @@ function vTrain() {
           ${!s.warm && nW === 1 && it.est ? `<p class="small muted">Geschätzt aus einer ähnlichen Übung. Nimm ein Gewicht, mit dem du ${it.reps[1]} Wdh. schaffen würdest, aber nicht mehr.</p>` : ""}
           ${!s.warm && nW === 1 && !w0?.w && !bw && x.unit !== "s" ? `<p class="small muted">Erstes Mal: Wähle ein Gewicht, mit dem ${it.reps[1]} Wdh. gerade so gehen. Die App merkt es sich.</p>` : ""}
           ${A.msg ? `<p class="note ok">${esc(A.msg)}</p>` : lt ? `<p class="small muted">${esc(lt)}</p>` : ""}
-          ${A.type !== "mini" && !s.warm ? `<button class="small link" style="align-self:flex-start;color:var(--muted)" data-a="restopen">Danach ${fmtRest(restFor(x))} Pause · ändern</button>` : ""}
+          ${true ? `<button class="small link" style="align-self:flex-start;color:var(--muted)" data-a="restopen">Danach ${fmtRest(s.warm ? warmRest() : restFor(x))} Pause · ändern</button>` : ""}
           <div class="row" style="flex-wrap:wrap;gap:6px">${it.log.filter((q) => q.done).map((q) => `<span class="chip tag okc num">${q.warm ? "A " : ""}${q.w && !bw ? q.w + "×" : ""}${q.r}</span>`).join("")}</div>
         </div>
         ${s.warm && !s.done ? `<button class="small link" style="align-self:center" data-a="warmcancel">Doch kein Aufwärmsatz – direkt loslegen</button>` : !s.warm && !doneWork(it).length && !bw && A.type !== "mini" ? `<button class="small link" style="align-self:center" data-a="warminstead">Stattdessen erst einen Aufwärmsatz</button>` : ""}
@@ -2654,7 +2660,7 @@ function vProf() {
     <div class="stack"><span class="eyebrow">Training</span><div class="list">
       ${go2("tab", "days", "Trainingsplan", `${krafts} Krafttage${S.days.length > krafts ? ` · ${S.days.length - krafts} weitere` : ""}`, "🗓")}
       ${li("ziel", "Ziel &amp; Belastung", `${REPN[S.reps] || ""}${S.backCare ? " · Rücken schonen" : ""}${lims.length ? " · " + lims.join(", ") : ""}${pauseNow() ? " · Pause aktiv" : focusOn() ? " · Fokus: " + FOCI[S.focus.id].n : ""}`, "🎯")}
-      ${li("pause", "Satzpause", restLine(), "⏱")}
+      ${li("pause", "Satzpause", `${restLine()} · Aufwärmen ${fmtRest(warmRest())} · Mini ${fmtRest(miniRest())}`, "⏱")}
       ${li("ton", "Ton &amp; Musik", `${S.voice !== false ? "Ansage an" : "Ansage aus"} · ${SOUNDS[S.sound || "gong"].n}${S.music ? " · Playlist" : ""}`, "🔔")}
       ${go2("tab", "eq", "Geräte", hidden ? hidden + " ausgeblendet" : "alle aktiv", "🏋")}
     </div></div>
@@ -3120,7 +3126,7 @@ document.addEventListener("click", (e) => {
     case "back": S.backCare = !S.backCare; save(); render(); break;
     case "rest": {
       S[d.k] = +d.v; const A = S.active;
-      if (A && !A.flow && A.ph === "rest" && A.restNext && curStep()?.k === "item") { const it = itemById(curStep().id); const lastDone = [...it.log].reverse().find((q) => q.done); if (lastDone && !lastDone.warm) { const el = A.total - Math.max(0, (A.end - Date.now()) / 1000); A.total = restFor(EXM[it.ex]); A.end = Date.now() + Math.max(0, A.total - el) * 1000; A.beeped = false; } }
+      if (A && !A.flow && A.ph === "rest" && A.restNext && curStep()?.k === "item") { const it = itemById(curStep().id); const lastDone = [...it.log].reverse().find((q) => q.done); if (lastDone) { const el = A.total - Math.max(0, (A.end - Date.now()) / 1000); A.total = lastDone.warm ? warmRest() : restFor(EXM[it.ex]); A.end = Date.now() + Math.max(0, A.total - el) * 1000; A.beeped = false; } }
       save(); render(); break;
     }
     case "restopen": openSheet(restSheet); break;
