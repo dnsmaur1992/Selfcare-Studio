@@ -12,6 +12,7 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
   - Gong und Pieptöne mit laufender Musik (ohne Musik auf dem iPhone bestätigt, 28.10.).
   - Abstand oben (Inhalt nicht unter Uhrzeit/Akku), besonders im Vollbild-Training und bei der App-Tour.
   - Update-Hinweis „Neue Version ist da – Jetzt laden“ nach dem Hochladen.
+- [ ] **Auf Android prüfen** (bisher nur iPhone).
 - [ ] **Arbeitsweise:** Das Repo direkt in die Claude-Sitzung einbinden (wie bei Ringzeit; claude.ai → Einstellungen → Konnektoren → GitHub). Dann kann Claude `TODO.md`, Doku und Code im Repo lesen und mit Schreibrechten direkt committen, statt dass jede Datei per Handy hochgeladen werden muss. Quellcode dann wie bei Ringzeit unter `src/`, `index.html` wird daraus gebaut.
 - [ ] **Eigene Animationen** für Rumpfrotation, TRX-Rudern, TRX-Brustpresse und Rückenstrecker-Maschine. Sie nutzen vorerst die Animation einer ähnlichen Übung (Pallof Press, Rudern am Kabel, Liegestütz an der Bank, Hyperextension).
 
@@ -22,6 +23,30 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 
 ## Bewusst nicht umgesetzt
 - **Unhörbarer Dauerton** gegen das Einschlafen der Audioausgabe (Ringzeit-Idee): Er würde laufende Musik auf dem iPhone dauerhaft leiser stellen. Stattdessen Gong als echte Tondatei und Freischalten beim ersten Antippen.
+
+## Erledigt in Version 3.8 (externes Review vom 29.10.)
+**Hohe Priorität**
+- [x] Einschränkungen gelten auch in eigenen Plänen, für eigene Übungen (über die Vorlage) und bei Ersatz.
+- [x] Klimmzug-/Dip-Assist: Unterstützung wird umgekehrt bewertet (Nachsteuerung, Rekorde, Fortschritt, Steigerungen, Gesamtlast), keine Fremd-Schätzung, keine Aufwärmfrage.
+- [x] HTML-Einschleusung über geteilte Pläne geschlossen (Escaping in der Vorschau, Bereinigung aller importierten Texte). Im Browser mit präpariertem Code geprüft.
+- [x] Geteilte Pläne und Backups werden vollständig geprüft, bevor etwas übernommen wird; beschädigte Daten werden beim Start repariert; Rettungsansicht statt weißem Bildschirm.
+- [x] Löschen einer eigenen Übung während einer laufenden Einheit bricht nichts mehr.
+**Mittlere Priorität**
+- [x] Erledigte Aufwärmsätze bleiben beim Gerätewechsel erhalten und werden gespeichert.
+- [x] Mini-Training: Zeit aus echten Sätzen und Pausen; 2 statt 3 Runden bei langer Pause.
+- [x] Eigene Pläne: höchstens 6 Sätze, wie in der Ausführung.
+- [x] Volumengrenze 22 effektive Sätze wird nach der Planung durchgesetzt.
+- [x] Pilates/Mobility speichern nur gehaltene Positionen mit echter Zeit.
+- [x] Tagesschlüssel nach lokalem Datum statt UTC.
+**Weitere Punkte**
+- [x] „Gleicher Reiz“ → „möglichst gleicher Reiz“ (ehrlichere Formulierung).
+- [x] Gewichtsangaben erklärt (je Hantel, nur Scheiben, Steckgewicht, Unterstützung); Testsatz-Text vereinheitlicht (obere Wdh.-Zahl, 1–2 übrig).
+- [x] Bandübungen im Aufwärmen nur bei eingeblendetem Band, sonst Körpergewicht.
+- [x] Erholungswarnung: auch am selben Tag und über den Wochenwechsel, nach tatsächlicher Muskelbeteiligung.
+- [x] „Zoomen erlauben“ unter Darstellung (Standard aus, wie gewünscht).
+- [x] Platzhalter-Animationen gekennzeichnet („Animation zeigt eine ähnliche Bewegung“).
+- [x] Warnung bei fehlgeschlagenem Speichern; Service Worker speichert nur erfolgreiche Seiten.
+- [x] 21 neue Regressionstests (91 insgesamt).
 
 ## Erledigt in Version 3.7
 - [x] Eigene Übungen: Name, „ähnlich wie“-Vorlage (übernimmt Animation, Muskeln, Muster), Gerät aus der Liste oder eigenes Gerät, eigene Tipps. Im Katalog („Eigene“), in „Übung hinzufügen“ (auch direkt dort anlegen), als Ersatz, beim Teilen eines Trainingstags. Löschen bewahrt den Verlauf.
@@ -114,7 +139,7 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 - [x] Auszug für Physio oder Trainerin (letzte 4 Wochen).
 - [x] 6-Wochen-Check.
 - [x] README: Hochladen vom iPhone und „Actions“ erklärt.
-- [x] Tests erweitert (21 Prüfungen, mit 2.3: 28, mit 2.4: 33, mit 2.5: 36, mit 2.6: 41, mit 2.7: 45, mit 2.8: 47, mit 2.9: 49, mit 3.3: 56, mit 3.4: 58, mit 3.5: 59, mit 3.6: 62, mit 3.7: 70).
+- [x] Tests erweitert (21 Prüfungen, mit 2.3: 28, mit 2.4: 33, mit 2.5: 36, mit 2.6: 41, mit 2.7: 45, mit 2.8: 47, mit 2.9: 49, mit 3.3: 56, mit 3.4: 58, mit 3.5: 59, mit 3.6: 62, mit 3.7: 70, mit 3.8: 91).
 
 ## Erledigt in Version 2.1
 - [x] Zoomen mit zwei Fingern und per Doppeltipp verhindert (Viewport, `touch-action: manipulation`, `gesturestart` abgefangen, Eingabefelder ≥ 16 px).

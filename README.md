@@ -31,7 +31,7 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
   <tr>
     <td align="center"><img src="docs/woche.jpg" width="200" alt="Woche"><br><sub><b>Woche</b> – nächste Einheit, Serie, Tagesplan</sub></td>
     <td align="center"><img src="docs/frei.jpg" width="200" alt="Ist das Gerät frei?"><br><sub><b>Gerät frei?</b> – eine Frage, zwei Knöpfe</sub></td>
-    <td align="center"><img src="docs/ersatz.jpg" width="200" alt="Ersatzübung"><br><sub><b>Besetzt</b> – Ersatz mit gleichem Reiz</sub></td>
+    <td align="center"><img src="docs/ersatz.jpg" width="200" alt="Ersatzübung"><br><sub><b>Besetzt</b> – Ersatz mit möglichst gleichem Reiz</sub></td>
     <td align="center"><img src="docs/saetze.jpg" width="200" alt="Sätze"><br><sub><b>Sätze</b> – Gewicht geschätzt, Testsatz</sub></td>
   </tr>
   <tr>

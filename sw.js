@@ -1,4 +1,4 @@
-const CACHE = "selfcare-studio-3.7";
+const CACHE = "selfcare-studio-3.8";
 const CORE = ["./", "./index.html", "./installieren.html", "./manifest.json", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(CACHE).then((c) => c.addAll(CORE))); });
 self.addEventListener("message", (e) => { if (e.data && e.data.type === "skip") self.skipWaiting(); });
@@ -8,7 +8,7 @@ self.addEventListener("fetch", (e) => {
   const url = new URL(r.url);
   if (r.mode === "navigate") {
     const key = url.pathname.endsWith("installieren.html") ? "./installieren.html" : "./index.html";
-    e.respondWith(fetch(r).then((res) => { const c = res.clone(); caches.open(CACHE).then((x) => x.put(key, c)); return res; }).catch(() => caches.match(key)));
+    e.respondWith(fetch(r).then((res) => { if (res.ok) { const c = res.clone(); caches.open(CACHE).then((x) => x.put(key, c)); return res; } return caches.match(key).then((hit) => hit || res); }).catch(() => caches.match(key)));
     return;
   }
   if (url.origin === location.origin || url.host.endsWith("fonts.googleapis.com") || url.host.endsWith("fonts.gstatic.com")) {
