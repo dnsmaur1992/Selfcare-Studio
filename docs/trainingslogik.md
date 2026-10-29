@@ -1,6 +1,6 @@
 # Selfcare Studio – Trainingslogik
 
-Stand: Version 3.1. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
+Stand: Version 3.3. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
 
 ## Plan
 - **Muskelgruppen** haben eine Größe (Po 6, Beine vorne 5, Rücken 5 …). Daraus entsteht das Volumen eines Tages in „effektiven Sätzen“, höchstens 22 pro Einheit.
@@ -18,6 +18,8 @@ Stand: Version 3.1. Diese Datei beschreibt, wie die App rechnet. Sie ist die Gru
 - „Besetzt“ gilt 10 Minuten, danach wird das Gerät wieder vorgeschlagen.
 - „Später nochmal fragen“ schiebt die Übung hinter die letzte offene Kraftübung.
 - „Gibt's hier nicht“ blendet das Hauptgerät dauerhaft aus (Profil → Geräte).
+- **Ausgeblendete Geräte in eigenen Trainingstagen** (`buildCustom`, `sameAlt`): Die Übung wird dauerhaft durch die beste vorhandene Übung ersetzt, gleiches Bewegungsmuster bevorzugt. Sie gilt dann als Original – kein „Statt …“, kein „… ist jetzt frei“. Im Trainingsplan steht der Hinweis mit „Dauerhaft ersetzen“. Im Training wird „Original ist jetzt frei“ nur angeboten, wenn das Originalgerät eingeblendet ist.
+- **Geräteliste** (`EQ_GROUPS`) nach Bereichen mit „Alle an/aus“ und Zahl der Übungen je Gerät. Neu in 3.2: Pendel-Kniebeuge, Rückenstrecker-Maschine, Rotations-Maschine, TRX, Mini-Band, Treppensteiger. TRX und Mini-Band zählen als Körpergewicht (kein Gewichtsfeld), Mini-Band ohne „Frei?“-Frage.
 - Einschränkungen (Knie, Schulter, Handgelenk) schließen belastende Übungen aus (Liste `LIMITS`).
 
 ## Gewichte
@@ -47,6 +49,9 @@ Ein Bildschirm, ein Schritt: Cardio (Gerät wählen) → Aktivierung mit Timer �
 ## Gerätefrage und Gerätezeiten
 - Keine „Frei?“-Frage bei Übungen nur mit Matte, Band oder Gymnastikball (`noAsk`). Ist so eine Übung Ersatz, wird nur angeboten: „Original ist jetzt frei“.
 - Jede Antwort „Frei“/„Besetzt“/„Später“ wird mit Gerät, Wochentag und Stunde gespeichert (`eqLog`, max. 400). Gilt ein Gerät zur gleichen Zeit (±1 Std., gleicher Wochentag, mind. 3 Antworten) zu ≥ 60 % als besetzt, rückt die Übung beim Start ans Ende.
+
+## Mini-Training
+Nur Übungen ohne Gerät (Matte). Pro Muskelgruppe des Tages die beste Übung, aufgefüllt aus `MINI_FILL`. Für alle großen Gruppen außer Bizeps gibt es eine Körpergewichtsübung (u. a. Y-Heben, enge Liegestütz, Bridge mit Fersen weit vorn).
 
 ## Mini-Aufwärmen
 Kein Cardio, keine Aufwärmsätze. 5 Mobilisations- und Dehnübungen nach Tagesart (`DAYMOB`), Zeit pro Übung so, dass es ca. 5 Min sind.
