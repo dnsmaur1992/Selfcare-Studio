@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.1">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.1">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.2">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.2">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.1">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.2">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -152,6 +152,16 @@ svg.fig .ht-p { fill: #8E6BE8; stroke: #8E6BE8; stroke-width: 2.6; stroke-lineca
 svg.fig path.ht-p[d^="M-5.4"], svg.fig path.ht-t[d^="M5.4"] { fill: none; }
 svg.fig .ht-k { fill: #2A1F30; stroke: #8E6BE8; stroke-width: .5; } svg.fig .ht-p2 { fill: #8E6BE8; }
 svg.fig .ht-ws { stroke: #FFFDFB; stroke-width: 1.6; fill: none; } svg.fig .ht-i { fill: #FFB3CC; } svg.fig .ht-h { fill: #FF4F8B; }
+.breathball { width: 210px; height: 210px; margin: 28px auto 18px; display: grid; place-items: center; }
+.breathball i { width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle at 40% 35%, color-mix(in srgb, var(--accent) 35%, var(--lav)) 0, var(--lav) 55%, color-mix(in srgb, var(--accent) 18%, var(--surface)) 100%); box-shadow: 0 0 60px var(--glow); transform: scale(.55); transition: transform 4s ease-in-out; transition-duration: inherit; }
+.breathball.in i { transform: scale(1); }
+.breathball.idle i { transform: scale(.8); animation: breathidle 10s ease-in-out infinite; }
+@keyframes breathidle { 0%, 100% { transform: scale(.7); } 40% { transform: scale(.9); } }
+@media (prefers-reduced-motion: reduce) { .breathball i { transition: none !important; animation: none !important; transform: scale(.8) !important; } }
+.splash { position: fixed; inset: 0; z-index: 110; display: grid; place-items: center; padding: 24px; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); animation: fadein .25s ease-out; }
+.splashin { max-width: 420px; width: 100%; background: var(--surface); border-radius: 24px; padding: 22px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 20px 50px rgba(0,0,0,.18); }
+.splashin h2 { margin: 0; } .splashin .link { align-self: flex-start; }
+@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
 .festline { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; line-height: 1.3; }
 .festline .motif { font-size: 30px; line-height: 1; filter: drop-shadow(0 2px 6px rgba(0,0,0,.12)); }
 .hero > :not(.deco) { position: relative; z-index: 1; }
@@ -465,8 +475,8 @@ const EQUIP = {
 const TYPES = {
   kraft: { n: "Krafttraining" },
   mini: { n: "Mini-Training", sub: "ca. 30 Min · nur Körpergewicht" },
-  pilates: { n: "Pilates", sub: "30 Min · geführt" },
-  mobility: { n: "Mobility", sub: "30 Min · geführt" },
+  pilates: { n: "Pilates", sub: "15 oder 30 Min · geführt" },
+  mobility: { n: "Mobility", sub: "15 oder 30 Min · geführt" },
   warm: { n: "Aufwärmen" },
   cool: { n: "Dehnen" },
   cardio: { n: "Cardio" },
@@ -661,11 +671,11 @@ const PAT = { ht_m: "ht", ht_smith: "ht", ht_kh: "ht", bridge: "ht", kick_kabel:
   const an = (id) => (EX.find((x) => x.id === id) || FLOW.find((x) => x.id === id)).anim;
   EX.push(
     X("pendulum", "Pendel-Kniebeuge", { quad: 0.9, po: 0.6 }, ["pendel"], { type: "c", anim: an("hack"), tips: ["Rücken fest ans Polster, Füße schulterbreit auf der Plattform.", "Langsam tief gehen, so weit es ohne Ziehen im Rücken geht.", "Über die ganze Fußsohle hochdrücken, Knie nicht ganz durchstrecken."] }),
-    X("backext_m", "Rückenstrecker an der Maschine", { ruecken: 0.6, po: 0.35, ham: 0.3 }, ["rueckenm"], { back: "mid", load: "lim", animSim: "Hyperextension", anim: an("hyper"), tips: ["Leichtes Gewicht, ruhiges Tempo – das ist Kräftigung, kein Maximaltraining.", "Nur bis zur geraden Linie aufrichten, nicht ins Hohlkreuz.", "Bauch leicht anspannen."] }),
-    X("rot_m", "Rumpfrotation an der Maschine", { bauch: 0.7 }, ["rotation"], { load: "lim", animSim: "Pallof Press", anim: an("pallof"), tips: ["Die Drehung kommt aus dem Oberkörper, das Becken bleibt ruhig.", "Langsam und kontrolliert, nicht schwungvoll.", "Beide Seiten gleich oft."] , side: true }),
-    X("trx_row", "TRX-Rudern", { ruecken: 0.8, bi: 0.3 }, ["trx"], { type: "c", load: "lim", animSim: "Rudern am Kabel", anim: an("row_kabel"), tips: ["Körper bleibt ein Brett von Kopf bis Fuß.", "Brust zu den Griffen ziehen, Schulterblätter zusammen.", "Je steiler du stehst, desto leichter."] }),
+    X("backext_m", "Rückenstrecker an der Maschine", { ruecken: 0.6, po: 0.35, ham: 0.3 }, ["rueckenm"], { back: "mid", load: "lim", anim: { v: "side", A: { hip: [64, 76], t: 44, f1: [96, 99], h1: [78, 50], kp: [0, -1], ep: [1, 0.4] }, B: { t: -6, h1: [60, 50] }, props: [{ k: "rect", x: 50, y: 78, w: 30, h: 3 }, { k: "line", x1: 62, y1: 81, x2: 62, y2: 100, w: 3 }, { k: "line", x1: 48, y1: 34, x2: 48, y2: 100, w: 3 }, { k: "circ", cx: 54, cy: 42, r: 4.5 }] }, tips: ["Leichtes Gewicht, ruhiges Tempo – das ist Kräftigung, kein Maximaltraining.", "Nur bis zur geraden Linie aufrichten, nicht ins Hohlkreuz.", "Bauch leicht anspannen."] }),
+    X("rot_m", "Rumpfrotation an der Maschine", { bauch: 0.7 }, ["rotation"], { load: "lim", anim: { v: "front", A: { hip: [80, 70], hw: 6, sw: 9, t: 0, f1: [92, 99], f2: [68, 99], h1: [85, 50], h2: [75, 50], kp1: [1, -0.6], kp2: [-1, -0.6], ep1: [0.7, 1], ep2: [-0.7, 1] }, B: { sw: 5, t: 3, h1: [97, 50], h2: [89, 50] }, props: [{ k: "rect", x: 64, y: 72, w: 32, h: 3 }, { k: "line", x1: 80, y1: 75, x2: 80, y2: 100, w: 3 }] }, tips: ["Die Drehung kommt aus dem Oberkörper, das Becken bleibt ruhig.", "Langsam und kontrolliert, nicht schwungvoll.", "Beide Seiten gleich oft."] , side: true }),
+    X("trx_row", "TRX-Rudern", { ruecken: 0.8, bi: 0.3 }, ["trx"], { type: "c", load: "lim", anim: { v: "side", A: { hip: [68, 72], t: -40, f1: [104, 99], h1: [86, 22], kp: [1, 0], ep: [1, 0.4] }, B: { hip: [72, 66], t: -26, h1: [70, 34], ep: [-1, 0.6] }, props: [{ k: "line", x1: 104, y1: -14, x2: 104, y2: -10, w: 4 }, { k: "cable", from: [104, -10], to: "h1" }] }, tips: ["Körper bleibt ein Brett von Kopf bis Fuß.", "Brust zu den Griffen ziehen, Schulterblätter zusammen.", "Je steiler du stehst, desto leichter."] }),
     X("trx_squat", "TRX-Kniebeuge", { quad: 0.65, po: 0.55 }, ["trx"], { type: "c", load: "lim", anim: an("bwsquat"), tips: ["Griffe halten nur zur Sicherheit, die Arbeit machen die Beine.", "Weit nach hinten setzen, Brust bleibt oben.", "Gut für den Einstieg, wenn freie Kniebeugen noch wackeln."] }),
-    X("trx_press", "TRX-Brustpresse", { brust: 0.65, tri: 0.3 }, ["trx"], { type: "c", load: "lim", animSim: "Liegestütz an der Bank", anim: an("pushup_incline"), tips: ["Körper gerade, Bauch fest.", "Langsam nach vorn sinken, Ellbogen etwa 45° vom Körper.", "Je steiler du stehst, desto leichter."] }),
+    X("trx_press", "TRX-Brustpresse", { brust: 0.65, tri: 0.3 }, ["trx"], { type: "c", load: "lim", anim: { v: "side", A: { hip: [70, 62], t: 28, f1: [54, 99], h1: [108, 36], kp: [1, 0], ep: [-1, 0.6] }, B: { hip: [76, 66], t: 42, h1: [104, 44] }, props: [{ k: "line", x1: 30, y1: -14, x2: 30, y2: -10, w: 4 }, { k: "cable", from: [30, -10], to: "h1" }] }, tips: ["Körper gerade, Bauch fest.", "Langsam nach vorn sinken, Ellbogen etwa 45° vom Körper.", "Je steiler du stehst, desto leichter."] }),
     X("ham_bridge", "Bridge mit Fersen weit vorn", { ham: 0.65, po: 0.5 }, ["matte"], { load: "lim", anim: an("bridge"), tips: ["Fersen weit weg vom Po aufstellen, nur auf die Fersen drücken.", "Hüfte heben, bis Knie, Hüfte und Schultern eine Linie bilden.", "Langsam ablassen – das trifft die Beinrückseite."] }),
     X("yraise", "Y-Heben in Bauchlage", { schulter: 0.6, ruecken: 0.45 }, ["matte"], { load: "lim", anim: an("superman"), tips: ["Arme in Y-Form nach vorn, Daumen zeigen nach oben.", "Arme und Brust nur leicht abheben, Blick bleibt zum Boden.", "Schulterblätter nach hinten unten ziehen, 2 Sekunden halten."] }),
     X("pushup_tri", "Enge Liegestütz (auch auf Knien)", { tri: 0.65, brust: 0.45 }, ["matte"], { type: "c", load: "lim", anim: an("pushup"), tips: ["Hände schulterbreit oder enger, Ellbogen nah am Körper.", "Auf den Knien ist es leichter – genauso wirksam für den Anfang.", "Körper bleibt gerade, Bauch fest."] }),
@@ -712,11 +722,16 @@ function wHint(x) {
   if (x.eq.includes("kabel")) return "Wie am Steckgewicht angezeigt.";
   return "";
 }
-const S_VERSION = "4.1";
-const NEWS = { v: "4.1", items: [
+const S_VERSION = "4.2";
+const NEWS = { v: "4.2", items: [
+  ["Pilates & Mobility mit Themen", "Jetzt je vier Varianten – z. B. „Bauch & Mitte“, „Schultern & Nacken“ oder „Abends runterfahren“ – mit 15 neuen Positionen. Die Themen wechseln sich ab, und du wählst 15 oder 30 Minuten."],
+  ["Ruhige Phase & Atemübung", "Ist gerade alles zu viel? Unter „Pause“ startest du eine ruhige Phase: sanfte Einheiten statt Kraft, ohne Druck, die Serie bleibt. Dazu eine geführte Atemübung auf der Startseite."],
+  ["Kleinigkeiten", "Eigene Animationen für TRX-Rudern, TRX-Brustpresse, Rumpfrotation und Rückenstrecker-Maschine. Beim Start ein kurzer Tipp, und unter Darstellung die Wahl zwischen einfacher und ausführlicher Ansicht."],
+], old: [
+  { v: "4.1", items: [
   ["Übungen suchen", "Ganz oben unter „Übungen“ und beim Zusammenstellen deines Plans: einfach tippen, z. B. „Hip Thrust“, „Rücken Kabel“ oder „Pilates“. Gefunden wird nach Name, Muskel und Gerät."],
   ["Schönerer Start für neue Nutzerinnen", "Kürzere Einrichtung, ein Willkommens-Moment und ein gefeiertes erstes Training. Die ersten zwei Einheiten sind etwas leichter."],
-], old: [
+] },
   { v: "4.0", items: [
   ["Deine Figur geht mit der Jahreszeit", "Im Winter Mütze und lange Ärmel, im Frühling T-Shirt, im Sommer Top und kurze Hose. Dazu Blüten, Blätter oder Schnee auf der Startseite."],
   ["Feste & Geburtstag", "Grüße und kleine Überraschungen zu Weihnachten, Silvester, Karneval, Ostern, Halloween, Sankt Martin und Festen anderer Kulturen. Trag unter Profil → Du &amp; deine Figur deinen Geburtstag ein – dann gibt's Konfetti, einen Partyhut und ein eigenes Abzeichen."],
@@ -801,6 +816,29 @@ const NEWS = { v: "4.1", items: [
     ["Selfcare Studio", "Training nach Muskelgruppen mit Ausweichübungen, Animationen, Mini-Training, Pilates und Mobility, Verlauf und Backup."],
   ] },
 ] };
+/* Weitere Pilates- und Mobility-Positionen (4.2) für die Themen-Varianten */
+{
+  const an = (id) => (EX.find((x) => x.id === id) || FLOW.find((x) => x.id === id)).anim;
+  const QUAD = { hip: [60, 68], t: 88, f1: [38, 99], h1: [94, 99], kp: [1, 1], ep: [1, 0] };
+  const noBand = (a) => Object.assign({}, a, { props: (a.props || []).filter((p) => p.k !== "band") });
+  FLOW.push(
+    F("p_toetap", "Toe Taps", "pilates", "torso", { v: "side", A: { ...LY, f1: [84, 74], f2: [84, 74], h1: [48, 99], kp: [0, -1] }, B: { f1: [100, 97] }, props: mat }, ["Knie über der Hüfte, Unterschenkel waagerecht.", "Abwechselnd eine Fußspitze zum Boden tippen.", "Der untere Rücken bleibt am Boden."]),
+    F("p_deadbug", "Dead Bug", "pilates", "torso", an("deadbug"), ["Unterer Rücken bleibt am Boden.", "Gegengleich Arm und Bein langsam strecken, ausatmen."]),
+    F("p_birddog", "Vierfüßler-Strecken", "pilates", "torso", { v: "side", A: { ...QUAD, f2: [38, 99], kp2: [1, 1] }, B: { f1: [20, 66], kp1: [0, -1], h1: [126, 62], h2: [94, 99] }, props: mat }, ["Gegengleich Arm und Bein lang machen.", "Becken bleibt waagerecht, kein Hohlkreuz."], true),
+    F("p_clam", "Muschel (Seitlage)", "pilates", "hip", noBand(an("clam")), ["Fersen bleiben zusammen.", "Oberes Knie öffnen, Becken kippt nicht nach hinten."], true),
+    F("p_sidelift", "Bein heben in Seitlage", "pilates", "thigh", an("sidelift"), ["Becken stabil, Ferse führt.", "Langsam heben und senken."], true),
+    F("p_superman", "Rückenstrecker in Bauchlage", "pilates", "torso", an("superman"), ["Nur leicht abheben, Blick zum Boden.", "Lang machen statt hoch."]),
+    F("p_saw", "Säge", "pilates", "torso", { v: "side", A: { hip: [48, 95], t: -4, f1: [92, 98], h1: [80, 58], h2: [16, 58], kp: [0, -1] }, B: { t: 44, h1: [110, 96], h2: [30, 46] }, props: mat }, ["Aufrecht sitzen, Beine etwas gegrätscht.", "Oberkörper drehen und mit der Hand Richtung kleiner Zeh sägen.", "Ausatmen beim Vorbeugen."], true),
+    F("m_thread", "Faden einfädeln", "mobility", "torso", { v: "side", A: { ...QUAD }, B: { t: 98, h1: [72, 98] }, props: mat }, ["Vierfüßlerstand.", "Einen Arm unter dem Körper durchschieben, Schulter sinkt Richtung Boden.", "Blick folgt der Hand."], true),
+    F("m_side", "Seitbeuge im Stehen", "mobility", "torso", { v: "front", A: { hip: [80, 57], hw: 5, sw: 9, t: 0, f1: [88, 99], f2: [72, 99], h1: [92, -10], h2: [70, 58], ep1: [1, 0] }, B: { t: -18, h1: [56, -6] } }, ["Arm lang über den Kopf.", "Zur Seite neigen, nicht nach vorn kippen.", "Ruhig in die Flanke atmen."], true),
+    F("m_neck", "Nacken sanft dehnen", "mobility", "shoulder", { v: "front", A: { hip: [80, 57], hw: 5, sw: 9, t: 0, f1: [86, 99], f2: [74, 99], h1: [96, 58], h2: [64, 58] }, B: { h2: [78, 6], ep2: [-1, -0.2] } }, ["Ohr Richtung Schulter neigen.", "Die Hand liegt nur locker auf, nicht ziehen.", "Gegenüberliegende Schulter sinkt nach unten."], true),
+    F("m_twist", "Liegender Drehsitz", "mobility", "hip", { v: "side", A: { ...LY, f1: [90, 98], f2: [90, 98], h1: [44, 99], kp: [0, -1] }, B: { f1: [98, 95], f2: [98, 95], kp: [1, -0.35] }, props: mat }, ["Rückenlage, Knie angewinkelt.", "Beide Knie langsam zur Seite sinken lassen, Schultern bleiben am Boden.", "Kopf darf zur Gegenseite schauen."], true),
+    F("m_kneehug", "Knie zur Brust", "mobility", "hip", { v: "side", A: { ...LY, f1: [76, 70], f2: [76, 70], h1: [70, 74], kp: [0, -1] }, B: { f1: [68, 64], f2: [68, 64], h1: [62, 68] }, props: mat }, ["Beide Knie sanft zur Brust ziehen.", "Unterer Rücken darf rund werden.", "Leicht hin und her schaukeln tut gut."]),
+    F("m_happy", "Happy Baby", "mobility", "hip", { v: "side", A: { ...LY, f1: [76, 56], f2: [76, 56], h1: [72, 58], kp: [0.5, -1] }, B: { f1: [74, 52], f2: [74, 52], h1: [70, 54] }, props: mat }, ["Füße von außen fassen, Knie Richtung Achseln.", "Steißbein bleibt Richtung Boden.", "Wenn die Hände nicht hinkommen: an den Kniekehlen halten."]),
+    F("m_legswall", "Beine an der Wand", "mobility", "thigh", { v: "side", A: { hip: [70, 95], t: -92, f1: [72, 50], h1: [48, 99] }, B: { hip: [70, 94] }, props: [...mat, ...post(78)] }, ["Po nah an die Wand, Beine hoch.", "Arme locker neben dem Körper.", "Einfach liegen und ruhig atmen."]),
+    F("m_breathe", "Entspannt atmen in Rückenlage", "mobility", "torso", { v: "side", A: { ...LY, f1: [94, 98], h1: [62, 88], kp: [0, -1], ep: [0, -1] }, B: { hip: [64, 93.5] }, props: mat }, ["Knie aufgestellt, Hände auf dem Bauch.", "Durch die Nase einatmen, den Bauch heben lassen.", "Langsam länger ausatmen als einatmen."]),
+  );
+}
 const ALLX = [...EX, ...FLOW];
 const EXM = Object.fromEntries(ALLX.map((x) => [x.id, x]));
 const primary = (ex) => Object.entries(ex.m).sort((a, b) => b[1] - a[1])[0]?.[0];
@@ -993,7 +1031,7 @@ function normalizeState(st, notes) {
   pick("outfit", (v) => v === "custom" || OUTFITS.some((o) => o.id === v), undefined, "Outfit");
   pick("dayType", (v) => !!DAYMOB[v], undefined, "Tagesform");
   pick("music", (v) => typeof v === "string" && (v === "" || /^https?:\/\/[^\s"'<>]{1,500}$/.test(v)), "", "Musik-Link");
-  ["backCare", "voice", "zoom", "setup", "heavy", "design"].forEach((k) => pick(k, (v) => typeof v === "boolean", undefined, k === "setup" ? "Einrichtung" : "Schalter"));
+  ["backCare", "voice", "zoom", "setup", "heavy", "design", "simple", "tips"].forEach((k) => pick(k, (v) => typeof v === "boolean", undefined, k === "setup" ? "Einrichtung" : "Schalter"));
   const hex = (v) => typeof v === "string" && /^#[0-9a-fA-F]{6}$/.test(v);
   if (st.outfitCustom != null) st.outfitCustom = Object.fromEntries(Object.entries(obj(st.outfitCustom)).filter(([k, v]) => ["top", "legs", "shoe"].includes(k) && hex(v)));
   if (st.hair != null) { const h = obj(st.hair); st.hair = {}; if (HAIRS.some(([k]) => k === h.style)) st.hair.style = h.style; if (hex(h.color)) st.hair.color = h.color; }
@@ -1003,6 +1041,8 @@ function normalizeState(st, notes) {
   if (st.focus) { st.focus.base = Object.fromEntries(Object.entries(obj(st.focus.base)).filter(([k, v]) => EXM[k] && Number.isFinite(v))); if (st.focus.meas != null && !(st.focus.meas && isDate(st.focus.meas.d))) st.focus.meas = null; }
   if (st.pause != null && !(st.pause && PAUSE_WHY[st.pause.why] && isDate(st.pause.from))) { st.pause = null; c.set.push("Pause"); }
   st.pauses = arr(st.pauses).filter((p) => p && PAUSE_WHY[p.why] && isDate(p.from) && (p.to == null || isDate(p.to))).slice(-20);
+  if (st.calm != null && !(st.calm && isDate(st.calm.from))) { st.calm = null; c.set.push("Ruhige Phase"); }
+  if (st.calms != null) st.calms = arr(st.calms).filter((p) => p && isDate(p.from) && isDate(p.to)).slice(-20);
   if (st.ramp != null && !isDate(st.ramp)) st.ramp = null;
   if (st.rescued != null && !(st.rescued && typeof st.rescued === "object" && isDate(st.rescued.at))) delete st.rescued;
   /* Laufende Einheit: nur übernehmen, wenn sie vollständig lesbar ist – sonst unverändert beiseitelegen statt löschen. */
@@ -1247,16 +1287,40 @@ function buildMini(groups, day) {
   items.forEach((it) => delete it.core);
   return items;
 }
-function buildFlow(cat) {
-  const list = FLOW.filter((f) => f.cat === cat);
-  const blocks = [];
-  const rounds = cat === "pilates" ? 2 : 1;
+/* Themen für Pilates und Mobility (4.2): wechseln sich ab, damit die Einheiten nicht jedes Mal gleich sind. */
+const FLOW_THEMES = {
+  pilates: [
+    { k: "klassik", n: "Klassisch", sub: "Die Pilates-Grundübungen", ids: ["p_hundred", "p_rollup", "p_single", "p_bridge", "p_swim", "p_sidekick", "p_spine", "p_swan", "p_plank", "p_circles"] },
+    { k: "mitte", n: "Bauch & Mitte", sub: "Tiefe Bauchmuskeln, ruhiger Rücken", ids: ["p_hundred", "p_toetap", "p_deadbug", "p_single", "p_rollup", "p_birddog", "p_plank", "p_spine"] },
+    { k: "po", n: "Po & Beine", sub: "Brücke, Seitlage, Vierfüßler", ids: ["p_bridge", "p_clam", "p_sidelift", "p_sidekick", "p_birddog", "p_circles", "p_swim", "m_child"] },
+    { k: "ruecken", n: "Rücken & Haltung", sub: "Aufrichten, strecken, lockern", ids: ["m_catcow", "p_swan", "p_superman", "p_swim", "p_birddog", "p_saw", "p_spine", "m_child"] },
+  ],
+  mobility: [
+    { k: "klassik", n: "Ganzkörper", sub: "Von Kopf bis Fuß beweglich", ids: ["m_catcow", "m_hipflex", "m_wgs", "m_9090", "m_openbook", "m_child", "m_arms", "m_squat", "m_fig4", "m_ham", "m_calf"] },
+    { k: "huefte", n: "Hüfte & Rücken", sub: "Gut nach viel Sitzen", ids: ["m_catcow", "m_9090", "m_hipflex", "m_fig4", "m_squat", "m_twist", "m_kneehug", "m_child"] },
+    { k: "schulter", n: "Schultern & Nacken", sub: "Löst Verspannungen oben", ids: ["m_arms", "m_neck", "m_side", "m_thread", "m_openbook", "str_chest", "m_catcow", "m_child"] },
+    { k: "abends", n: "Abends runterfahren", sub: "Sanft und ruhig, zum Abschalten", ids: ["m_catcow", "m_child", "m_kneehug", "m_twist", "m_happy", "m_fig4", "m_legswall", "m_breathe"] },
+  ],
+};
+const flowTheme = (cat, k) => (FLOW_THEMES[cat] || []).find((t) => t.k === k) || (FLOW_THEMES[cat] || [])[0];
+/* Nächstes Thema: das nach dem zuletzt gemachten (Wechsel) */
+function nextTheme(cat) {
+  const L = FLOW_THEMES[cat]; const last = [...S.sessions].reverse().find((x) => x.flow && x.type === cat && x.theme);
+  if (!last) return L[0].k; const i = L.findIndex((t) => t.k === last.theme); return L[(i + 1) % L.length].k;
+}
+function buildFlow(cat, theme, min) {
+  const th = flowTheme(cat, theme); const list = th.ids.map((id) => FLOW.find((f) => f.id === id)).filter(Boolean);
+  const short = min === 15; const blocks = [];
+  const one = list.reduce((a, f) => a + (f.side ? 2 : 1), 0);
+  /* Pilates 30 Min: zwei Runden. Mobility: eine Runde, außer die Positionen reichen nicht für 30 Min (höchstens 90 Sek. halten). */
+  const rounds = short ? 1 : cat === "pilates" || one * 105 < 1740 * 0.85 ? 2 : 1;
   for (let r = 0; r < rounds; r++) list.forEach((f) => { if (f.side) { blocks.push({ ex: f.id, side: "links" }); blocks.push({ ex: f.id, side: "rechts" }); } else blocks.push({ ex: f.id, side: "" }); });
   const gap = 15;
-  const sec = Math.max(40, Math.min(90, Math.round((1740 / blocks.length - gap) / 5) * 5));
+  const sec = Math.max(short ? 30 : 40, Math.min(90, Math.round(((short ? 840 : 1740) / blocks.length - gap) / 5) * 5));
   blocks.forEach((b) => (b.sec = sec));
   return blocks;
 }
+const flowMin = (blocks) => Math.max(1, Math.round(blocks.reduce((a, b) => a + b.sec + 15, 0) / 60));
 const estMin = (items, mini) => Math.round((mini ? 1 : 3) + items.reduce((a, it) => { const x = EXM[it.ex]; if (!x) return a; const rest = mini ? miniRest() : x.type === "c" ? S.restC : S.restI; return a + it.sets * ((x.side ? 1.4 : 0.75) + rest / 60); }, 0));
 
 /* ---------------- Woche ---------------- */
@@ -1361,7 +1425,7 @@ function weekBanner() {
   const wk = thisWeek(); const lf = loadFactor(); const parts = [];
   if (wk.deload && !wk.skipDeload) parts.push(`<div class="card" style="background:var(--lav);gap:6px"><b style="color:var(--lav-ink)">Entlastungswoche</b><span class="small" style="color:var(--lav-ink)">${wk.deload === "rpe" ? "Deine letzten Einheiten waren sehr anstrengend." : "Nach einigen Wochen Training ist eine leichtere Woche dran."} Diese Woche gibt es etwa 40 % weniger Sätze bei gleichen Gewichten. So kann dein Körper aufholen und danach weiter zulegen.</span><button class="small link" style="align-self:flex-start;color:var(--lav-ink)" data-a="skipdeload">Diese Woche doch normal trainieren</button></div>`);
   else if (wk.comeback) parts.push(`<div class="card" style="background:var(--mint);gap:6px"><b style="color:var(--mint-ink)">Willkommen zurück</b><span class="small" style="color:var(--mint-ink)">Nach einer Pause startet diese Woche mit etwas weniger Sätzen. Nächste Woche geht es normal weiter.</span></div>`);
-  if (!wk.mood && S.sessions.length) parts.push(`<div class="card" style="gap:10px"><b>Wie wird deine Woche?</b><div class="seg"><button data-a="mood" data-m="relax">Entspannt</button><button data-a="mood" data-m="normal">Normal</button><button data-a="mood" data-m="stress">Stressig</button></div><span class="small muted">Bei einer stressigen Woche wird das Training etwas leichter. Freiwillig.</span></div>`);
+  if (!wk.mood && S.sessions.length && !S.simple) parts.push(`<div class="card" style="gap:10px"><b>Wie wird deine Woche?</b><div class="seg"><button data-a="mood" data-m="relax">Entspannt</button><button data-a="mood" data-m="normal">Normal</button><button data-a="mood" data-m="stress">Stressig</button></div><span class="small muted">Bei einer stressigen Woche wird das Training etwas leichter. Freiwillig.</span></div>`);
   return parts.join("");
 }
 function formCard() {
@@ -1673,26 +1737,39 @@ const pauseNow = () => !!(S.pause && !S.pause.to);
 /* Wochen, die (teilweise) in einer Pause lagen, unterbrechen die Serie nicht. */
 function pausedWeeks() {
   const out = new Set();
-  (S.pauses || []).concat(S.pause ? [S.pause] : []).forEach((p) => {
+  (S.pauses || []).concat(S.pause ? [S.pause] : [], S.calms || [], S.calm ? [S.calm] : []).forEach((p) => {
     const a = new Date(p.from); const b = p.to ? new Date(p.to) : new Date();
     for (let d = new Date(a); d <= b; d.setDate(d.getDate() + 1)) out.add(weekKey(d));
   });
   return out;
 }
 function rampLeft() { if (!S.ramp) return 0; const d = Math.ceil((new Date(S.ramp) - Date.now()) / 864e5); return d > 0 ? d : 0; }
+/* Ruhige Phase: statt Kraft sanfte Einheiten, keine verpassten Einheiten, die Wochenserie bleibt. Für Wochen, in denen alles zu viel ist. */
+const calmNow = () => !!(S.calm && !S.calm.to);
+function calmCard() {
+  if (!calmNow()) return "";
+  const days = Math.max(1, Math.floor((Date.now() - new Date(S.calm.from)) / 864e5) + 1); const nx = nextSlot(thisWeek());
+  return `<div class="card hero" style="gap:10px"><span class="eyebrow">Ruhige Phase · Tag ${days}</span><div class="big">Sanft statt <em>Kraft</em>.</div>
+    <p class="muted">Keine Pflicht, kein Druck: Deine Krafteinheiten werden zu ruhigen Mobility- oder Pilates-Einheiten. Die Wochenserie bleibt erhalten.</p>
+    ${nx ? `<button class="btn" data-a="start" data-s="${nx.id}">Sanfte Einheit (15 Min)</button>` : ""}
+    <button class="btn line" data-a="breathe">🌬️ Kurz durchatmen</button>
+    <button class="small link" style="align-self:flex-start;color:var(--muted)" data-a="calmend">Ruhige Phase beenden</button></div>`;
+}
 function pauseCard() {
   if (!pauseNow()) return "";
   const [n, wish] = PAUSE_WHY[S.pause.why] || PAUSE_WHY.ill;
   return `<div class="card hero" style="gap:10px"><span class="eyebrow">Pause · ${n}</span><div class="big">Dein Plan <em>ruht</em>.</div><p class="muted">Seit ${dLong(new Date(S.pause.from))}. ${wish} Deine Wochenserie bleibt erhalten.</p><button class="btn" data-a="pauseend">Pause beenden</button></div>`;
 }
 function pauseSheet() {
-  return `<h2>Pause <em>eintragen</em></h2><p class="small muted">Während einer Pause ruht der Plan und die Wochenserie bleibt erhalten. Danach startet die App eine Woche lang etwas leichter.</p>
+  return `<h2>Pause <em>eintragen</em></h2>
+    ${calmNow() ? "" : `<button class="opt" data-a="calmstart" style="background:var(--lav)"><b style="color:var(--lav-ink)">🌿 Ruhige Phase</b><span class="small" style="color:var(--lav-ink)">Alles gerade zu viel? Statt Kraft gibt es sanfte Mobility- und Pilates-Einheiten, dazu Atemübungen. Ohne Druck, die Serie bleibt.</span></button>`}
+    <p class="small muted">Oder eine echte Pause: Der Plan ruht und die Wochenserie bleibt erhalten. Danach startet die App eine Woche lang etwas leichter.</p>
     <div class="stack">${Object.entries(PAUSE_WHY).map(([k, [n]]) => `<button class="opt" data-a="pausestart" data-k="${k}"><b>${n}</b></button>`).join("")}</div>
     <button class="btn ghost" data-a="sheetclose">Abbrechen</button>`;
 }
 /* Verpasste Einheiten dieser Woche: Nachholen oder Auslassen (mit Rückgängig). */
 function missedSlots() {
-  if (pauseNow()) return [];
+  if (pauseNow() || calmNow()) return [];
   const wk = thisWeek(); const today = wdOf(new Date());
   return wk.slots.filter((s) => s.wd && s.wd < today && !slotDone(s) && !s.skipped && !s.missedOk && !(S.since && dayKey(addDays(mondayOf(new Date()), s.wd - 1)) < S.since));
 }
@@ -2292,6 +2369,57 @@ function tabbar() {
 const chipG = (g) => `<span class="chip tag g">${esc(GROUPS[g]?.n || g)}</span>`;
 const typeChip = (type) => `<span class="chip tag ${type === "kraft" ? "on" : type === "mini" ? "busy" : "calm"}" style="${type === "mini" ? "text-decoration:none" : ""}">${TYPES[type].n}</span>`;
 
+/* Geführte Atemübung: 4 Sek. ein, 6 Sek. aus (etwa 6 Atemzüge pro Minute) – langsames, verlängertes Ausatmen beruhigt. */
+const BREATH = { in: 4, out: 6 };
+function vBreathe() {
+  const B = U.breath || { min: 4 }; const tot = B.min * 60;
+  if (!B.run) return `<div class="wrap"><button class="link" style="text-align:left" data-a="tab" data-v="home">‹ Woche</button>
+    <div class="stack" style="gap:6px"><span class="eyebrow">Atemübung</span><h1>Kurz <em>durchatmen</em>.</h1><p class="muted">${B.done ? "Schön, dass du dir die Zeit genommen hast. Spür kurz nach, wie es dir jetzt geht." : "4 Sekunden ein, 6 Sekunden aus. Das längere Ausatmen hilft dem Körper, runterzufahren. Setz oder leg dich bequem hin."}</p></div>
+    <div class="breathball idle" aria-hidden="true"><i></i></div>
+    <div class="seg">${[2, 4, 6].map((m) => `<button class="${B.min === m ? "on" : ""}" data-a="breathmin" data-k="${m}">${m} Min</button>`).join("")}</div>
+    <p class="small muted">Bei Schwindel einfach normal weiteratmen. Bei Atemnot oder Herzrasen bitte ärztlich abklären.</p></div>
+    <div class="actionbar"><div class="in"><button class="btn" data-a="breathgo">${B.done ? "Noch einmal" : "Starten"}</button></div></div>`;
+  return `<div class="wrap" style="text-align:center"><div class="row between"><span class="eyebrow">Atemübung · ${B.min} Min</span><span class="small muted num" id="brt">${fmtClock(tot)}</span></div>
+    <div class="breathball" id="bball" aria-hidden="true"><i></i></div>
+    <h1 id="btx" style="font-size:30px" aria-live="polite">Einatmen</h1><p class="small muted">Durch die Nase ein, langsam durch Mund oder Nase aus.</p></div>
+    <div class="actionbar"><div class="in"><button class="btn ghost" data-a="breathstop">Beenden</button></div></div>`;
+}
+const fmtClock = (s) => `${Math.floor(s / 60)}:${String(Math.max(0, Math.floor(s % 60))).padStart(2, "0")}`;
+function breathTick() {
+  const B = U.breath; if (!B || !B.run || U.view !== "breathe") return;
+  const t = (Date.now() - B.start) / 1000; const tot = B.min * 60; const cyc = BREATH.in + BREATH.out;
+  if (t >= tot) { B.run = false; B.done = true; gong(); say("Fertig. Schön gemacht."); render(); return; }
+  const k = t % cyc; const ph = k < BREATH.in ? "in" : "out";
+  const el = document.getElementById("brt"); if (el) el.textContent = fmtClock(tot - t);
+  if (ph !== B.ph) { B.ph = ph; const ball = document.getElementById("bball"), tx = document.getElementById("btx");
+    if (ball) { ball.style.transitionDuration = (ph === "in" ? BREATH.in : BREATH.out) + "s"; ball.classList.toggle("in", ph === "in"); }
+    if (tx) tx.textContent = ph === "in" ? "Einatmen" : "Ausatmen";
+    if (t < cyc * 2) say(ph === "in" ? "Einatmen" : "Ausatmen"); }
+}
+/* Tipp beim Start (aus Ringzeit): kurz, überspringbar, abschaltbar. Belegt durch die Artikel unter „Zum Lesen“. */
+const TIPS = [
+  ["Zweimal pro Woche Kraft", "Die WHO empfiehlt Erwachsenen an mindestens zwei Tagen pro Woche muskelkräftigendes Training – für alle großen Muskelgruppen.", "ab40"],
+  ["Muskelkater ist kein Gradmesser", "Ob ein Training wirkt, zeigt sich daran, dass Gewicht oder Wiederholungen über die Wochen steigen – nicht am Muskelkater.", "mythen"],
+  ["Die letzten Wiederholungen zählen", "Für Muskelaufbau ist die Anstrengung wichtiger als das genaue Gewicht: Die letzten 2–3 Wiederholungen eines Satzes dürfen fordernd sein.", "mythen"],
+  ["Schlaf ist Training", "Stärker wird der Körper in der Erholung. Sieben Stunden Schlaf und mehr sind für Erwachsene empfohlen.", "schlaf"],
+  ["Kraft für die Knochen", "Krafttraining setzt Reize, die Knochen brauchen – gerade rund um die Wechseljahre, wenn die Knochendichte leichter abnimmt.", "ab40"],
+  ["Ausatmen bei der Anstrengung", "Atme beim schweren Teil der Bewegung aus und halte die Luft nicht an. Das hält den Blutdruck ruhiger.", null],
+  ["Langsam runter", "Die bremsende Phase (runter) bewusst 2–3 Sekunden lang machen: mehr Kontrolle, weniger Schwung, schonender für Gelenke.", null],
+  ["Rücken schonen heißt nicht schonen", "Ein kräftiger Rumpf entlastet den Rücken. Wichtig ist eine saubere Haltung, nicht möglichst wenig Bewegung.", "ruecken"],
+  ["Entlastung gehört dazu", "Eine leichtere Woche ab und zu baut Müdigkeit ab – danach geht es oft besser weiter.", "deload"],
+  ["Besetzt? Kein Problem", "Ist ein Gerät belegt, tippe auf „Besetzt“: Die Ersatzübung trifft den Muskel möglichst ähnlich, die Sätze werden umgerechnet.", "ersatz"],
+  ["Trinken nicht vergessen", "Eine Wasserflasche im Studio hilft – besonders bei langen Einheiten und im Sommer.", null],
+  ["Durchatmen hilft", "Langsames Atmen mit längerem Ausatmen kann helfen, nach einem vollen Tag runterzukommen. Probier die Atemübung auf der Startseite.", null],
+];
+function splashShow() {
+  if (S.tips === false || !S.setup || S.active || U.view !== "home" || document.getElementById("splash")) return;
+  const i = (S.tipIdx || 0) % TIPS.length; S.tipIdx = i + 1; save(); const [t, d, r] = TIPS[i];
+  const el = document.createElement("div"); el.id = "splash"; el.className = "splash"; el.setAttribute("role", "dialog");
+  el.innerHTML = `<div class="splashin"><span class="eyebrow">Selfcare Studio · Tipp</span><h2>${esc(t)}</h2><p class="muted">${esc(d)}</p>${r ? `<button class="small link" data-a="read" data-k="${r}">Mehr dazu lesen</button>` : ""}<button class="btn" data-a="splashok">Los geht's</button><span class="small muted">Tippen zum Überspringen · abschaltbar unter Darstellung</span></div>`;
+  document.body.appendChild(el);
+  el.addEventListener("click", (e) => { if (!e.target.closest("[data-a=read]")) { e.stopPropagation(); el.remove(); } else el.remove(); });
+  setTimeout(() => el.remove(), 6000);
+}
 /* Willkommens-Moment nach der Einrichtung: Figur im Jahreszeiten-Outfit, Plan in einem Satz, Sicherheit kurz, Tour freiwillig. */
 function vWelcome() {
   const wk = thisWeek(); const nx = nextSlot(wk); const n = S.days.filter((d) => (d.type || "kraft") === "kraft").length;
@@ -2321,6 +2449,7 @@ function vHome() {
   const krafts = wk.slots.filter((s) => s.type === "kraft"); const kDone = krafts.filter(slotDone).length;
   let hero = "";
   if (pauseNow()) hero = pauseCard();
+  else if (calmNow() && !S.active) hero = calmCard();
   else if (S.active) {
     hero = `<div class="card hero"><span class="eyebrow">Läuft gerade</span><div class="big">${esc(S.active.name)}</div><button class="btn" data-a="resume">Weiter trainieren</button></div>`;
   } else if (nx) {
@@ -2371,8 +2500,9 @@ function vHome() {
     <div class="list week">${rows.join("")}</div>
     <p class="small muted">Tippe eine Einheit an, um sie zu starten oder auf einen anderen Tag zu schieben.</p>
     ${openK >= 2 ? `<button class="link" style="text-align:left" data-a="less">Weniger Zeit diese Woche? Einheiten zusammenlegen</button>` : ""}
-    ${pauseNow() ? "" : `<button class="link" style="text-align:left;color:var(--muted)" data-a="pauseopen">Krank, verletzt oder im Urlaub? Pause eintragen</button>`}
-    ${lastSessionCard()}
+    <button class="link" style="text-align:left" data-a="breathe">🌬️ Kurz durchatmen – geführte Atemübung</button>
+    ${pauseNow() || calmNow() ? "" : `<button class="link" style="text-align:left;color:var(--muted)" data-a="pauseopen">Krank, im Urlaub oder alles zu viel? Pause oder ruhige Phase</button>`}
+    ${S.simple ? "" : lastSessionCard()}
   </div>`;
 }
 function unitBtn(s) {
@@ -2414,7 +2544,9 @@ function lastSessionCard() {
 /* --- Einheit vorbereiten --- */
 function startSetup(slotId, mode) {
   const wk = thisWeek(); const slot = wk.slots.find((s) => s.id === slotId); if (!slot) return;
-  if (slot.type === "pilates" || slot.type === "mobility") return startFlow(slot);
+  if (slot.type === "pilates" || slot.type === "mobility") return openFlowSheet(slot, slot.type);
+  /* Ruhige Phase: statt Kraft eine sanfte Einheit */
+  if (calmNow() && slot.type === "kraft" && !mode) return openFlowSheet(slot, "mobility");
   U.setup = { slotId, mode: slot.type === "mini" ? "mini" : mode || "normal", busy: [] };
   go("setup");
 }
@@ -2454,7 +2586,7 @@ function vSetup() {
     ${mini ? `<div class="card" style="background:var(--warn-soft)"><p style="color:var(--warn)"><b>Für Tage mit wenig Energie.</b> Nur Körpergewicht, ${(() => { const r = [...new Set(items.map((i) => i.sets))].sort(); return r.length > 1 ? r.join("–") : r[0] || 2; })()} Runden je Übung, ${fmtRest(miniRest())} Pause. Geplant sind ca. ${total} Minuten inklusive Aufwärmen und Cool-down. Hör auf deinen Körper und lass 2–3 Wiederholungen im Tank.</p></div>` : `
     <div class="card" style="background:var(--calm-soft)"><p style="color:var(--calm)"><b>Im Studio fragt die App bei jeder Übung, ob das Gerät frei ist.</b> Ist es besetzt, bekommst du sofort eine Ausweichübung mit passend umgerechneten Sätzen und Wiederholungen.</p></div>`}
     ${slot.type === "kraft" && !mini && !krSessions().length ? `<div class="card" style="gap:8px;background:var(--mint)"><b style="color:var(--mint-ink)">Dein erstes Training 🌱</b><ul class="tipl small" style="color:var(--mint-ink)"><li>Lieber zu leicht als zu schwer. Der erste Satz jeder Übung ist ein Testsatz – danach passt die App an.</li><li>Erstes Mal an einem Gerät? Die App zeigt dir, wie du es einstellst.</li><li>Die ersten zwei Einheiten sind etwas kürzer, damit der Muskelkater klein bleibt.</li></ul></div>` : ""}
-    ${slot.type === "kraft" && !mini ? formCard() : ""}
+    ${slot.type === "kraft" && !mini && !S.simple ? formCard() : ""}
     ${mini ? `<div class="card" style="gap:10px"><b>Wie war dein Tag?</b><div class="stack" style="gap:8px">${Object.entries(DAYMOB).map(([k, o]) => `<button class="opt ${(U.setup.day || S.dayType || "mix") === k ? "on" : ""}" data-a="setupday" data-k="${k}"><b>${o.n}</b><span class="small muted">${o.sub}</span></button>`).join("")}</div></div>` : ""}
     ${busyAhead.length ? `<div class="card" style="background:var(--butter);gap:4px"><b style="color:var(--butter-ink)">Um diese Zeit oft besetzt</b><span class="small" style="color:var(--butter-ink)">${esc(busyAhead.map((it) => EXM[it.ex].n).join(", "))} ${busyAhead.length === 1 ? "kommt" : "kommen"} deshalb später dran.</span></div>` : ""}
     <div class="card" style="gap:12px">
@@ -2972,7 +3104,7 @@ function vDone() {
     ${badges.length ? `<div class="card" style="gap:10px"><span class="eyebrow">Neues Abzeichen</span><div class="badges">${badges.map((b) => `<div class="badge on pop">${MEDAL}<span>${b.n}</span></div>`).join("")}</div></div>` : ""}
     <div class="card" style="gap:10px"><b>Wie anstrengend war's?</b><div class="rpe">${RPE_OPTS.map(([v, l]) => `<button class="chip ${cur.rpe === v ? "on" : ""}" data-a="rpe" data-id="${sess.id}" data-v="${v}">${l}</button>`).join("")}</div><span class="small muted">Daraus erkennt die App, wann du eine leichtere Woche brauchst.</span></div>
     ${ups.length ? `<div class="card"><h2>Steigerungen</h2>${ups.map((u) => `<div class="row between"><span>${esc(u.n)}</span><span class="note ok num">${esc(u.t)}</span></div>`).join("")}</div>` : !flow ? `<div class="card"><p class="muted small">Beim nächsten Mal stehen deine heutigen Gewichte schon drin. Schaffst du überall die obere Wiederholungszahl, schlägt die App eine Steigerung vor.</p></div>` : ""}
-    ${!flow ? `<div class="card" style="gap:10px"><h2>Deine Woche</h2>${loadBars(weekKey(new Date()), true)}</div>` : ""}
+    ${!flow && !S.simple ? `<div class="card" style="gap:10px"><h2>Deine Woche</h2>${loadBars(weekKey(new Date()), true)}</div>` : ""}
     <div class="card" style="flex-direction:row;align-items:center;gap:12px;background:var(--peach)"><div class="stack grow" style="gap:2px"><span class="eyebrow" style="color:var(--peach-ink)">Als Nächstes</span><b style="color:var(--peach-ink)">${esc(nextUpText())}</b></div></div>
   </div>
   <div class="actionbar"><div class="in"><button class="btn" data-a="tab" data-v="home">Zur Woche</button></div></div>`;
@@ -2980,9 +3112,23 @@ function vDone() {
 
 /* --- Pilates / Mobility Player --- */
 let flowTimer = null;
-function startFlow(slot) {
-  const blocks = buildFlow(slot.type);
-  S.active = { id: uid(), slotId: slot.id, type: slot.type, flow: true, name: TYPES[slot.type].n, groups: [], start: Date.now(), blocks, i: 0, phase: "ready", end: 0, paused: 0 };
+function openFlowSheet(slot, cat) {
+  const pref = (S.flowPref || {})[cat] || {};
+  U.flowSel = { slotId: slot.id, cat, theme: calmNow() && slot.type === "kraft" ? (cat === "mobility" ? "abends" : "mitte") : nextTheme(cat), min: pref.min === 15 ? 15 : calmNow() ? 15 : 30 };
+  openSheet(flowSheet);
+}
+function flowSheet() {
+  const F0 = U.flowSel; const L = FLOW_THEMES[F0.cat]; const blocks = buildFlow(F0.cat, F0.theme, F0.min); const th = flowTheme(F0.cat, F0.theme);
+  const wk = thisWeek(); const slot = wk.slots.find((q) => q.id === F0.slotId); const calmK = calmNow() && slot && slot.type === "kraft";
+  return `<div class="stack" style="gap:4px"><span class="eyebrow">${calmK ? "Ruhige Phase · sanft statt Kraft" : "Heute"}</span><h2>${TYPES[F0.cat].n}: <em>${esc(th.n)}</em></h2><p class="small muted">${blocks.length} Positionen · ca. ${flowMin(blocks)} Min · geführt mit Ansage</p></div>
+    ${calmK ? `<div class="seg"><button class="${F0.cat === "mobility" ? "on" : ""}" data-a="flowcat" data-k="mobility">Mobility</button><button class="${F0.cat === "pilates" ? "on" : ""}" data-a="flowcat" data-k="pilates">Pilates</button></div>` : ""}
+    <div class="stack">${L.map((t) => `<button class="opt ${t.k === F0.theme ? "on" : ""}" data-a="flowtheme" data-k="${t.k}"><b>${esc(t.n)}${t.k === nextTheme(F0.cat) && !calmK ? ` <span class="chip tag">als Nächstes</span>` : ""}</b><span class="small muted">${esc(t.sub)}</span></button>`).join("")}</div>
+    <div class="seg"><button class="${F0.min === 15 ? "on" : ""}" data-a="flowmin" data-k="15">15 Min<small>kurz</small></button><button class="${F0.min === 30 ? "on" : ""}" data-a="flowmin" data-k="30">30 Min<small>ausführlich</small></button></div>
+    <button class="btn" data-a="flowgo">Einheit starten</button><button class="btn ghost" data-a="sheetclose">Abbrechen</button>`;
+}
+function startFlow(slot, cat, theme, min) {
+  cat = cat || slot.type; const th = flowTheme(cat, theme); const blocks = buildFlow(cat, th.k, min);
+  S.active = { id: uid(), slotId: slot.id, type: cat, flow: true, theme: th.k, min: min === 15 ? 15 : 30, name: `${TYPES[cat].n} · ${th.n}`, groups: [], start: Date.now(), blocks, i: 0, phase: "ready", end: 0, paused: 0 };
   save(); go("flow");
 }
 /* Pilates & Mobility: Ansage beim Bereitmachen, Signalton bei Start und Ende jeder Position, Countdown in den letzten 3 Sekunden. */
@@ -3043,7 +3189,7 @@ function finishFlow(complete) {
   const skipped = A.blocks.filter((b) => b.skipped).length;
   const dur = Math.max(1, Math.round((Date.now() - A.start) / 60000));
   if (!items.length) { S.active = null; save(); go("home"); toast("Keine Position gehalten – nichts gespeichert."); return; }
-  const sess = { id: A.id, slotId: A.slotId, type: A.type, flow: true, name: A.name, groups: [], date: new Date().toISOString(), dur, items, skipped };
+  const sess = Object.assign({ id: A.id, slotId: A.slotId, type: A.type, flow: true, name: A.name, groups: [], date: new Date().toISOString(), dur, items, skipped }, A.theme ? { theme: A.theme } : {});
   S.sessions.push(sess); S.active = null; const badges = checkBadges(); save(); U.done = { sess, ups: [], prs: [], badges }; go("done");
 }
 
@@ -3160,7 +3306,7 @@ function chart(pts, unit) {
 
 /* --- Verlauf --- */
 function vHist() {
-  const seg = `<div class="seg"><button class="${U.hist === "list" ? "on" : ""}" data-a="histt" data-t="list">Einheiten</button><button class="${U.hist === "prog" ? "on" : ""}" data-a="histt" data-t="prog">Fortschritt</button><button class="${U.hist === "load" ? "on" : ""}" data-a="histt" data-t="load">Belastung</button><button class="${U.hist === "meas" ? "on" : ""}" data-a="histt" data-t="meas">Maße</button></div>`;
+  const seg = `<div class="seg"><button class="${U.hist === "list" ? "on" : ""}" data-a="histt" data-t="list">Einheiten</button><button class="${U.hist === "prog" ? "on" : ""}" data-a="histt" data-t="prog">Fortschritt</button>${S.simple ? "" : `<button class="${U.hist === "load" ? "on" : ""}" data-a="histt" data-t="load">Belastung</button>`}<button class="${U.hist === "meas" ? "on" : ""}" data-a="histt" data-t="meas">Maße</button></div>`;
   if (U.hist === "meas") return `<div class="wrap"><h1>Verlauf</h1>${seg}${measTab()}</div>`;
   let body = "";
   if (U.hist === "load") {
@@ -3241,6 +3387,8 @@ function vProf() {
     <div class="card" style="gap:8px"><h3>Deine Musik</h3><input id="pmusic" class="field" data-in="music" inputmode="url" value="${esc(S.music || "")}" placeholder="Link zur Playlist (Spotify, Apple Music …)"><span class="small muted">Im Training erscheint dann oben ein ♪, der deine Playlist öffnet. Den Link bekommst du in der Musik-App über Teilen → Link kopieren.</span></div>`,
     app: () => `${head("Darstellung &amp; Kalender")}
     <div class="card" style="gap:10px"><h3>Darstellung</h3><div class="seg">${[["auto", "Automatisch"], ["light", "Hell"], ["dark", "Dunkel"]].map(([k, n]) => `<button class="${(S.theme || "auto") === k ? "on" : ""}" data-a="theme" data-k="${k}">${n}</button>`).join("")}</div><span class="small muted">Automatisch folgt der Einstellung deines iPhones.</span>${accentPicker()}
+      <div class="stack" style="gap:6px"><b>Ansicht</b><div class="seg"><button class="${S.simple ? "on" : ""}" data-a="viewmode" data-k="simple">Einfach<small>nur das Wichtigste</small></button><button class="${S.simple ? "" : "on"}" data-a="viewmode" data-k="full">Ausführlich<small>mit allen Zahlen</small></button></div><span class="small muted">Einfach blendet Tagesform-Fragen, Wochenbelastung und Zusatzzahlen aus. Die Trainingslogik bleibt gleich.</span></div>
+      <div class="row between"><div class="grow"><b>Tipp beim Start</b><p class="small muted">Beim Öffnen ein kurzer Tipp rund ums Training, überspringbar.</p></div><button class="toggle ${S.tips !== false ? "on" : ""}" data-a="tipstg" role="switch" aria-checked="${S.tips !== false}" aria-label="Tipp beim Start"></button></div>
       <div class="row between"><div class="grow"><b>Jahreszeiten &amp; Feste</b><p class="small muted">Deine Figur zieht sich passend zur Jahreszeit an, dazu Blüten, Blätter oder Schnee, Grüße zu Festtagen und Konfetti an deinem Geburtstag.</p></div><button class="toggle ${S.design !== false ? "on" : ""}" data-a="designtg" role="switch" aria-checked="${S.design !== false}" aria-label="Jahreszeiten und Feste"></button></div>
       <div class="row between"><div class="grow"><b>Zoomen erlauben</b><p class="small muted">Mit zwei Fingern vergrößern, z. B. für kleine Schrift. Aus verhindert versehentliches Zoomen im Training.</p></div><button class="toggle ${S.zoom ? "on" : ""}" data-a="zoomtg" role="switch" aria-checked="${!!S.zoom}" aria-label="Zoomen erlauben"></button></div></div>
     <div class="card" style="gap:8px"><h3>Kalender</h3><p class="small muted">Trägt deine Trainingstage als wiederkehrende Termine mit Erinnerung 30 Minuten vorher in den iPhone-Kalender ein.</p><div class="row" style="flex-wrap:wrap;gap:8px"><label class="small muted" for="caltime">Uhrzeit</label><input id="caltime" class="field" type="time" style="width:auto" value="${S.calTime || "18:00"}" data-in="caltime"><button class="btn sm" data-a="calexport">In den Kalender</button></div></div>`,
@@ -3409,8 +3557,10 @@ function vOb() {
       ["Eintragen und abhaken", "Gewicht und Wiederholungen eintragen, Haken setzen, und die Pause läuft. Beim nächsten Mal stehen deine Gewichte schon drin.", "legpress", "quad"],
       ["Fortschritt sehen", "Im Verlauf siehst du jede Einheit und wie deine Gewichte steigen.", "abd_m", "abd"],
     ];
+    if (S.simple === undefined) S.simple = true;
     body = `<div class="stack" style="gap:6px">${eb("So geht's")}<h1>So läuft dein <em>Training</em>.</h1><p class="muted">Vier Dinge, mehr musst du nicht wissen.</p></div>
-      ${H.map(([t, s, x, g], i) => `<div class="card" style="flex-direction:row;align-items:center;gap:14px">${figSVG(x, g, "s")}<div class="stack grow" style="gap:3px"><span class="eyebrow" style="color:var(--accent)">${i + 1}</span><b>${t}</b><span class="small muted">${s}</span></div></div>`).join("")}`;
+      ${H.map(([t, s, x, g], i) => `<div class="card" style="flex-direction:row;align-items:center;gap:14px">${figSVG(x, g, "s")}<div class="stack grow" style="gap:3px"><span class="eyebrow" style="color:var(--accent)">${i + 1}</span><b>${t}</b><span class="small muted">${s}</span></div></div>`).join("")}
+      <div class="card" style="gap:8px"><b>Wie viel möchtest du sehen?</b><div class="seg"><button class="${S.simple ? "on" : ""}" data-a="viewmode" data-k="simple">Einfach<small>nur das Wichtigste</small></button><button class="${S.simple ? "" : "on"}" data-a="viewmode" data-k="full">Ausführlich<small>mit allen Zahlen</small></button></div><span class="small muted">Jederzeit änderbar unter Profil → Darstellung.</span></div>`;
   }
   return `<div class="wrap">${steps}${body}</div>
     <div class="actionbar"><div class="in">${st > 0 ? `<button class="btn ghost" style="width:auto" data-a="obback">Zurück</button>` : ""}<button class="btn" data-a="obnext">${next}</button></div></div>`;
@@ -3485,6 +3635,7 @@ function renderInner() {
   else if (v === "flow") h = S.active?.flow ? vFlow() : vHome() + tabbar();
   else if (v === "done") h = vDone();
   else if (v === "welcome") h = vWelcome();
+  else if (v === "breathe") h = vBreathe();
   app.innerHTML = h;
   if (v !== U.lastView) { if (!reduced && v !== "train" && U.lastView) { app.classList.remove("viewin"); void app.offsetWidth; app.classList.add("viewin"); } if (v === "done") animateIn(app); U.lastView = v; }
   { const se = season(); if (se) document.documentElement.dataset.sz = se.cloth; else delete document.documentElement.dataset.sz; }
@@ -3727,6 +3878,19 @@ document.addEventListener("click", (e) => {
     case "repairok": U.repair = null; render(); break;
     case "rescueclear": delete S.rescued; save(); render(); break;
     case "confetti": confetti(); break;
+    case "splashok": document.getElementById("splash")?.remove(); break;
+    case "tipstg": S.tips = S.tips === false; save(); render(); break;
+    case "viewmode": S.simple = d.k === "simple"; save(); render(); break;
+    case "calmstart": S.calm = { from: new Date().toISOString() }; save(); closeSheet(); go("home"); toast("Ruhige Phase: sanft statt Kraft. Pass gut auf dich auf."); break;
+    case "calmend": { const c = S.calm; c.to = new Date().toISOString(); S.calms = (S.calms || []).concat([c]).slice(-20); S.calm = null; save(); render(); toast("Ruhige Phase beendet. Schön, dass du wieder Lust auf Kraft hast."); break; }
+    case "breathe": U.breath = { min: (S.breathMin || 4), run: false }; go("breathe"); break;
+    case "breathmin": S.breathMin = +d.k; U.breath.min = +d.k; save(); render(); break;
+    case "breathgo": U.breath = { min: U.breath.min, run: true, start: Date.now(), ph: "" }; unlockAudio(); wakeLock(); gong(); render(); break;
+    case "breathstop": U.breath.run = false; U.breath.done = true; render(); break;
+    case "flowtheme": U.flowSel.theme = d.k; renderSheet(); break;
+    case "flowmin": U.flowSel.min = +d.k; S.flowPref = S.flowPref || {}; S.flowPref[U.flowSel.cat] = { min: +d.k }; save(); renderSheet(); break;
+    case "flowcat": U.flowSel.cat = d.k; U.flowSel.theme = d.k === "mobility" ? "abends" : "mitte"; renderSheet(); break;
+    case "flowgo": { const F0 = U.flowSel; const slot = thisWeek().slots.find((q) => q.id === F0.slotId); closeSheet(); if (slot) startFlow(slot, F0.cat, F0.theme, F0.min); break; }
     case "designtg": S.design = S.design === false; save(); render(); toast(S.design ? "Jahreszeiten & Feste an" : "Jahreszeiten & Feste aus"); break;
     case "progyes": { const it = itemById(curStep().id); const P = it && it.prog; if (P && P.w != null) { it.log.forEach((q) => { if (!q.warm && !q.done) q.w = String(P.w).replace(".", ","); }); P.used = true; S.active.msg = P.kind === "assist" ? `Hilfe auf ${fmt(P.w)} kg gesenkt. Passt es nicht, steuert die App nach dem ersten Satz nach.` : `Gewicht auf ${fmt(P.w)} kg erhöht. Passt es nicht, steuert die App nach dem ersten Satz nach.`; save(); render(); } break; }
     case "progno": { const it = itemById(curStep().id); if (it && it.prog) { it.prog.off = true; save(); render(); } break; }
@@ -3921,7 +4085,7 @@ document.addEventListener("input", (e) => {
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && U.sheet && !U.sheetLock) closeSheet(); });
 
 setInterval(() => {
-  trainTick(); flowTick();
+  trainTick(); flowTick(); breathTick();
   const el = document.getElementById("elapsed"); if (el && S.active) el.textContent = Math.floor((Date.now() - S.active.start) / 60000) + " Min";
 }, 250);
 document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && S.active) wakeLock(); });
@@ -3945,6 +4109,7 @@ render();
     if (S.setup) setTimeout(() => openSheet(() => importSheet(tag)), 300); else S.pendingTag = tag;
   } else if (S.setup && !S.ack && !S.active) setTimeout(() => { U.sheetLock = true; openSheet(ackSheet); }, 400);
   else if (S.setup && S.newsSeen !== NEWS.v && !S.active) setTimeout(() => openSheet(newsSheet), 400);
+  else if (S.setup && !S.active) setTimeout(splashShow, 250);
   try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {}); } catch (e) {}
 })();
 /* Kein Zoomen mit zwei Fingern oder Doppeltipp (wie eine native App). */

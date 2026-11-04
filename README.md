@@ -96,6 +96,8 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 - **Über dich (freiwillig):** Alter, Größe, Gewicht → Maximalpuls und Pulsbereiche beim Cardio, BMI, Taille-zu-Größe, Kraft im Verhältnis zum Körpergewicht
 
 ### Persönlich
+- **Pilates & Mobility mit Themen:** je vier Varianten, abwechselnd, 15 oder 30 Minuten
+- **Ruhige Phase & Atemübung:** sanft statt Kraft, wenn alles zu viel ist; geführtes Atmen von der Startseite
 - **Übungen suchen:** Freitextsuche nach Name, Muskel oder Gerät – in der Übungsliste und beim Zusammenstellen des Plans
 - **Guter Start:** kurze Einrichtung, Willkommens-Moment, die ersten zwei Einheiten etwas leichter und ein gefeiertes erstes Training
 - **Aufgeräumtes Profil:** Übersicht nach Themen (Du & deine Figur, Training, App), jede Zeile zeigt den aktuellen Stand

@@ -14,16 +14,19 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
   - Update-Hinweis „Neue Version ist da – Jetzt laden“ nach dem Hochladen.
 - [ ] **Auf Android prüfen** (bisher nur iPhone).
 - [ ] **Arbeitsweise:** Das Repo direkt in die Claude-Sitzung einbinden (wie bei Ringzeit; claude.ai → Einstellungen → Konnektoren → GitHub). Dann kann Claude `TODO.md`, Doku und Code im Repo lesen und mit Schreibrechten direkt committen, statt dass jede Datei per Handy hochgeladen werden muss. Quellcode dann wie bei Ringzeit unter `src/`, `index.html` wird daraus gebaut.
-- [ ] **Eigene Animationen** für Rumpfrotation, TRX-Rudern, TRX-Brustpresse und Rückenstrecker-Maschine. Sie nutzen vorerst die Animation einer ähnlichen Übung (Pallof Press, Rudern am Kabel, Liegestütz an der Bank, Hyperextension).
 
 ## Ideen (besprochen, noch nicht beauftragt)
-- **Aus Ringzeit, noch nicht übernommen:** „Einfach oder ausführlich“ als Ansichtswahl; Tipps und Fakten beim Laden; Fastenzeit-/Ramadan-Modus (leichtere Einheiten); Englisch; Release-Werkzeug mit Dev- und stabiler App (erst sinnvoll mit Code im Repo statt Einzeldatei).
-- **Varianten für Pilates und Mobility:** Themen (Bauch & Mitte, Po & Beine, Rücken & Haltung, Ganzkörper sanft · Hüfte & Rücken, Schultern & Nacken, Ganzkörper, Abends runterfahren), 10–15 neue Positionen mit Animation, Rotation, 15 oder 30 Minuten. Bisher sind die Einheiten jedes Mal gleich.
-- **Ruhige Phase & Runterkommen:** Woche mit Pilates/Mobility statt Kraft ohne Serien-Druck, geführte Atemübung (3–5 Min) von der Startseite.
+- **Aus Ringzeit, noch nicht übernommen:** Fastenzeit-/Ramadan-Modus (leichtere Einheiten); Englisch; Release-Werkzeug mit Dev- und stabiler App (erst sinnvoll mit Code im Repo statt Einzeldatei).
 - **Signalton auch beim Start der Satzpause** (bisher nur am Ende, weil der Start durch Antippen ausgelöst wird).
 
 ## Bewusst nicht umgesetzt
 - **Unhörbarer Dauerton** gegen das Einschlafen der Audioausgabe (Ringzeit-Idee): Er würde laufende Musik auf dem iPhone dauerhaft leiser stellen. Stattdessen Gong als echte Tondatei und Freischalten beim ersten Antippen.
+
+## Erledigt in Version 4.2
+- [x] **Pilates & Mobility mit je vier Themen** (Pilates: Klassisch, Bauch & Mitte, Po & Beine, Rücken & Haltung · Mobility: Ganzkörper, Hüfte & Rücken, Schultern & Nacken, Abends runterfahren), 15 neue Positionen mit Animation, Themen wechseln sich ab, 15 oder 30 Minuten.
+- [x] **Ruhige Phase:** sanfte Einheiten statt Kraft, keine verpassten Einheiten, Serie bleibt; **geführte Atemübung** (2/4/6 Min, 4 s ein, 6 s aus) von der Startseite.
+- [x] **Eigene Animationen** für Rückenstrecker-Maschine, Rumpfrotation, TRX-Rudern und TRX-Brustpresse.
+- [x] **Aus Ringzeit:** Tipp beim Start (überspringbar, abschaltbar) und Ansicht „Einfach“ oder „Ausführlich“ (neue Nutzerinnen starten mit Einfach).
 
 ## Erledigt in Version 4.1 (erster Eindruck, Suche)
 - [x] **Freitextsuche** ganz oben unter „Übungen“ und in der Übungsauswahl des Trainingsplans (Name, Muskelgruppe, Gerät, Art; Umlaute egal, mehrere Wörter).
