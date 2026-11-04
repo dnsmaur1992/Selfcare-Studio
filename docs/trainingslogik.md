@@ -30,6 +30,7 @@ Die Umrechnung ist eine Faustregel aus Muskelwirkung und Bewegungsmuster – „
 - Bekannte Übung: Gewicht **und Wiederholungen** vom letzten Mal, Satz für Satz (`makeLog`).
 - Neue Übung: Schätzung aus der letzten Übung mit gleichem Muster. 1RM nach Epley `w × (1 + r/30)`, umgerechnet mit groben Gerätefaktoren (Maschine 1, Smith 0,9, Kabel 0,62, Kurzhantel/Kettlebell 0,42, einseitig × 0,55). Arbeitsgewicht = 1RM ÷ (1 + (Ziel-Wdh. + 2)/30), also 2 Wdh. im Tank. Angezeigt als „ca.“ mit Testsatz.
 - **Nachsteuern** nach jedem Satz: 2+ Wdh. über dem Bereich → schwerer, unter dem Bereich → leichter (über Epley, mindestens eine Gewichtsstufe). Stufen: Kurzhantel 1 kg (ab 10 kg 2 kg), Kettlebell 4 kg, sonst 2,5 kg. Assist umgekehrt, auch von 0 kg aus (zu wenige Wdh. ohne Hilfe → eine Stufe Hilfe).
+- **Anstrengung** (`rpe`, mit Gesichtern 😌 🙂 😤 🥵 😵): War die letzte Krafteinheit „zu viel“ (10) und ist höchstens 4 Tage her, wird die nächste um 15 % leichter (`loadFactor`). Vier sehr harte Einheiten in Folge lösen weiterhin die Entlastungswoche aus.
 - **Steigerung zwischen Einheiten** (`progressInfo`): Die App protokolliert und schlägt vor, ändert aber nichts ohne Antippen. Vorschlag nur, wenn beim letzten Mal **alle geplanten Arbeitssätze** (gespeichert als `sets`) gemacht wurden und **jeder** das obere Wiederholungsziel erreichte. Kein Vorschlag bei reinen Aufwärmprotokollen, fehlenden Gewichten, getauschten/abgebrochenen Übungen (`part`) oder geschätztem Testsatz. Vorschlag: Gewicht + eine Stufe; Assist − eine Stufe Hilfe (bei 0 kg: langsamer/mehr Wdh.); Körpergewicht: 3 Sek. absenken oder 2 Wdh. mehr; Halteübungen: 5–10 Sek. länger. Angezeigt vor dem ersten Arbeitssatz („Auf X kg erhöhen“ / „Beim Alten bleiben“) und als Markierung in der Vorbereitung.
 
 ## Ablauf im Training
@@ -108,11 +109,20 @@ Kein Cardio, keine Aufwärmsätze. 5 Mobilisations- und Dehnübungen nach Tagesa
 - **Was ist neu** (`NEWS`) mit aufklappbaren früheren Versionen (`NEWS.old`).
 
 ## Körperdaten (freiwillig)
-- **Geburtsjahr und Größe** im Profil (`S.body`), **Gewicht** als Messwert mit Verlauf bei den Maßen (`gewicht` in `S.measures`; Eingabe im Profil schreibt den heutigen Eintrag).
+- **Geburtstag und Größe** im Profil (`S.body.birth` als `JJJJ-MM-TT`, daraus `S.body.year`; ältere Stände mit nur `year` bleiben gültig). Das Alter wird taggenau aus dem Geburtstag gerechnet (`ageNow`).
+- Früher nur **Geburtsjahr**, **Gewicht** als Messwert mit Verlauf bei den Maßen (`gewicht` in `S.measures`; Eingabe im Profil schreibt den heutigen Eintrag).
 - **Maximalpuls** nach Tanaka: 208 − 0,7 × Alter. Pulsbereiche: Aufwärm-Cardio 50–65 %, Ausdauer im Fokus „Körperfett verlieren“ 65–75 %. Angezeigt nur, wenn ein Geburtsjahr eingetragen ist.
 - **BMI** = Gewicht ÷ Größe² (Hinweis: unterscheidet nicht zwischen Muskeln und Fett). **Taille zu Größe** = Taille ÷ Größe, unter 0,5 gilt als günstig.
 - **Kraft im Verhältnis:** Im Fortschritt bei Grundübungen bestes Gewicht ÷ Körpergewicht zum jeweiligen Datum.
 - Gewicht und Größe beeinflussen **nicht** Sätze, Wiederholungen oder Startgewichte: Die App rechnet mit dem, was tatsächlich geschafft wird.
+
+## Jahreszeiten, Feste & Geburtstag (aus Ringzeit übernommen, 4.0)
+- Alles aus dem Datum berechnet, offline (`seasonNow`, `feastsOn`). Islamischer und hebräischer Kalender kommen über `Intl` vom Handy, Ostern per Osterformel, Advent = 4. Sonntag vor dem 25.12., Diwali aus einer Liste (bis 2030, rechtzeitig verlängern).
+- **Kleidung der Figur** (überall, auch in den Übungsanimationen): Winter und Herbst lange Ärmel, Frühling T-Shirt, Sommer Top und kurze Hose. Umsetzung über `data-sz` am Dokument und CSS, Hervorhebungen der Muskeln haben Vorrang.
+- **Kopfbedeckung** (`hatSVG`): Geburtstag Partyhut; Karneval Narrenkappe; Halloween Hexenhut; Ostern Hasenohren; Valentinstag Herz; 1.12.–6.1. Weihnachtsmütze (nicht an Festtagen anderer Religionen); sonst im Winter Wollmütze.
+- **Startseite:** Gruß mit Motiv im Kopfbereich und fallende Teilchen (Blüten, Sonnenfunkeln, Blätter, Schnee, Herzen, Konfetti). Anlässe: Geburtstag, Neujahr/Silvester, Karneval, Valentinstag, Weltfrauentag, Frühlings- und Sommeranfang, Ostern, Halloween, Sankt Martin, Nikolaus, Adventssonntage, Wintersonnenwende, Weihnachten, Ramadan, Zuckerfest, Opferfest, Nouruz, Chanukka, Diwali.
+- **Geburtstag:** eigene Karte mit „Nochmal Konfetti“, Konfetti einmal am Tag beim Öffnen, Konfetti nach dem Abschluss einer Einheit, Abzeichen „Geburtstagstraining“. Am 29.2. Geborene feiern in Nicht-Schaltjahren am 28.2.
+- **Abschaltbar** unter Profil → Darstellung („Jahreszeiten & Feste“, `S.design`). Bei „Bewegung reduzieren“ fallen keine Teilchen und kein Konfetti.
 
 ## Darstellung
 - Hell, Dunkel oder Automatisch (`S.theme`).
@@ -128,6 +138,8 @@ Kein Cardio, keine Aufwärmsätze. 5 Mobilisations- und Dehnübungen nach Tagesa
 ## Daten
 - **Robustheit:** Geteilte Codes werden vor dem Übernehmen geprüft (Trainingstyp, Wochentag, Muskelgruppen, Übungen, Sätze 1–6, Wiederholungen); Freitext wird von HTML-Zeichen befreit (`cleanTxt`).
 - **Backup laden** (`checkBackup` → `applyBackup`): 1. Format prüfen (sonst Ablehnung). 2. In einer Kopie reparieren (`normalizeState`, `normalizeDays`): Einheiten, Übungen und einzelne Sätze, unbekannte Übungen, Zahlenwerte, Einstellungen (Wiederholungsziel, Pausen, Ton, Farbe, Darstellung, Fokus, Pause …). 3. Probeaufbau von Woche, Planung, Mini, Verlauf und Fortschritt ohne Speichern. Erst dann Bestätigung mit Liste der Reparaturen. Scheitert etwas – auch das Speichern –, bleibt der bisherige Stand unverändert.
+- **Prüfung im Test (seit 4.0, Lehre aus Ringzeit):** Jede Einheit aller Vorlagen (2–5 Tage, Normal/Kurz/Mini, Rücken an/aus, Pilates, Mobility) wird bis zum Abschluss durchgespielt; was die App dabei speichert, muss die eigene Datenprüfung unverändert bestehen. Dazu ein Altdaten-Stand im Format älterer Versionen, der ohne Verlust durchkommen muss, und ein Test, dass jeder Knopf einen Handler hat.
+- **„&“ in Namen:** 3.8–3.9.1 haben „&“ aus Namen entfernt („Po & Beine“ → „Po Beine“). Seit 4.0 bleibt es erhalten; bekannte Vorlagennamen werden beim Start repariert (`fixName`).
 - **Was erhalten bleibt:** Die Prüfung entfernt nur Ungültiges. Alle übrigen Felder einer Einheit, Übung oder Messung bleiben unverändert, z. B. die Anstrengung `rpe` (ganze Zahl 1–10; fehlt sie, bleibt sie fehlend; ungültige Werte werden entfernt und gemeldet). Darauf baut die Entlastungswoche nach sehr harten Einheiten auf.
 - **Beim Start** läuft dieselbe Reparatur. Wurde etwas geändert, liegt die Originalfassung unter `satzwerk.v1.vorReparatur` und die Startseite zeigt, was repariert wurde. Eine nicht fortsetzbare laufende Einheit wird nicht gelöscht, sondern als `rescued` beiseitegelegt (im Backup enthalten).
 - **Rettungsansicht:** Scheitert eine Ansicht, erscheint sie statt eines weißen Bildschirms. „Einheit speichern und beenden“ nutzt bei Pilates/Mobility `finishFlow`, sonst `finishSession`. Scheitert das Speichern, wird die laufende Einheit unverändert wiederhergestellt, der Fehler angezeigt und ein Backup angeboten. Eine schon gespeicherte Einheit (gleiche ID) wird nie doppelt angelegt.
