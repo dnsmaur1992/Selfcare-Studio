@@ -369,5 +369,91 @@ S.sessions = [];
     if (t > MINI_BUDGET || !mm.length) fail = fail || \`\${gg.join("/")} · \${r}s · \${day} → \${t} Min\`; }
   ok(!fail, \`Q2: \${cnt} Kombinationen (Gruppen, alle Mini-Pausen, Tagesformen, Rücken an/aus): höchstens \${worst} Min\${fail ? " – zu lang: " + fail : ""}\`);
   S.backCare = true; delete S.restM; }
+// ---- Version 4.0: Erfahrungen aus Ringzeit ----
+const D = (s) => new Date(s + "T12:00:00");
+S = Object.assign(defaults(), { setup: true, name: "Steffi", days: tmplDays(3) }); registerCustom();
+// F1 Feste und Jahreszeiten
+{ const has = (d, k) => feastsOn(D(d)).some((f) => f.k === k);
+  ok(has("2027-03-28", "easter") && has("2027-03-29", "easter") && has("2027-02-08", "karneval") && has("2026-12-24", "christmas") && has("2026-10-31", "halloween") && has("2026-11-11", "martin") && has("2027-02-14", "valentine") && has("2027-03-08", "frauentag") && has("2026-12-31", "newyear") && has("2027-01-01", "newyear") && has("2026-12-06", "nikolaus"), "F1: Ostern, Karneval, Weihnachten, Halloween, St. Martin, Valentinstag, Frauentag, Silvester/Neujahr, Nikolaus");
+  ok(feastsOn(D("2026-11-29")).some((f) => f.g === "Einen schönen 1. Advent!") && feastsOn(D("2026-12-20")).some((f) => f.g === "Einen schönen 4. Advent!") && !has("2026-11-30", "advent"), "F1: Adventssonntage 2026 (29.11. bis 20.12.)");
+  ok(hanukkahDay(D("2026-12-05")) === 1 && hanukkahDay(D("2026-12-12")) === 8 && has("2027-02-20", "ramadan") && has("2026-11-08", "diwali"), "F1: Chanukka, Ramadan und Diwali aus dem Kalender des Handys (Intl)");
+  ok(seasonNow(D("2026-12-05")).hat === "beanie" && seasonNow(D("2026-12-15")).hat === "santa", "F1: An Chanukka keine Weihnachtsmütze, sonst im Dezember schon");
+  const se = (d) => seasonNow(D(d));
+  ok(se("2027-01-20").cloth === "lang" && se("2027-01-20").hat === "beanie" && se("2027-04-20").cloth === "kurz" && !se("2027-04-20").hat && se("2027-07-15").cloth === "sommer" && se("2026-10-15").cloth === "lang" && se("2027-01-20").parts === "snow" && se("2026-10-15").parts === "leaves" && se("2027-04-20").parts === "petals", "F1: Kleidung, Mütze und Teilchen je Jahreszeit");
+  let bad = ""; for (let i = 0; i < 400; i++) { const d = addDays(D("2026-11-01"), i); try { const s = seasonNow(d); s.fe.forEach((f) => { if (!f.g || !f.e) bad = dayKey(d); }); if (s.hat && !hatSVG(s.hat)) bad = dayKey(d) + " Mütze"; } catch (e) { bad = dayKey(d) + " " + e.message; } }
+  ok(!bad, "F1: 400 Tage ohne Fehler, jeder Anlass mit Gruß und Motiv" + (bad ? " – " + bad : ""));
+  U.seasonDate = "2026-12-24"; const h1 = vHome(); S.design = false; const h0 = vHome(); delete S.design; U.seasonDate = null;
+  ok(h1.includes("Frohe Weihnachten") && h1.includes('class="deco snow"') && !h0.includes("Frohe Weihnachten") && !h0.includes("deco") && season() !== null, "F1: Startseite zeigt Gruß und Schnee; mit „Jahreszeiten & Feste“ aus nichts davon"); }
+// F2 Geburtstag
+{ S.body = { birth: "1980-11-04", year: 1980 };
+  ok(isBirthday(D("2026-11-04")) && !isBirthday(D("2026-11-05")) && ageNow(D("2026-11-03")) === 45 && ageNow(D("2026-11-04")) === 46, "F2: Geburtstag erkannt, Alter taggenau (45 am Vortag, 46 am Geburtstag)");
+  const s = seasonNow(D("2026-11-04")); ok(s.bday && s.hat === "party" && s.parts === "confetti" && s.fe[0].g.includes("Steffi"), "F2: Am Geburtstag Partyhut, Konfetti und persönlicher Gruß");
+  U.seasonDate = "2026-11-04"; const hb = vHome(); U.seasonDate = null;
+  ok(hb.includes("Alles Gute zum Geburtstag, Steffi") && hb.includes('data-a="confetti"') && (hb.match(/Alles Gute zum Geburtstag/g) || []).length === 1, "F2: Geburtstagskarte mit Konfetti-Knopf, Gruß nicht doppelt");
+  S.body = { birth: "1984-02-29", year: 1984 }; ok(isBirthday(D("2027-02-28")) && !isBirthday(D("2028-02-28")) && isBirthday(D("2028-02-29")), "F2: 29. Februar wird in Nicht-Schaltjahren am 28. gefeiert");
+  const st = Object.assign(defaults(), { body: { birth: "1980-11-04", year: 1980, height: 168 } }), n1 = []; normalizeState(st, n1);
+  const st2 = Object.assign(defaults(), { body: { birth: "kaputt", year: 1980 } }), n2 = []; normalizeState(st2, n2);
+  const st3 = Object.assign(defaults(), { body: { year: 1979, height: 170 } }), n3 = []; normalizeState(st3, n3);
+  ok(st.body.birth === "1980-11-04" && st.body.height === 168 && !n1.length && !st2.body.birth && st2.body.year === 1980 && n2.some((t) => t.includes("Geburtstag")) && st3.body.year === 1979 && !st3.body.birth && !n3.length, "F2: Geburtstag bleibt bei der Prüfung erhalten, Ungültiges wird gemeldet, reines Geburtsjahr bleibt");
+  S.body = { birth: "1980-11-04", year: 1980 }; S.sessions = [{ id: "b1", date: "2026-11-04T17:00:00.000Z", items: [] }];
+  ok(BADGES.find((b) => b.id === "bday").t(), "F2: Abzeichen „Geburtstagstraining“"); S.sessions = []; S.body = {}; }
+// F3 Anstrengung: „Zu viel“ macht die nächste Einheit leichter
+{ S.sessions = [{ id: "r", date: new Date(Date.now() - 864e5).toISOString(), type: "kraft", items: [{ ex: "ht_m", log: [{ w: "40", r: "10", done: true }] }], rpe: 10 }]; S.weeks = {}; S.form = {};
+  const a = loadFactor(); S.sessions[0].rpe = 7; const b = loadFactor();
+  ok(a.f < b.f && a.why.some((t) => t.includes("zu viel")) && RPE_OPTS.every(([, l]) => /^\\S+ /.test(l)), "F3: Nach „Zu viel“ ist die nächste Einheit leichter; Anstrengung mit Gesichtern"); S.sessions = []; S.weeks = {}; }
+// Q1 Jede Aktion hat einen Handler (Lehre aus dem ⓘ-Fehler in Ringzeit)
+{ const acts = [...new Set([...js.matchAll(/data-a="([a-z0-9-]+)"/g)].map((m) => m[1]))]; const cases = new Set([...js.matchAll(/case "([a-z0-9-]+)":/g)].map((m) => m[1]).concat([...js.matchAll(/a === "([a-z0-9-]+)"/g)].map((m) => m[1])));
+  const miss = acts.filter((a) => !cases.has(a)); ok(!miss.length, \`G1: Alle \${acts.length} Knopf-Aktionen haben einen Handler\${miss.length ? " – fehlt: " + miss.join(", ") : ""}\`); }
+// Q2 Gesamtprüfung: jede Einheit aller Vorlagen bis zum Abschluss; was die App speichert, besteht die eigene Prüfung unverändert
+{ gong = () => {}; say = () => {}; flash = () => {}; wakeLock = () => {}; audioSetup = () => {};
+  let runs = 0, prob = []; const T0 = Date.now();
+  for (const n of [2, 3, 4, 5]) for (const back of [true, false]) for (const mode of ["normal", "kurz", "mini"]) {
+    S = Object.assign(defaults(), { setup: true, name: "Test", backCare: back, days: tmplDays(n) }); registerCustom(); U.seasonDate = null;
+    for (const sl of thisWeek().slots.filter((q) => q.type === "kraft")) {
+      U.setup = { slotId: sl.id, mode, busy: [] }; const plan = setupItems().filter((i) => i.ex); startTrain(); const A = S.active; let g = 0;
+      while (S.active && g++ < 500) {
+        if (S.active.ph === "end" || !curStep()) { finishSession(); break; }
+        const st = curStep();
+        if (st.k !== "item") { advance(); continue; }
+        const it = itemById(st.id); it.confirmed = true; it.warmAsk = false; S.active.ph = "sets"; let h = 0;
+        while (it.log.some((q) => !q.done) && h++ < 30) { const s = it.log.find((q) => !q.done); const x = EXM[it.ex]; if (!s.w && !isBW(x) && x.unit !== "s") s.w = "20"; s.r = String(it.reps[1]); setDone(); restEnd(); if (S.active.steps[S.active.pos] !== st) break; }
+      }
+      runs++; const ss = S.sessions[S.sessions.length - 1];
+      if (S.active) prob.push(\`\${n}/\${mode}/\${back}: Einheit nicht beendet\`);
+      else if (!ss || ss.slotId !== sl.id) prob.push(\`\${n}/\${mode}: nicht gespeichert\`);
+      else { const work = ss.items.reduce((a, it) => a + it.log.filter((q) => !q.warm).length, 0), want = plan.reduce((a, it) => a + it.sets, 0);
+        if (work !== want) prob.push(\`\${n}/\${mode}/\${back} \${sl.id}: \${work} statt \${want} Sätze\`);
+        if (!(ss.dur >= 1) || ss.items.some((it) => it.log.some((q) => isNaN(num(q.r))))) prob.push(\`\${n}/\${mode}: ungültige Werte\`); }
+    }
+    for (const fl of ["pilates", "mobility"]) { startFlow({ id: "f" + fl, type: fl }); S.active.blocks.forEach((b) => (b.secDone = b.sec)); finishFlow(true); runs++; }
+    S.sessions.forEach((x) => (x.rpe = 7));
+    const before = JSON.parse(JSON.stringify(S)), c = JSON.parse(JSON.stringify(S)), nn = []; normalizeState(c, nn);
+    if (nn.length) prob.push(\`\${n}/\${mode}: Prüfung meldet \${nn.join("; ")}\`);
+    if (JSON.stringify(c.sessions) !== JSON.stringify(before.sessions)) { if (process.env.DBG) { const dd = (a, b, p = "") => { if (JSON.stringify(a) === JSON.stringify(b)) return; if (a && b && typeof a === "object" && typeof b === "object") new Set([...Object.keys(a), ...Object.keys(b)]).forEach((k) => dd(a[k], b[k], p + "." + k)); else console.log("DIFF", p, JSON.stringify(a), "→", JSON.stringify(b)); }; dd(before.sessions, c.sessions); } } if (JSON.stringify(c.sessions) !== JSON.stringify(before.sessions)) prob.push(\`\${n}/\${mode}: Prüfung verändert gespeicherte Einheiten\`);
+  }
+  ok(!prob.length, \`G2: \${runs} Einheiten (2–5 Tage × Normal/Kurz/Mini × Rücken an/aus, dazu Pilates/Mobility) bis zum Abschluss gespielt, Sätze wie geplant, gespeicherte Daten bestehen die Prüfung unverändert (\${Date.now() - T0} ms)\${prob.length ? " – " + prob.slice(0, 3).join(" | ") : ""}\`); U.setup = null; }
+// Q3 Altdaten: ein Stand im Format älterer Versionen verliert bei der Prüfung nichts
+{ const old = { v: 1, setup: true, name: "Steffi", outfit: "lavendel", reps: "hoch", backCare: true, restC: 180, restI: 180, restMig: 1, restW: 60, restM: 45, sound: "schale", tick: "tick", accent: "petrol", theme: "dark", voice: false, zoom: true, music: "https://open.spotify.com/x",
+    hair: { style: "dutt", color: "#8A5A3B" }, body: { year: 1980, height: 168 }, flags: { firstSet: true, backup: true, swap: true }, ack: "2026-10-01T10:00:00.000Z", newsSeen: "3.8", tourOffered: true, lastBackup: "2026-10-20T10:00:00.000Z",
+    days: tmplDays(3), equip: Object.assign({}, defaults().equip, { hack: false }), limits: { knee: true }, notes: { ht_m: "Sitz Stufe 4" }, badges: { first: "2026-10-01T10:00:00.000Z" }, read: { mythen: true },
+    form: { "2026-10-20": { sleep: 2, energy: 1 } }, eqLog: [{ e: "hipthrust", wd: 2, h: 18, b: 1 }], measures: [{ d: "2026-10-01T10:00:00.000Z", gewicht: 68.5, taille: 74 }],
+    focus: { id: "po", start: "2026-10-01T10:00:00.000Z", base: { ht_m: 50 }, meas: null }, pauses: [{ why: "ill", from: "2026-09-01T10:00:00.000Z", to: "2026-09-05T10:00:00.000Z" }], pause: null, ramp: null,
+    sessions: [
+      { id: "o1", slotId: "s1", type: "kraft", name: "Po & Beine", groups: ["po", "quad"], date: "2026-10-01T17:00:00.000Z", dur: 61, warm: true, prs: 1, rpe: 9, items: [{ g: "po", ex: "ht_m", reps: [10, 15], note: "", log: [{ w: "30", r: "10", done: true, warm: true }, { w: "50", r: "12", done: true }, { w: "50", r: "11", done: true }] }] },
+      { id: "o2", slotId: "s2", type: "mini", name: "Mini-Training", groups: ["po"], date: "2026-10-03T17:00:00.000Z", dur: 27, warm: true, prs: 0, items: [{ g: "po", ex: "bridge", reps: [15, 20], sets: 3, log: [{ w: "", r: "18", done: true }] }] },
+      { id: "o3", slotId: "s3", type: "pilates", flow: true, name: "Pilates", groups: [], date: "2026-10-05T17:00:00.000Z", dur: 30, skipped: 1, items: [{ ex: FLOW.find((f) => f.cat === "pilates").id, side: "", sec: 55 }] },
+    ], weeks: { "2026-W40": { slots: [{ id: "s1", type: "kraft", dayId: "x", wd: 3 }], checked: true, deload: "rpe", mood: "stress" } } };
+  const c = JSON.parse(JSON.stringify(old)), nn = []; normalizeState(c, nn);
+  const diff = Object.keys(old).filter((k) => JSON.stringify(old[k]) !== JSON.stringify(c[k])); if (process.env.DBG) { const dd = (a, b, p = "") => { if (JSON.stringify(a) === JSON.stringify(b)) return; if (a && b && typeof a === "object" && typeof b === "object") new Set([...Object.keys(a), ...Object.keys(b)]).forEach((k) => dd(a[k], b[k], p + "." + k)); else console.log("DIFF3", p, JSON.stringify(a), "→", JSON.stringify(b)); }; dd(old.sessions, c.sessions); }
+  ok(!nn.length && !diff.length, \`G3: Altdaten-Stand (\${Object.keys(old).length} Felder, 3 Einheiten) besteht die Prüfung ohne Verlust\${diff.length ? " – verändert: " + diff.join(", ") : ""}\${nn.length ? " – Hinweise: " + nn.join("; ") : ""}\`); }
+// Q4 Service Worker räumt nur eigene Caches auf (Ringzeit liegt auf derselben Adresse)
+{ const swp = require("path").join(require("path").dirname(file), "sw.js");
+  if (fs.existsSync(swp)) { const sw = fs.readFileSync(swp, "utf8"); ok(/startsWith\\("selfcare-studio-"\\)/.test(sw) && !/ks\\.filter\\(\\(k\\) => k !== CACHE\\)/.test(sw), "G4: Update löscht nur eigene Caches, nicht die von Ringzeit"); } }
+// Q5 „&“ in Namen bleibt erhalten; von 3.8–3.9.1 beschädigte Vorlagennamen werden repariert
+{ const st = Object.assign(defaults(), { days: [{ id: "a", type: "kraft", name: "Po Beine", groups: ["po"] }, { id: "b", type: "kraft", name: "Po & Beinbeuger", groups: ["po"] }, { id: "c", type: "kraft", name: "Beine Po", groups: ["po"] }],
+    sessions: [{ id: "s", date: "2026-10-01T10:00:00.000Z", type: "kraft", name: "Rücken Arme (kurz)", items: [{ ex: "ht_m", log: [{ w: "40", r: "10", done: true }] }] }] });
+  const nn = []; normalizeState(st, nn); const keep = S; S = st; normalizeDays(nn); S = keep;
+  ok(st.days.map((d) => d.name).join("|") === "Po & Beine|Po & Beinbeuger|Beine Po" && st.sessions[0].name === "Rücken & Arme (kurz)" && cleanTxt("<b>A & B</b>") === "bA & B/b", "G5: „Po & Beine“ bleibt, „Po Beine“ wird repariert, eigene Namen unverändert, HTML-Zeichen weiter entfernt"); }
+S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom();
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
