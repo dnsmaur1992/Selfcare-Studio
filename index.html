@@ -313,13 +313,18 @@ a.tr-x { text-decoration: none; color: var(--accent); }
 .lastset { display: inline-block; margin-left: 6px; padding: 2px 8px; border-radius: 99px; background: var(--accent); color: #fff; letter-spacing: .04em; animation: pop .5s cubic-bezier(.2,1.6,.4,1) both; }
 @media (prefers-reduced-motion: reduce) { .viewin .wrap, .lastset { animation: none; } }
 .tour { position: fixed; inset: 0; z-index: 90; touch-action: none; overscroll-behavior: none; }
-html.touring, html.touring body { overflow: hidden; overscroll-behavior: none; touch-action: none; }
+html.touring, html.touring body { overflow: hidden; overscroll-behavior: none; }
+/* Während der Tour stehen die Jahreszeiten-Teilchen still (iPhone: ständiges Neuzeichnen unter der Abdunklung blockierte das Tippen) */
+html.touring .deco, html.touring .confetti-fx { display: none; }
 .tourhole { position: fixed; border-radius: 18px; box-shadow: 0 0 0 9999px rgba(10, 8, 14, .58); outline: 2px solid var(--accent); outline-offset: 2px; transition: all .3s ease; pointer-events: none; }
 .tourbub { position: fixed; left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); max-width: 520px; margin: 0 auto; background: var(--bg); border-radius: 22px; padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 16px 40px rgba(0,0,0,.3); animation: up .25s ease-out; }
 .tourbub h3 { margin: 0; }
 .tourdemo { display: flex; flex-direction: column; gap: 8px; padding: 10px; border-radius: 16px; background: var(--surface2); }
 .tourdemo .btn { pointer-events: none; }
-.tourdemo svg.fig { height: 104px; width: 100%; }
+.tourdemo .figbox svg.fig, .tourdemo svg.fig { height: min(104px, 13vh); width: 100%; }
+/* Auf kleinen iPhones: Text der Blase scrollt, die Knöpfe bleiben immer sichtbar */
+.tourbub { max-height: calc(100dvh - 68px); }
+.tourbody { display: flex; flex-direction: column; gap: 10px; overflow-y: auto; min-height: 0; flex: 1 1 auto; touch-action: pan-y; -webkit-overflow-scrolling: touch; }
 @media (prefers-reduced-motion: reduce) { .tourhole { transition: none; } .tourbub { animation: none; } }
 .older { border-radius: 18px; background: var(--surface2); padding: 12px 14px; }
 .older summary { font-weight: 600; cursor: pointer; }
@@ -2212,7 +2217,8 @@ const TOUR = [
   { v: "hist", sel: '.tabs [data-v="hist"]', t: "Verlauf", d: "Deine Einheiten mit allen Sätzen, Erfolge und Abzeichen, Fortschritt pro Übung, Wochenbelastung, Körpermaße und Gewicht." },
   { v: "prof", sel: '.tabs [data-v="prof"]', t: "Profil", d: "Nach Themen sortiert: oben du und deine Figur, darunter Training – Plan, Ziel, Satzpause, Ton & Musik, Geräte – und die App mit Darstellung (auch Jahreszeiten & Feste), Backup und Hilfe. Unter „Hilfe & Infos“ findest du auch diese Tour." },
 ];
-function tourStart() { closeSheet(); U.tour = 0; go(TOUR[0].v); }
+function tourStart() { closeSheet(); window.scrollTo(0, 0); U.tour = 0; go(TOUR[0].v); }
+function tourAct(a) { if (a === "tournext") tourGo(U.tour + 1); else if (a === "tourprev") tourGo(U.tour - 1); else if (a === "tourend") tourEnd(); }
 function tourEnd() { U.tour = null; S.tourOffered = true; save(); document.getElementById("tour")?.remove(); document.documentElement.classList.remove("touring"); go("home"); }
 function tourGo(i) { if (i < 0) return; if (i >= TOUR.length) return tourEnd(); U.tour = i; if (U.view !== TOUR[i].v) go(TOUR[i].v); else renderTour(); }
 function renderTour() {
@@ -2222,25 +2228,33 @@ function renderTour() {
   if (!el) {
     el = document.createElement("div"); el.id = "tour"; el.className = "tour"; el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true"); document.body.appendChild(el);
     /* Während der Tour nichts wischen oder scrollen: weiter nur über die Knöpfe. */
-    const stop = (e) => e.preventDefault();
+    const stop = (e) => { const tb = e.target.closest && e.target.closest(".tourbody"); if (tb && e.type === "touchmove" && tb.scrollHeight > tb.clientHeight) return; e.preventDefault(); };
     ["touchmove", "wheel", "gesturestart"].forEach((t) => el.addEventListener(t, stop, { passive: false }));
     el.addEventListener("click", (e) => { if (!e.target.closest("[data-a]")) { e.preventDefault(); e.stopPropagation(); } });
+    /* Knöpfe der Tour reagieren direkt auf den Finger – unabhängig von der allgemeinen Klickverarbeitung (iPhone). */
+    el.addEventListener("touchend", (e) => {
+      const b = e.target.closest("[data-a]"); if (!b) return; const a = b.dataset.a; if (!["tournext", "tourprev", "tourend"].includes(a)) return;
+      e.preventDefault(); e.stopPropagation(); tourAct(a);
+    }, { passive: false });
   }
   document.documentElement.classList.add("touring");
   const demo = st.demo ? `<div class="tourdemo">${figSVG("legpress", "quad")}<b>Beinpresse</b><div class="row" style="gap:8px"><span class="btn sm" style="flex:1">Frei – los</span><span class="btn sm line" style="flex:1">Besetzt</span></div></div>` : "";
   el.innerHTML = `<div class="tourhole"></div><div class="tourbub">
     <div class="row between"><span class="eyebrow">${U.tour + 1} von ${n}</span><button class="small link" data-a="tourend">Tour beenden</button></div>
-    <h3>${st.t}</h3>${demo}<p class="small">${st.d}</p>
-    <div class="row" style="gap:8px">${U.tour ? `<button class="btn line sm" data-a="tourprev">Zurück</button>` : ""}<button class="btn sm" style="flex:1" data-a="tournext">${last ? "Fertig" : "Weiter"}</button></div></div>`;
+    <div class="tourbody"><h3>${st.t}</h3>${demo}<p class="small">${st.d}</p></div>
+    <div class="row" style="gap:8px;flex:none">${U.tour ? `<button class="btn line sm" data-a="tourprev">Zurück</button>` : ""}<button class="btn sm" style="flex:1" data-a="tournext">${last ? "Fertig" : "Weiter"}</button></div></div>`;
   mountFigs(el);
   const hole = el.querySelector(".tourhole"), bub = el.querySelector(".tourbub");
   const tgt = st.sel && document.querySelector(st.sel);
+  /* Die Sprechblase liegt immer ganz im sichtbaren Bereich – auch auf kleinen iPhones und wenn das Ziel größer als der Bildschirm ist. */
   const place = () => {
-    if (!tgt) { hole.style.cssText = "left:50%;top:50%;width:1px;height:1px;outline:none"; bub.style.cssText = "top:50%;transform:translateY(-50%)"; return; }
-    const r = tgt.getBoundingClientRect(); const pad = 6; const vh = innerHeight;
+    const vh = (window.visualViewport && visualViewport.height) || innerHeight; const m = 14; const bh = bub.offsetHeight || 260;
+    const fit = (top) => Math.max(m + 20, Math.min(vh - bh - m - 20, top));
+    if (!tgt) { hole.style.cssText = "left:50%;top:50%;width:1px;height:1px;outline:none"; bub.style.cssText = `top:${fit((vh - bh) / 2)}px`; return; }
+    const r = tgt.getBoundingClientRect(); const pad = 6;
     hole.style.cssText = `left:${r.left - pad}px;top:${r.top - pad}px;width:${r.width + pad * 2}px;height:${r.height + pad * 2}px`;
     const below = r.top + r.height / 2 < vh / 2;
-    bub.style.cssText = below ? `top:${Math.min(vh - 240, r.bottom + pad + 12)}px` : `bottom:${Math.min(vh - 240, vh - r.top + pad + 12)}px`;
+    bub.style.cssText = `top:${fit(below ? r.bottom + pad + 12 : r.top - pad - 12 - bh)}px`;
   };
   if (tgt && !tgt.closest(".tabs")) { const r = tgt.getBoundingClientRect(); if (r.top < 70 || r.bottom > innerHeight - 280) window.scrollTo(0, Math.max(0, scrollY + r.top - 90)); }
   place(); setTimeout(place, 80);
@@ -3677,9 +3691,7 @@ document.addEventListener("click", (e) => {
     case "tour": tourStart(); break;
     case "readlist": openSheet(readList()); break;
     case "read": S.read = Object.assign({}, S.read, { [d.k]: true }); save(); openSheet(readArt(d.k)); document.querySelector(".sheet")?.scrollTo(0, 0); break;
-    case "tournext": tourGo(U.tour + 1); break;
-    case "tourprev": tourGo(U.tour - 1); break;
-    case "tourend": tourEnd(); break;
+    case "tournext": case "tourprev": case "tourend": tourAct(a); break;
     case "tourlater": S.tourOffered = true; save(); closeSheet(); toast("Die Tour findest du jederzeit im Profil unter „Hilfe & Infos“."); break;
     case "newsok": S.newsSeen = NEWS.v; save(); closeSheet(); render(); if (!S.tourOffered) setTimeout(() => openSheet(tourOffer), 300); break;
     case "sutoggle": U.setup[d.k] = U.setup[d.k] === false; render(); break;
