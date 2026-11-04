@@ -1,8 +1,9 @@
-const CACHE = "selfcare-studio-3.9.1";
+const CACHE = "selfcare-studio-4.0";
 const CORE = ["./", "./index.html", "./installieren.html", "./manifest.json", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(CACHE).then((c) => c.addAll(CORE))); });
 self.addEventListener("message", (e) => { if (e.data && e.data.type === "skip") self.skipWaiting(); });
-self.addEventListener("activate", (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });
+// Nur eigene Caches aufräumen: Auf dnsmaur1992.github.io liegen auch Ringzeit und Ringzeit Dev (gleiche Herkunft, gemeinsamer Cache-Speicher).
+self.addEventListener("activate", (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => (k.startsWith("selfcare-studio-") || k.startsWith("satzwerk")) && k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener("fetch", (e) => {
   const r = e.request; if (r.method !== "GET") return;
   const url = new URL(r.url);

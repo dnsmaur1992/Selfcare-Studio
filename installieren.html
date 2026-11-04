@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio installieren">
 <meta property="og:description" content="So legst du Selfcare Studio in einer Minute auf den Home-Bildschirm deines iPhones.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/installieren.html">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.9">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.9">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.0">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.0">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.9">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.0">
 <title>Selfcare Studio installieren</title>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;1,6..96,500;1,6..96,600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet"><style>
@@ -131,6 +131,31 @@ svg.fig .hd { fill: var(--fig); }
 svg.fig .hr { fill: var(--hair, var(--fig)); }
 svg.fig .hcap { fill: var(--shoe); }
 svg.fig .hcapb { stroke: var(--shoe); stroke-width: 2.4; stroke-linecap: round; fill: none; }
+/* Jahreszeiten-Kleidung und Kopfbedeckungen */
+[data-sz="lang"] svg.fig [data-r^="arm"]:not(.hi):not(.hi2), [data-sz="kurz"] svg.fig [data-r="arm1a"]:not(.hi):not(.hi2), [data-sz="kurz"] svg.fig [data-r="arm2a"]:not(.hi):not(.hi2) { stroke: var(--top); stroke-width: 5.2; }
+[data-sz="sommer"] svg.fig [data-r="leg1b"]:not(.hi):not(.hi2), [data-sz="sommer"] svg.fig [data-r="leg2b"]:not(.hi):not(.hi2) { stroke: var(--fig); stroke-width: 4.6; }
+svg.fig .ht-a { fill: var(--shoe); } svg.fig .ht-w { fill: #FFFDFB; stroke: var(--fig); stroke-width: .5; } svg.fig .ht-g { fill: #FFD84D; stroke: var(--fig); stroke-width: .4; }
+svg.fig .ht-r { fill: #D9363E; } svg.fig .ht-rs { stroke: #D9363E; stroke-width: 4.2; stroke-linecap: round; fill: none; }
+svg.fig .ht-p { fill: #8E6BE8; stroke: #8E6BE8; stroke-width: 2.6; stroke-linecap: round; } svg.fig .ht-t { fill: #1FA08A; stroke: #1FA08A; stroke-width: 2.6; stroke-linecap: round; }
+svg.fig path.ht-p[d^="M-5.4"], svg.fig path.ht-t[d^="M5.4"] { fill: none; }
+svg.fig .ht-k { fill: #2A1F30; stroke: #8E6BE8; stroke-width: .5; } svg.fig .ht-p2 { fill: #8E6BE8; }
+svg.fig .ht-ws { stroke: #FFFDFB; stroke-width: 1.6; fill: none; } svg.fig .ht-i { fill: #FFB3CC; } svg.fig .ht-h { fill: #FF4F8B; }
+.festline { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; line-height: 1.3; }
+.festline .motif { font-size: 30px; line-height: 1; filter: drop-shadow(0 2px 6px rgba(0,0,0,.12)); }
+.hero > :not(.deco) { position: relative; z-index: 1; }
+.deco { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+.deco i { position: absolute; top: -24px; left: var(--x); width: 9px; height: 7px; background: var(--c); border-radius: 60% 0 60% 0; opacity: .85; transform: scale(var(--s)); animation: fall var(--d) linear var(--w) infinite; }
+.deco.snow i { width: 6px; height: 6px; border-radius: 50%; opacity: .95; box-shadow: 0 0 0 1px rgba(120, 140, 175, .35), 0 1px 3px rgba(90, 110, 150, .25); }
+.deco.confetti i { width: 6px; height: 10px; border-radius: 1.5px; }
+.deco.hearts i { background: none; width: auto; height: auto; color: var(--c); font-style: normal; font-size: 13px; border-radius: 0; }
+.deco.hearts i::before { content: "♥"; }
+.deco.leaves i { width: 11px; height: 8px; border-radius: 0 80% 0 80%; }
+.deco.sun i { top: auto; bottom: -10px; width: 5px; height: 5px; border-radius: 50%; opacity: .55; box-shadow: 0 0 8px 2px var(--c); animation-name: rise; }
+@keyframes fall { from { transform: translate(0, -20px) rotate(0) scale(var(--s)); } to { transform: translate(var(--dx), 620px) rotate(var(--r)) scale(var(--s)); } }
+@keyframes rise { 0% { transform: translate(0, 0) scale(var(--s)); opacity: 0; } 20% { opacity: .55; } 100% { transform: translate(var(--dx), -420px) scale(var(--s)); opacity: 0; } }
+.confetti-fx { position: fixed; inset: 0; pointer-events: none; z-index: 120; overflow: hidden; }
+.confetti-fx i { position: absolute; top: -16px; left: var(--x); width: 7px; height: var(--h); background: var(--c); border-radius: 1.5px; animation: confall var(--d) cubic-bezier(.25,.6,.5,1) var(--w) forwards; }
+@keyframes confall { 0% { transform: translate(0, 0) rotate(0); opacity: 1; } 85% { opacity: 1; } 100% { transform: translate(var(--dx), 110vh) rotate(var(--r)); opacity: 0; } }
 svg.fig .pony { stroke: var(--hair, var(--fig)); stroke-width: 3.2; stroke-linecap: round; fill: none; }
 svg.fig .cab { stroke: var(--muted); stroke-width: 1.1; }
 svg.fig .bnd { stroke: var(--band); stroke-width: 2.2; stroke-linecap: round; }
@@ -391,6 +416,6 @@ details.hist summary::-webkit-details-marker { display: none; }
   <h2>iPhone</h2><div class="card" style="flex-direction:row;gap:14px;align-items:flex-start"><span style="flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700">1</span><div class="stack" style="gap:3px"><b>Link in <b>Safari</b> öffnen</b><span class="small muted">Nicht im WhatsApp- oder Instagram-Browser. Tippe dort unten rechts auf das Kompass-Symbol oder „In Safari öffnen“. Oder kopiere den Link und füge ihn in Safari ein.</span></div></div><div class="card" style="flex-direction:row;gap:14px;align-items:flex-start"><span style="flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700">2</span><div class="stack" style="gap:3px"><b>Teilen-Symbol antippen</b><span class="small muted">Das Quadrat mit dem Pfeil nach oben, unten in der Mitte. Bei neueren iPhones steckt es hinter den drei Punkten (…) neben der Adresse.</span></div></div><div class="card" style="flex-direction:row;gap:14px;align-items:flex-start"><span style="flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700">3</span><div class="stack" style="gap:3px"><b>„Zum Home-Bildschirm“ wählen</b><span class="small muted">Etwas nach unten wischen, der Eintrag steht in der Liste. Fehlt er: ganz unten „Aktionen bearbeiten“ und ihn hinzufügen.</span></div></div><div class="card" style="flex-direction:row;gap:14px;align-items:flex-start"><span style="flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700">4</span><div class="stack" style="gap:3px"><b>„Hinzufügen“ tippen</b><span class="small muted">Jetzt liegt Selfcare Studio als App auf deinem Home-Bildschirm. Ab hier immer über das Symbol starten.</span></div></div>
   <h2>Android</h2><div class="card" style="flex-direction:row;gap:14px;align-items:flex-start"><span style="flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700">1</span><div class="stack" style="gap:3px"><b>Link in <b>Chrome</b> öffnen</b><span class="small muted">Am besten direkt in Chrome, nicht im Browser einer anderen App.</span></div></div><div class="card" style="flex-direction:row;gap:14px;align-items:flex-start"><span style="flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700">2</span><div class="stack" style="gap:3px"><b>Menü mit den drei Punkten öffnen</b><span class="small muted">Oben rechts.</span></div></div><div class="card" style="flex-direction:row;gap:14px;align-items:flex-start"><span style="flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700">3</span><div class="stack" style="gap:3px"><b>„App installieren“ oder „Zum Startbildschirm hinzufügen“</b><span class="small muted">Bestätigen, fertig.</span></div></div>
   <div class="card" style="background:var(--lav);gap:6px"><b style="color:var(--lav-ink)">Deine Daten</b><span class="small" style="color:var(--lav-ink)">Alles bleibt nur auf deinem Handy. Die installierte App speichert getrennt vom Browser. Darum: ab und zu im Profil „Backup speichern“, dann geht bei einem Handywechsel nichts verloren.</span></div>
-  <div class="card" style="background:var(--butter);gap:6px"><b style="color:var(--butter-ink)">Update</b><span class="small" style="color:var(--butter-ink)">Neue Versionen kommen von selbst. Falls nicht: App ganz schließen und neu öffnen. Die Versionsnummer steht unten im Profil (aktuell 3.9).</span></div>
+  <div class="card" style="background:var(--butter);gap:6px"><b style="color:var(--butter-ink)">Update</b><span class="small" style="color:var(--butter-ink)">Neue Versionen kommen von selbst. Falls nicht: App ganz schließen und neu öffnen. Die Versionsnummer steht unten im Profil (aktuell 4.0).</span></div>
 </div>
 </body></html>

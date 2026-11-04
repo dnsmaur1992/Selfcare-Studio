@@ -17,12 +17,22 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 - [ ] **Eigene Animationen** für Rumpfrotation, TRX-Rudern, TRX-Brustpresse und Rückenstrecker-Maschine. Sie nutzen vorerst die Animation einer ähnlichen Übung (Pallof Press, Rudern am Kabel, Liegestütz an der Bank, Hyperextension).
 
 ## Ideen (besprochen, noch nicht beauftragt)
+- **Aus Ringzeit, noch nicht übernommen:** „Einfach oder ausführlich“ als Ansichtswahl; Tipps und Fakten beim Laden; Fastenzeit-/Ramadan-Modus (leichtere Einheiten); Englisch; Release-Werkzeug mit Dev- und stabiler App (erst sinnvoll mit Code im Repo statt Einzeldatei).
 - **Varianten für Pilates und Mobility:** Themen (Bauch & Mitte, Po & Beine, Rücken & Haltung, Ganzkörper sanft · Hüfte & Rücken, Schultern & Nacken, Ganzkörper, Abends runterfahren), 10–15 neue Positionen mit Animation, Rotation, 15 oder 30 Minuten. Bisher sind die Einheiten jedes Mal gleich.
 - **Ruhige Phase & Runterkommen:** Woche mit Pilates/Mobility statt Kraft ohne Serien-Druck, geführte Atemübung (3–5 Min) von der Startseite.
 - **Signalton auch beim Start der Satzpause** (bisher nur am Ende, weil der Start durch Antippen ausgelöst wird).
 
 ## Bewusst nicht umgesetzt
 - **Unhörbarer Dauerton** gegen das Einschlafen der Audioausgabe (Ringzeit-Idee): Er würde laufende Musik auf dem iPhone dauerhaft leiser stellen. Stattdessen Gong als echte Tondatei und Freischalten beim ersten Antippen.
+
+## Erledigt in Version 4.0 (Erfahrungen aus Ringzeit)
+- [x] **Jahreszeiten-Kleidung** der Figur (lange Ärmel, T-Shirt, Top und kurze Hose), Mützen und Hüte, fallende Teilchen auf der Startseite.
+- [x] **Feste** mit Gruß und Motiv, auch anderer Kulturen (Kalender über Intl); **Geburtstag** mit echtem Datum, Konfetti, Partyhut, Abzeichen; Alter jetzt taggenau.
+- [x] Schalter **„Jahreszeiten & Feste“** unter Darstellung; „Bewegung reduzieren“ wird beachtet.
+- [x] **Anstrengung mit Gesichtern**; nach „zu viel“ wird die nächste Einheit leichter.
+- [x] **Cache-Fehler behoben:** Ein Update löschte bisher auch die Offline-Daten (Cache) von Ringzeit, weil beide Apps unter `dnsmaur1992.github.io` liegen. Jetzt nur eigene Caches.
+- [x] **„&“ in Namen** wurde seit 3.8 entfernt („Po Beine“) – behoben, Vorlagennamen werden repariert.
+- [x] Neue Prüfungen nach Ringzeit-Vorbild: Gesamtprüfung (132 Einheiten bis zum Abschluss), Altdaten-Stand, jeder Knopf hat einen Handler, Cache-Aufräumen.
 
 ## Erledigt in Version 3.9.1 (Restpunkte aus dem Review zu 3.9, Commit 360a305)
 - [x] **Anstrengung (rpe) ging bei der Datenprüfung verloren** – jetzt bleibt sie bei Start, Speichern und Backup erhalten; ungültige Werte werden gemeldet. Die Prüfung nimmt grundsätzlich alle übrigen gültigen Felder mit, statt nur bekannte neu aufzubauen.

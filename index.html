@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.9.1">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.9.1">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.0">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.0">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=3.9.1">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.0">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -143,6 +143,31 @@ svg.fig .hd { fill: var(--fig); }
 svg.fig .hr { fill: var(--hair, var(--fig)); }
 svg.fig .hcap { fill: var(--shoe); }
 svg.fig .hcapb { stroke: var(--shoe); stroke-width: 2.4; stroke-linecap: round; fill: none; }
+/* Jahreszeiten-Kleidung und Kopfbedeckungen */
+[data-sz="lang"] svg.fig [data-r^="arm"]:not(.hi):not(.hi2), [data-sz="kurz"] svg.fig [data-r="arm1a"]:not(.hi):not(.hi2), [data-sz="kurz"] svg.fig [data-r="arm2a"]:not(.hi):not(.hi2) { stroke: var(--top); stroke-width: 5.2; }
+[data-sz="sommer"] svg.fig [data-r="leg1b"]:not(.hi):not(.hi2), [data-sz="sommer"] svg.fig [data-r="leg2b"]:not(.hi):not(.hi2) { stroke: var(--fig); stroke-width: 4.6; }
+svg.fig .ht-a { fill: var(--shoe); } svg.fig .ht-w { fill: #FFFDFB; stroke: var(--fig); stroke-width: .5; } svg.fig .ht-g { fill: #FFD84D; stroke: var(--fig); stroke-width: .4; }
+svg.fig .ht-r { fill: #D9363E; } svg.fig .ht-rs { stroke: #D9363E; stroke-width: 4.2; stroke-linecap: round; fill: none; }
+svg.fig .ht-p { fill: #8E6BE8; stroke: #8E6BE8; stroke-width: 2.6; stroke-linecap: round; } svg.fig .ht-t { fill: #1FA08A; stroke: #1FA08A; stroke-width: 2.6; stroke-linecap: round; }
+svg.fig path.ht-p[d^="M-5.4"], svg.fig path.ht-t[d^="M5.4"] { fill: none; }
+svg.fig .ht-k { fill: #2A1F30; stroke: #8E6BE8; stroke-width: .5; } svg.fig .ht-p2 { fill: #8E6BE8; }
+svg.fig .ht-ws { stroke: #FFFDFB; stroke-width: 1.6; fill: none; } svg.fig .ht-i { fill: #FFB3CC; } svg.fig .ht-h { fill: #FF4F8B; }
+.festline { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; line-height: 1.3; }
+.festline .motif { font-size: 30px; line-height: 1; filter: drop-shadow(0 2px 6px rgba(0,0,0,.12)); }
+.hero > :not(.deco) { position: relative; z-index: 1; }
+.deco { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+.deco i { position: absolute; top: -24px; left: var(--x); width: 9px; height: 7px; background: var(--c); border-radius: 60% 0 60% 0; opacity: .85; transform: scale(var(--s)); animation: fall var(--d) linear var(--w) infinite; }
+.deco.snow i { width: 6px; height: 6px; border-radius: 50%; opacity: .95; box-shadow: 0 0 0 1px rgba(120, 140, 175, .35), 0 1px 3px rgba(90, 110, 150, .25); }
+.deco.confetti i { width: 6px; height: 10px; border-radius: 1.5px; }
+.deco.hearts i { background: none; width: auto; height: auto; color: var(--c); font-style: normal; font-size: 13px; border-radius: 0; }
+.deco.hearts i::before { content: "♥"; }
+.deco.leaves i { width: 11px; height: 8px; border-radius: 0 80% 0 80%; }
+.deco.sun i { top: auto; bottom: -10px; width: 5px; height: 5px; border-radius: 50%; opacity: .55; box-shadow: 0 0 8px 2px var(--c); animation-name: rise; }
+@keyframes fall { from { transform: translate(0, -20px) rotate(0) scale(var(--s)); } to { transform: translate(var(--dx), 620px) rotate(var(--r)) scale(var(--s)); } }
+@keyframes rise { 0% { transform: translate(0, 0) scale(var(--s)); opacity: 0; } 20% { opacity: .55; } 100% { transform: translate(var(--dx), -420px) scale(var(--s)); opacity: 0; } }
+.confetti-fx { position: fixed; inset: 0; pointer-events: none; z-index: 120; overflow: hidden; }
+.confetti-fx i { position: absolute; top: -16px; left: var(--x); width: 7px; height: var(--h); background: var(--c); border-radius: 1.5px; animation: confall var(--d) cubic-bezier(.25,.6,.5,1) var(--w) forwards; }
+@keyframes confall { 0% { transform: translate(0, 0) rotate(0); opacity: 1; } 85% { opacity: 1; } 100% { transform: translate(var(--dx), 110vh) rotate(var(--r)); opacity: 0; } }
 svg.fig .pony { stroke: var(--hair, var(--fig)); stroke-width: 3.2; stroke-linecap: round; fill: none; }
 svg.fig .cab { stroke: var(--muted); stroke-width: 1.1; }
 svg.fig .bnd { stroke: var(--band); stroke-width: 2.2; stroke-linecap: round; }
@@ -680,11 +705,17 @@ function wHint(x) {
   if (x.eq.includes("kabel")) return "Wie am Steckgewicht angezeigt.";
   return "";
 }
-const S_VERSION = "3.9.1";
-const NEWS = { v: "3.9.1", items: [
+const S_VERSION = "4.0";
+const NEWS = { v: "4.0", items: [
+  ["Deine Figur geht mit der Jahreszeit", "Im Winter Mütze und lange Ärmel, im Frühling T-Shirt, im Sommer Top und kurze Hose. Dazu Blüten, Blätter oder Schnee auf der Startseite."],
+  ["Feste & Geburtstag", "Grüße und kleine Überraschungen zu Weihnachten, Silvester, Karneval, Ostern, Halloween, Sankt Martin und Festen anderer Kulturen. Trag unter Profil → Du &amp; deine Figur deinen Geburtstag ein – dann gibt's Konfetti, einen Partyhut und ein eigenes Abzeichen."],
+  ["Wie anstrengend war's?", "Jetzt mit Gesichtern. Und war eine Einheit „zu viel“, wird die nächste automatisch etwas leichter."],
+  ["Gründlich geprüft", "Jede Einheit aller Pläne wird jetzt automatisch bis zum Ende durchgespielt. Dabei gefunden und behoben: Namen wie „Po & Beine“ verloren ihr „&“. Abschaltbar ist alles Festliche unter Profil → Darstellung."],
+], old: [
+  { v: "3.9.1", items: [
   ["Kleine Korrektur", "Deine Angabe „Wie anstrengend war's?“ bleibt jetzt auch nach einem Neustart oder Backup erhalten – die App erkennt damit wieder rechtzeitig, wann eine Entlastungswoche guttut."],
   ["Mini wirklich in 30 Minuten", "Auch mit 2 Minuten Pause bleibt das Mini-Training inklusive Aufwärmen und Cool-down bei höchstens 30 Minuten."],
-], old: [
+] },
   { v: "3.9", items: [
   ["Steigerung vorgeschlagen", "Hast du letztes Mal alle Sätze bis zum oberen Ziel geschafft, schlägt die App vor dem ersten Satz mehr Gewicht vor – bei Assist-Geräten weniger Hilfe. Ein Tipp übernimmt es, sonst bleibt alles wie gehabt."],
   ["Mini-Training passt in 30 Minuten", "Die App rechnet Aufwärmen, Pausen, Seiten und Cool-down mit und kürzt notfalls Übungen oder Runden. Die geschätzte Dauer steht vorher dabei."],
@@ -844,7 +875,15 @@ if (!S.restMig) { if (S.restC === 90) S.restC = 180; if (S.restI === 60) S.restI
    Eine eigene Übung übernimmt von ihrer Vorlage („ähnlich wie“) Animation, Muskelwirkung, Bewegungsmuster und Übungsart.
    Damit funktionieren Ersatz bei „besetzt“, Sätze, Gewichtsschätzung und Wochenvolumen wie bei eingebauten Übungen. */
 /* Freitext von außen (eigene Namen, geteilte Codes, Backups) wird von Zeichen befreit, die HTML bilden könnten. */
-const cleanTxt = (v, n) => String(v == null ? "" : v).replace(/[<>"'`&\\]/g, "").replace(/\s+/g, " ").trim().slice(0, n || 60);
+/* „&“ bleibt erlaubt (z. B. „Po & Beine“): ohne < > " ' ` kann es kein HTML bilden, und angezeigt wird ohnehin über esc(). */
+const cleanTxt = (v, n) => String(v == null ? "" : v).replace(/[<>"'`\\]/g, "").replace(/\s+/g, " ").trim().slice(0, n || 60);
+/* 3.8–3.9.1 haben „&“ aus Namen entfernt („Po & Beine“ → „Po Beine“). Bekannte Vorlagennamen werden wiederhergestellt. */
+let NAME_FIX = null;
+function fixName(v) {
+  if (typeof v !== "string" || v.includes("&")) return v;
+  if (!NAME_FIX) { NAME_FIX = {}; [2, 3, 4, 5, 6].forEach((n) => { try { tmplDays(n).forEach((d) => { if (d.name.includes("&")) NAME_FIX[d.name.replace(/&/g, "").replace(/\s+/g, " ").trim()] = d.name; }); } catch (e) {} }); }
+  const m = v.match(/^(.*?)( \(kurz\))?$/); const f = NAME_FIX[m[1]]; return f ? f + (m[2] || "") : v;
+}
 const DAY_TYPES = ["kraft", "pilates", "mobility"];
 const intIn = (v, lo, hi, def) => { const n = Math.round(Number(v)); return Number.isFinite(n) && n >= lo && n <= hi ? n : def; };
 const clampInt = (v, lo, hi, def) => { const n = Math.round(Number(v)); return Number.isFinite(n) ? Math.min(hi, Math.max(lo, n)) : def; };
@@ -906,11 +945,11 @@ function normalizeState(st, notes) {
       /* Bekannte Felder prüfen, alle übrigen gültigen Daten unverändert mitnehmen. */
       const o = Object.assign({}, it, { ex: it.ex, log: cleanLogs(it.log, c) });
       if (!GROUPS[it.g]) delete o.g; const rr = cleanReps(it.reps); if (rr) o.reps = rr; else delete o.reps;
-      if (it.note) o.note = cleanTxt(it.note, 120); else delete o.note; if (it.sets != null) o.sets = intIn(it.sets, 0, 30, 0); if (it.part) o.part = true; else delete o.part;
+      if (typeof it.note === "string") o.note = cleanTxt(it.note, 120); else delete o.note; if (it.sets != null) o.sets = intIn(it.sets, 0, 30, 0); if (it.part) o.part = true; else delete o.part;
       return o.log.length ? o : (c.item++, null);
     }).filter(Boolean);
     if (!items.length) { c.sess++; return null; }
-    const o = Object.assign({}, x, { id: typeof x.id === "string" ? x.id.slice(0, 20) : uid(), date: x.date, type: SESS_TYPES.includes(x.type) ? x.type : flow ? "pilates" : "kraft", name: cleanTxt(x.name, 60) || (TYPES[x.type] || TYPES.kraft).n, groups: arr(x.groups).filter((g) => GROUPS[g]), dur: clampInt(x.dur, 1, 600, 1), items });
+    const o = Object.assign({}, x, { id: typeof x.id === "string" ? x.id.slice(0, 20) : uid(), date: x.date, type: SESS_TYPES.includes(x.type) ? x.type : flow ? "pilates" : "kraft", name: fixName(cleanTxt(x.name, 60)) || (TYPES[x.type] || TYPES.kraft).n, groups: arr(x.groups).filter((g) => GROUPS[g]), dur: clampInt(x.dur, 1, 600, 1), items });
     if (flow) { o.flow = true; o.skipped = clampInt(x.skipped, 0, 999, 0); } else delete o.flow;
     if (x.slotId && typeof x.slotId === "string") o.slotId = x.slotId.slice(0, 20); else delete o.slotId;
     if (x.warm) o.warm = true; else delete o.warm; if (x.prs != null) o.prs = clampInt(x.prs, 0, 999, 0);
@@ -929,7 +968,7 @@ function normalizeState(st, notes) {
   st.notes = Object.fromEntries(Object.entries(obj(st.notes)).filter(([, v]) => typeof v === "string").map(([k, v]) => [k, v.slice(0, 300)]));
   st.eqLog = arr(st.eqLog).filter((q) => q && typeof q.e === "string" && Number.isFinite(q.wd) && Number.isFinite(q.h)).slice(-400);
   Object.keys(st.weeks).forEach((k) => { const w = st.weeks[k]; if (!/^\d{4}-W\d{2}$/.test(k) || !w || !Array.isArray(w.slots)) { delete st.weeks[k]; return; }
-    w.slots = w.slots.filter((q) => q && typeof q === "object" && DAY_TYPES.concat(["mini"]).includes(q.type)).map((q) => { q.id = typeof q.id === "string" ? q.id.slice(0, 20) : uid(); q.wd = intIn(q.wd, 0, 7, 0); if (q.groups != null) { q.groups = arr(q.groups).filter((g) => GROUPS[g]); if (!q.groups.length) delete q.groups; } if (q.name != null) q.name = cleanTxt(q.name, 40); if (q.factor != null) q.factor = Number.isFinite(+q.factor) ? Math.min(2, Math.max(0.3, +q.factor)) : 1; return q; }); });
+    w.slots = w.slots.filter((q) => q && typeof q === "object" && DAY_TYPES.concat(["mini"]).includes(q.type)).map((q) => { q.id = typeof q.id === "string" ? q.id.slice(0, 20) : uid(); q.wd = intIn(q.wd, 0, 7, 0); if (q.groups != null) { q.groups = arr(q.groups).filter((g) => GROUPS[g]); if (!q.groups.length) delete q.groups; } if (q.name != null) q.name = fixName(cleanTxt(q.name, 40)); if (q.factor != null) q.factor = Number.isFinite(+q.factor) ? Math.min(2, Math.max(0.3, +q.factor)) : 1; return q; }); });
   st.name = cleanTxt(st.name, 40);
   /* Einstellungen: nur bekannte Werte */
   const pick = (k, ok, def, lbl) => { if (st[k] === undefined) return; if (!ok(st[k])) { c.set.push(lbl); if (def === undefined) delete st[k]; else st[k] = def; } };
@@ -943,11 +982,12 @@ function normalizeState(st, notes) {
   pick("outfit", (v) => v === "custom" || OUTFITS.some((o) => o.id === v), undefined, "Outfit");
   pick("dayType", (v) => !!DAYMOB[v], undefined, "Tagesform");
   pick("music", (v) => typeof v === "string" && (v === "" || /^https?:\/\/[^\s"'<>]{1,500}$/.test(v)), "", "Musik-Link");
-  ["backCare", "voice", "zoom", "setup", "heavy"].forEach((k) => pick(k, (v) => typeof v === "boolean", undefined, k === "setup" ? "Einrichtung" : "Schalter"));
+  ["backCare", "voice", "zoom", "setup", "heavy", "design"].forEach((k) => pick(k, (v) => typeof v === "boolean", undefined, k === "setup" ? "Einrichtung" : "Schalter"));
   const hex = (v) => typeof v === "string" && /^#[0-9a-fA-F]{6}$/.test(v);
   if (st.outfitCustom != null) st.outfitCustom = Object.fromEntries(Object.entries(obj(st.outfitCustom)).filter(([k, v]) => ["top", "legs", "shoe"].includes(k) && hex(v)));
   if (st.hair != null) { const h = obj(st.hair); st.hair = {}; if (HAIRS.some(([k]) => k === h.style)) st.hair.style = h.style; if (hex(h.color)) st.hair.color = h.color; }
-  if (st.body != null) { const b = obj(st.body); st.body = { year: intIn(b.year, 1920, new Date().getFullYear() - 10, null), height: intIn(b.height, 100, 230, null) }; }
+  if (st.body != null) { const b = obj(st.body); st.body = Object.assign({}, b, { year: intIn(b.year, 1920, new Date().getFullYear() - 10, null), height: intIn(b.height, 100, 230, null) });
+    if (b.birth != null) { if (validBirth(b.birth)) st.body.year = +b.birth.slice(0, 4); else { delete st.body.birth; c.set.push("Geburtstag"); } } }
   if (st.focus != null && !(st.focus && FOCI[st.focus.id] && isDate(st.focus.start))) { st.focus = null; c.set.push("Fokus-Block"); }
   if (st.focus) { st.focus.base = Object.fromEntries(Object.entries(obj(st.focus.base)).filter(([k, v]) => EXM[k] && Number.isFinite(v))); if (st.focus.meas != null && !(st.focus.meas && isDate(st.focus.meas.d))) st.focus.meas = null; }
   if (st.pause != null && !(st.pause && PAUSE_WHY[st.pause.why] && isDate(st.pause.from))) { st.pause = null; c.set.push("Pause"); }
@@ -977,7 +1017,7 @@ function activeProblem(A, known, flowKnown) {
 function normalizeDays(notes) {
   const n0 = Array.isArray(S.days) ? S.days.length : 0;
   S.days = (Array.isArray(S.days) ? S.days : []).filter((d) => d && typeof d === "object" && DAY_TYPES.includes(d.type || "kraft")).map((d) => {
-    d.name = cleanTxt(d.name, 40) || "Trainingstag"; d.groups = (Array.isArray(d.groups) ? d.groups : []).filter((g) => GROUPS[g]); d.wd = intIn(d.wd, 0, 7, 0);
+    d.name = fixName(cleanTxt(d.name, 40)) || "Trainingstag"; d.groups = (Array.isArray(d.groups) ? d.groups : []).filter((g) => GROUPS[g]); d.wd = intIn(d.wd, 0, 7, 0);
     if (d.mode === "custom") { const n = Array.isArray(d.custom) ? d.custom.length : 0; d.custom = cleanCustomList(d.custom); if (notes && d.custom.length < n) notes.push(`${n - d.custom.length} unbekannte Übungen aus „${d.name}“ entfernt`); }
     return d;
   });
@@ -1253,7 +1293,7 @@ function nextSlot(wk) {
    Faktoren auf das geplante Volumen (Sätze): Entlastungswoche, Wiedereinstieg, Wochen-Check-in, Tagesform.
    Gewichte bleiben gleich, nur die Satzzahl ändert sich. */
 const TARGET = { po: [10, 16], quad: [6, 12], ham: [6, 10], abd: [4, 8], add: [3, 6], waden: [3, 6], ruecken: [8, 14], brust: [6, 10], schulter: [6, 10], bi: [3, 6], tri: [3, 6], bauch: [4, 8] };
-const RPE_OPTS = [[3, "Locker"], [5, "Gut machbar"], [7, "Fordernd"], [9, "Sehr hart"], [10, "Zu viel"]];
+const RPE_OPTS = [[3, "😌 Locker"], [5, "🙂 Gut machbar"], [7, "😤 Fordernd"], [9, "🥵 Sehr hart"], [10, "😵 Zu viel"]];
 /* Lokaler Kalendertag (nicht UTC), damit nachts nichts auf den Vortag rutscht. */
 const dayKey = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 const krSessions = () => S.sessions.filter((s) => !s.flow);
@@ -1277,6 +1317,8 @@ function loadFactor() {
   if (wk.deload && !wk.skipDeload) { f *= 0.6; why.push(wk.deload === "rpe" ? "Entlastungswoche (zuletzt sehr anstrengend)" : "geplante Entlastungswoche"); }
   if (rampLeft()) { f *= 0.75; why.push(`Wiedereinstieg nach der Pause (noch ${rampLeft()} ${rampLeft() === 1 ? "Tag" : "Tage"})`); }
   else if (wk.comeback) { f *= 0.75; why.push("Wiedereinstieg nach einer Pause"); }
+  /* Aus Ringzeit: War die letzte Einheit „zu viel“ (und ist höchstens 4 Tage her), wird die nächste etwas leichter. */
+  { const lk = krSessions().slice(-1)[0]; if (lk && lk.rpe >= 10 && daysSince(lk.date) <= 4) { f *= 0.85; why.push("letzte Einheit war „zu viel“"); } }
   if (wk.mood === "stress") { f *= 0.8; why.push("stressige Woche"); }
   if (wk.mood === "relax") { f *= 1.1; why.push("entspannte Woche"); }
   const tf = (S.form || {})[dayKey(new Date())];
@@ -1409,6 +1451,7 @@ const BADGES = [
   { id: "flow", n: "Pilates & Mobility", t: () => S.sessions.some((s) => s.flow) },
   { id: "mini", n: "Auch an müden Tagen", t: () => S.sessions.some((s) => s.type === "mini") },
   { id: "early", n: "Frühaufsteherin", t: () => S.sessions.some((s) => new Date(s.date).getHours() < 9) },
+  { id: "bday", n: "Geburtstagstraining", t: () => S.sessions.some((s) => isBirthday(new Date(s.date))) },
 ];
 function checkBadges() {
   S.badges = S.badges || {}; const fresh = [];
@@ -1459,7 +1502,19 @@ async function calExport() {
 /* Körpermaße */
 const MEAS = [["gewicht", "Gewicht", "kg"], ["taille", "Taille", "cm"], ["huefte", "Hüfte", "cm"], ["po", "Po", "cm"], ["ober", "Oberschenkel", "cm"]];
 /* Körperdaten (freiwillig): Geburtsjahr und Größe im Profil, Gewicht mit Verlauf bei den Maßen. */
-const ageNow = () => (S.body && S.body.year ? new Date().getFullYear() - S.body.year : null);
+/* Alter: aus dem genauen Geburtstag, sonst (ältere Daten) aus dem Geburtsjahr */
+function ageNow(d) {
+  d = d || new Date(); const b = S.body || {};
+  if (b.birth) { const [y, m, day] = b.birth.split("-").map(Number); return d.getFullYear() - y - (d.getMonth() + 1 < m || (d.getMonth() + 1 === m && d.getDate() < day) ? 1 : 0); }
+  return b.year ? d.getFullYear() - b.year : null;
+}
+const validBirth = (v) => typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v) && !isNaN(Date.parse(v)) && +v.slice(0, 4) >= 1920 && +v.slice(0, 4) <= new Date().getFullYear() - 10;
+function setBirth(v) {
+  S.body = S.body || {};
+  if (validBirth(v)) { S.body.birth = v; S.body.year = +v.slice(0, 4); } else if (!v) { delete S.body.birth; S.body.year = null; } else return;
+  save(); const bi = document.getElementById("bodyinfo"); if (bi) bi.innerHTML = bodyStatsHtml();
+  if (S.body.birth && isBirthday(new Date())) { S.flags.bdayFx = null; render(); }
+}
 const heightCm = () => (S.body && S.body.height) || null;
 function weightAt(date) { const L = (S.measures || []).filter((q) => q.gewicht && (!date || new Date(q.d) <= new Date(date))); const e = L[L.length - 1] || (date ? (S.measures || []).find((q) => q.gewicht) : null); return e ? e.gewicht : null; }
 const lastWeight = () => weightAt(null);
@@ -1477,7 +1532,7 @@ function bodyStatsHtml() { const L = bodyStats(); return L.length ? L.map(([n, v
 function bodyCard(ob) {
   const b = S.body || {}; const w = lastWeight();
   return `<div class="card" style="gap:10px"><div class="stack" style="gap:2px"><h3>Über dich${ob ? " <span class='small muted' style='font-weight:400'>· freiwillig</span>" : ""}</h3><p class="small muted">Für Pulsbereiche beim Cardio, Kraft im Verhältnis zum Körpergewicht und deine Körperwerte. Bleibt nur auf deinem Handy.</p></div>
-    <div class="mgrid"><label class="stack" style="gap:4px"><span class="small muted">Geburtsjahr</span><input class="field num" inputmode="numeric" data-in="byear" value="${b.year || ""}" placeholder="z. B. 1980"></label>
+    <div class="mgrid"><label class="stack" style="gap:4px;grid-column:1 / -1"><span class="small muted">Geburtstag</span><input class="field" type="date" data-in="bdate" value="${b.birth || ""}" min="1920-01-01" max="${new Date().getFullYear() - 10}-12-31" aria-label="Geburtstag">${b.year && !b.birth ? `<span class="small muted">Bisher nur das Geburtsjahr ${b.year}. Mit dem genauen Datum gratuliert dir die App am Geburtstag.</span>` : ""}</label>
     <label class="stack" style="gap:4px"><span class="small muted">Größe (cm)</span><input class="field num" inputmode="numeric" data-in="bheight" value="${b.height || ""}" placeholder="–"></label>
     <label class="stack" style="gap:4px"><span class="small muted">Gewicht (kg)</span><input class="field num" inputmode="decimal" data-in="bweight" value="${w ? String(w).replace(".", ",") : ""}" placeholder="–"></label></div>
     ${ob ? "" : `<div class="stack" id="bodyinfo" style="gap:8px">${bodyStatsHtml()}</div><span class="small muted">Gewicht im Verlauf: Verlauf → Maße.</span>`}</div>`;
@@ -1864,8 +1919,8 @@ function buildFig(svg, ex, g) {
   s += `<line data-r="torso" class="${cls("torso", "b1")}"/>`;
   ["leg1a", "leg1b", "foot1"].forEach((n) => (s += `<line data-r="${n}" class="${cls(n, "b1")}"/>`));
   if (hl === "hip") s += `<circle data-r="glute" r="5" class="hic"/>`;
-  const hst = (S.hair && S.hair.style) || "zopf";
-  s += `<circle data-r="head" r="6.6" class="hd"/>` + (!front && hst === "zopf" ? `<path data-r="pony" class="pony"/>` : "") + `<g data-r="hair">${hairSVG(hst, front)}</g>`;
+  const hst = (S.hair && S.hair.style) || "zopf"; const hat = (season() || {}).hat;
+  s += `<circle data-r="head" r="6.6" class="hd"/>` + (!front && hst === "zopf" ? `<path data-r="pony" class="pony"/>` : "") + `<g data-r="hair">${hat && hst === "cap" ? "" : hairSVG(hst, front)}${hat ? hatSVG(hat) : ""}</g>`;
   ["arm1a", "arm1b"].forEach((n) => (s += `<line data-r="${n}" class="${cls(n, "b1")}"/>`));
   if (hl === "shoulder") s += `<circle data-r="shd" r="4.4" class="hic"/>` + (front ? `<circle data-r="shd2" r="4.4" class="hic"/>` : "");
   dyn.forEach((p) => {
@@ -1925,6 +1980,128 @@ function hairSVG(st, front) {
   if (st === "lang") return (front ? `<path class="hr" d="M-6.9 0 Q-8.8 6 -7.4 11.5 L-4.6 10.6 Q-5.6 5 -4.6 -0.6 Z"/><path class="hr" d="M6.9 0 Q8.8 6 7.4 11.5 L4.6 10.6 Q5.6 5 4.6 -0.6 Z"/>`
     : `<path class="hr" d="M-2 -6.6 Q-9.6 -2.5 -8.4 11.5 Q-5.6 12.6 -3.6 11 Q-5.6 3 -1.2 -2.6 Z"/>`) + cap;
   return cap;
+}
+/* ---------------- Jahreszeiten, Feste & Geburtstag (übernommen und angepasst aus Ringzeit) ----------------
+   Alles wird lokal aus dem Datum berechnet. Fremde Kalender (islamisch, hebräisch) liefert das Handy selbst (Intl) –
+   offline und immer aktuell. Abschaltbar unter Profil → Darstellung; bei „Bewegung reduzieren“ fällt nichts. */
+const designOn = () => S.design !== false;
+const dayNow = () => (U.seasonDate ? new Date(U.seasonDate + "T12:00:00") : new Date());
+const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+const dayDiff = (a, b) => Math.round((Date.UTC(b.getFullYear(), b.getMonth(), b.getDate()) - Date.UTC(a.getFullYear(), a.getMonth(), a.getDate())) / 864e5);
+const calCache = new Map();
+function calParts(cal, opts, d) {
+  const k = cal + dayKey(d); if (calCache.has(k)) return calCache.get(k);
+  let r = null;
+  try { const p = new Intl.DateTimeFormat("en-u-ca-" + cal, opts).formatToParts(d); const g = (t) => (p.find((x) => x.type === t) || {}).value; r = { d: +g("day"), m: g("month"), y: +String(g("year") || g("relatedYear") || "").replace(/\D/g, "") }; } catch (e) {}
+  if (calCache.size > 400) calCache.clear(); calCache.set(k, r); return r;
+}
+const hijri = (d) => { const r = calParts("islamic-umalqura", { day: "numeric", month: "numeric", year: "numeric" }, d); return r && r.d ? { d: r.d, m: +r.m, y: r.y } : null; };
+/* Tag von Chanukka (1–8) oder 0: beginnt am 25. Kislew */
+function hanukkahDay(d) { for (let k = 0; k < 8; k++) { const r = calParts("hebrew", { day: "numeric", month: "long" }, addDays(d, -k)); if (r && r.d === 25 && /^Kislev/.test(r.m || "")) return k + 1; } return 0; }
+/* Ostersonntag (gregorianisch) */
+function easterSun(y) {
+  const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3),
+    h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451),
+    mo = Math.floor((h + l - 7 * m + 114) / 31), da = ((h + l - 7 * m + 114) % 31) + 1;
+  return new Date(y, mo - 1, da);
+}
+/* 1. Advent: vierter Sonntag vor dem 25. Dezember */
+const advent1 = (y) => { const x = new Date(y, 11, 24); return addDays(x, -((x.getDay() + 7) % 7) - 21); };
+/* Diwali folgt dem hinduistischen Mondkalender – Hauptfesttag je Jahr; Liste rechtzeitig verlängern */
+const DIWALI = ["2026-11-08", "2027-10-29", "2028-10-17", "2029-11-05", "2030-10-26"];
+/* Geburtstag aus dem Profil (am 29. Februar in Nicht-Schaltjahren am 28.) */
+function isBirthday(d) {
+  const b = S.body && S.body.birth; if (!b) return false;
+  const [, m, day] = b.split("-").map(Number); const leap = (y) => new Date(y, 1, 29).getMonth() === 1;
+  return d.getMonth() + 1 === m && (d.getDate() === day || (m === 2 && day === 29 && !leap(d.getFullYear()) && d.getDate() === 28));
+}
+/* Alle Anlässe eines Tages, nach Vorrang: Gruß, Motiv (Emoji) und – wenn passend – Kopfbedeckung und Teilchen. */
+function feastsOn(d) {
+  const m = d.getMonth() + 1, day = d.getDate(), ds = dayKey(d), out = [], add = (k, g, e, o) => out.push(Object.assign({ k, g, e }, o || {}));
+  const ea = dayDiff(easterSun(d.getFullYear()), d), hj = hijri(d), hk = hanukkahDay(d), adv = dayDiff(advent1(d.getFullYear()), d);
+  if (isBirthday(d)) add("birthday", `Alles Gute zum Geburtstag${S.name ? ", " + S.name : ""}!`, "🎂", { hat: "party", parts: "confetti" });
+  if (hk) add("hanukkah", `Chag Chanukka sameach! · ${hk}. Licht`, "🕎");
+  if (hj && hj.m === 10 && hj.d <= 3) add("eidfitr", "Eid Mubarak – frohes Zuckerfest!", "🌙");
+  if (hj && hj.m === 12 && hj.d >= 10 && hj.d <= 13) add("eidadha", "Eid Mubarak – gesegnetes Opferfest!", "🌙");
+  if (hj && hj.m === 9) add("ramadan", "Ramadan Kareem – gesegnete Fastenzeit", "🏮");
+  if (DIWALI.includes(ds)) add("diwali", "Happy Diwali – frohes Lichterfest!", "🪔");
+  if (ea === 0 || ea === 1) add("easter", "Frohe Ostern!", "🐣", { hat: "bunny" });
+  if (ea >= -52 && ea <= -47) add("karneval", "Helau & Alaaf!", "🎭", { hat: "jester", parts: "confetti" });
+  if (m === 2 && day === 14) add("valentine", "Hab dich lieb – auch dich selbst ❤", "💗", { hat: "heart", parts: "hearts" });
+  if (m === 3 && day === 8) add("frauentag", "Alles Gute zum Weltfrauentag!", "💐", { parts: "petals" });
+  if (m === 3 && (day === 20 || day === 21)) add("nouruz", "Nouruz Mobarak – frohes neues Jahr!", "🌱");
+  if (m === 3 && day === 20) add("fruehling", "Frühlingsanfang – die Tage werden länger", "🌷");
+  if (m === 6 && day === 21) add("sommer", "Sommeranfang – der längste Tag des Jahres", "☀️");
+  if (m === 10 && day === 31) add("halloween", "Happy Halloween!", "🎃", { hat: "witch" });
+  if (m === 11 && day === 11) add("martin", "Sankt Martin – Laterne, Laterne!", "🏮");
+  if (m === 12 && day === 6) add("nikolaus", "Schönen Nikolaustag!", "🎅");
+  if (adv >= 0 && adv <= 21 && adv % 7 === 0) add("advent", `Einen schönen ${adv / 7 + 1}. Advent!`, "🕯️");
+  if (m === 12 && day === 21) add("winter", "Wintersonnenwende – ab morgen wird es wieder heller", "✨");
+  if (m === 12 && day >= 24 && day <= 26) add("christmas", "Frohe Weihnachten!", "🎄");
+  if (m === 12 && day === 31) add("newyear", "Guten Rutsch!", "🎆", { hat: "party", parts: "confetti" });
+  if (m === 1 && day === 1) add("newyear", "Frohes neues Jahr!", "🎆", { parts: "confetti" });
+  return out;
+}
+/* Feste anderer Religionen bekommen keine Weihnachtsmütze */
+const NO_SANTA = new Set(["hanukkah", "ramadan", "eidfitr", "eidadha", "diwali"]);
+/* Jahreszeit: Frühling März–Mai, Sommer Juni–August, Herbst September–November, Winter Dezember–Februar.
+   Kleidung der Figur: Winter und Herbst lange Ärmel, Frühling T-Shirt, Sommer Top und kurze Hose. */
+function seasonNow(d) {
+  d = d || dayNow(); const m = d.getMonth() + 1, day = d.getDate();
+  const k = m >= 3 && m <= 5 ? "spring" : m >= 6 && m <= 8 ? "summer" : m >= 9 && m <= 11 ? "autumn" : "winter";
+  const fe = feastsOn(d); const first = (key) => fe.find((f) => f[key]);
+  const santa = (m === 12 || (m === 1 && day <= 6)) && !fe.some((f) => NO_SANTA.has(f.k));
+  const hatF = first("hat");
+  const hat = hatF ? hatF.hat : santa ? "santa" : k === "winter" ? "beanie" : null;
+  const pf = first("parts");
+  return { k, fe, hat, parts: pf ? pf.parts : { spring: "petals", summer: "sun", autumn: "leaves", winter: "snow" }[k], cloth: { spring: "kurz", summer: "sommer", autumn: "lang", winter: "lang" }[k], bday: fe.some((f) => f.k === "birthday") };
+}
+const season = () => (designOn() ? seasonNow() : null);
+/* Kopfbedeckungen in Kopf-Koordinaten (Radius 6,6; Blick nach +x) */
+function hatSVG(kind) {
+  if (kind === "beanie") return `<path class="ht-a" d="M-7.3 0.6 A7.4 7.4 0 0 1 7.3 0.6 Z"/><rect class="ht-w" x="-7.7" y="-1.4" width="15.4" height="3.2" rx="1.5"/><circle class="ht-w" cx="0.6" cy="-8.4" r="2.5"/>`;
+  if (kind === "santa") return `<path class="ht-r" d="M-7.1 0.2 A7.3 7.3 0 0 1 6.9 -1.2 Z"/><path class="ht-rs" d="M-0.6 -6.6 Q-7.6 -10.6 -11.6 -4.6"/><circle class="ht-w" cx="-11.6" cy="-4.4" r="2.2"/><rect class="ht-w" x="-7.8" y="-1.6" width="15.4" height="3.2" rx="1.5"/>`;
+  if (kind === "party") return `<g transform="rotate(-10)"><path class="ht-a" d="M-5.2 -3.2 L0.4 -17 L5.8 -3.2 Z"/><circle class="ht-w" cx="-1.2" cy="-7.4" r="1"/><circle class="ht-w" cx="1.8" cy="-11" r="1"/><circle class="ht-w" cx="2.4" cy="-6" r="1"/><circle class="ht-g" cx="0.4" cy="-17.4" r="2.2"/></g>`;
+  if (kind === "jester") return `<path class="ht-p" d="M-7.2 0.4 A7.3 7.3 0 0 1 0 -7 Z"/><path class="ht-t" d="M0 -7 A7.3 7.3 0 0 1 7.2 0.4 Z"/><path class="ht-p" d="M-5.4 -4.6 Q-9.6 -11.6 -14 -10"/><path class="ht-t" d="M5.4 -4.6 Q9.6 -11.6 14 -10"/><circle class="ht-g" cx="-14" cy="-10" r="1.9"/><circle class="ht-g" cx="14" cy="-10" r="1.9"/>`;
+  if (kind === "witch") return `<ellipse class="ht-k" cx="0" cy="-0.8" rx="11.5" ry="2"/><path class="ht-k" d="M-5 -1.6 L0.6 -15.5 Q3.4 -16 7.2 -11.2 L5 -1.6 Z"/><rect class="ht-p2" x="-5.2" y="-4.4" width="10.4" height="2.4"/>`;
+  if (kind === "bunny") return `<path class="ht-ws" d="M-6.4 -1.2 A7 7 0 0 1 6.4 -1.2"/><ellipse class="ht-w" cx="-2.6" cy="-11" rx="2.3" ry="6" transform="rotate(-14 -2.6 -11)"/><ellipse class="ht-w" cx="2.8" cy="-11" rx="2.3" ry="6" transform="rotate(14 2.8 -11)"/><ellipse class="ht-i" cx="-2.6" cy="-11" rx="1" ry="4" transform="rotate(-14 -2.6 -11)"/><ellipse class="ht-i" cx="2.8" cy="-11" rx="1" ry="4" transform="rotate(14 2.8 -11)"/>`;
+  if (kind === "heart") return `<path class="ht-ws" d="M-6.4 -1.2 A7 7 0 0 1 6.4 -1.2"/><path class="ht-h" d="M0 -8.6 C-1.4 -11.4 -5.4 -10.6 -4.6 -7.6 C-4 -5.8 -1.6 -4.8 0 -3.6 C1.6 -4.8 4 -5.8 4.6 -7.6 C5.4 -10.6 1.4 -11.4 0 -8.6 Z" transform="translate(0 -3)"/>`;
+  return "";
+}
+/* Fallende Teilchen im Kopfbereich der Startseite (rein dekorativ) */
+function decoLayer(kind) {
+  if (!kind || reduced) return "";
+  const N = { confetti: 34, snow: 26, sun: 10 }[kind] || 14;
+  const C = { confetti: ["#FF5A8A", "#FFD84D", "#58D6A8", "#6FB6FF", "#B79CF0"], petals: ["#FFC2D6", "#FFE0EC", "#F7A8C4"], leaves: ["#E8892E", "#C8541E", "#E7B53C", "#9C5A2B"], snow: ["#FFFFFF"], hearts: ["#FF5A8A", "#FF8FB1"], sun: ["#FFE07A"] }[kind];
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  return `<div class="deco ${kind}" aria-hidden="true">${Array.from({ length: N }, (_, i) => `<i style="--x:${(rnd() * 100).toFixed(1)}%;--d:${(5 + rnd() * 6).toFixed(1)}s;--w:${(-rnd() * 10).toFixed(1)}s;--dx:${((rnd() - 0.5) * 60).toFixed(0)}px;--r:${(rnd() * 540 - 270).toFixed(0)}deg;--s:${(0.6 + rnd() * 0.8).toFixed(2)};--c:${C[i % C.length]}"></i>`).join("")}</div>`;
+}
+/* Gruß und Motiv für die Startseite */
+function festLine() {
+  const se = season(); const fe = se ? se.fe.filter((x) => x.k !== "birthday") : []; if (!fe.length) return ""; /* Geburtstag hat eine eigene Karte */
+  const f = fe[0]; const more = fe.slice(1).filter((x) => x.g !== f.g).slice(0, 1);
+  return `<div class="festline"><span class="motif" aria-hidden="true">${f.e}</span><span>${esc(f.g)}${more.length ? `<br><span class="small muted">${more[0].e} ${esc(more[0].g)}</span>` : ""}</span></div>`;
+}
+/* Konfetti über den ganzen Bildschirm – am Geburtstag einmal am Tag, nach Abschluss an Festtagen, oder auf Wunsch */
+function confetti() {
+  if (reduced || !designOn()) return;
+  document.querySelectorAll(".confetti-fx").forEach((x) => x.remove());
+  const C = ["#FF5A8A", "#FFD84D", "#58D6A8", "#6FB6FF", "#B79CF0", "#FF9F5A"];
+  const w = document.createElement("div"); w.className = "confetti-fx"; w.setAttribute("aria-hidden", "true");
+  w.innerHTML = Array.from({ length: 90 }, (_, i) => `<i style="--x:${(Math.random() * 100).toFixed(1)}vw;--dx:${((Math.random() - 0.5) * 30).toFixed(1)}vw;--d:${(2.4 + Math.random() * 1.8).toFixed(2)}s;--w:${(Math.random() * 0.6).toFixed(2)}s;--r:${(Math.random() * 1080 - 540).toFixed(0)}deg;--c:${C[i % C.length]};--h:${i % 3 ? 10 : 6}px"></i>`).join("");
+  document.body.appendChild(w); setTimeout(() => w.remove(), 5200);
+}
+function birthdayCard() {
+  const se = season(); if (!se || !se.bday) return "";
+  const age = ageNow();
+  return `<div class="card gold" style="gap:8px"><span class="eyebrow">Heute ist dein Tag</span><b style="font-size:22px">🎂 Alles Gute zum Geburtstag${S.name ? ", " + esc(S.name) : ""}!</b><span class="small muted">${age ? `${age} Jahre stark. ` : ""}Training ist heute freiwillig – wenn du magst, gibt es dafür ein eigenes Abzeichen.</span><button class="btn line sm" style="align-self:flex-start;width:auto" data-a="confetti">🎉 Nochmal Konfetti</button></div>`;
+}
+/* Nach dem Zeichnen der Startseite: am Geburtstag einmal am Tag Konfetti */
+function festAfterRender(v) {
+  const se = season(); if (!se) return;
+  if (v === "home" && se.bday) { const k = dayKey(dayNow()); if (S.flags.bdayFx !== k) { S.flags.bdayFx = k; save(); setTimeout(confetti, 350); } }
+  /* Abschluss an einem Geburtstag oder Konfetti-Festtag: einmal Konfetti */
+  if (v === "done" && U.done && U.doneFx !== U.done.sess.id && (se.bday || se.fe.some((f) => f.parts === "confetti"))) { U.doneFx = U.done.sess.id; setTimeout(confetti, 500); }
 }
 function figSVG(exId, g, cls) { return `<div class="figbox ${cls || ""}"><svg class="fig" viewBox="-2 -16 164 120" data-ex="${exId}" data-g="${g || ""}" role="img" aria-label="Animation: ${esc(EXM[exId]?.n || "")}"></svg></div>`; }
 function mountFigs(root) {
@@ -2033,7 +2210,7 @@ const TOUR = [
   { v: "home", demo: true, t: "Im Training", d: "Immer nur eine Übung: „Frei“ – los geht's, „Besetzt“ – sofort Ersatz. Gewicht und Wiederholungen vom letzten Mal stehen schon drin, du bestätigst nur noch. Hast du letztes Mal alles geschafft, schlägt die App eine Steigerung vor – du entscheidest. Bei großen Übungen fragt die App, ob du dich erst aufwärmen möchtest. ☰ zeigt die Übersicht, ♪ deine Musik." },
   { v: "lib", sel: '.tabs [data-v="lib"]', t: "Übungen", d: "Alle Übungen mit Animation, Tipps und typischen Fehlern. Unter „Tipps“ kannst du dir zu jeder Übung eine Notiz machen, z. B. die Sitzhöhe. Fehlt dir eine Übung, legst du oben mit „+ Eigene Übung“ eine an." },
   { v: "hist", sel: '.tabs [data-v="hist"]', t: "Verlauf", d: "Deine Einheiten mit allen Sätzen, Erfolge und Abzeichen, Fortschritt pro Übung, Wochenbelastung, Körpermaße und Gewicht." },
-  { v: "prof", sel: '.tabs [data-v="prof"]', t: "Profil", d: "Nach Themen sortiert: oben du und deine Figur, darunter Training – Plan, Ziel, Satzpause, Ton & Musik, Geräte – und die App mit Darstellung, Backup und Hilfe. Unter „Hilfe & Infos“ findest du auch diese Tour." },
+  { v: "prof", sel: '.tabs [data-v="prof"]', t: "Profil", d: "Nach Themen sortiert: oben du und deine Figur, darunter Training – Plan, Ziel, Satzpause, Ton & Musik, Geräte – und die App mit Darstellung (auch Jahreszeiten & Feste), Backup und Hilfe. Unter „Hilfe & Infos“ findest du auch diese Tour." },
 ];
 function tourStart() { closeSheet(); U.tour = 0; go(TOUR[0].v); }
 function tourEnd() { U.tour = null; S.tourOffered = true; save(); document.getElementById("tour")?.remove(); document.documentElement.classList.remove("touring"); go("home"); }
@@ -2119,6 +2296,8 @@ function vHome() {
   } else {
     hero = `<div class="card hero"><span class="eyebrow">Diese Woche</span><div class="big">Alles erledigt.</div><p class="muted">Lust auf mehr? Leg unten in der Woche eine Pilates- oder Mobility-Einheit an.</p></div>`;
   }
+  /* Jahreszeit und Feste: Teilchen im Hintergrund, Gruß oben im Kopfbereich */
+  { const se = season(); if (se && hero.includes('class="card hero')) { const add = decoLayer(se.parts) + festLine(); hero = hero.replace(/<div class="card hero"[^>]*>/, (m) => m + add); } }
   const rows = [];
   for (let d = 1; d <= 7; d++) {
     const date = new Date(mon); date.setDate(mon.getDate() + d - 1);
@@ -2135,6 +2314,7 @@ function vHome() {
     <div class="stack" style="gap:4px"><span class="eyebrow">${dLong(new Date())}</span><h1>${hello}</h1><p class="quote">${esc(quote)}</p>${weekStreak() >= 2 ? `<span class="chip tag on" style="align-self:flex-start">${weekStreak()} Wochen in Folge</span>` : ""}</div>
     ${!storageOK ? `<div class="card" style="background:var(--warn-soft);color:var(--warn)">Dieser Browser speichert gerade nichts. Öffne die App direkt in Safari, damit deine Daten bleiben.</div>` : ""}
     ${repairCard()}
+    ${birthdayCard()}
     ${hero}
     ${missedCard()}
     ${installCard()}
@@ -3001,6 +3181,7 @@ function vProf() {
     <div class="card" style="gap:8px"><h3>Deine Musik</h3><input id="pmusic" class="field" data-in="music" inputmode="url" value="${esc(S.music || "")}" placeholder="Link zur Playlist (Spotify, Apple Music …)"><span class="small muted">Im Training erscheint dann oben ein ♪, der deine Playlist öffnet. Den Link bekommst du in der Musik-App über Teilen → Link kopieren.</span></div>`,
     app: () => `${head("Darstellung &amp; Kalender")}
     <div class="card" style="gap:10px"><h3>Darstellung</h3><div class="seg">${[["auto", "Automatisch"], ["light", "Hell"], ["dark", "Dunkel"]].map(([k, n]) => `<button class="${(S.theme || "auto") === k ? "on" : ""}" data-a="theme" data-k="${k}">${n}</button>`).join("")}</div><span class="small muted">Automatisch folgt der Einstellung deines iPhones.</span>${accentPicker()}
+      <div class="row between"><div class="grow"><b>Jahreszeiten &amp; Feste</b><p class="small muted">Deine Figur zieht sich passend zur Jahreszeit an, dazu Blüten, Blätter oder Schnee, Grüße zu Festtagen und Konfetti an deinem Geburtstag.</p></div><button class="toggle ${S.design !== false ? "on" : ""}" data-a="designtg" role="switch" aria-checked="${S.design !== false}" aria-label="Jahreszeiten und Feste"></button></div>
       <div class="row between"><div class="grow"><b>Zoomen erlauben</b><p class="small muted">Mit zwei Fingern vergrößern, z. B. für kleine Schrift. Aus verhindert versehentliches Zoomen im Training.</p></div><button class="toggle ${S.zoom ? "on" : ""}" data-a="zoomtg" role="switch" aria-checked="${!!S.zoom}" aria-label="Zoomen erlauben"></button></div></div>
     <div class="card" style="gap:8px"><h3>Kalender</h3><p class="small muted">Trägt deine Trainingstage als wiederkehrende Termine mit Erinnerung 30 Minuten vorher in den iPhone-Kalender ein.</p><div class="row" style="flex-wrap:wrap;gap:8px"><label class="small muted" for="caltime">Uhrzeit</label><input id="caltime" class="field" type="time" style="width:auto" value="${S.calTime || "18:00"}" data-in="caltime"><button class="btn sm" data-a="calexport">In den Kalender</button></div></div>`,
     hilfe: () => `${head("Hilfe &amp; Infos")}
@@ -3235,8 +3416,10 @@ function renderInner() {
   else if (v === "done") h = vDone();
   app.innerHTML = h;
   if (v !== U.lastView) { if (!reduced && v !== "train" && U.lastView) { app.classList.remove("viewin"); void app.offsetWidth; app.classList.add("viewin"); } if (v === "done") animateIn(app); U.lastView = v; }
+  { const se = season(); if (se) document.documentElement.dataset.sz = se.cloth; else delete document.documentElement.dataset.sz; }
   const hr = new Date().getHours(); document.documentElement.dataset.tod = hr >= 5 && hr < 11 ? "morgen" : hr < 17 && hr >= 11 ? "tag" : hr >= 17 && hr < 22 ? "abend" : "nacht";
   mountFigs(app);
+  festAfterRender(v);
   renderSheet();
   if (U.tour != null) renderTour();
 }
@@ -3472,6 +3655,8 @@ document.addEventListener("click", (e) => {
     case "rescue-finish": rescueFinish(); break;
     case "repairok": U.repair = null; render(); break;
     case "rescueclear": delete S.rescued; save(); render(); break;
+    case "confetti": confetti(); break;
+    case "designtg": S.design = S.design === false; save(); render(); toast(S.design ? "Jahreszeiten & Feste an" : "Jahreszeiten & Feste aus"); break;
     case "progyes": { const it = itemById(curStep().id); const P = it && it.prog; if (P && P.w != null) { it.log.forEach((q) => { if (!q.warm && !q.done) q.w = String(P.w).replace(".", ","); }); P.used = true; S.active.msg = P.kind === "assist" ? `Hilfe auf ${fmt(P.w)} kg gesenkt. Passt es nicht, steuert die App nach dem ersten Satz nach.` : `Gewicht auf ${fmt(P.w)} kg erhöht. Passt es nicht, steuert die App nach dem ersten Satz nach.`; save(); render(); } break; }
     case "progno": { const it = itemById(curStep().id); if (it && it.prog) { it.prog.off = true; save(); render(); } break; }
     case "rescue-drop": S.active = null; save(); U.view = "home"; render(); break;
@@ -3628,11 +3813,14 @@ document.addEventListener("click", (e) => {
     case "fl-end2": closeSheet(); finishFlow(false); break;
   }
 });
+/* iOS meldet die Datumsauswahl teils nur als „change“ */
+document.addEventListener("change", (e) => { const t = e.target; if (t && t.dataset && t.dataset.in === "bdate") setBirth(t.value); });
 document.addEventListener("input", (e) => {
   const t = e.target; const k = t.dataset.in; if (!k) return;
   if (k === "name") { S.name = t.value.trim(); save(); }
   if (k === "cex" && U.cex) { U.cex[t.dataset.f] = t.value; if (t.dataset.f === "base") renderSheet(); }
   if (k === "exnote") { S.notes = S.notes || {}; const v = t.value.slice(0, 300); if (v.trim()) S.notes[t.dataset.x] = v; else delete S.notes[t.dataset.x]; save(); }
+  if (k === "bdate") setBirth(t.value);
   if (k === "byear" || k === "bheight" || k === "bweight") {
     const v = num(t.value); S.body = S.body || {};
     if (k === "byear") S.body.year = v >= 1920 && v <= new Date().getFullYear() - 10 ? Math.round(v) : null;

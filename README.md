@@ -91,13 +91,14 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 ### Fortschritt und Erfolge
 - Verlauf jeder Einheit mit allen Sätzen, Fortschritt pro Übung als Diagramm
 - **Abschluss zum Feiern:** Wochenring, goldene Karte bei kompletter Woche, Gesamtbilanz
-- **Wochenserie, Rekorde, 15 Abzeichen**, Trainingskalender der letzten 12 Wochen
+- **Wochenserie, Rekorde, 16 Abzeichen**, Trainingskalender der letzten 12 Wochen
 - **Körpermaße und Gewicht** (Taille, Hüfte, Po, Oberschenkel) mit Verlauf
 - **Über dich (freiwillig):** Alter, Größe, Gewicht → Maximalpuls und Pulsbereiche beim Cardio, BMI, Taille-zu-Größe, Kraft im Verhältnis zum Körpergewicht
 
 ### Persönlich
 - **Aufgeräumtes Profil:** Übersicht nach Themen (Du & deine Figur, Training, App), jede Zeile zeigt den aktuellen Stand
-- **Deine Figur:** Outfit (fünf Vorlagen oder eigene Farben), Frisur und Haarfarbe
+- **Deine Figur:** Outfit (fünf Vorlagen oder eigene Farben), Frisur und Haarfarbe – und sie zieht sich passend zur Jahreszeit an (Mütze und lange Ärmel im Winter, Top und kurze Hose im Sommer)
+- **Feste & Geburtstag:** Grüße, Hüte und fallende Blüten, Blätter oder Schnee – zu Weihnachten, Silvester, Karneval, Ostern, Halloween, Sankt Martin und Festen anderer Kulturen; am Geburtstag Konfetti und ein eigenes Abzeichen. Abschaltbar unter Darstellung
 - **Hell, Dunkel oder automatisch**, dazu sechs Akzentfarben (Pink, Koralle, Lavendel, Petrol, Blau, Graphit)
 - **Trainingstage im iPhone-Kalender** als wiederkehrende Termine mit Erinnerung
 - **Trainingstag teilen** per Link – die andere übernimmt ihn mit einem Tipp, ohne Server
