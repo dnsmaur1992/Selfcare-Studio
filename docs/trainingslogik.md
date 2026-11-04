@@ -116,6 +116,13 @@ Kein Cardio, keine Aufwärmsätze. 5 Mobilisations- und Dehnübungen nach Tagesa
 - **Kraft im Verhältnis:** Im Fortschritt bei Grundübungen bestes Gewicht ÷ Körpergewicht zum jeweiligen Datum.
 - Gewicht und Größe beeinflussen **nicht** Sätze, Wiederholungen oder Startgewichte: Die App rechnet mit dem, was tatsächlich geschafft wird.
 
+## Pilates & Mobility, ruhige Phase, Atemübung (4.2)
+- **Themen** (`FLOW_THEMES`): je vier Varianten. Vorgeschlagen wird das Thema nach dem zuletzt gemachten (`nextTheme`); Thema und Dauer (15/30 Min, gemerkt je Art) wählt man vor dem Start. 30 Min: Pilates zwei Runden; Mobility eine Runde, außer die Positionen reichen bei höchstens 90 Sek. nicht – dann zwei. 15 Min: eine Runde, mindestens 30 Sek. je Position. Gespeichert wird das Thema an der Einheit (`theme`).
+- **Ruhige Phase** (`S.calm`, Verlauf `S.calms`): Krafttage starten eine sanfte Einheit (Vorschlag Mobility „Abends runterfahren“ oder Pilates „Bauch & Mitte“, 15 Min) und zählen damit als erledigt. Keine „verpasst“-Hinweise; die Wochen zählen wie Pausen nicht gegen die Serie. Start unter „Pause“, Ende auf der Startseite.
+- **Atemübung** (`vBreathe`): 4 Sek. ein, 6 Sek. aus (etwa 6 Atemzüge pro Minute), 2/4/6 Min, Kreis wächst und schrumpft im Takt, Ansage in den ersten zwei Zügen, Signalton am Anfang und Ende. Bei „Bewegung reduzieren“ ohne Animation.
+- **Ansicht „Einfach“** (`S.simple`): ohne Tagesform-Fragen, Wochenfrage, Wochenbelastung (Abschluss und Verlauf) und letzte Einheit auf der Startseite. Die Trainingslogik ist gleich (Tagesform zählt dann einfach nicht).
+- **Tipp beim Start** (`TIPS`): höchstens 6 Sek., Tippen überspringt, nie während eines Trainings, abschaltbar (`S.tips`).
+
 ## Erster Start (4.1)
 - **Einrichtung** in fünf Schritten: Name, Geburtstag (freiwillig) und Figur · Ziel, Rücken, Einschränkungen · Häufigkeit · Wochentage (kompakt, Details mit „Anpassen“) · So läuft's. Satzpause 3:00 und Körperdaten kommen später im Profil.
 - **Willkommens-Moment** (`vWelcome`): Plan in einem Satz, kurzer Sicherheitshinweis (ersetzt das Sicherheitsfenster), Tour freiwillig.
