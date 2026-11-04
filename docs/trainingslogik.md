@@ -116,6 +116,13 @@ Kein Cardio, keine Aufwärmsätze. 5 Mobilisations- und Dehnübungen nach Tagesa
 - **Kraft im Verhältnis:** Im Fortschritt bei Grundübungen bestes Gewicht ÷ Körpergewicht zum jeweiligen Datum.
 - Gewicht und Größe beeinflussen **nicht** Sätze, Wiederholungen oder Startgewichte: Die App rechnet mit dem, was tatsächlich geschafft wird.
 
+## Erster Start (4.1)
+- **Einrichtung** in fünf Schritten: Name, Geburtstag (freiwillig) und Figur · Ziel, Rücken, Einschränkungen · Häufigkeit · Wochentage (kompakt, Details mit „Anpassen“) · So läuft's. Satzpause 3:00 und Körperdaten kommen später im Profil.
+- **Willkommens-Moment** (`vWelcome`): Plan in einem Satz, kurzer Sicherheitshinweis (ersetzt das Sicherheitsfenster), Tour freiwillig.
+- **Einstieg mitten in der Woche:** Krafttage, deren Wochentag schon vorbei ist, werden „offen, ohne Tag“ (`late`). `S.since` (Einrichtungstag) verhindert „verpasst“ für Tage davor.
+- **Die ersten zwei Krafteinheiten** sind 15 % leichter (`loadFactor`), die Vorbereitung zeigt Einstiegshinweise, das erste Training hat einen eigenen Abschluss (`isFirstKraft`).
+- **Suche** (`exMatch`): alle Wörter müssen in Name, Muskelgruppen (Wirkung ≥ 0,3), Geräten oder Art vorkommen; Groß-/Kleinschreibung und Umlaute (ä = ae) egal. Mit Suchbegriff wird immer in allen Übungen gesucht, die Filter-Chips treten zurück.
+
 ## Jahreszeiten, Feste & Geburtstag (aus Ringzeit übernommen, 4.0)
 - Alles aus dem Datum berechnet, offline (`seasonNow`, `feastsOn`). Islamischer und hebräischer Kalender kommen über `Intl` vom Handy, Ostern per Osterformel, Advent = 4. Sonntag vor dem 25.12., Diwali aus einer Liste (bis 2030, rechtzeitig verlängern).
 - **Kleidung der Figur** (überall, auch in den Übungsanimationen): Winter und Herbst lange Ärmel, Frühling T-Shirt, Sommer Top und kurze Hose. Umsetzung über `data-sz` am Dokument und CSS, Hervorhebungen der Muskeln haben Vorrang.
