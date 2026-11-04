@@ -3,7 +3,7 @@ const fs = require("fs");
 const file = process.argv[2] || "index.html";
 const html = fs.readFileSync(file, "utf8");
 const js = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]).sort((a, b) => b.length - a.length)[0];
-const el = () => ({ addEventListener() {}, innerHTML: "", querySelectorAll: () => [], insertAdjacentHTML() {}, appendChild() {}, style: { setProperty() {}, removeProperty() {} }, dataset: {}, getAttribute: () => null, setAttribute() {}, removeAttribute() {}, classList: { add() {}, remove() {}, toggle() {}, contains: () => false }, remove() {}, scrollTo() {} });
+const el = () => ({ addEventListener() {}, querySelector: () => null, innerHTML: "", querySelectorAll: () => [], insertAdjacentHTML() {}, appendChild() {}, style: { setProperty() {}, removeProperty() {} }, dataset: {}, getAttribute: () => null, setAttribute() {}, removeAttribute() {}, classList: { add() {}, remove() {}, toggle() {}, contains: () => false }, remove() {}, scrollTo() {} });
 global.document = { getElementById: () => el(), addEventListener() {}, querySelector: () => null, body: el(), documentElement: el() };
 global.window = { scrollTo() {} }; global.matchMedia = () => ({ matches: false, addEventListener() {} });
 global.requestAnimationFrame = () => {}; global.setInterval = () => {}; global.setTimeout = () => {};
@@ -475,6 +475,33 @@ S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCusto
   ok(isFirstKraft(S.sessions[0]) && !isFirstKraft({ id: "zz", flow: true }), "E2: Erstes Krafttraining wird erkannt (eigener Abschluss)");
   S.sessions = []; U.view = "welcome"; const w = vWelcome(); U.view = "home";
   ok(w.includes("Schön, dass du da bist") && w.includes('data-a="welcomego"') && w.includes('data-a="welcometour"') && w.includes("Sicherheit"), "E3: Willkommens-Moment mit Sicherheitshinweis, Tour freiwillig"); }
+S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom();
+// ---- Version 4.2: Varianten, ruhige Phase, Atemübung, Animationen, Tipps, Ansicht ----
+S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom();
+{ let bad = [];
+  for (const cat of ["pilates", "mobility"]) for (const th of FLOW_THEMES[cat]) {
+    th.ids.forEach((id) => { const f = FLOW.find((q) => q.id === id); if (!f || !f.anim || !f.tips || !f.tips.length) bad.push(cat + "/" + th.k + ": " + id); });
+    for (const m of [15, 30]) { const b = buildFlow(cat, th.k, m); const t = flowMin(b); if (t < m - 4 || t > m + 2) bad.push(\`\${cat}/\${th.k}/\${m}: \${t} Min\`); } }
+  ok(!bad.length, "V1: 8 Themen × 15/30 Min – alle Positionen mit Animation und Tipps, Dauer passt" + (bad.length ? " – " + bad.join(", ") : ""));
+  ok(JSON.stringify(buildFlow("pilates")) === JSON.stringify(buildFlow("pilates", "klassik", 30)) && buildFlow("pilates").length === 24, "V1: Ohne Angabe bleibt Pilates wie bisher (Klassisch, 30 Min)");
+  S.sessions = []; const n0 = nextTheme("mobility"); S.sessions.push({ id: "f", date: new Date().toISOString(), flow: true, type: "mobility", theme: "huefte", items: [{ ex: "m_child", sec: 40 }] });
+  ok(n0 === "klassik" && nextTheme("mobility") === "schulter" && nextTheme("pilates") === "klassik", "V1: Themen wechseln sich ab (nach „Hüfte & Rücken“ kommt „Schultern & Nacken“)");
+  const st = JSON.parse(JSON.stringify(S)), nn = []; normalizeState(st, nn); ok(st.sessions[0].theme === "huefte" && !nn.length, "V1: Thema bleibt beim Speichern erhalten");
+  const wk = thisWeek(); const pl = { id: "pp", type: "pilates", wd: 0 }; wk.slots.push(pl); openFlowSheet(pl, "pilates"); const html = flowSheet(); closeSheet();
+  ok(html.includes("Bauch &amp; Mitte") && html.includes('data-a="flowmin"') && html.includes("Positionen"), "V1: Auswahl mit Themen, 15/30 Min und Vorschau");
+  startFlow(pl, "pilates", "mitte", 15); ok(S.active.theme === "mitte" && S.active.name.includes("Bauch") && flowMin(S.active.blocks) <= 17, "V1: Einheit startet mit gewähltem Thema und Dauer"); S.active = null; S.sessions = []; wk.slots.pop(); }
+{ ["backext_m", "rot_m", "trx_row", "trx_press"].forEach((id) => ok(EXM[id] && !EXM[id].animSim && EXM[id].anim && EXM[id].anim.A && EXM[id].anim.B, \`V3: Eigene Animation für \${EXM[id].n}\`)); }
+{ S.calm = { from: new Date(Date.now() - 864e5).toISOString() }; S.weeks = {}; const wk = thisWeek(); wk.slots.forEach((q) => (q.wd = 1));
+  ok(calmNow() && !missedSlots().length && pausedWeeks().has(weekKey(new Date())), "V2: Ruhige Phase: nichts verpasst, Woche zählt für die Serie");
+  const kr = wk.slots.find((q) => q.type === "kraft"); U.sheet = null; startSetup(kr.id); ok(U.flowSel && U.flowSel.cat === "mobility" && U.flowSel.theme === "abends" && U.flowSel.min === 15 && U.view !== "setup", "V2: Krafttag in der ruhigen Phase startet eine sanfte Einheit (Abends runterfahren, 15 Min)"); closeSheet();
+  U.view = "home"; ok(vHome().includes("Sanft statt") && vHome().includes('data-a="breathe"'), "V2: Startseite zeigt die ruhige Phase mit Atemübung");
+  const st = JSON.parse(JSON.stringify(S)); normalizeState(st, []); ok(st.calm && st.calm.from === S.calm.from, "V2: Ruhige Phase bleibt bei der Prüfung erhalten");
+  S.calm = null; S.weeks = {}; }
+{ U.breath = { min: 4, run: false }; const a = vBreathe(); U.breath = { min: 2, run: true, start: Date.now(), ph: "" }; const b2 = vBreathe(); U.breath = null;
+  ok(a.includes("durchatmen") && a.includes('data-a="breathgo"') && b2.includes("Einatmen") && b2.includes('data-a="breathstop"'), "V2: Atemübung: Auswahl 2/4/6 Min und geführter Ablauf"); }
+{ const readIds = new Set(READS.map((r) => r.id)); ok(TIPS.length >= 10 && TIPS.every(([t, d, r]) => t && d && (!r || readIds.has(r))), \`V4: \${TIPS.length} Tipps, Verweise führen zu vorhandenen Artikeln\`);
+  S.simple = true; U.view = "home"; S.sessions = [{ id: "s", date: new Date().toISOString(), type: "kraft", items: [] }]; const hs = vHome(); U.hist = "list"; const hh = vHist(); S.simple = false; const hf = vHome(); const hh2 = vHist(); S.sessions = [];
+  ok(!hs.includes("Wie wird deine Woche") && !hh.includes('data-t="load"') && hh2.includes('data-t="load"'), "V4: Einfache Ansicht blendet Wochenfrage und Belastung aus, ausführlich zeigt sie"); delete S.simple; }
 S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom();
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
