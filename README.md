@@ -96,6 +96,8 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 - **Über dich (freiwillig):** Alter, Größe, Gewicht → Maximalpuls und Pulsbereiche beim Cardio, BMI, Taille-zu-Größe, Kraft im Verhältnis zum Körpergewicht
 
 ### Persönlich
+- **Übungen suchen:** Freitextsuche nach Name, Muskel oder Gerät – in der Übungsliste und beim Zusammenstellen des Plans
+- **Guter Start:** kurze Einrichtung, Willkommens-Moment, die ersten zwei Einheiten etwas leichter und ein gefeiertes erstes Training
 - **Aufgeräumtes Profil:** Übersicht nach Themen (Du & deine Figur, Training, App), jede Zeile zeigt den aktuellen Stand
 - **Deine Figur:** Outfit (fünf Vorlagen oder eigene Farben), Frisur und Haarfarbe – und sie zieht sich passend zur Jahreszeit an (Mütze und lange Ärmel im Winter, Top und kurze Hose im Sommer)
 - **Feste & Geburtstag:** Grüße, Hüte und fallende Blüten, Blätter oder Schnee – zu Weihnachten, Silvester, Karneval, Ostern, Halloween, Sankt Martin und Festen anderer Kulturen; am Geburtstag Konfetti und ein eigenes Abzeichen. Abschaltbar unter Darstellung

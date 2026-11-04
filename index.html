@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.0">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.0">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.1">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.1">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.0">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.1">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -409,7 +409,9 @@ select.field { appearance: none; -webkit-appearance: none; background-image: lin
 .profhead .figmini { width: 74px; flex: none; }
 .profhead .figmini .figbox { border-radius: 16px; }
 .chip.skipt { background: var(--surface2); color: var(--muted); font-style: italic; }
-.pickh { position: sticky; top: 38px; z-index: 2; display: flex; justify-content: space-between; align-items: baseline; padding: 8px 4px 4px; background: var(--bg); font-family: var(--display); font-size: 20px; font-weight: 600; }
+.pickh { position: sticky; top: 92px; z-index: 2; display: flex; justify-content: space-between; align-items: baseline; padding: 8px 4px 4px; background: var(--bg); font-family: var(--display); font-size: 20px; font-weight: 600; }
+.searchbox input { font-size: 16px; padding-left: 38px; background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23998a9c' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E") no-repeat 12px 50%; }
+.pickbar .searchbox { margin-bottom: 8px; }
 .pickbar { position: sticky; top: -10px; z-index: 3; background: var(--bg); padding: 6px 0; }
 .hscroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
 .hscroll::-webkit-scrollbar { display: none; }
@@ -710,13 +712,17 @@ function wHint(x) {
   if (x.eq.includes("kabel")) return "Wie am Steckgewicht angezeigt.";
   return "";
 }
-const S_VERSION = "4.0";
-const NEWS = { v: "4.0", items: [
+const S_VERSION = "4.1";
+const NEWS = { v: "4.1", items: [
+  ["Übungen suchen", "Ganz oben unter „Übungen“ und beim Zusammenstellen deines Plans: einfach tippen, z. B. „Hip Thrust“, „Rücken Kabel“ oder „Pilates“. Gefunden wird nach Name, Muskel und Gerät."],
+  ["Schönerer Start für neue Nutzerinnen", "Kürzere Einrichtung, ein Willkommens-Moment und ein gefeiertes erstes Training. Die ersten zwei Einheiten sind etwas leichter."],
+], old: [
+  { v: "4.0", items: [
   ["Deine Figur geht mit der Jahreszeit", "Im Winter Mütze und lange Ärmel, im Frühling T-Shirt, im Sommer Top und kurze Hose. Dazu Blüten, Blätter oder Schnee auf der Startseite."],
   ["Feste & Geburtstag", "Grüße und kleine Überraschungen zu Weihnachten, Silvester, Karneval, Ostern, Halloween, Sankt Martin und Festen anderer Kulturen. Trag unter Profil → Du &amp; deine Figur deinen Geburtstag ein – dann gibt's Konfetti, einen Partyhut und ein eigenes Abzeichen."],
   ["Wie anstrengend war's?", "Jetzt mit Gesichtern. Und war eine Einheit „zu viel“, wird die nächste automatisch etwas leichter."],
   ["Gründlich geprüft", "Jede Einheit aller Pläne wird jetzt automatisch bis zum Ende durchgespielt. Dabei gefunden und behoben: Namen wie „Po & Beine“ verloren ihr „&“. Abschaltbar ist alles Festliche unter Profil → Darstellung."],
-], old: [
+] },
   { v: "3.9.1", items: [
   ["Kleine Korrektur", "Deine Angabe „Wie anstrengend war's?“ bleibt jetzt auch nach einem Neustart oder Backup erhalten – die App erkennt damit wieder rechtzeitig, wann eine Entlastungswoche guttut."],
   ["Mini wirklich in 30 Minuten", "Auch mit 2 Minuten Pause bleibt das Mini-Training inklusive Aufwärmen und Cool-down bei höchstens 30 Minuten."],
@@ -1322,6 +1328,8 @@ function loadFactor() {
   if (wk.deload && !wk.skipDeload) { f *= 0.6; why.push(wk.deload === "rpe" ? "Entlastungswoche (zuletzt sehr anstrengend)" : "geplante Entlastungswoche"); }
   if (rampLeft()) { f *= 0.75; why.push(`Wiedereinstieg nach der Pause (noch ${rampLeft()} ${rampLeft() === 1 ? "Tag" : "Tage"})`); }
   else if (wk.comeback) { f *= 0.75; why.push("Wiedereinstieg nach einer Pause"); }
+  /* Einstieg: Die ersten zwei Krafteinheiten sind etwas leichter (weniger Muskelkater, sicherer Start). */
+  if (krSessions().length < 2 && !wk.deload) { f *= 0.85; why.push("Einstieg: die ersten zwei Einheiten etwas leichter"); }
   /* Aus Ringzeit: War die letzte Einheit „zu viel“ (und ist höchstens 4 Tage her), wird die nächste etwas leichter. */
   { const lk = krSessions().slice(-1)[0]; if (lk && lk.rpe >= 10 && daysSince(lk.date) <= 4) { f *= 0.85; why.push("letzte Einheit war „zu viel“"); } }
   if (wk.mood === "stress") { f *= 0.8; why.push("stressige Woche"); }
@@ -1353,7 +1361,7 @@ function weekBanner() {
   const wk = thisWeek(); const lf = loadFactor(); const parts = [];
   if (wk.deload && !wk.skipDeload) parts.push(`<div class="card" style="background:var(--lav);gap:6px"><b style="color:var(--lav-ink)">Entlastungswoche</b><span class="small" style="color:var(--lav-ink)">${wk.deload === "rpe" ? "Deine letzten Einheiten waren sehr anstrengend." : "Nach einigen Wochen Training ist eine leichtere Woche dran."} Diese Woche gibt es etwa 40 % weniger Sätze bei gleichen Gewichten. So kann dein Körper aufholen und danach weiter zulegen.</span><button class="small link" style="align-self:flex-start;color:var(--lav-ink)" data-a="skipdeload">Diese Woche doch normal trainieren</button></div>`);
   else if (wk.comeback) parts.push(`<div class="card" style="background:var(--mint);gap:6px"><b style="color:var(--mint-ink)">Willkommen zurück</b><span class="small" style="color:var(--mint-ink)">Nach einer Pause startet diese Woche mit etwas weniger Sätzen. Nächste Woche geht es normal weiter.</span></div>`);
-  if (!wk.mood) parts.push(`<div class="card" style="gap:10px"><b>Wie wird deine Woche?</b><div class="seg"><button data-a="mood" data-m="relax">Entspannt</button><button data-a="mood" data-m="normal">Normal</button><button data-a="mood" data-m="stress">Stressig</button></div><span class="small muted">Bei einer stressigen Woche wird das Training etwas leichter. Freiwillig.</span></div>`);
+  if (!wk.mood && S.sessions.length) parts.push(`<div class="card" style="gap:10px"><b>Wie wird deine Woche?</b><div class="seg"><button data-a="mood" data-m="relax">Entspannt</button><button data-a="mood" data-m="normal">Normal</button><button data-a="mood" data-m="stress">Stressig</button></div><span class="small muted">Bei einer stressigen Woche wird das Training etwas leichter. Freiwillig.</span></div>`);
   return parts.join("");
 }
 function formCard() {
@@ -1686,7 +1694,7 @@ function pauseSheet() {
 function missedSlots() {
   if (pauseNow()) return [];
   const wk = thisWeek(); const today = wdOf(new Date());
-  return wk.slots.filter((s) => s.wd && s.wd < today && !slotDone(s) && !s.skipped && !s.missedOk);
+  return wk.slots.filter((s) => s.wd && s.wd < today && !slotDone(s) && !s.skipped && !s.missedOk && !(S.since && dayKey(addDays(mondayOf(new Date()), s.wd - 1)) < S.since));
 }
 function missedCard() {
   const m = missedSlots(); if (!m.length) return "";
@@ -2102,9 +2110,12 @@ function birthdayCard() {
   return `<div class="card gold" style="gap:8px"><span class="eyebrow">Heute ist dein Tag</span><b style="font-size:22px">🎂 Alles Gute zum Geburtstag${S.name ? ", " + esc(S.name) : ""}!</b><span class="small muted">${age ? `${age} Jahre stark. ` : ""}Training ist heute freiwillig – wenn du magst, gibt es dafür ein eigenes Abzeichen.</span><button class="btn line sm" style="align-self:flex-start;width:auto" data-a="confetti">🎉 Nochmal Konfetti</button></div>`;
 }
 /* Nach dem Zeichnen der Startseite: am Geburtstag einmal am Tag Konfetti */
+const isFirstKraft = (sess) => !sess.flow && krSessions().length === 1 && krSessions()[0].id === sess.id;
 function festAfterRender(v) {
   const se = season(); if (!se) return;
   if (v === "home" && se.bday) { const k = dayKey(dayNow()); if (S.flags.bdayFx !== k) { S.flags.bdayFx = k; save(); setTimeout(confetti, 350); } }
+  if (v === "welcome" && !U.welcomeFx) { U.welcomeFx = 1; setTimeout(confetti, 400); }
+  if (v === "done" && U.done && U.doneFx !== U.done.sess.id && isFirstKraft(U.done.sess)) { U.doneFx = U.done.sess.id; setTimeout(confetti, 500); }
   /* Abschluss an einem Geburtstag oder Konfetti-Festtag: einmal Konfetti */
   if (v === "done" && U.done && U.doneFx !== U.done.sess.id && (se.bday || se.fe.some((f) => f.parts === "confetti"))) { U.doneFx = U.done.sess.id; setTimeout(confetti, 500); }
 }
@@ -2213,7 +2224,7 @@ const TOUR = [
   { v: "home", sel: ".list.week", t: "Deine Woche", d: "Tipp eine Einheit an, um sie zu starten oder auf einen anderen Tag zu schieben. Mit „+“ legst du Pilates oder Mobility dazu." },
   { v: "home", sel: ".hero .btn", t: "Training vorbereiten", d: "Dort wählst du Normal, Kurz oder Mini, sagst kurz, wie du geschlafen hast, und siehst deine Satzpause – antippen zum Ändern. Aufwärmen und Cool-down schaltest du dort an oder aus." },
   { v: "home", demo: true, t: "Im Training", d: "Immer nur eine Übung: „Frei“ – los geht's, „Besetzt“ – sofort Ersatz. Gewicht und Wiederholungen vom letzten Mal stehen schon drin, du bestätigst nur noch. Hast du letztes Mal alles geschafft, schlägt die App eine Steigerung vor – du entscheidest. Bei großen Übungen fragt die App, ob du dich erst aufwärmen möchtest. ☰ zeigt die Übersicht, ♪ deine Musik." },
-  { v: "lib", sel: '.tabs [data-v="lib"]', t: "Übungen", d: "Alle Übungen mit Animation, Tipps und typischen Fehlern. Unter „Tipps“ kannst du dir zu jeder Übung eine Notiz machen, z. B. die Sitzhöhe. Fehlt dir eine Übung, legst du oben mit „+ Eigene Übung“ eine an." },
+  { v: "lib", sel: '.tabs [data-v="lib"]', t: "Übungen", d: "Alle Übungen mit Animation, Tipps und typischen Fehlern. Oben suchst du nach Name, Muskel oder Gerät. Unter „Tipps“ kannst du dir zu jeder Übung eine Notiz machen, z. B. die Sitzhöhe. Fehlt dir eine Übung, legst du oben mit „+ Eigene Übung“ eine an." },
   { v: "hist", sel: '.tabs [data-v="hist"]', t: "Verlauf", d: "Deine Einheiten mit allen Sätzen, Erfolge und Abzeichen, Fortschritt pro Übung, Wochenbelastung, Körpermaße und Gewicht." },
   { v: "prof", sel: '.tabs [data-v="prof"]', t: "Profil", d: "Nach Themen sortiert: oben du und deine Figur, darunter Training – Plan, Ziel, Satzpause, Ton & Musik, Geräte – und die App mit Darstellung (auch Jahreszeiten & Feste), Backup und Hilfe. Unter „Hilfe & Infos“ findest du auch diese Tour." },
 ];
@@ -2281,6 +2292,25 @@ function tabbar() {
 const chipG = (g) => `<span class="chip tag g">${esc(GROUPS[g]?.n || g)}</span>`;
 const typeChip = (type) => `<span class="chip tag ${type === "kraft" ? "on" : type === "mini" ? "busy" : "calm"}" style="${type === "mini" ? "text-decoration:none" : ""}">${TYPES[type].n}</span>`;
 
+/* Willkommens-Moment nach der Einrichtung: Figur im Jahreszeiten-Outfit, Plan in einem Satz, Sicherheit kurz, Tour freiwillig. */
+function vWelcome() {
+  const wk = thisWeek(); const nx = nextSlot(wk); const n = S.days.filter((d) => (d.type || "kraft") === "kraft").length;
+  const nxt = nx ? `${nx.wd ? (nx.wd === wdOf(new Date()) ? "heute" : WDL[nx.wd]) : "wann du magst"}: ${esc(nx.type === "kraft" ? slotInfo(nx).name : TYPES[nx.type].n)}` : "";
+  const se = season(); const late = wk.slots.filter((q) => q.late).length;
+  return `<div class="wrap">
+    <div class="card hero" style="gap:10px;align-items:center;text-align:center">${decoLayer(se && se.parts)}
+      <span class="eyebrow">Alles eingerichtet</span>
+      <div class="big">Schön, dass du da bist${S.name ? `,<br><em>${esc(S.name)}</em>` : ""}!</div>
+      ${figSVG("lateral_kh", "schulter")}
+      <p class="muted">Dein Plan steht: ${n} Krafteinheiten pro Woche${nxt ? `. Als Nächstes ${nxt}` : ""}.${late ? ` Was diese Woche schon vorbei war, steht als „offen“ in der Woche – ganz ohne Druck.` : ""}</p>
+    </div>
+    <div class="card" style="gap:8px"><b>Kurz zur Sicherheit</b><ul class="tipl small">
+      <li>Die App ersetzt keine Trainerin und keine ärztliche Beratung. Bei Vorerkrankungen, Verletzungen oder Beschwerden vorher ärztlich abklären.</li>
+      <li>Bei Schmerzen, Schwindel oder Atemnot sofort aufhören.</li>
+      <li>Lieber zu leicht als zu schwer: Der erste Satz einer neuen Übung ist ein Testsatz.</li></ul></div>
+  </div>
+  <div class="actionbar"><div class="in"><button class="btn ghost" style="width:auto" data-a="welcometour">Kurze Tour</button><button class="btn" data-a="welcomego">Verstanden – los geht's</button></div></div>`;
+}
 function repairCard() {
   const n = U.repair, r = S.rescued; if (!n && !r) return "";
   return `<div class="card" style="background:var(--butter);gap:6px"><b style="color:var(--butter-ink)">Daten geprüft und repariert</b>${n ? `<ul class="tipl small" style="color:var(--butter-ink)">${n.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}${r ? `<p class="small" style="color:var(--butter-ink)">Eine laufende Einheit ließ sich nicht fortsetzen. Ihre Rohdaten sind aufgehoben und stecken in jedem Backup.</p>` : ""}<div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn sm" style="width:auto" data-a="backup">Backup sichern</button>${n ? `<button class="btn ghost sm" style="width:auto" data-a="repairok">Verstanden</button>` : ""}${r ? `<button class="btn ghost sm" style="width:auto" data-a="rescueclear">Rohdaten löschen</button>` : ""}</div></div>`;
@@ -2331,12 +2361,12 @@ function vHome() {
     ${birthdayCard()}
     ${hero}
     ${missedCard()}
-    ${installCard()}
-    ${backupCard()}
+    ${startCard()}
     ${focusCard()}
     ${checkCard()}
     ${pauseNow() ? "" : weekBanner()}
-    ${startCard()}
+    ${installCard()}
+    ${backupCard()}
     <div class="row between"><h2>Woche ${weekNo(weekKey(new Date()))}</h2><span class="muted small num">${kDone} von ${krafts.length} Krafteinheiten</span></div>
     <div class="list week">${rows.join("")}</div>
     <p class="small muted">Tippe eine Einheit an, um sie zu starten oder auf einen anderen Tag zu schieben.</p>
@@ -2368,11 +2398,11 @@ function startCard() {
   const pct = Math.round((n / I.length) * 100);
   return `<div class="card" style="gap:10px"><div class="row between"><h2>Erste <em>Schritte</em></h2><span class="small muted num">${n} von ${I.length}</span></div>
     <div style="height:6px;border-radius:3px;background:var(--surface2);overflow:hidden"><div style="height:100%;width:${pct}%;background:var(--accent);border-radius:3px"></div></div>
-    <div class="stack" style="gap:0">${I.map((x) => {
+    <div class="stack" style="gap:0">${(U.startAll ? I : I.filter((x) => !x.done).slice(0, 1)).map((x) => {
       const inner = `<span class="ckb ${x.done ? "on" : ""}" style="width:28px;height:28px;border-radius:50%;flex:none">${x.done ? IC.check : ""}</span><div class="grow stack" style="gap:1px"><span style="${x.done ? "text-decoration:line-through;color:var(--muted)" : "font-weight:600"}">${x.t}</span>${x.done ? "" : `<span class="small muted">${x.s}</span>`}</div>${!x.done && (x.href || x.act) ? `<span class="chev" style="color:var(--muted)">›</span>` : ""}`;
       return !x.done && x.href ? `<a class="pi" style="color:inherit;text-decoration:none" href="${x.href}">${inner}</a>` : !x.done && x.act ? `<button class="pi" style="text-align:left;width:100%" data-a="tab" data-v="${x.act}"${x.sec ? ` data-p="${x.sec}"` : ""}>${inner}</button>` : `<div class="pi">${inner}</div>`;
     }).join("")}</div>
-    <button class="small link" style="color:var(--muted);align-self:flex-start" data-a="flag" data-f="hideStart">Ausblenden</button></div>`;
+    <div class="row" style="gap:16px"><button class="small link" style="align-self:flex-start" data-a="startall">${U.startAll ? "Nur den nächsten Schritt" : "Alle Schritte zeigen"}</button><button class="small link" style="color:var(--muted);align-self:flex-start" data-a="flag" data-f="hideStart">Ausblenden</button></div></div>`;
 }
 function lastSessionCard() {
   const s = S.sessions[S.sessions.length - 1]; if (!s) return "";
@@ -2423,6 +2453,7 @@ function vSetup() {
     </div>` : ""}
     ${mini ? `<div class="card" style="background:var(--warn-soft)"><p style="color:var(--warn)"><b>Für Tage mit wenig Energie.</b> Nur Körpergewicht, ${(() => { const r = [...new Set(items.map((i) => i.sets))].sort(); return r.length > 1 ? r.join("–") : r[0] || 2; })()} Runden je Übung, ${fmtRest(miniRest())} Pause. Geplant sind ca. ${total} Minuten inklusive Aufwärmen und Cool-down. Hör auf deinen Körper und lass 2–3 Wiederholungen im Tank.</p></div>` : `
     <div class="card" style="background:var(--calm-soft)"><p style="color:var(--calm)"><b>Im Studio fragt die App bei jeder Übung, ob das Gerät frei ist.</b> Ist es besetzt, bekommst du sofort eine Ausweichübung mit passend umgerechneten Sätzen und Wiederholungen.</p></div>`}
+    ${slot.type === "kraft" && !mini && !krSessions().length ? `<div class="card" style="gap:8px;background:var(--mint)"><b style="color:var(--mint-ink)">Dein erstes Training 🌱</b><ul class="tipl small" style="color:var(--mint-ink)"><li>Lieber zu leicht als zu schwer. Der erste Satz jeder Übung ist ein Testsatz – danach passt die App an.</li><li>Erstes Mal an einem Gerät? Die App zeigt dir, wie du es einstellst.</li><li>Die ersten zwei Einheiten sind etwas kürzer, damit der Muskelkater klein bleibt.</li></ul></div>` : ""}
     ${slot.type === "kraft" && !mini ? formCard() : ""}
     ${mini ? `<div class="card" style="gap:10px"><b>Wie war dein Tag?</b><div class="stack" style="gap:8px">${Object.entries(DAYMOB).map(([k, o]) => `<button class="opt ${(U.setup.day || S.dayType || "mix") === k ? "on" : ""}" data-a="setupday" data-k="${k}"><b>${o.n}</b><span class="small muted">${o.sub}</span></button>`).join("")}</div></div>` : ""}
     ${busyAhead.length ? `<div class="card" style="background:var(--butter);gap:4px"><b style="color:var(--butter-ink)">Um diese Zeit oft besetzt</b><span class="small" style="color:var(--butter-ink)">${esc(busyAhead.map((it) => EXM[it.ex].n).join(", "))} ${busyAhead.length === 1 ? "kommt" : "kommen"} deshalb später dran.</span></div>` : ""}
@@ -2930,7 +2961,7 @@ function vDone() {
   const flow = !!sess.flow; const cur = S.sessions.find((x) => x.id === sess.id) || sess;
   return `<div class="wrap">
     <div class="donecheck" aria-hidden="true"><svg viewBox="0 0 74 74"><circle cx="37" cy="37" r="34"/><path d="M23 38.5l9.5 9.5L52 28"/></svg>${reduced ? "" : sparks()}</div>
-    <div class="stack" style="gap:6px"><span class="eyebrow">Gespeichert · Note 1,0</span><h1>Stark, <em>${esc(S.name || "geschafft")}</em>!</h1><p class="quote">${esc(sess.name)} ist erledigt und im Verlauf.</p></div>
+    <div class="stack" style="gap:6px">${isFirstKraft(sess) ? `<span class="eyebrow">Dein erstes Training</span><h1>Der Anfang ist <em>gemacht</em>${S.name ? ", " + esc(S.name) : ""}!</h1><p class="quote">Ab jetzt merkt sich die App deine Gewichte und schlägt dir beim nächsten Mal vor, wann du steigern kannst.</p>` : `<span class="eyebrow">Gespeichert · Note 1,0</span><h1>Stark, <em>${esc(S.name || "geschafft")}</em>!</h1><p class="quote">${esc(sess.name)} ist erledigt und im Verlauf.</p>`}</div>
     <div class="tiles">
       <div class="tile"><b data-count="${sess.dur}">${sess.dur}</b><span>${sess.dur === 1 ? "Minute" : "Minuten"}</span></div>
       ${flow ? `<div class="tile"><b data-count="${sess.items.length}">${sess.items.length}</b><span>Positionen</span></div><div class="tile"><b data-count="${new Set(sess.items.map((i) => i.ex)).size}">${new Set(sess.items.map((i) => i.ex)).size}</b><span>Übungen</span></div>` : `<div class="tile"><b data-count="${setsOf(sess)}">${setsOf(sess)}</b><span>${setsOf(sess) === 1 ? "Satz" : "Sätze"}</span></div><div class="tile"><b data-count="${fmt(volOf(sess) / 1000, 1)}" data-dec="1">${fmt(volOf(sess) / 1000, 1)}</b><span>Tonnen bewegt</span></div>`}
@@ -3017,19 +3048,34 @@ function finishFlow(complete) {
 }
 
 /* --- Übungen --- */
+/* Freitextsuche (Übungen und Planauswahl): findet Name, Muskelgruppe, Gerät und Art – ohne Rücksicht auf Groß-/Kleinschreibung und Umlaute */
+const normQ = (v) => String(v || "").toLowerCase().replace(/ß/g, "ss").replace(/ae/g, "a").replace(/oe/g, "o").replace(/ue/g, "u").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, " ").trim();
+function exHay(x) {
+  if (x._hay) return x._hay;
+  const gs = x.cat === "kraft" ? Object.entries(x.m || {}).filter(([, v]) => v >= 0.3).map(([g]) => (GROUPS[g] ? GROUPS[g].n : "")) : [];
+  return (x._hay = normQ([x.n, ...gs, ...(x.eq || []).map((e) => EQUIP[e] || ""), TYPES[x.cat] ? TYPES[x.cat].n : "", x.custom ? "eigene" : "", x.animSim || ""].join(" ")));
+}
+const exMatch = (x, q) => { const t = normQ(q).split(" ").filter(Boolean); if (!t.length) return true; const h = exHay(x); return t.every((w) => h.includes(w)); };
+const searchBox = (key, val, ph) => `<div class="searchbox"><input type="search" class="field" data-in="${key}" value="${esc(val || "")}" placeholder="${ph}" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false" aria-label="Übung suchen"></div>`;
+function libList() {
+  const f = U.lib; const q = (U.libq || "").trim();
+  const list = (q ? ALLX : (f === "own" ? EX.filter((x) => x.custom) : f === "all" ? ALLX : ["pilates", "mobility", "warm", "cool"].includes(f) ? FLOW.filter((x) => x.cat === f || (f === "warm" && x.cat === "cardio")) : EX.filter((x) => (x.m[f] || 0) >= 0.6).sort((a, b) => (b.m[f] || 0) - (a.m[f] || 0))).filter((x) => !x.hidden)).filter((x) => !x.hidden && exMatch(x, q));
+  if (!list.length) return `<div class="card" style="gap:8px"><span class="muted">Nichts gefunden für „${esc(q)}“.</span><button class="btn line sm" style="align-self:flex-start;width:auto" data-a="cexnew">+ Als eigene Übung anlegen</button></div>`;
+  return (q ? `<span class="small muted">${list.length} Treffer in allen Übungen</span>` : "") + `<div class="list">${list.map((x) => {
+      const avail = inStudio(x); const g = f !== "all" && GROUPS[f] ? f : primary(x);
+      const sub = x.cat === "kraft" ? (GROUPS[primary(x)]?.n || "") + " · " + x.eq.map((e) => EQUIP[e]).join(" + ") : TYPES[x.cat].n;
+      return `<button class="li" data-a="info" data-x="${x.id}" data-g="${g || ""}">${figSVG(x.id, g, "s")}<div class="grow stack" style="gap:2px"><b>${esc(x.n)}${x.custom ? ` <span class="chip tag owntag">eigene</span>` : ""}</b><span class="small muted">${esc(sub)}</span>${exNote(x.id) ? `<span class="small" style="color:var(--accent)">📝 ${esc(exNote(x.id))}</span>` : ""}${!avail ? `<span class="small" style="color:var(--warn)">Gerät nicht in deinem Studio</span>` : ""}</div><span class="chev">›</span></button>`;
+    }).join("")}</div>`;
+}
 function vLib() {
   const f = U.lib;
   const hasOwn = EX.some((x) => x.custom && !x.hidden);
   const filters = [["all", "Alle"], ...(hasOwn ? [["own", "Eigene"]] : []), ...GORDER.map((g) => [g, GROUPS[g].n]), ["pilates", "Pilates"], ["mobility", "Mobility"], ["warm", "Aufwärmen"], ["cool", "Dehnen"]];
-  const list = (f === "own" ? EX.filter((x) => x.custom) : f === "all" ? ALLX : ["pilates", "mobility", "warm", "cool"].includes(f) ? FLOW.filter((x) => x.cat === f || (f === "warm" && x.cat === "cardio")) : EX.filter((x) => (x.m[f] || 0) >= 0.6).sort((a, b) => (b.m[f] || 0) - (a.m[f] || 0))).filter((x) => !x.hidden);
   return `<div class="wrap">
     <div class="row between"><h1>Übungen</h1><button class="btn line sm" style="width:auto" data-a="cexnew">+ Eigene Übung</button></div>
-    <div class="hscroll">${filters.map(([k, n]) => `<button class="chip ${f === k ? "on" : ""}" data-a="libf" data-f="${k}">${esc(n)}</button>`).join("")}</div>
-    <div class="list">${list.map((x) => {
-      const avail = inStudio(x); const g = f !== "all" && GROUPS[f] ? f : primary(x);
-      const sub = x.cat === "kraft" ? (GROUPS[primary(x)]?.n || "") + " · " + x.eq.map((e) => EQUIP[e]).join(" + ") : TYPES[x.cat].n;
-      return `<button class="li" data-a="info" data-x="${x.id}" data-g="${g || ""}">${figSVG(x.id, g, "s")}<div class="grow stack" style="gap:2px"><b>${esc(x.n)}${x.custom ? ` <span class="chip tag owntag">eigene</span>` : ""}</b><span class="small muted">${esc(sub)}</span>${exNote(x.id) ? `<span class="small" style="color:var(--accent)">📝 ${esc(exNote(x.id))}</span>` : ""}${!avail ? `<span class="small" style="color:var(--warn)">Gerät nicht in deinem Studio</span>` : ""}</div><span class="chev">›</span></button>`;
-    }).join("")}</div>
+    ${searchBox("libq", U.libq, "Suchen: Name, Muskel oder Gerät")}
+    <div class="hscroll" style="${(U.libq || "").trim() ? "opacity:.5" : ""}">${filters.map(([k, n]) => `<button class="chip ${f === k ? "on" : ""}" data-a="libf" data-f="${k}">${esc(n)}</button>`).join("")}</div>
+    <div class="stack" id="liblist" style="gap:8px">${libList()}</div>
   </div>`;
 }
 /* Geräte-Einweisung: Einstellen · So gelingt's · Stolpersteine. Erscheint beim ersten Mal an einem Gerät und immer unter „Tipps“. */
@@ -3240,8 +3286,14 @@ function vProf() {
 }
 function dayCard(d, i, removable) {
   const type = d.type || "kraft";
+  /* Einrichtung: kompakt (Name, Wochentag, Muskelgruppen als Überblick); Details erst mit „Anpassen“ */
+  if (U.view === "ob" && type === "kraft" && !(U.obOpen || {})[i]) return `<div class="card daycard">
+    <div class="row between"><span class="eyebrow">Krafttag ${i + 1}</span><button class="small link" data-a="obdayopen" data-i="${i}">Anpassen</button></div>
+    <b style="font-size:18px">${esc(d.name)}</b>
+    <div class="wdchips">${WD.slice(1).map((w, k) => `<button class="chip ${d.wd === k + 1 ? "on" : ""}" data-a="daywd" data-i="${i}" data-w="${k + 1}">${w}</button>`).join("")}<button class="chip ${!d.wd ? "on" : ""}" data-a="daywd" data-i="${i}" data-w="0">frei</button></div>
+    <span class="small muted">${d.mode === "custom" ? `${(d.custom || []).length} eigene Übungen` : esc(d.groups.map((g) => GROUPS[g].n).join(" · "))}</span></div>`;
   return `<div class="card daycard">
-    <div class="row between"><span class="eyebrow">${type === "kraft" ? "Krafttag " + (i + 1) : TYPES[type].n}</span><div class="row" style="gap:14px">${type === "kraft" && U.view === "days" ? `<button class="link" style="font-size:13px" data-a="share" data-i="${i}">Teilen</button>` : ""}${removable ? `<button class="link" style="color:var(--muted);font-size:13px" data-a="dayrem" data-i="${i}">Entfernen</button>` : ""}</div></div>
+    <div class="row between"><span class="eyebrow">${type === "kraft" ? "Krafttag " + (i + 1) : TYPES[type].n}</span><div class="row" style="gap:14px">${U.view === "ob" && type === "kraft" ? `<button class="small link" data-a="obdayopen" data-i="${i}">Fertig</button>` : ""}${type === "kraft" && U.view === "days" ? `<button class="link" style="font-size:13px" data-a="share" data-i="${i}">Teilen</button>` : ""}${removable ? `<button class="link" style="color:var(--muted);font-size:13px" data-a="dayrem" data-i="${i}">Entfernen</button>` : ""}</div></div>
     ${type === "kraft" ? `<input id="dn-${i}" class="field" data-in="dayname" data-i="${i}" value="${esc(d.name)}" placeholder="Name, z. B. Po & Beine">` : ""}
     <div class="wdchips">${WD.slice(1).map((w, k) => `<button class="chip ${d.wd === k + 1 ? "on" : ""}" data-a="daywd" data-i="${i}" data-w="${k + 1}">${w}</button>`).join("")}<button class="chip ${!d.wd ? "on" : ""}" data-a="daywd" data-i="${i}" data-w="0" title="ohne festen Tag">frei</button></div>
     ${type !== "kraft" ? `<p class="small muted">${TYPES[type].sub}</p>` : !U.allowCustom ? groupChips(d, i) : `<div class="seg"><button class="${d.mode !== "custom" ? "on" : ""}" data-a="daymode" data-i="${i}" data-m="auto">Automatisch<small>nach Muskelgruppen</small></button><button class="${d.mode === "custom" ? "on" : ""}" data-a="daymode" data-i="${i}" data-m="custom">Eigene Übungen<small>selbst zusammenstellen</small></button></div>
@@ -3267,14 +3319,19 @@ function customList(d, i) {
     <button class="btn line sm" style="width:100%" data-a="cadd" data-i="${i}">+ Übung hinzufügen</button>
     <p class="small muted">Ist ein Gerät besetzt, ersetzt die App die Übung mit passend umgerechneten Sätzen und Wiederholungen.</p>`;
 }
-function pickSheet() {
-  const P = U.pick; const d = S.days[P.i]; const have = new Set((d.custom || []).map((c) => c.ex));
-  const list = EX.filter((x) => !x.hidden && (P.f === "all" || (x.m[P.f] || 0) >= 0.6)).sort((a, b) => (inStudio(b) - inStudio(a)) || (P.f !== "all" ? (b.m[P.f] || 0) - (a.m[P.f] || 0) : 0));
+function pickList() {
+  const P = U.pick; const d = S.days[P.i]; const have = new Set((d.custom || []).map((c) => c.ex)); const q = (P.q || "").trim();
+  const list = q ? EX.filter((x) => !x.hidden && exMatch(x, q)).sort((a, b) => inStudio(b) - inStudio(a)) : EX.filter((x) => !x.hidden && (P.f === "all" || (x.m[P.f] || 0) >= 0.6)).sort((a, b) => (inStudio(b) - inStudio(a)) || (P.f !== "all" ? (b.m[P.f] || 0) - (a.m[P.f] || 0) : 0));
   const row = (x) => { const g = P.f !== "all" ? P.f : primary(x); const on = have.has(x.id); return `<button class="li" data-a="pickadd" data-x="${x.id}" data-g="${g}" ${on ? "disabled" : ""} style="${inStudio(x) ? "" : "opacity:.55"}">${figSVG(x.id, g, "s")}<div class="grow stack" style="gap:2px"><b>${esc(x.n)}</b><span class="small muted">${x.custom ? "eigene · " : ""}${P.f === "all" ? "" : esc(GROUPS[primary(x)].n) + " · "}${x.eq.map((e) => EQUIP[e]).join(" + ")}${inStudio(x) ? "" : " · ausgeblendet"}</span></div><span class="${on ? "note ok" : "chev"}">${on ? "✓" : "+"}</span></button>`; };
+  if (q) return list.length ? `<span class="small muted">${list.length} Treffer</span><div class="list">${list.map(row).join("")}</div>` : `<p class="small muted">Nichts gefunden für „${esc(q)}“. Fehlt sie? Oben „Eigene anlegen“.</p>`;
+  return `${P.f === "all" ? GORDER.map((g) => { const L = list.filter((x) => primary(x) === g); return L.length ? `<div class="stack" style="gap:8px"><div class="pickh"><span>${esc(GROUPS[g].n)}</span><span class="small muted num">${L.length}</span></div><div class="list">${L.map(row).join("")}</div></div>` : ""; }).join("") : `<div class="list">${list.map(row).join("")}</div>`}`;
+}
+function pickSheet() {
+  const P = U.pick; const d = S.days[P.i];
   return `<div class="stack" style="gap:2px"><h2>Übung hinzufügen</h2><p class="small muted">${esc(d.name)} · ${(d.custom || []).length} Übungen</p></div>
     <button class="btn line sm" data-a="cexnew" data-from="pick">+ Übung fehlt? Eigene anlegen</button>
-    <div class="pickbar"><div class="hscroll">${[["all", "Alle"], ...GORDER.map((g) => [g, GROUPS[g].n])].map(([k, n]) => `<button class="chip ${P.f === k ? "on" : ""}" data-a="pickf" data-f="${k}">${esc(n)}</button>`).join("")}</div></div>
-    ${P.f === "all" ? GORDER.map((g) => { const L = list.filter((x) => primary(x) === g); return L.length ? `<div class="stack" style="gap:8px"><div class="pickh"><span>${esc(GROUPS[g].n)}</span><span class="small muted num">${L.length}</span></div><div class="list">${L.map(row).join("")}</div></div>` : ""; }).join("") : `<div class="list">${list.map(row).join("")}</div>`}
+    <div class="pickbar">${searchBox("pickq", P.q, "Suchen: Name, Muskel oder Gerät")}<div class="hscroll" style="${(P.q || "").trim() ? "opacity:.5" : ""}">${[["all", "Alle"], ...GORDER.map((g) => [g, GROUPS[g].n])].map(([k, n]) => `<button class="chip ${P.f === k ? "on" : ""}" data-a="pickf" data-f="${k}">${esc(n)}</button>`).join("")}</div></div>
+    <div class="stack" id="picklist" style="gap:12px">${pickList()}</div>
     <button class="btn" data-a="sheetclose">Fertig</button>`;
 }
 function vDays() {
@@ -3325,14 +3382,13 @@ function vOb() {
   if (st === 0) body = `${installCard()}<div class="stack" style="gap:8px"><span class="eyebrow">Deine Zeit, dein Training</span><h1>Willkommen im <em>Selfcare Studio</em>.</h1><p class="muted">In fünf kurzen Schritten richten wir alles ein. Danach plant die App jedes Training für dich und hat immer eine Ausweichübung parat, wenn ein Gerät besetzt ist.</p></div>
     ${figSVG("ht_m", "po")}
     <div class="card"><label for="obname" class="small muted">Wie heißt du?</label><input id="obname" class="field" data-in="name" value="${esc(S.name)}" placeholder="Vorname"></div>
-    <p class="small muted">Hinweis: Die App ersetzt keine Trainerin und keine ärztliche Beratung. Bei Schmerzen bitte abbrechen.</p>
+    <div class="card"><label for="obbday" class="small muted">Wann hast du Geburtstag? <span style="opacity:.75">Freiwillig – dann feiern wir mit dir.</span></label><input id="obbday" class="field" type="date" data-in="bdate" value="${(S.body && S.body.birth) || ""}" min="1920-01-01" max="${new Date().getFullYear() - 10}-12-31"></div>
     ${figureCard("Deine Figur", "Outfit und Frisur für alle Übungs-Animationen. Änderbar im Profil.")}`;
   if (st === 1) body = `<div class="stack" style="gap:6px">${eb("Ziel")}<h1>Was möchtest du <em>erreichen</em>?</h1><p class="muted">Danach richten sich Sätze und Wiederholungen. Mehr Wiederholungen mit etwas weniger Gewicht bauen Muskeln auf und schonen Gelenke und Rücken.</p></div>
     <div class="stack">${[["mittel", "Muskelaufbau", "8–12 Wdh. bei Grundübungen, 10–15 bei Isolation"], ["hoch", "Muskelaufbau mit mehr Wiederholungen", "10–15 Wdh. bei Grundübungen, 12–20 bei Isolation. Empfohlen."], ["ausdauer", "Kraftausdauer", "15–20 Wdh., leichteres Gewicht"]].map(([k, n, s]) => `<button class="opt ${S.reps === k ? "on" : ""}" data-a="reps" data-k="${k}"><b>${n}</b><span class="small muted">${s}</span></button>`).join("")}</div>
     <div class="card"><div class="row between"><div class="grow"><b>Rücken schonen</b><p class="small muted">Keine schweren Übungen mit Last auf dem unteren Rücken. Wo der Rücken mitarbeitet, gibt es mehr Wiederholungen mit weniger Gewicht.</p></div><button class="toggle ${S.backCare ? "on" : ""}" data-a="back" role="switch" aria-checked="${S.backCare}" aria-label="Rücken schonen"></button></div></div>
-    <div class="card" style="gap:12px"><div class="stack" style="gap:2px"><b>Satzpause</b><p class="small muted">Wie lange möchtest du zwischen zwei Sätzen pausieren? Empfohlen: 3 Minuten. Jederzeit änderbar, auch im Training.</p></div>${restPicker()}</div>
-    ${bodyCard(true)}
-    <div class="card" style="gap:8px"><b>Weitere Einschränkungen?</b><p class="small muted">Übungen, die diese Bereiche stark belasten, lässt die App weg. Freiwillig.</p>${limitChips()}</div>`;
+    <div class="card" style="gap:8px"><b>Weitere Einschränkungen?</b><p class="small muted">Übungen, die diese Bereiche stark belasten, lässt die App weg. Freiwillig.</p>${limitChips()}</div>
+    <p class="small muted">Satzpause: 3 Minuten zwischen zwei Sätzen – im Training mit einem Tipp änderbar. Größe und Gewicht kannst du später im Profil eintragen.</p>`;
   if (st === 2) {
     const n = S.days.filter((d) => (d.type || "kraft") === "kraft").length;
     const O = [[2, "2× pro Woche", "Unterkörper und Oberkörper, je einmal"], [3, "3× pro Woche", "2× Po & Beine, 1× Oberkörper. Empfohlen."], [4, "4× pro Woche", "Po & Beine im Wechsel, dazu Rücken & Arme und Brust & Schultern"], [5, "5× pro Woche", "Für sehr volle Wochen mit viel Energie"]];
@@ -3340,8 +3396,8 @@ function vOb() {
       <div class="stack">${O.map(([k, t, s]) => `<button class="opt ${n === k ? "on" : ""}" data-a="obcount" data-n="${k}"><b>${t}</b><span class="small muted">${s}</span></button>`).join("")}</div>`;
   }
   if (st === 3) {
-    body = `<div class="stack" style="gap:6px">${eb("Deine Tage")}<h1>Plane deine <em>Woche</em>.</h1><p class="muted">Für jeden Krafttag tippst du den Wochentag an und wählst:</p></div>
-      <div class="card" style="gap:10px;background:var(--lav)"><div class="stack" style="gap:2px"><b style="color:var(--lav-ink)">Automatisch</b><span class="small" style="color:var(--lav-ink)">Du wählst Muskelgruppen, die App sucht die Übungen aus. Am einfachsten.</span></div><div class="stack" style="gap:2px"><b style="color:var(--lav-ink)">Eigene Übungen</b><span class="small" style="color:var(--lav-ink)">Du stellst deine Lieblingsübungen mit Sätzen und Wiederholungen selbst zusammen.</span></div><span class="small" style="color:var(--lav-ink)">Ausweichübungen gibt es in beiden Fällen.</span></div>
+    body = `<div class="stack" style="gap:6px">${eb("Deine Tage")}<h1>Plane deine <em>Woche</em>.</h1></div>
+      <div class="card" style="gap:6px;background:var(--lav)"><b style="color:var(--lav-ink)">Dein Vorschlag steht schon.</b><span class="small" style="color:var(--lav-ink)">Wähle nur noch die Wochentage. Muskelgruppen oder eigene Lieblingsübungen änderst du mit „Anpassen“ – auch später jederzeit unter Profil → Trainingsplan.</span></div>
       ${S.days.map((d, i) => dayCard(d, i, (d.type || "kraft") !== "kraft")).join("")}
       <div class="card" style="gap:8px"><b>Pilates oder Mobility fest einplanen?</b><p class="small muted">Je 30 Minuten, geführt mit Timer. Du kannst sie auch später spontan in der Woche hinzufügen.</p><div class="row" style="flex-wrap:wrap;gap:8px"><button class="btn line sm" data-a="dayadd" data-t="pilates">+ Pilates</button><button class="btn line sm" data-a="dayadd" data-t="mobility">+ Mobility</button></div></div>`;
   }
@@ -3428,6 +3484,7 @@ function renderInner() {
   else if (v === "train") h = vTrain();
   else if (v === "flow") h = S.active?.flow ? vFlow() : vHome() + tabbar();
   else if (v === "done") h = vDone();
+  else if (v === "welcome") h = vWelcome();
   app.innerHTML = h;
   if (v !== U.lastView) { if (!reduced && v !== "train" && U.lastView) { app.classList.remove("viewin"); void app.offsetWidth; app.classList.add("viewin"); } if (v === "done") animateIn(app); U.lastView = v; }
   { const se = season(); if (se) document.documentElement.dataset.sz = se.cloth; else delete document.documentElement.dataset.sz; }
@@ -3676,6 +3733,8 @@ document.addEventListener("click", (e) => {
     case "rescue-drop": S.active = null; save(); U.view = "home"; render(); break;
     case "rescue-home": U.view = "home"; U.psec = null; closeSheet(); render(); break;
     case "importgo": { try { const nd = importDay(d.c); closeSheet(); toast(`${nd.name} ist jetzt in deinem Plan`); go("days"); } catch (err) { toast("Der Code ist nicht gültig."); } break; }
+    case "welcomego": case "welcometour": S.ack = S.ack || new Date().toISOString(); S.tourOffered = true; save(); if (a === "welcometour") tourStart(); else go("home");
+      if (S.pendingTag) { const t = S.pendingTag; delete S.pendingTag; save(); setTimeout(() => openSheet(() => importSheet(t)), 300); } break;
     case "ackok": S.ack = new Date().toISOString(); U.sheetLock = false; save(); closeSheet(); render(); if (S.newsSeen !== NEWS.v) setTimeout(() => openSheet(newsSheet), 300); else if (!S.tourOffered) setTimeout(() => openSheet(tourOffer), 300); break;
     case "backupsnooze": S.backupSnooze = new Date().toISOString(); save(); render(); break;
     case "feedback": openSheet(feedbackSheet); break;
@@ -3734,7 +3793,7 @@ document.addEventListener("click", (e) => {
     case "discard": openSheet(() => confirmSheet("Einheit verwerfen?", "Nichts von heute wird gespeichert.", "discard2", "Verwerfen")); break;
     case "discard2": S.active = null; save(); go("home"); break;
     case "info": openSheet(() => infoSheet(d.x, d.g)); break;
-    case "libf": U.lib = d.f; render(); break;
+    case "libf": U.libq = ""; U.lib = d.f; render(); break;
     case "cexnew": openCustom(); if (d.from === "pick") U.cex.fromPick = true; break;
     case "cexedit": openCustom(d.x); break;
     case "cexsave": {
@@ -3782,9 +3841,16 @@ document.addEventListener("click", (e) => {
       }
       if (U.ob === 1 && !S.days.filter((x) => (x.type || "kraft") === "kraft").length) S.days = tmplDays(3).concat(S.days);
       if (U.ob < 4) { U.ob++; render(); window.scrollTo(0, 0); }
-      else { S.setup = true; S.newsSeen = NEWS.v; save(); go("home"); if (!S.ack) { U.sheetLock = true; openSheet(ackSheet); } if (S.pendingTag) { const t = S.pendingTag; delete S.pendingTag; save(); setTimeout(() => openSheet(() => importSheet(t)), 300); } }
+      else {
+        S.setup = true; S.newsSeen = NEWS.v; S.since = dayKey(new Date());
+        /* Einstieg mitten in der Woche: Tage, die schon vorbei sind, gelten nicht als verpasst – sie werden „offen, ohne Tag“ und lassen sich diese Woche noch machen. */
+        const wk = thisWeek(); const td = wdOf(new Date()); wk.slots.forEach((q) => { if (q.wd && q.wd < td) { q.wd = 0; q.late = true; } });
+        save(); go("welcome");
+      }
       break;
     }
+    case "startall": U.startAll = !U.startAll; render(); break;
+    case "obdayopen": U.obOpen = U.obOpen || {}; U.obOpen[+d.i] = !U.obOpen[+d.i]; render(); break;
     case "obback": U.ob = Math.max(0, U.ob - 1); render(); break;
     case "backup": backupSave(); break;
     case "copy": {
@@ -3812,7 +3878,7 @@ document.addEventListener("click", (e) => {
       day.mode = d.m; syncGroups(day); save(); render(); break;
     }
     case "cadd": U.pick = { i: +d.i, f: "all" }; openSheet(pickSheet); break;
-    case "pickf": U.pick.f = d.f; U.lastSheet = null; renderSheet(); { const sh = document.querySelector(".sheet"); if (sh) sh.style.animation = "none"; } break;
+    case "pickf": U.pick.f = d.f; U.pick.q = ""; U.lastSheet = null; renderSheet(); { const sh = document.querySelector(".sheet"); if (sh) sh.style.animation = "none"; } break;
     case "pickadd": { const day = S.days[U.pick.i]; const x = EXM[d.x]; day.custom = day.custom || []; day.custom.push({ ex: x.id, g: d.g, sets: 3, reps: baseReps(x) }); syncGroups(day); save(); renderSheet(); toast(x.n + " hinzugefügt"); break; }
     case "cdel": { const day = S.days[+d.i]; day.custom.splice(+d.j, 1); syncGroups(day); save(); render(); break; }
     case "cset": { const c = S.days[+d.i].custom[+d.j]; c.sets = Math.max(1, Math.min(6, c.sets + +d.v)); save(); render(); break; }
@@ -3833,6 +3899,8 @@ document.addEventListener("input", (e) => {
   if (k === "cex" && U.cex) { U.cex[t.dataset.f] = t.value; if (t.dataset.f === "base") renderSheet(); }
   if (k === "exnote") { S.notes = S.notes || {}; const v = t.value.slice(0, 300); if (v.trim()) S.notes[t.dataset.x] = v; else delete S.notes[t.dataset.x]; save(); }
   if (k === "bdate") setBirth(t.value);
+  if (k === "libq") { U.libq = t.value; const el = document.getElementById("liblist"); if (el) { el.innerHTML = libList(); mountFigs(el); } const hs = t.closest(".wrap") && t.closest(".wrap").querySelector(".hscroll"); if (hs) hs.style.opacity = t.value.trim() ? ".5" : ""; }
+  if (k === "pickq" && U.pick) { U.pick.q = t.value; const el = document.getElementById("picklist"); if (el) { el.innerHTML = pickList(); mountFigs(el); } const hs = t.closest(".pickbar") && t.closest(".pickbar").querySelector(".hscroll"); if (hs) hs.style.opacity = t.value.trim() ? ".5" : ""; }
   if (k === "byear" || k === "bheight" || k === "bweight") {
     const v = num(t.value); S.body = S.body || {};
     if (k === "byear") S.body.year = v >= 1920 && v <= new Date().getFullYear() - 10 ? Math.round(v) : null;

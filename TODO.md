@@ -25,6 +25,15 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 ## Bewusst nicht umgesetzt
 - **Unhörbarer Dauerton** gegen das Einschlafen der Audioausgabe (Ringzeit-Idee): Er würde laufende Musik auf dem iPhone dauerhaft leiser stellen. Stattdessen Gong als echte Tondatei und Freischalten beim ersten Antippen.
 
+## Erledigt in Version 4.1 (erster Eindruck, Suche)
+- [x] **Freitextsuche** ganz oben unter „Übungen“ und in der Übungsauswahl des Trainingsplans (Name, Muskelgruppe, Gerät, Art; Umlaute egal, mehrere Wörter).
+- [x] **Einrichtung kürzer:** Geburtstag gleich im ersten Schritt; Satzpause und Körperdaten aus der Einrichtung genommen (Standard 3:00, später im Profil); Trainingstage kompakt mit „Anpassen“.
+- [x] **Willkommens-Moment** nach der Einrichtung statt zweier Fenster nacheinander (Sicherheit + Tour-Angebot), mit Konfetti.
+- [x] **Start mitten in der Woche:** Bereits vergangene Tage gelten nicht als „verpasst“, sondern stehen als „offen“ in der Woche.
+- [x] **Startseite ruhiger:** „Erste Schritte“ zeigt nur den nächsten Schritt; die Wochenfrage kommt erst nach dem ersten Training.
+- [x] **Erstes Training:** Einstiegshinweise in der Vorbereitung, die ersten zwei Krafteinheiten 15 % leichter, eigener Abschluss mit Konfetti.
+- [x] Tour bleibt auf kleinen iPhones bedienbar (Blase passt immer auf den Bildschirm; 4.0-Korrektur).
+
 ## Erledigt in Version 4.0 (Erfahrungen aus Ringzeit)
 - [x] **Jahreszeiten-Kleidung** der Figur (lange Ärmel, T-Shirt, Top und kurze Hose), Mützen und Hüte, fallende Teilchen auf der Startseite.
 - [x] **Feste** mit Gruß und Motiv, auch anderer Kulturen (Kalender über Intl); **Geburtstag** mit echtem Datum, Konfetti, Partyhut, Abzeichen; Alter jetzt taggenau.
