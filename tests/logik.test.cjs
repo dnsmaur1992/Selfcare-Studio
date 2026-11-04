@@ -455,5 +455,26 @@ S = Object.assign(defaults(), { setup: true, name: "Steffi", days: tmplDays(3) }
   const nn = []; normalizeState(st, nn); const keep = S; S = st; normalizeDays(nn); S = keep;
   ok(st.days.map((d) => d.name).join("|") === "Po & Beine|Po & Beinbeuger|Beine Po" && st.sessions[0].name === "Rücken & Arme (kurz)" && cleanTxt("<b>A & B</b>") === "bA & B/b", "G5: „Po & Beine“ bleibt, „Po Beine“ wird repariert, eigene Namen unverändert, HTML-Zeichen weiter entfernt"); }
 S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom();
+// ---- Version 4.1: Erster Eindruck und Suche ----
+S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom();
+{ const names = (q) => ALLX.filter((x) => !x.hidden && exMatch(x, q)).map((x) => x.id);
+  const h = names("hip thrust"), r = names("ruecken kabel"), u = names("Rücken Kabel"), p0 = names("pilates"), z = names("zzzz");
+  ok(h.length >= 4 && h.every((id) => /hip thrust/i.test(EXM[id].n)) && r.length > 0 && JSON.stringify(r) === JSON.stringify(u) && p0.some((id) => EXM[id].cat === "pilates") && !z.length && names("").length === ALLX.filter((x) => !x.hidden).length, \`S1: Suche findet Name, Muskel, Gerät, Art; „ruecken“ = „Rücken“ (\${r.length} Treffer); leere Suche zeigt alles\`);
+  U.libq = "latzug"; const lh = libList(); U.libq = ""; ok(lh.includes("Latzug") && lh.includes("Treffer"), "S1: Übungsliste zeigt Treffer der Suche");
+  S.days[0].mode = "custom"; S.days[0].custom = []; U.pick = { i: 0, f: "po", q: "latzug" }; const ph = pickList(); U.pick = null; S.days = tmplDays(3);
+  ok(ph.includes("Latzug") && ph.includes("Treffer"), "S1: Planauswahl sucht in allen Muskelgruppen, auch wenn ein Filter gesetzt ist"); }
+{ /* Einrichtung mitten in der Woche: nichts gilt als verpasst */
+  S = Object.assign(defaults(), { setup: true, days: tmplDays(3).map((d, i) => Object.assign(d, { wd: i + 1 })) }); registerCustom(); S.weeks = {};
+  const wk = thisWeek(); S.since = dayKey(addDays(mondayOf(new Date()), 6)); /* „eingerichtet am Sonntag“ */
+  ok(!missedSlots().length, "E1: Vor dem Einrichtungstag gibt es keine verpassten Einheiten");
+  delete S.since; const wdT = wdOf(new Date()); ok(wdT === 1 || missedSlots().length > 0 || wk.slots.every((q) => q.wd >= wdT), "E1: Ohne Einrichtungsdatum (bestehende Nutzerin) bleibt „verpasst“ wie bisher"); }
+{ S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom(); S.weeks = {}; S.sessions = []; S.form = {};
+  const a = loadFactor(); S.sessions = [{ id: "x1", date: new Date(Date.now() - 3 * 864e5).toISOString(), items: [] }, { id: "x2", date: new Date(Date.now() - 864e5).toISOString(), items: [] }]; const b2 = loadFactor();
+  ok(a.f < b2.f && a.why.some((t) => t.includes("Einstieg")) && !b2.why.some((t) => t.includes("Einstieg")), "E2: Die ersten zwei Krafteinheiten sind etwas leichter, danach normal");
+  S.sessions = [{ id: "f1", date: new Date().toISOString(), type: "kraft", items: [{ ex: "ht_m", log: [{ w: "40", r: "12", done: true }] }] }];
+  ok(isFirstKraft(S.sessions[0]) && !isFirstKraft({ id: "zz", flow: true }), "E2: Erstes Krafttraining wird erkannt (eigener Abschluss)");
+  S.sessions = []; U.view = "welcome"; const w = vWelcome(); U.view = "home";
+  ok(w.includes("Schön, dass du da bist") && w.includes('data-a="welcomego"') && w.includes('data-a="welcometour"') && w.includes("Sicherheit"), "E3: Willkommens-Moment mit Sicherheitshinweis, Tour freiwillig"); }
+S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom();
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
