@@ -160,3 +160,13 @@ Kein Cardio, keine Aufwärmsätze. 5 Mobilisations- und Dehnübungen nach Tagesa
 - **Tage** werden nach lokalem Kalendertag geführt (`dayKey`), nicht nach UTC.
 - Schlägt das Speichern fehl, erscheint oben eine Warnung.
 Alles in `localStorage` unter `satzwerk.v1`. Backup als JSON-Datei über das Profil.
+
+
+## Version 4.3: Zeit, Studios und Verlauf
+- `setupRawItems()` erzeugt den ursprünglichen Plan, `setupTimePlan()`/`setupItems()` den für das Zeitbudget gekürzten. Zuerst werden Sätze reduziert, anschließend bei Bedarf Übungen entfernt; eine Grundübung und unterschiedliche Zielgruppen haben Vorrang. Die geänderte effektive Zieldosis wird bei späterem Gerätetausch berücksichtigt.
+- Die Zeitberechnung enthält geplante Pausen (auch Fokus-/Schwer-Anpassungen) und die gewählten Vorbereitung-/Abschlussblöcke. Optional hinzugefügte Aufwärmsätze sind nicht im Budget fest begrenzt. Ein unmögliches Budget wird angezeigt und der Start gesperrt.
+- `remainingTimePlan()` kürzt offene Arbeitssätze. `applyRemainingTime()` behält erledigte Sätze einschließlich Aufwärmen und entfernt nur offene zukünftige Schritte. Der aktuelle Timer bleibt nach Möglichkeit erhalten. Änderungen werden erst nach Bestätigung übernommen.
+- `studios` enthält Profile mit ID, Name, `equip`, `notes`, `eqLog`; `studioId` wählt das Profil. Die bisherigen Top-Level-Felder spiegeln das aktive Profil und werden beim Speichern synchronisiert. Die erste Migration übernimmt die vorhandenen Werte. Backups enthalten alle Profile. Profilwechsel ist während laufender Einheiten gesperrt.
+- Neue Einheiten tragen Studio-ID und Namen. Gewichtshistorie, Schätzungen, Progression und Rekorde verwenden dasselbe Studio. Einheiten ohne Studio-ID gehören zum ersten Profil. Beim Entfernen eines Profils bleiben die Einheiten und ihre Ortszuordnung erhalten.
+- Der Editor arbeitet auf einer Kopie und prüft Werte vor dem Speichern. Gleichzeitige Änderungen werden erkannt, Speicherfehler rollen die Korrektur zurück. Die chronologisch sortierten Einheiten und ihre Rekorde werden nach Korrektur oder Löschung neu berechnet. Geplante, aber nicht absolvierte Sätze werden nicht nachträglich als geschafft ausgegeben.
+- `progressReview()` betrachtet 28 lokale Kalendertage. Verglichen werden je Studio und Übung die letzten zwei Einheiten: Gewicht bei gleicher Wiederholungszahl, Wiederholungen bei gleichem Gewicht, Assist umgekehrt. Körpergewichts-/Halteübungen verwenden Wiederholungen/Sekunden. Die Zusammenfassung ist keine individuelle Leistungsdiagnostik.
