@@ -15,6 +15,11 @@ Neu:
    Vorhandene Daten werden ins erste Profil übernommen. Wechsel während laufender Einheit gesperrt.
 4. Verlauf → Rückblick: die letzten 28 Tage mit konkreten Satzvergleichen je Übung/Studio.
 
+5. Wochenansicht: Pfeile bis fünf Wochen zurück/voraus, Datumsbereich und „Aktuelle Woche“.
+   Zukünftige Wochen separat planen/verschieben. Vergangene Wochen zeigen gespeicherte
+   Einheiten (auch ohne alten Wochenplan) mit Verweis in den Verlauf.
+   Die Trainingsvorbereitung oben bezieht sich weiterhin auf die aktuelle Woche.
+
 Die Musiklösung einschließlich Profil-Schalter ist weiterhin enthalten.
 Gewichtsstufen pro Gerät wurden wie gewünscht nicht ergänzt.
 
@@ -28,8 +33,10 @@ HOCHLADEN
 PRÜFUNGEN
 - node tests/logik.test.cjs index.html: 179/179 bestanden.
 - node tests/expansion.test.cjs index.html: 18/18 bestanden.
+- node tests/week-navigation.test.cjs index.html: 9/9 bestanden (auch Europe/Berlin).
 - node tests/audio.test.cjs index.html: bestanden.
-- DOM-Integration (jsdom): Profile anlegen/wechseln, Zeitbudget, Satz erfassen,
+- DOM-Integration (jsdom): Wochenpfeile/Grenzen/Rücksprung, zukünftige Einheiten
+  hinzufügen/verschieben, Profile anlegen/wechseln, Zeitbudget, Satz erfassen,
   verbleibenden Plan kürzen, Einheit bearbeiten und Rückblick öffnen erfolgreich geprüft.
 - git diff --check: bestanden.
 

@@ -203,3 +203,5 @@ Ausführliche Anleitung mit QR-Code: [installieren.html](https://dnsmaur1992.git
 - Selfcare Studio ersetzt **keine Trainerin und keine ärztliche Beratung**. Bei Schmerzen die Übung abbrechen; mit Beschwerden oder nach Verletzungen vorher ärztlich abklären.
 - Gewichtsschätzungen für neue Übungen sind Richtwerte – der erste Satz ist ein Testsatz.
 - Privates, nicht-kommerzielles Projekt.
+
+Die Wochenansicht in 4.3 hat Pfeile für fünf Wochen zurück und voraus, einen Datumsbereich und einen Sprung zur aktuellen Woche. Zukünftige Wochen sind separat planbar; vergangene Trainings bleiben über den Verlauf erreichbar.
