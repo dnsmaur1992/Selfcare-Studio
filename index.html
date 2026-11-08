@@ -3487,7 +3487,7 @@ function vProf() {
       ${li("ziel", "Ziel &amp; Belastung", `${REPN[S.reps] || ""}${S.backCare ? " · Rücken schonen" : ""}${lims.length ? " · " + lims.join(", ") : ""}${pauseNow() ? " · Pause aktiv" : focusOn() ? " · Fokus: " + FOCI[S.focus.id].n : ""}`, "🎯")}
       ${li("pause", "Satzpause", `${restLine()} · Aufwärmen ${fmtRest(warmRest())} · Mini ${fmtRest(miniRest())}`, "⏱")}
       ${li("ton", "Ton &amp; Musik", `${S.voice !== false ? "Ansage an" : "Ansage aus"} · ${SOUNDS[S.sound || "gong"].n}${S.music ? " · Playlist" : ""}`, "🔔")}
-      <button class="li" data-a="studios"><div class="grow"><b>Studio-Profile</b><div class="small muted">${esc(studioName())} · Geräte und Notizen je Ort</div></div><span class="chev">›</span></button>
+      ${go2("studios", "", "Studio-Profile", `${esc(studioName())} · Geräte und Notizen je Ort`, "🏢")}
       ${go2("tab", "eq", "Geräte", hidden ? hidden + " ausgeblendet" : "alle aktiv", "🏋")}
     </div></div>
     <div class="stack"><span class="eyebrow">App</span><div class="list">
