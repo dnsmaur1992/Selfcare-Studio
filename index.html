@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.2.1">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.2.1">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.3">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.3">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.2.1">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.3">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -722,10 +722,15 @@ function wHint(x) {
   if (x.eq.includes("kabel")) return "Wie am Steckgewicht angezeigt.";
   return "";
 }
-const S_VERSION = "4.2.1";
-const NEWS = { v: "4.2.1", items: [
-  ["Musik beim Training", "Die Audio-Steuerung aus Ringzeit: Musik weiterlaufen lassen ist jetzt Standard. Unter Ton & Musik kannst du zwischen Mischen und Unterbrechen wechseln. Auf dem iPhone muss für Signaltöne im Mischmodus der Lautlos-Schalter ausgeschaltet sein."],
+const S_VERSION = "4.3";
+const NEWS = { v: "4.3", items: [
+  ["Zeit, die zu dir passt", "Wähle vor dem Krafttraining dein Zeitbudget. Auch im Trainingsmenü kannst du den verbleibenden Plan kürzen. Geschaffte Sätze bleiben erhalten."],
+  ["Deine Studios", "Geräte, Notizen und Gerätezeiten je Studio oder Zuhause speichern. Gewichte werden aus dem aktuellen Studio übernommen."],
+  ["Verlauf & Rückblick", "Gespeicherte Einheiten lassen sich korrigieren. Unter Verlauf → Rückblick siehst du deine letzten vier Wochen und konkrete Satzvergleiche."],
 ], old: [
+  { v: "4.2.1", items: [
+  ["Musik beim Training", "Die Audio-Steuerung aus Ringzeit: Musik weiterlaufen lassen ist jetzt Standard. Unter Ton & Musik kannst du zwischen Mischen und Unterbrechen wechseln. Auf dem iPhone muss für Signaltöne im Mischmodus der Lautlos-Schalter ausgeschaltet sein."],
+] },
   { v: "4.2", items: [
   ["Pilates & Mobility mit Themen", "Jetzt je vier Varianten – z. B. „Bauch & Mitte“, „Schultern & Nacken“ oder „Abends runterfahren“ – mit 15 neuen Positionen. Die Themen wechseln sich ab, und du wählst 15 oder 30 Minuten."],
   ["Ruhige Phase & Atemübung", "Ist gerade alles zu viel? Unter „Pause“ startest du eine ruhige Phase: sanfte Einheiten statt Kraft, ohne Druck, die Serie bleibt. Dazu eine geführte Atemübung auf der Startseite."],
@@ -915,6 +920,7 @@ function load() {
 let NOSAVE = false;
 function save() {
   if (NOSAVE) return;
+  syncStudio();
   const was = storageOK;
   try { localStorage.setItem(KEY, JSON.stringify(S)); storageOK = true; } catch (e) { storageOK = false; }
   if (was !== storageOK) saveBar();
@@ -1050,6 +1056,8 @@ function normalizeState(st, notes) {
   if (st.rescued != null && !(st.rescued && typeof st.rescued === "object" && isDate(st.rescued.at))) delete st.rescued;
   /* Laufende Einheit: nur übernehmen, wenn sie vollständig lesbar ist – sonst unverändert beiseitelegen statt löschen. */
   if (st.active) { const why = activeProblem(st.active, known, flowKnown); if (why) { st.rescued = { at: new Date().toISOString(), why, raw: st.active }; st.active = null; c.misc.push("Die laufende Einheit war beschädigt und wurde beiseitegelegt (im Backup enthalten)"); } }
+  normalizeStudios(st);
+  if (st.timeBudget != null && ![0,30,45,60,75,90].includes(st.timeBudget)) st.timeBudget = 0;
   cntNotes(c, notes);
   return st;
 }
@@ -1506,12 +1514,12 @@ function weekStreak() {
   }
   return n;
 }
-function bestBefore(id, beforeDate) {
-  const ws = []; S.sessions.forEach((s) => { if (s.date >= beforeDate) return; (s.items || []).forEach((it) => { if (it.ex === id) (it.log || []).forEach((q) => { if (q.done && !q.warm) ws.push(num(q.w)); }); }); });
+function bestBefore(id, beforeDate, studioId) {
+  const ws = []; S.sessions.forEach((s) => { if (s.date >= beforeDate || !sessionAtStudio(s, studioId)) return; (s.items || []).forEach((it) => { if (it.ex === id) (it.log || []).forEach((q) => { if (q.done && !q.warm) ws.push(num(q.w)); }); }); });
   return bestW(EXM[id], ws);
 }
 function prsOf(sess) {
-  return (sess.items || []).map((it) => { const x = EXM[it.ex]; const w = bestW(x, (it.log || []).filter((q) => q.done && !q.warm).map((q) => num(q.w))); const b = bestBefore(it.ex, sess.date); return w != null && b != null && betterW(x, w, b) ? { ex: it.ex, w, b } : null; }).filter(Boolean);
+  return (sess.items || []).map((it) => { const x = EXM[it.ex]; const w = bestW(x, (it.log || []).filter((q) => q.done && !q.warm).map((q) => num(q.w))); const b = bestBefore(it.ex, sess.date, sess.studioId || (S.studios || [])[0]?.id); return w != null && b != null && betterW(x, w, b) ? { ex: it.ex, w, b } : null; }).filter(Boolean);
 }
 const prCount = () => S.sessions.reduce((a, s) => a + (s.prs || 0), 0);
 const totalSets = () => S.sessions.reduce((a, s) => a + setsOf(s), 0);
@@ -1875,6 +1883,7 @@ function reportSheet() {
 /* ---------------- Verlauf ---------------- */
 function lastFor(id) {
   for (let i = S.sessions.length - 1; i >= 0; i--) {
+    if (!sessionAtStudio(S.sessions[i])) continue;
     const it = (S.sessions[i].items || []).find((x) => x.ex === id && x.log && x.log.some((s) => s.done && !s.warm));
     if (it) return { it, date: S.sessions[i].date };
   }
@@ -1932,7 +1941,7 @@ function lastText(item) {
 function series(id) {
   const pts = [];
   S.sessions.forEach((s) => (s.items || []).forEach((it) => {
-    if (it.ex !== id || !it.log) return;
+    if (it.ex !== id || !it.log || !sessionAtStudio(s)) return;
     const done = it.log.filter((x) => x.done && !x.warm);
     if (!done.length) return;
     const ws = done.map((x) => num(x.w));
@@ -2489,6 +2498,7 @@ function vHome() {
   return `<div class="wrap">
     <div class="stack" style="gap:4px"><span class="eyebrow">${dLong(new Date())}</span><h1>${hello}</h1><p class="quote">${esc(quote)}</p>${weekStreak() >= 2 ? `<span class="chip tag on" style="align-self:flex-start">${weekStreak()} Wochen in Folge</span>` : ""}</div>
     ${!storageOK ? `<div class="card" style="background:var(--warn-soft);color:var(--warn)">Dieser Browser speichert gerade nichts. Öffne die App direkt in Safari, damit deine Daten bleiben.</div>` : ""}
+    ${studioPicker()}
     ${repairCard()}
     ${birthdayCard()}
     ${hero}
@@ -2505,6 +2515,7 @@ function vHome() {
     ${openK >= 2 ? `<button class="link" style="text-align:left" data-a="less">Weniger Zeit diese Woche? Einheiten zusammenlegen</button>` : ""}
     <button class="link" style="text-align:left" data-a="breathe">🌬️ Kurz durchatmen – geführte Atemübung</button>
     ${pauseNow() || calmNow() ? "" : `<button class="link" style="text-align:left;color:var(--muted)" data-a="pauseopen">Krank, im Urlaub oder alles zu viel? Pause oder ruhige Phase</button>`}
+    ${reviewCard(false)}
     ${S.simple ? "" : lastSessionCard()}
   </div>`;
 }
@@ -2546,18 +2557,20 @@ function lastSessionCard() {
 
 /* --- Einheit vorbereiten --- */
 function startSetup(slotId, mode) {
+  ensureStudios();
   const wk = thisWeek(); const slot = wk.slots.find((s) => s.id === slotId); if (!slot) return;
   if (slot.type === "pilates" || slot.type === "mobility") return openFlowSheet(slot, slot.type);
   /* Ruhige Phase: statt Kraft eine sanfte Einheit */
   if (calmNow() && slot.type === "kraft" && !mode) return openFlowSheet(slot, "mobility");
-  U.setup = { slotId, mode: slot.type === "mini" ? "mini" : mode || "normal", busy: [] };
+  U.setup = { slotId, mode: slot.type === "mini" ? "mini" : mode || "normal", busy: [], minutes: S.timeBudget || 0 };
   go("setup");
 }
-function setupItems() {
+function setupRawItems() {
   const wk = thisWeek(); const slot = wk.slots.find((s) => s.id === U.setup.slotId); const info = slotInfo(slot);
   if (U.setup.mode === "mini") return buildMini(info.groups, U.setup.day);
   return planFor(slot, (U.setup.mode === "kurz" ? 0.65 : 1) * loadFactor().f, U.setup.busy);
 }
+function setupItems() { const raw = setupRawItems(); return U.setup.mode === "mini" ? raw : setupTimePlan(raw).items; }
 function vSetup() {
   const wk = thisWeek(); const slot = wk.slots.find((s) => s.id === U.setup.slotId); const info = slotInfo(slot);
   const items = setupItems(); const mini = U.setup.mode === "mini";
@@ -2565,7 +2578,7 @@ function vSetup() {
   const wMin = Math.round(warmSecs(buildWarm(grp, U.setup.mode, U.setup.day || S.dayType)) / 60 + 0);
   const nowD = new Date(); const busyAhead = mini ? [] : items.filter((it) => it.ex && oftenBusy(EXM[it.ex], nowD)); const cMin = Math.max(3, Math.round(buildCool(grp).reduce((a, q) => a + q.sec + 10, 0) / 60));
   const finOn = !mini && slot.type === "kraft" && fatFocus();
-  const total = estMin(items, mini) + (U.setup.warm !== false ? wMin : 0) + (U.setup.cool !== false ? cMin : 0) + (finOn && U.setup.fin !== false ? FIN_SEC / 60 + 1 : 0);
+  const total = setupDuration(items, U.setup, grp);
   let eqs = [];
   if (!mini) {
     const set = new Set();
@@ -2586,6 +2599,8 @@ function vSetup() {
       <button class="${U.setup.mode === "kurz" ? "on" : ""}" data-a="mode" data-m="kurz">Kurz<small>≈ ⅔ Volumen</small></button>
       <button class="${mini ? "on" : ""}" data-a="mode" data-m="mini">Mini<small>ca. ${mini ? total : miniTotal(info.groups, buildMini(info.groups, U.setup.day), U.setup.day)} Min, locker</small></button>
     </div>` : ""}
+    ${studioPicker()}
+    ${mini ? "" : timeBudgetCard()}
     ${mini ? `<div class="card" style="background:var(--warn-soft)"><p style="color:var(--warn)"><b>Für Tage mit wenig Energie.</b> Nur Körpergewicht, ${(() => { const r = [...new Set(items.map((i) => i.sets))].sort(); return r.length > 1 ? r.join("–") : r[0] || 2; })()} Runden je Übung, ${fmtRest(miniRest())} Pause. Geplant sind ca. ${total} Minuten inklusive Aufwärmen und Cool-down. Hör auf deinen Körper und lass 2–3 Wiederholungen im Tank.</p></div>` : `
     <div class="card" style="background:var(--calm-soft)"><p style="color:var(--calm)"><b>Im Studio fragt die App bei jeder Übung, ob das Gerät frei ist.</b> Ist es besetzt, bekommst du sofort eine Ausweichübung mit passend umgerechneten Sätzen und Wiederholungen.</p></div>`}
     ${slot.type === "kraft" && !mini && !krSessions().length ? `<div class="card" style="gap:8px;background:var(--mint)"><b style="color:var(--mint-ink)">Dein erstes Training 🌱</b><ul class="tipl small" style="color:var(--mint-ink)"><li>Lieber zu leicht als zu schwer. Der erste Satz jeder Übung ist ein Testsatz – danach passt die App an.</li><li>Erstes Mal an einem Gerät? Die App zeigt dir, wie du es einstellst.</li><li>Die ersten zwei Einheiten sind etwas kürzer, damit der Muskelkater klein bleibt.</li></ul></div>` : ""}
@@ -2600,7 +2615,7 @@ function vSetup() {
     ${mini ? "" : `<button class="card" style="flex-direction:row;align-items:center;gap:12px;text-align:left;width:100%" data-a="restopen"><div class="grow stack" style="gap:2px"><b>Satzpause · ${restLine()}</b><span class="small muted">Zwischen zwei Sätzen. Antippen zum Ändern.</span></div><span class="chev">›</span></button>`}
     <div class="card" style="gap:2px"><div class="row between"><h2>Dein Plan</h2><span class="small muted num">insgesamt ca. ${total} Min</span></div>${rows}</div>
   </div>
-  <div class="actionbar"><div class="in"><button class="btn" data-a="go-train">Training beginnen</button></div></div>`;
+  <div class="actionbar"><div class="in"><button class="btn" data-a="go-train" ${!mini && setupTimePlan(setupRawItems()).over ? "disabled" : ""}>Training beginnen</button></div></div>`;
 }
 
 /* --- Training: geführter Ablauf im Vollbild ---
@@ -2667,6 +2682,7 @@ function estWeight(it) {
   if (isAssist(ex)) return null; /* Unterstützung lässt sich nicht aus anderen Übungen schätzen. */
   let best = null;
   for (let i = S.sessions.length - 1; i >= 0 && !best; i--) {
+    if (!sessionAtStudio(S.sessions[i])) continue;
     for (const p of S.sessions[i].items || []) {
       const px = EXM[p.ex]; if (!px || px.pat !== ex.pat || px.id === ex.id || isBW(px)) continue;
       const ss = (p.log || []).filter((s) => s.done && !s.warm && num(s.w) > 0 && num(s.r) > 0);
@@ -2860,6 +2876,8 @@ function altsFor(it, busy, used) {
   return c.sort((a, b) => same(b) - same(a) || score(b, it.g) - score(a, it.g));
 }
 function startTrain() {
+  ensureStudios();
+  if (U.setup.mode !== "mini" && setupTimePlan(setupRawItems()).over) { toast("Bitte mehr Zeit einplanen oder die zusätzliche Ausdauer ausschalten."); return; }
   const wk = thisWeek(); const slot = wk.slots.find((s) => s.id === U.setup.slotId); const info = slotInfo(slot);
   const mode = U.setup.mode; const mini = mode === "mini";
   const warm = U.setup.warm !== false, cool = U.setup.cool !== false;
@@ -2869,7 +2887,7 @@ function startTrain() {
   const groups = info.groups.length ? info.groups : [...new Set(items.map((i) => i.g))];
   const fin = !mini && fatFocus() && U.setup.fin !== false;
   const steps = [...(warm ? buildWarm(groups, mode, U.setup.day || S.dayType) : []), ...items.map((it) => ({ k: "item", id: it.id })), ...(fin ? [{ k: "cardio", sec: FIN_SEC, sect: "fin" }] : []), ...(cool ? buildCool(groups) : [])];
-  S.active = { id: uid(), slotId: slot.id, type: mini ? "mini" : "kraft", name: mini ? "Mini-Training" : info.name + (mode === "kurz" ? " (kurz)" : ""), groups, start: Date.now(), busyAt: {}, items, steps, pos: 0, ph: "", msg: "" };
+  S.active = { studioId: S.studioId, studioName: studioName(), timeBudget: U.setup.minutes || null, id: uid(), slotId: slot.id, type: mini ? "mini" : "kraft", name: mini ? "Mini-Training" : info.name + (mode === "kurz" ? " (kurz)" : ""), groups, start: Date.now(), busyAt: {}, items, steps, pos: 0, ph: "", msg: "" };
   wakeLock(); audioSetup(); U.view = "train"; goStep(0);
 }
 function trainTick() {
@@ -3001,6 +3019,7 @@ function trMenu() {
     return `<div class="row" style="gap:0;border-bottom:1px solid var(--line);${i === A.pos ? "background:var(--accent-soft)" : ""}"><button class="li grow" style="border:0" data-a="tr-jump" data-p="${i}"><span class="small muted" style="width:72px;flex:none">${q.sect ? SECT[q.sect] : "Training"}</span><span class="grow" style="${st === "done" ? "color:var(--muted);text-decoration:line-through" : st === "skip" ? "color:var(--muted)" : "font-weight:600"}">${esc(nm)}</span>${tag}</button>${canDel ? `<button class="link" style="color:var(--muted);font-size:20px;padding:0 14px" data-a="tr-remove" data-p="${i}" aria-label="${esc(nm)} entfernen">×</button>` : ""}</div>`;
   }).join("");
   return `<div class="stack" style="gap:4px"><h2>Übersicht</h2><p class="small muted">Antippen zum Springen. Was du dabei auslässt, gilt als übersprungen – du kannst es später nachholen oder mit × entfernen.</p></div><div class="list">${rows}</div>
+    ${!A.flow ? `<button class="btn line" data-a="remainingopen">Weniger Zeit? Rest anpassen</button>` : ""}
     <button class="btn" data-a="finish">Einheit beenden</button>
     <button class="btn ghost" data-a="tab" data-v="home">Pausieren und zur Woche</button>
     <button class="small link" style="color:var(--muted)" data-a="discard">Einheit verwerfen</button>`;
@@ -3042,7 +3061,7 @@ function finishSession() {
   const items = A.items.map((it) => ({ g: it.g, ex: it.ex, reps: it.reps, note: it.note, sets: it.log.filter((s) => !s.warm).length, ...(it.closed ? { part: true } : {}), log: it.log.filter((s) => s.done) })).filter((it) => it.log.length);
   const dur = Math.max(1, Math.round((Date.now() - A.start) / 60000));
   const prev = {}; items.forEach((it) => { const p = series(it.ex); prev[it.ex] = p.length ? p[p.length - 1] : null; });
-  const sess = { id: A.id, slotId: A.slotId, type: A.type, name: A.name, groups: A.groups, date: new Date().toISOString(), dur, items, warm: A.steps.some((q) => q.sect === "warm") };
+  const sess = { studioId: A.studioId || S.studioId, studioName: A.studioName || studioName(), timeBudget: A.timeBudget || null, id: A.id, slotId: A.slotId, type: A.type, name: A.name, groups: A.groups, date: new Date().toISOString(), dur, items, warm: A.steps.some((q) => q.sect === "warm") };
   const prs = prsOf(sess); sess.prs = prs.length;
   S.sessions.push(sess); S.active = null; const badges = checkBadges(); save();
   const ups = items.map((it) => {
@@ -3139,8 +3158,9 @@ function flowSheet() {
     <button class="btn" data-a="flowgo">Einheit starten</button><button class="btn ghost" data-a="sheetclose">Abbrechen</button>`;
 }
 function startFlow(slot, cat, theme, min) {
+  ensureStudios();
   cat = cat || slot.type; const th = flowTheme(cat, theme); const blocks = buildFlow(cat, th.k, min);
-  S.active = { id: uid(), slotId: slot.id, type: cat, flow: true, theme: th.k, min: min === 15 ? 15 : 30, name: `${TYPES[cat].n} · ${th.n}`, groups: [], start: Date.now(), blocks, i: 0, phase: "ready", end: 0, paused: 0 };
+  S.active = { studioId: S.studioId, studioName: studioName(), id: uid(), slotId: slot.id, type: cat, flow: true, theme: th.k, min: min === 15 ? 15 : 30, name: `${TYPES[cat].n} · ${th.n}`, groups: [], start: Date.now(), blocks, i: 0, phase: "ready", end: 0, paused: 0 };
   save(); go("flow");
 }
 /* Pilates & Mobility: Ansage beim Bereitmachen, Signalton bei Start und Ende jeder Position, Countdown in den letzten 3 Sekunden. */
@@ -3201,7 +3221,7 @@ function finishFlow(complete) {
   const skipped = A.blocks.filter((b) => b.skipped).length;
   const dur = Math.max(1, Math.round((Date.now() - A.start) / 60000));
   if (!items.length) { S.active = null; save(); go("home"); toast("Keine Position gehalten – nichts gespeichert."); return; }
-  const sess = Object.assign({ id: A.id, slotId: A.slotId, type: A.type, flow: true, name: A.name, groups: [], date: new Date().toISOString(), dur, items, skipped }, A.theme ? { theme: A.theme } : {});
+  const sess = Object.assign({ studioId: A.studioId || S.studioId, studioName: A.studioName || studioName(), id: A.id, slotId: A.slotId, type: A.type, flow: true, name: A.name, groups: [], date: new Date().toISOString(), dur, items, skipped }, A.theme ? { theme: A.theme } : {});
   S.sessions.push(sess); S.active = null; const badges = checkBadges(); save(); U.done = { sess, ups: [], prs: [], badges }; go("done");
 }
 
@@ -3273,7 +3293,7 @@ const MACHINES = {
   stepper: { a: "am", s: ["Aufrecht hinstellen, Griffe nur leicht halten."], g: ["Ganze Fußsohle auf die Stufe, gleichmäßiges Tempo."], b: ["Sich auf die Griffe stützen."] },
 };
 const machineOf = (x) => x && x.eq.find((e) => MACHINES[e]);
-const usedMachineBefore = (k) => S.sessions.some((s) => (s.items || []).some((it) => EXM[it.ex] && EXM[it.ex].eq.includes(k) && (it.log || []).some((q) => q.done)));
+const usedMachineBefore = (k) => S.sessions.some((s) => sessionAtStudio(s) && (s.items || []).some((it) => EXM[it.ex] && EXM[it.ex].eq.includes(k) && (it.log || []).some((q) => q.done)));
 function machineCard(k, open, first) {
   const m = MACHINES[k]; if (!m) return "";
   const sec = (t, L, ic) => `<div class="stack" style="gap:4px"><b class="small">${ic} ${t}</b><ul class="tipl small">${L.map((q) => `<li>${esc(q)}</li>`).join("")}</ul></div>`;
@@ -3318,8 +3338,9 @@ function chart(pts, unit) {
 
 /* --- Verlauf --- */
 function vHist() {
-  const seg = `<div class="seg"><button class="${U.hist === "list" ? "on" : ""}" data-a="histt" data-t="list">Einheiten</button><button class="${U.hist === "prog" ? "on" : ""}" data-a="histt" data-t="prog">Fortschritt</button>${S.simple ? "" : `<button class="${U.hist === "load" ? "on" : ""}" data-a="histt" data-t="load">Belastung</button>`}<button class="${U.hist === "meas" ? "on" : ""}" data-a="histt" data-t="meas">Maße</button></div>`;
-  if (U.hist === "meas") return `<div class="wrap"><h1>Verlauf</h1>${seg}${measTab()}</div>`;
+  const seg = `<div class="chips" role="group" aria-label="Verlaufsansicht"><button class="chip ${U.hist === "list" ? "on" : ""}" data-a="histt" data-t="list">Einheiten</button><button class="chip ${U.hist === "prog" ? "on" : ""}" data-a="histt" data-t="prog">Fortschritt</button><button class="chip ${U.hist === "review" ? "on" : ""}" data-a="histt" data-t="review">Rückblick</button>${S.simple ? "" : `<button class="chip ${U.hist === "load" ? "on" : ""}" data-a="histt" data-t="load">Belastung</button>`}<button class="chip ${U.hist === "meas" ? "on" : ""}" data-a="histt" data-t="meas">Maße</button></div>`;
+  if (U.hist === "review") return `<div class="wrap"><h1>Rückblick</h1>${seg}${reviewCard(true)}</div>`;
+  if (U.hist === "meas") return `<div class="wrap"><h1>Verlauf</h1>${studioPicker()}${seg}${measTab()}</div>`;
   let body = "";
   if (U.hist === "load") {
     const wk = thisWeek(); const ks = krSessions();
@@ -3327,7 +3348,7 @@ function vHist() {
     const rows = weeks.map((k) => { const ss = ks.filter((x) => weekKey(new Date(x.date)) === k); const r = ss.map((x) => x.rpe).filter((v) => v != null); const n = ss.reduce((a, x) => a + setsOf(x), 0); return `<div class="row between"><span>Woche ${weekNo(k)}${S.weeks[k]?.deload && !S.weeks[k]?.skipDeload ? " · Entlastung" : ""}</span><span class="small muted num">${ss.length} Einh. · ${n} Sätze${r.length ? " · Anstrengung " + fmt(r.reduce((a, b) => a + b, 0) / r.length, 1) : ""}</span></div>`; }).join("");
     body = `<div class="card" style="gap:10px"><h2>Diese <em>Woche</em></h2>${loadBars(weekKey(new Date()), false)}</div>
       <div class="card" style="gap:8px"><h2>Letzte Wochen</h2>${rows || `<p class="small muted">Noch keine Einheiten.</p>`}<p class="small muted">Anstrengung von 1 bis 10. Liegt sie mehrere Einheiten lang bei 8,5 oder höher, plant die App eine Entlastungswoche. Sonst ungefähr alle 7 Trainingswochen.</p></div>`;
-    return `<div class="wrap"><h1>Verlauf</h1>${seg}${body}</div>`;
+    return `<div class="wrap"><h1>Verlauf</h1>${studioPicker()}${seg}${body}</div>`;
   }
   if (!S.sessions.length) body = `<div class="card"><h3>Noch keine Einheiten</h3><p class="muted small">Nach deiner ersten Einheit siehst du hier jede Übung mit Gewicht und Wiederholungen und wie du dich steigerst.</p></div>`;
   else if (U.hist === "list") {
@@ -3337,7 +3358,7 @@ function vHist() {
       const d = new Date(s.date);
       const sub = s.flow ? `${s.dur} Min · ${s.items.length} Positionen` : `${setsOf(s)} ${setsOf(s) === 1 ? "Satz" : "Sätze"}${warmSetsOf(s) ? ` + ${warmSetsOf(s)} Aufw.` : ""} · ${fmt(volOf(s), 0)} kg${volOf(s, true) ? ` (davon ${fmt(volOf(s, true), 0)} kg Aufw.)` : ""} · ${s.dur} Min`;
       const detail = s.flow ? [...new Set(s.items.map((i) => EXM[i.ex]?.n))].map((n) => `<div class="small">${esc(n)}</div>`).join("") : s.items.map((it) => { const x = EXM[it.ex]; return `<div class="row between" style="align-items:flex-start"><span class="small">${esc(x?.n || it.ex)}</span><span class="small muted num" style="text-align:right">${it.log.map((l) => (l.warm ? `<span style="opacity:.6">A ` : "") + (validW(x, num(l.w)) ? fmt(num(l.w)) + "×" : "") + (l.r || "–") + (l.warm ? "</span>" : "")).join(", ")}</span></div>`; }).join("");
-      return `<details class="hist li" style="display:block"><summary><div class="row between"><div class="stack" style="gap:1px"><b>${esc(s.name)}</b><span class="small muted">${sub}</span></div><span class="small muted">${dRow(d)}</span></div></summary><div class="stack" style="margin-top:10px">${detail}<button class="link" style="color:var(--warn);text-align:left;font-size:13px" data-a="delsess" data-id="${s.id}">Einheit löschen</button></div></details>`;
+      return `<details class="hist li" style="display:block"><summary><div class="row between"><div class="stack" style="gap:1px"><b>${esc(s.name)}</b><span class="small muted">${sub}</span></div><span class="small muted">${dRow(d)}</span></div></summary><div class="stack" style="margin-top:10px">${detail}<p class="small muted">${esc(s.studioName || studioName(s.studioId || (S.studios || [])[0]?.id))}</p><button class="btn line sm" data-a="sessionedit" data-id="${s.id}">Einheit bearbeiten</button><button class="link" style="color:var(--warn);text-align:left;font-size:13px" data-a="delsess" data-id="${s.id}">Einheit löschen</button></div></details>`;
     }).join("")}</div></div>`).join("");
   } else {
     const ids = [...new Set(S.sessions.flatMap((s) => (s.flow ? [] : s.items.map((i) => i.ex))))];
@@ -3349,7 +3370,7 @@ function vHist() {
       return `<button class="li" data-a="info" data-x="${id}">${spark(vals)}<div class="grow stack" style="gap:2px"><b>${esc(EXM[id].n)}</b><span class="small muted num">${p.length}× trainiert · ${fmt(first)} → ${fmt(last)} ${useW ? (asst ? "kg Hilfe" : "kg") : "Wdh."}${useW && !asst && EXM[id].type === "c" && weightAt(p[p.length - 1].d) ? ` · ${fmt(last / weightAt(p[p.length - 1].d), 2)}× Körpergewicht` : ""}</span></div>${d > 0 ? `<span class="note ok num">+${fmt(d)}</span>` : ""}</button>`;
     }).join("") || `<div class="li muted">Noch keine Kraftübungen.</div>`}</div>`;
   }
-  return `<div class="wrap"><h1>Verlauf</h1>${seg}${body}</div>`;
+  return `<div class="wrap"><h1>Verlauf</h1>${studioPicker()}${seg}${body}</div>`;
 }
 function spark(vals) {
   const W = 64, H = 30; if (vals.length < 2) return `<svg width="${W}" height="${H}" class="chart" style="width:64px;flex:none" aria-hidden="true"><circle class="dt" cx="${W / 2}" cy="${H / 2}" r="3"/></svg>`;
@@ -3435,6 +3456,7 @@ function vProf() {
       ${li("ziel", "Ziel &amp; Belastung", `${REPN[S.reps] || ""}${S.backCare ? " · Rücken schonen" : ""}${lims.length ? " · " + lims.join(", ") : ""}${pauseNow() ? " · Pause aktiv" : focusOn() ? " · Fokus: " + FOCI[S.focus.id].n : ""}`, "🎯")}
       ${li("pause", "Satzpause", `${restLine()} · Aufwärmen ${fmtRest(warmRest())} · Mini ${fmtRest(miniRest())}`, "⏱")}
       ${li("ton", "Ton &amp; Musik", `${S.voice !== false ? "Ansage an" : "Ansage aus"} · ${SOUNDS[S.sound || "gong"].n}${S.music ? " · Playlist" : ""}`, "🔔")}
+      <button class="li" data-a="studios"><div class="grow"><b>Studio-Profile</b><div class="small muted">${esc(studioName())} · Geräte und Notizen je Ort</div></div><span class="chev">›</span></button>
       ${go2("tab", "eq", "Geräte", hidden ? hidden + " ausgeblendet" : "alle aktiv", "🏋")}
     </div></div>
     <div class="stack"><span class="eyebrow">App</span><div class="list">
@@ -3530,7 +3552,7 @@ function eqGrid() {
   return `<div class="chips">${Object.keys(EQUIP).filter((k) => k !== "matte").map((k) => `<button class="chip ${S.equip[k] ? "on" : ""}" data-a="eq" data-e="${k}" aria-pressed="${!!S.equip[k]}">${esc(EQUIP[k])}</button>`).join("")}</div>`;
 }
 function vEq() {
-  return `<div class="wrap"><button class="link" style="text-align:left" data-a="tab" data-v="prof">‹ Profil</button><div class="stack" style="gap:4px"><h1>Geräte</h1><p class="muted small">Alle markierten Geräte können in deinen Plänen vorkommen. Gibt es eins in deinem Studio nicht, nimm den Haken raus – dann plant die App es nirgends mehr ein, auch nicht in eigenen Trainingstagen. Die Zahl zeigt, wie viele Übungen das Gerät nutzen.</p></div>${rushHours().length ? `<div class="card" style="gap:6px"><h3>Oft besetzt</h3>${rushHours().map((r) => `<div class="row between small"><span>${esc(EQUIP[r.e] || r.e)}</span><span class="muted">${WDL[r.wd]} gegen ${r.h} Uhr</span></div>`).join("")}<p class="small muted">Gelernt aus deinen „Frei“- und „Besetzt“-Antworten. Solche Geräte kommen zu diesen Zeiten später im Training dran.</p></div>` : ""}${eqGroups()}</div>`;
+  return `<div class="wrap"><button class="link" style="text-align:left" data-a="tab" data-v="prof">‹ Profil</button><div class="stack" style="gap:4px"><h1>Geräte</h1><p class="small"><b>${esc(studioName())}</b> · <button class="link" data-a="studios">Studio wechseln</button></p><p class="muted small">Alle markierten Geräte können in deinen Plänen vorkommen. Gibt es eins in deinem Studio nicht, nimm den Haken raus – dann plant die App es nirgends mehr ein, auch nicht in eigenen Trainingstagen. Die Zahl zeigt, wie viele Übungen das Gerät nutzen.</p></div>${rushHours().length ? `<div class="card" style="gap:6px"><h3>Oft besetzt</h3>${rushHours().map((r) => `<div class="row between small"><span>${esc(EQUIP[r.e] || r.e)}</span><span class="muted">${WDL[r.wd]} gegen ${r.h} Uhr</span></div>`).join("")}<p class="small muted">Gelernt aus deinen „Frei“- und „Besetzt“-Antworten. Solche Geräte kommen zu diesen Zeiten später im Training dran.</p></div>` : ""}${eqGroups()}</div>`;
 }
 
 /* --- Einrichtung --- */
@@ -3773,6 +3795,200 @@ document.addEventListener("click", () => primeAudio(), { capture: true, passive:
 let wl = null;
 async function wakeLock() { try { if (navigator.wakeLock) wl = await navigator.wakeLock.request("screen"); } catch (e) {} }
 
+/* ---------------- Studio-Profile ---------------- */
+function normalizeStudios(st) {
+  const safeNotes = (v) => Object.fromEntries(Object.entries(objOf(v)).filter(([, n]) => typeof n === 'string').map(([k,n]) => [k,n.slice(0,300)]));
+  const safeEq = (v) => Object.fromEntries(Object.entries(objOf(v)).filter(([k]) => EQUIP[k] || (st.customEq || {})[k]).map(([k,v]) => [k,!!v]));
+  const seen = new Set();
+  st.studios = arrOf(st.studios).filter(p => p && typeof p.id === 'string' && /^[a-z0-9_-]{1,30}$/i.test(p.id) && !seen.has(p.id) && seen.add(p.id)).map(p => ({ id:p.id, name:cleanTxt(p.name,40) || 'Studio', equip:safeEq(p.equip), notes:safeNotes(p.notes), eqLog:arrOf(p.eqLog).filter(q=>q && typeof q.e==='string' && Number.isFinite(q.wd) && Number.isFinite(q.h)).slice(-400) }));
+  if (!st.studios.length) st.studios = [{id:'studio_main',name:'Mein Studio',equip:safeEq(st.equip),notes:safeNotes(st.notes),eqLog:arrOf(st.eqLog).slice(-400)}];
+  if (!st.studios.some(p=>p.id===st.studioId)) st.studioId = st.studios[0].id;
+  const current = st.studios.find(p=>p.id===st.studioId);
+  // The existing top-level fields mirror the selected profile; on import the profile is authoritative.
+  st.equip = {...current.equip}; st.notes = {...current.notes}; st.eqLog = current.eqLog.slice();
+}
+function ensureStudios() { if (!Array.isArray(S.studios) || !S.studios.length) normalizeStudios(S); }
+function syncStudio() {
+  const p = (Array.isArray(S.studios) ? S.studios : []).find(p=>p && p.id===S.studioId); if (!p) return;
+  p.equip = {...S.equip}; p.notes = {...(S.notes || {})}; p.eqLog = (S.eqLog || []).slice();
+}
+function studioName(id) { return ((S.studios || []).find(p=>p.id===(id || S.studioId)) || {}).name || 'Mein Studio'; }
+function sessionAtStudio(sess, id) {
+  if (!(S.studios || []).length) return true;
+  return (sess.studioId || S.studios[0].id) === (id || S.studioId);
+}
+function selectStudio(id) {
+  ensureStudios(); const p = S.studios.find(p=>p.id===id); if (!p) return false;
+  if (S.active) { toast('Beende zuerst deine laufende Einheit, bevor du das Studio wechselst.'); return false; }
+  syncStudio(); S.studioId = p.id; S.equip = {...p.equip}; S.notes = {...p.notes}; S.eqLog = p.eqLog.slice();
+  if (U.setup) U.setup.busy = [];
+  save(); return true;
+}
+function addStudio(name, copy) {
+  ensureStudios(); if (S.active) return false;
+  syncStudio();
+  const p = {id:'st_'+uid(),name:cleanTxt(name,40) || 'Neues Studio',equip:copy ? {...S.equip} : Object.fromEntries(Object.keys(EQUIP).filter(k=>k!=='matte').map(k=>[k,false])),notes:copy ? {...(S.notes || {})} : {},eqLog:[]};
+  S.studios.push(p); selectStudio(p.id); return p;
+}
+function studioPicker() {
+  ensureStudios(); return `<button class="card" style="flex-direction:row;text-align:left;gap:12px;align-items:center" data-a="studios"><div class="grow"><b>📍 ${esc(studioName())}</b><p class="small muted">Studio wechseln · Geräte &amp; Einstellungen</p></div><span class="chev">›</span></button>`;
+}
+function studiosSheet() {
+  ensureStudios(); return `<h2>Deine <em>Studios</em></h2><p class="small muted">Geräte, Notizen und Gerätezeiten bleiben je Studio getrennt. Gewichte werden aus dem aktuellen Studio übernommen. Während einer laufenden Einheit ist der Wechsel gesperrt.</p>
+  <div class="list">${S.studios.map(p=>`<div class="stack" style="padding:12px;gap:8px"><button class="btn ${p.id===S.studioId?'':'line'}" data-a="studioselect" data-id="${esc(p.id)}" ${S.active?'disabled':''}>${esc(p.name)}${p.id===S.studioId?' · aktiv':''}</button><label class="small">Name<input class="field" data-in="studioname" data-id="${esc(p.id)}" maxlength="40" value="${esc(p.name)}"></label>${S.studios.length>1?`<button class="small link" style="color:var(--warn)" data-a="studiodelete" data-id="${esc(p.id)}" ${S.active?'disabled':''}>Profil entfernen</button>`:''}</div>`).join('')}</div>
+  <label class="stack small">Neues Studio oder Zuhause<input id="newstudio" class="field" maxlength="40" placeholder="z. B. Zuhause"></label><button class="btn" data-a="studioadd" data-copy="1" ${S.active?'disabled':''}>Aktuelle Auswahl kopieren</button><button class="btn line" data-a="studioadd" data-copy="0" ${S.active?'disabled':''}>Mit leerer Geräteauswahl starten</button><button class="btn ghost" data-a="sheetclose">Fertig</button>`;
+}
+function deleteStudio(id) {
+  if (S.active || S.studios.length<2) return false;
+  const p = S.studios.find(p=>p.id===id); if (!p) return false;
+  if (id===S.studioId) selectStudio(S.studios.find(p=>p.id!==id).id);
+  S.sessions.forEach(s=>{ if (sessionAtStudio(s,id)) { s.studioId = id; s.studioName = p.name; } });
+  S.studios = S.studios.filter(p=>p.id!==id); save(); return true;
+}
+/* ---------------- Zeitbudget ---------------- */
+function setupDuration(items, cfg, groups) {
+  const mini = cfg.mode==='mini';
+  const strength = mini ? estMin(items,true) : Math.round(3 + items.reduce((n,it)=>n+it.sets*((EXM[it.ex].side?1.4:.75)+restFor(EXM[it.ex])/60),0));
+  return strength + (cfg.warm!==false ? Math.round(warmSecs(buildWarm(groups,cfg.mode,cfg.day || S.dayType))/60) : 0) + (cfg.cool!==false ? Math.max(3,Math.round(buildCool(groups).reduce((n,q)=>n+q.sec+10,0)/60)) : 0) + (!mini && fatFocus() && cfg.fin!==false ? FIN_SEC/60+1 : 0);
+}
+function trimTimeItems(raw, estimate, limit) {
+  const items = raw.map(it=>({...it,reps:[...it.reps]})), changes=[];
+  if (!limit) return {items,changes,minutes:estimate(items),over:!items.length};
+  let guard=0;
+  while(items.length && estimate(items)>limit && guard++<300) {
+    let pool=items.filter(it=>it.sets>2);
+    if(!pool.length) pool=items.filter(it=>it.sets>1);
+    if(pool.length) {
+      const it=pool.sort((a,b)=>b.sets-a.sets || ((EXM[a.ex].type==='c'?1:0)-(EXM[b.ex].type==='c'?1:0)))[0]; it.sets--;
+    } else {
+      // Keep the first compound where possible; remove accessory/duplicate coverage first.
+      const pick=items.map((it,i)=>({it,i,score:(EXM[it.ex].type==='c'?4:0)+(items.filter(q=>q.g===it.g).length===1?2:0)+(i===0?1:0)})).sort((a,b)=>a.score-b.score || b.i-a.i)[0];
+      changes.push(`${EXM[pick.it.ex].n} entfällt`); items.splice(pick.i,1);
+    }
+  }
+  items.forEach(it=>{const original=raw.find(q=>it.id ? q.id===it.id : q.ex===it.ex); if(original && original.sets!==it.sets) {changes.push(`${EXM[it.ex].n}: ${original.sets} → ${it.sets} Sätze`);it.e=it.sets*(EXM[it.ex].m[it.g]||0.6);}});
+  const minutes=estimate(items); return {items,changes,minutes,over:!items.length || minutes>limit};
+}
+function setupTimePlan(raw) {
+  const slot=thisWeek().slots.find(s=>s.id===U.setup.slotId), info=slotInfo(slot), groups=info.groups.length?info.groups:[...new Set(raw.map(i=>i.g))];
+  if(U.setup.mode==='mini') return {items:raw,changes:[],minutes:setupDuration(raw,U.setup,groups),over:false};
+  const plan=trimTimeItems(raw.filter(i=>i.ex),items=>setupDuration(items,U.setup,groups),U.setup.minutes || 0);
+  raw.filter(i=>!i.ex).forEach(i=>plan.changes.push(`${GROUPS[i.g]?.n || i.g}: keine passende Übung mit deiner Geräteauswahl`));return plan;
+}
+function timeBudgetCard() {
+  const plan=setupTimePlan(setupRawItems()); return `<div class="card" style="gap:10px"><b>Wie viel Zeit hast du insgesamt?</b><div class="chips">${[0,30,45,60,75,90].map(n=>`<button class="chip ${(+U.setup.minutes||0)===n?'on':''}" data-a="timebudget" data-v="${n}" aria-pressed="${(+U.setup.minutes||0)===n}">${n?n+' Min':'Ohne Limit'}</button>`).join('')}</div><p class="small muted">Inklusive eingeschaltetem Aufwärmen, Cool-down und Ausdauer. Die Dauer ist geschätzt; zusätzliche Aufwärmsätze oder längere Wechsel verlängern sie.</p>${plan.changes.length?`<details><summary class="small">Für dein Zeitbudget angepasst</summary><ul class="tipl small">${plan.changes.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></details>`:''}${plan.over?'<p class="small" style="color:var(--warn)">Das Zeitbudget reicht mit diesen Einstellungen nicht. Wähle mehr Zeit oder schalte die zusätzliche Ausdauer aus.</p>':''}</div>`;
+}
+function remainingTimePlan(minutes) {
+  const A=S.active, current=curStep(); let fixed=0; const raw=[];
+  A.steps.forEach((q,i)=>{
+    if(i<A.pos || ['done','skip'].includes(stepStatus(q)))return;
+    if(q.k==='item') {const it=itemById(q.id), pending=it.log.filter(s=>!s.done&&!s.warm).length; if(pending) raw.push({ex:it.ex,g:it.g,id:it.id,sets:pending,reps:it.reps});
+      if(i===A.pos && A.ph==='rest')fixed+=Math.max(0,(A.paused || A.end-Date.now())/60000);
+    } else if(q.sect!=='fin') {fixed+=i===A.pos && A.ph==='work'?Math.max(0,(A.paused || A.end-Date.now())/60000):(q.sec+10)/60;}
+  });
+  const estimate=items=>Math.ceil(fixed+items.reduce((n,it)=>n+it.sets*((EXM[it.ex].side?1.4:.75)+restFor(EXM[it.ex])/60),0));
+  const plan=trimTimeItems(raw,estimate,minutes); plan.raw=raw;
+  const fin=A.steps.some((q,i)=>i>A.pos && q.sect==='fin' && stepStatus(q)==='open');
+  if(fin)plan.changes.push('Zusätzliche Ausdauer entfällt');
+  plan.current=current;return plan;
+}
+function remainingTimeSheet() {
+  const n=U.remainingMinutes || 20, plan=remainingTimePlan(n);
+  return `<h2>Noch <em>${n} Minuten</em></h2><p class="small muted">Offene Sätze werden gekürzt. Geschafftes bleibt erhalten, Cool-down bleibt eingeplant. Zusätzliche Ausdauer entfällt.</p><div class="chips">${[10,15,20,30,45].map(v=>`<button class="chip ${n===v?'on':''}" data-a="remainingpick" data-v="${v}">${v} Min</button>`).join('')}</div><p class="small">Verbleibender Plan: ca. ${plan.minutes} Min</p><ul class="tipl small">${plan.changes.map(t=>`<li>${esc(t)}</li>`).join('') || '<li>Keine Satzkürzung nötig.</li>'}</ul>${plan.over?'<p class="small" style="color:var(--warn)">Mit diesem Budget bleibt kein sinnvoller Kraftteil. Wähle mehr Zeit oder beende die Einheit über die Übersicht.</p>':''}<button class="btn" data-a="remainingapply" ${plan.over?'disabled':''}>Verbleibenden Plan anpassen</button><button class="btn ghost" data-a="sheetclose">Abbrechen</button>`;
+}
+function applyRemainingTime(minutes) {
+  const A=S.active; if(!A || A.flow)return false;
+  const plan=remainingTimePlan(minutes); if(plan.over)return false;
+  const current=curStep(), wanted=new Map(plan.items.map(it=>[it.id,it.sets]));
+  plan.raw.forEach(q=>{
+    const it=itemById(q.id); let left=wanted.get(q.id)||0;
+    it.log=it.log.filter(s=>s.done || s.warm || left-->0);
+    it.sets=it.log.filter(s=>!s.warm).length;
+    it.e=it.sets*(EXM[it.ex].m[it.g]||.6);
+    if(!wanted.has(q.id)) {it.closed=true;it.log=it.log.filter(s=>s.done);}
+  });
+  A.steps=A.steps.filter((q,i)=>i<A.pos || (q.sect!=='fin' && (q.k!=='item' || wanted.has(q.id) || !plan.raw.some(r=>r.id===q.id))));
+  // Completed data stays in A.items even if its step was removed.
+  A.pos=current && A.steps.includes(current)?A.steps.indexOf(current):Math.min(A.pos,A.steps.length);
+  A.adjustedTime=minutes; closeSheet();
+  if(!A.steps.includes(current))goStep(A.pos);
+  else if(current.k==='item' && !itemById(current.id).log.some(s=>!s.done&&!s.warm)) {if(A.ph==='rest')A.restNext='step';else advance();}
+  save();render();toast('Verbleibender Plan angepasst. Geschaffte Sätze bleiben erhalten.');return true;
+}
+/* ---------------- Einheiten bearbeiten ---------------- */
+function refreshHistoryStats() {
+  S.sessions.sort((a,b)=>new Date(a.date)-new Date(b.date));
+  S.sessions.forEach(s=>{if(!s.flow)s.prs=prsOf(s).length;});
+  for(const id of ['pr1','pr10']) {const b=BADGES.find(b=>b.id===id);if(b && !b.t() && S.badges)delete S.badges[id];}
+  checkBadges();
+}
+function openSessionEdit(id) {
+  const s=S.sessions.find(s=>s.id===id);if(!s)return;
+  U.sessionEdit={id,original:JSON.stringify(s),data:JSON.parse(JSON.stringify(s)),error:''};openSheet(sessionEditSheet);
+}
+function sessionEditSheet() {
+  const E=U.sessionEdit,s=E.data;
+  return `<h2>Einheit <em>bearbeiten</em></h2><p class="small muted">Korrekturen aktualisieren Verlauf, Rekorde und Fortschritt. Die laufende Einheit wird dadurch nicht verändert.</p>${E.error?`<p role="alert" style="color:var(--warn)">${esc(E.error)}</p>`:''}
+  <label class="stack small">Name<input class="field" data-in="sessionedit" data-k="name" maxlength="60" value="${esc(s.name)}"></label>
+  <div class="row"><label class="stack small grow">Dauer (Min)<input class="field" type="number" min="1" max="600" data-in="sessionedit" data-k="dur" value="${s.dur}"></label><label class="stack small grow">Anstrengung<select class="field" data-in="sessionedit" data-k="rpe"><option value="">Nicht bewertet</option>${RPE_OPTS.map(([v,n])=>`<option value="${v}" ${+s.rpe===v?'selected':''}>${esc(n)}</option>`).join('')}</select></label></div>
+  ${s.items.map((it,i)=>`<div class="card" style="gap:8px"><b>${esc(EXM[it.ex]?.n || it.ex)}</b>${s.flow?`<label class="stack small">Gehaltene Sekunden<input class="field" type="number" min="1" max="3600" data-in="sessionflow" data-i="${i}" value="${it.sec}"></label>`:`<p class="small muted">${esc(wHint(EXM[it.ex]) || (isBW(EXM[it.ex])?'Körpergewicht':'Gewicht in kg'))}</p>${it.log.map((l,j)=>`<div class="row" style="gap:6px;flex-wrap:wrap"><span class="small">${l.warm?'Aufwärmen':'Satz'} ${j+1}</span>${isBW(EXM[it.ex])?'':`<label class="small grow" style="min-width:90px">kg<input class="field" style="min-width:60px" inputmode="decimal" data-in="sessionlog" data-i="${i}" data-j="${j}" data-k="w" value="${esc(l.w)}"></label>`}<label class="small grow" style="min-width:90px">${EXM[it.ex]?.unit==='s'?'Sek.':'Wdh.'}<input class="field" style="min-width:60px" inputmode="numeric" data-in="sessionlog" data-i="${i}" data-j="${j}" data-k="r" value="${esc(l.r)}"></label><button class="small link" data-a="sessionwarm" data-i="${i}" data-j="${j}" aria-pressed="${!!l.warm}">${l.warm?'Als Arbeitssatz':'Als Aufwärmsatz'}</button><button class="small link" data-a="sessionremoveset" data-i="${i}" data-j="${j}" aria-label="Satz entfernen">×</button></div>`).join('')}<button class="small link" data-a="sessionaddset" data-i="${i}">+ Satz</button>`}</div>`).join('')}
+  <button class="btn" data-a="sessionsave">Änderungen speichern</button><button class="btn ghost" data-a="sessioncancel">Abbrechen</button>`;
+}
+function saveSessionEdit() {
+  const E=U.sessionEdit;if(!E)return false;
+  const index=S.sessions.findIndex(s=>s.id===E.id);
+  const fail=m=>{E.error=m;renderSheet();return false;};
+  if(index<0 || JSON.stringify(S.sessions[index])!==E.original)return fail('Die Einheit wurde inzwischen geändert. Schließe die Bearbeitung und öffne sie erneut.');
+  const s=JSON.parse(JSON.stringify(E.data));s.name=cleanTxt(s.name,60);
+  if(!s.name || !Number.isInteger(+s.dur) || +s.dur<1 || +s.dur>600)return fail('Bitte einen Namen und eine Dauer von 1 bis 600 Minuten eingeben.');s.dur=+s.dur;
+  if(s.rpe==null || s.rpe==='')delete s.rpe;else if(!RPE_OPTS.some(([v])=>v===+s.rpe))return fail('Bitte eine gültige Anstrengung wählen.');else s.rpe=+s.rpe;
+  for(const it of s.items) {
+    if(!EXM[it.ex])return fail('Eine Übung ist nicht mehr verfügbar.');
+    if(s.flow) {if(!Number.isInteger(+it.sec)||+it.sec<1||+it.sec>3600)return fail('Bitte gültige Haltezeiten eingeben.');it.sec=+it.sec;continue;}
+    for(const l of it.log) {
+      const r=num(l.r),w=num(l.w);
+      if(!/^\d+$/.test(String(l.r)) || !Number.isInteger(r)||r<1||r>300)return fail('Wiederholungen bzw. Sekunden müssen ganze Zahlen von 1 bis 300 sein.');
+      if(!isBW(EXM[it.ex]) && (String(l.w)!=='' && (!/^\d+(?:[.,]\d{1,2})?$/.test(String(l.w)) || w==null || w<0 || w>9999)))return fail('Bitte gültige Gewichte eingeben (0 bis 9999 kg).');
+      l.r=String(r);l.w=isBW(EXM[it.ex]) || String(l.w)==='' ? '' : String(w).replace('.',',');l.done=true;
+    }
+    const done=it.log.filter(l=>!l.warm).length;
+    // Preserve a known incomplete plan; correcting numbers must not create a completion claim.
+    it.sets=Math.max(done,+it.sets||0);
+  }
+  s.items=s.items.filter(it=>s.flow || it.log.length);
+  if(!s.items.length)return fail('Mindestens eine Position oder ein Satz muss erhalten bleiben.');
+  const previous=JSON.parse(JSON.stringify(S.sessions)), previousBadges=JSON.parse(JSON.stringify(S.badges || {}));S.sessions[index]=s;refreshHistoryStats();save();
+  if(!storageOK){S.sessions=previous;S.badges=previousBadges;return fail('Speichern fehlgeschlagen. Die bisherigen Einheiten bleiben erhalten. Bitte sichere ein Backup.');}
+  if(U.done?.sess?.id===s.id){U.done.sess=s;U.done.prs=prsOf(s);U.done.ups=[];}
+  U.sessionEdit=null;closeSheet();render();toast('Einheit korrigiert. Statistiken sind aktualisiert.');return true;
+}
+/* ---------------- Rückblick: konkrete vergleichbare Sätze ---------------- */
+function progressReview(now) {
+  const end=now || new Date(), from=new Date(end);from.setDate(from.getDate()-27);from.setHours(0,0,0,0);
+  const all=S.sessions.filter(s=>new Date(s.date)<=end).slice().sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const recent=all.filter(s=>new Date(s.date)>=from), grouped=new Map(), improvements=[];let compared=0;
+  all.filter(s=>!s.flow).forEach(s=>{const seen=new Set();s.items.forEach(it=>{if(!EXM[it.ex])return;const key=(s.studioId || (S.studios||[])[0]?.id || 'legacy')+'|'+it.ex; if(seen.has(key))return;seen.add(key);const log=s.items.filter(q=>q.ex===it.ex).flatMap(q=>q.log||[]).filter(q=>q.done&&!q.warm&&num(q.r)>0);if(log.length){const a=grouped.get(key)||[];a.push({s,it,log});grouped.set(key,a);}});});
+  grouped.forEach(rows=>{
+    if(rows.length<2)return;const b=rows[rows.length-1],a=rows[rows.length-2];if(new Date(b.s.date)<from)return;
+    const x=EXM[b.it.ex];let best=null,comparable=false;
+    for(const prev of a.log)for(const cur of b.log){
+      const ar=num(prev.r),br=num(cur.r),aw=num(prev.w),bw=num(cur.w);
+      const body=isBW(x)||x.unit==='s';
+      if(body){comparable=true;if(br>ar && (!best || br-ar>best.delta))best={delta:br-ar,text:`${fmt(ar)} → ${fmt(br)} ${x.unit==='s'?'Sek.':'Wdh.'}`};}
+      else if(validW(x,aw)&&validW(x,bw)){
+        if(ar===br){comparable=true;if(betterW(x,bw,aw))best={delta:Math.abs(bw-aw),text:`${fmt(aw)} → ${fmt(bw)} kg${isAssist(x)?' Hilfe':''} bei ${fmt(br)} Wdh.`};}
+        if(aw===bw){comparable=true;if(br>ar && !best)best={delta:br-ar,text:`${fmt(ar)} → ${fmt(br)} Wdh. bei ${fmt(bw)} kg${isAssist(x)?' Hilfe':''}`};}
+      }
+    }
+    if(comparable)compared++;if(best)improvements.push({ex:x.id,name:x.n,text:best.text,studio:b.s.studioName || studioName(b.s.studioId),date:b.s.date});
+  });
+  return {from,end,units:recent.length,minutes:recent.reduce((n,s)=>n+(+s.dur||0),0),days:new Set(recent.map(s=>dayKey(new Date(s.date)))).size,compared,improvements};
+}
+function reviewCard(full) {
+  const r=progressReview();if(!full && r.units<2)return '';
+  return `<div class="card" style="gap:10px"><div><h2>Deine letzten <em>4 Wochen</em></h2><p class="small muted">${dShort(r.from)}–${dShort(r.end)}</p></div><p><b>${r.units} Einheiten</b> an ${r.days} Tagen · ${r.minutes} Minuten erfasst</p>${r.improvements.length?`<p>Bei <b>${r.improvements.length} Übungs-/Studio-Vergleichen</b> hast du dich zum vorherigen Training verbessert.</p>${full?`<div class="stack">${r.improvements.slice(0,8).map(i=>`<div><b class="small">${esc(i.name)}</b><p class="small muted">${esc(i.text)} · ${esc(i.studio)}</p></div>`).join('')}</div>`:''}`:`<p class="small muted">${r.compared?'Bei den vergleichbaren Sätzen gab es zuletzt keine Steigerung. Regelmäßiges Training zählt ebenfalls.':'Für einen Vergleich brauchst du dieselbe Übung im selben Studio in mindestens zwei Einheiten.'}</p>`}${full?'<p class="small muted">Verglichen werden die letzten zwei Einheiten je Übung und Studio: mehr Gewicht bei gleicher Wiederholungszahl oder mehr Wiederholungen bei gleichem Gewicht; bei Assist weniger Hilfe. Aufwärmsätze zählen nicht. Körpergewicht und Halteübungen werden über Wiederholungen bzw. Sekunden verglichen.</p>':'<button class="btn line sm" data-a="reviewopen">Rückblick ansehen</button>'}</div>`;
+}
+
 /* ---------------- Backup ---------------- */
 let DL = null;
 (async () => { try { if (window.claude && window.claude.use) DL = await window.claude.use("downloads"); } catch (e) {} })();
@@ -3834,6 +4050,22 @@ document.addEventListener("click", (e) => {
   unlockAudio();
   switch (a) {
     case "tab": if (d.v === "prof") U.psec = d.p || null; go(d.v); break;
+    case "studios": openSheet(studiosSheet); break;
+    case "studioselect": if (selectStudio(d.id)) { closeSheet(); render(); toast(studioName() + " ausgewählt"); } break;
+    case "studioadd": { const name = document.getElementById("newstudio")?.value; if (addStudio(name, d.copy === "1")) { render(); openSheet(studiosSheet); } break; }
+    case "studiodelete": if (!S.active) openSheet(() => confirmSheet("Studio-Profil entfernen?", "Geräteauswahl und Notizen dieses Profils werden entfernt. Gespeicherte Einheiten bleiben erhalten.", "studiodelete2", "Profil entfernen", `data-id="${esc(d.id)}"`)); break;
+    case "studiodelete2": if (deleteStudio(d.id)) { render(); openSheet(studiosSheet); } break;
+    case "timebudget": U.setup.minutes = +d.v; S.timeBudget = +d.v; save(); render(); break;
+    case "remainingopen": U.remainingMinutes = 20; openSheet(remainingTimeSheet); break;
+    case "remainingpick": U.remainingMinutes = +d.v; renderSheet(); break;
+    case "remainingapply": applyRemainingTime(U.remainingMinutes || 20); break;
+    case "sessionedit": openSessionEdit(d.id); break;
+    case "sessioncancel": U.sessionEdit = null; closeSheet(); break;
+    case "sessionsave": saveSessionEdit(); break;
+    case "sessionaddset": { const it = U.sessionEdit.data.items[+d.i]; const last = it.log[it.log.length-1]; it.log.push({w:last?.w || "",r:last?.r || "",done:true}); it.sets=(+it.sets||0)+1; renderSheet(); break; }
+    case "sessionremoveset": { const it = U.sessionEdit.data.items[+d.i]; const removed=it.log.splice(+d.j,1)[0]; if(removed && !removed.warm)it.sets=Math.max(0,(+it.sets||0)-1); renderSheet(); break; }
+    case "sessionwarm": { const it=U.sessionEdit.data.items[+d.i],l=it.log[+d.j]; l.warm=!l.warm; it.sets=Math.max(0,(+it.sets||0)+(l.warm?-1:1)); renderSheet(); break; }
+    case "reviewopen": U.hist = "review"; go("hist"); break;
     case "psec": U.psec = d.k || null; render(); window.scrollTo(0, 0); break;
     case "resume": { const A = S.active; if (!A.flow && A.paused && (A.ph === "prep" || A.ph === "work")) { A.end = Date.now() + A.paused; A.paused = 0; } audioSetup(); wakeLock(); go(A.flow ? "flow" : "train"); break; }
     case "start": closeSheet(); startSetup(d.s); break;
@@ -3987,7 +4219,7 @@ document.addEventListener("click", (e) => {
     case "cexdel": { const n = U.cex.n; deleteCustom(U.cex.id); closeSheet(); render(); toast(n + " gelöscht"); break; }
     case "histt": U.hist = d.t; render(); break;
     case "delsess": e.preventDefault(); openSheet(() => confirmSheet("Einheit löschen?", "Sie verschwindet aus dem Verlauf und den Fortschritten.", "delsess2", "Löschen", `data-id="${d.id}"`)); break;
-    case "delsess2": S.sessions = S.sessions.filter((s) => s.id !== d.id); save(); closeSheet(); render(); break;
+    case "delsess2": S.sessions = S.sessions.filter((s) => s.id !== d.id); refreshHistoryStats(); save(); closeSheet(); render(); break;
     case "reps": S.reps = d.k; save(); render(); break;
     case "back": S.backCare = !S.backCare; save(); render(); break;
     case "rest": {
@@ -4076,6 +4308,10 @@ document.addEventListener("click", (e) => {
 document.addEventListener("change", (e) => { const t = e.target; if (t && t.dataset && t.dataset.in === "bdate") setBirth(t.value); });
 document.addEventListener("input", (e) => {
   const t = e.target; const k = t.dataset.in; if (!k) return;
+  if (k === "studioname") { const p=(S.studios || []).find(p=>p.id===t.dataset.id); if(p){p.name=cleanTxt(t.value,40) || "Studio";save();} }
+  if (k === "sessionedit" && U.sessionEdit) U.sessionEdit.data[t.dataset.k]=t.value;
+  if (k === "sessionlog" && U.sessionEdit) U.sessionEdit.data.items[+t.dataset.i].log[+t.dataset.j][t.dataset.k]=t.value;
+  if (k === "sessionflow" && U.sessionEdit) U.sessionEdit.data.items[+t.dataset.i].sec=t.value;
   if (k === "name") { S.name = t.value.trim(); save(); }
   if (k === "cex" && U.cex) { U.cex[t.dataset.f] = t.value; if (t.dataset.f === "base") renderSheet(); }
   if (k === "exnote") { S.notes = S.notes || {}; const v = t.value.slice(0, 300); if (v.trim()) S.notes[t.dataset.x] = v; else delete S.notes[t.dataset.x]; save(); }

@@ -1,0 +1,38 @@
+SELFCARE STUDIO 4.3 – UPDATE
+
+Basis: GitHub-Stand dbf8d9a (Version 4.2.1, mit funktionierender Musik-Steuerung).
+
+Neu:
+1. Zeitbudget vor dem Krafttraining (30/45/60/75/90 Min oder ohne Limit).
+   Im Trainingsmenü: „Weniger Zeit? Rest anpassen“.
+   Vorschau vor Bestätigung; bereits erledigte Sätze bleiben erhalten.
+   Die Dauer ist eine Schätzung. Zusätzliche Aufwärmsätze und Gerätewechsel können sie verlängern.
+2. Gespeicherte Einheiten bearbeiten: Verlauf → Einheiten → Einheit aufklappen → Einheit bearbeiten.
+   Gewichte, Wiederholungen/Haltezeiten, Name, Dauer und Anstrengung korrigieren.
+   Aufwärmsätze kennzeichnen, Sätze ergänzen/entfernen. Rekorde werden neu berechnet.
+3. Studio-Profile: auf der Startseite, in der Vorbereitung und unter Profil.
+   Geräteauswahl, Notizen und Gerätezeiten getrennt. Gewichtsvorschläge beziehen sich auf dasselbe Studio.
+   Vorhandene Daten werden ins erste Profil übernommen. Wechsel während laufender Einheit gesperrt.
+4. Verlauf → Rückblick: die letzten 28 Tage mit konkreten Satzvergleichen je Übung/Studio.
+
+Die Musiklösung einschließlich Profil-Schalter ist weiterhin enthalten.
+Gewichtsstufen pro Gerät wurden wie gewünscht nicht ergänzt.
+
+HOCHLADEN
+- Vor dem Update in der bisherigen App unter Profil → Daten & Backup ein Backup speichern.
+- ZIP entpacken und die Dateien im Repository mit gleicher Ordnerstruktur ersetzen/ergänzen.
+- index.html und sw.js liegen im Hauptverzeichnis; docs/ und tests/ beibehalten.
+- Nach Veröffentlichung der GitHub-Pages-Version die App öffnen und das Update laden.
+- Vorhandene Browser-/App-Daten nicht löschen. Sie werden beim Öffnen übernommen.
+
+PRÜFUNGEN
+- node tests/logik.test.cjs index.html: 179/179 bestanden.
+- node tests/expansion.test.cjs index.html: 18/18 bestanden.
+- node tests/audio.test.cjs index.html: bestanden.
+- DOM-Integration (jsdom): Profile anlegen/wechseln, Zeitbudget, Satz erfassen,
+  verbleibenden Plan kürzen, Einheit bearbeiten und Rückblick öffnen erfolgreich geprüft.
+- git diff --check: bestanden.
+
+Kein vollständiger Test auf echten iPhones/Android-Geräten durchgeführt.
+Bitte vor der breiten Weitergabe dort besonders die Eingabemasken, Profilwechsel,
+Wiederaufnahme, das Kürzen einer Einheit sowie Musik/Timer im Trainingsalltag prüfen.

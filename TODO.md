@@ -22,6 +22,14 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 ## Bewusst nicht umgesetzt
 - **Unhörbarer Dauerton** gegen das Einschlafen der Audioausgabe (Ringzeit-Idee): Er würde laufende Musik auf dem iPhone dauerhaft leiser stellen. Stattdessen Gong als echte Tondatei und Freischalten beim ersten Antippen.
 
+## Erledigt in Version 4.3
+- [x] Zeitbudget vor Krafttraining und Kürzen der verbleibenden Einheit mit Vorschau; geschaffte Sätze bleiben erhalten.
+- [x] Gespeicherte Einheiten bearbeiten, Validierung, Abbrechen, Neuberechnung der Rekorde und Rollback bei Speicherfehler.
+- [x] Mehrere Studio-Profile mit getrennter Geräteauswahl, Notizen, Gerätezeiten und Gewichtshistorie; Migration und Backup.
+- [x] Rückblick über 28 Tage mit konkreten Satzvergleichen je Übung/Studio.
+- [x] Zusätzliche Logik- und DOM-Ereignistests für die Erweiterungen.
+- [ ] Auf echtem iPhone/Android testen: schmale Eingabemasken, mehrere Profile, Abbrechen/Speichern, laufende Einheit kürzen und Musik.
+
 ## Erledigt in Version 4.2.1
 - [x] Audio-Modus aus Ringzeit übernommen: ambient für weiterlaufende Musik (Standard), auto optional unter Ton & Musik. Vor jeder Audioausgabe anwenden; keine stumme Sprachfreischaltung bei ausgeschalteter Stimme.
 - [ ] Auf echtem iPhone mit Musik prüfen: Gong, Countdown, Pausenende, Pilates/Mobility und Sprachansage an/aus; zusätzlich Lautlos-Schalter und beide Modi.

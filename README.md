@@ -112,6 +112,29 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 
 ---
 
+## Neu in Version 4.3
+
+- **Zeitbudget:** Vor dem Krafttraining 30, 45, 60, 75 oder 90 Minuten wählen. Der Plan berücksichtigt eingeschaltetes Aufwärmen, Cool-down und zusätzliche Ausdauer. Die Änderungen stehen vor dem Start dabei. Die Dauer ist eine Schätzung; zusätzliche Aufwärmsätze und längere Gerätewechsel können sie verlängern.
+- **Weniger Zeit unterwegs:** Im Trainingsmenü „Weniger Zeit? Rest anpassen“ wählen, den Vorschlag ansehen und bestätigen. Erledigte Sätze bleiben erhalten. Zusätzliche Ausdauer entfällt, Cool-down bleibt eingeplant.
+- **Studio-Profile:** Auf der Startseite, in der Vorbereitung oder unter Profil → Studio-Profile zwischen Orten wechseln. Geräteauswahl, Übungsnotizen und Gerätezeiten sind getrennt. Neue Profile lassen sich kopieren oder mit leerer Geräteauswahl anlegen. Gewichte und Steigerungsvorschläge beziehen sich auf das aktuelle Studio. Während einer laufenden Einheit ist der Wechsel gesperrt. Alte Daten werden dem ersten Profil zugeordnet, ohne Einheiten zu löschen.
+- **Einheiten korrigieren:** Unter Verlauf → Einheiten die Einheit aufklappen und „Einheit bearbeiten“ wählen. Name, Dauer, Anstrengung, Satzgewichte/Wiederholungen, Aufwärmstatus und Flow-Haltezeiten korrigieren; Sätze lassen sich ergänzen oder entfernen. Änderungen erst nach „Speichern“; Rekorde werden neu berechnet.
+- **Rückblick:** Unter Verlauf → Rückblick werden die letzten 28 Kalendertage zusammengefasst. Konkrete Vergleiche verwenden die letzten zwei Einheiten je Übung und Studio, ohne Aufwärmsätze. Unterschiedliche Maschinen in verschiedenen Studios werden nicht zusammengeworfen.
+- Die Musik-Steuerung aus Version 4.2.1 bleibt enthalten.
+
+Zusätzliche Prüfungen:
+
+```bash
+node tests/expansion.test.cjs index.html
+node tests/audio.test.cjs index.html
+```
+
+Optionaler Test über DOM-Ereignisse (Entwicklungsabhängigkeit `jsdom`; kein Test auf einem echten Handy):
+
+```bash
+npm install --no-save jsdom
+node tests/expansion-ui.test.cjs
+```
+
 ## Installation
 
 1. Den Link **in Safari** öffnen (nicht im WhatsApp- oder Instagram-Browser): [dnsmaur1992.github.io/Selfcare-Studio](https://dnsmaur1992.github.io/Selfcare-Studio/)
