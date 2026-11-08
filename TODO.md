@@ -22,6 +22,10 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 ## Bewusst nicht umgesetzt
 - **Unhörbarer Dauerton** gegen das Einschlafen der Audioausgabe (Ringzeit-Idee): Er würde laufende Musik auf dem iPhone dauerhaft leiser stellen. Stattdessen Gong als echte Tondatei und Freischalten beim ersten Antippen.
 
+## Erledigt in Version 4.2.1
+- [x] Audio-Modus aus Ringzeit übernommen: ambient für weiterlaufende Musik (Standard), auto optional unter Ton & Musik. Vor jeder Audioausgabe anwenden; keine stumme Sprachfreischaltung bei ausgeschalteter Stimme.
+- [ ] Auf echtem iPhone mit Musik prüfen: Gong, Countdown, Pausenende, Pilates/Mobility und Sprachansage an/aus; zusätzlich Lautlos-Schalter und beide Modi.
+
 ## Erledigt in Version 4.2
 - [x] **Pilates & Mobility mit je vier Themen** (Pilates: Klassisch, Bauch & Mitte, Po & Beine, Rücken & Haltung · Mobility: Ganzkörper, Hüfte & Rücken, Schultern & Nacken, Abends runterfahren), 15 neue Positionen mit Animation, Themen wechseln sich ab, 15 oder 30 Minuten.
 - [x] **Ruhige Phase:** sanfte Einheiten statt Kraft, keine verpassten Einheiten, Serie bleibt; **geführte Atemübung** (2/4/6 Min, 4 s ein, 6 s aus) von der Startseite.

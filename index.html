@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.2">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.2">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.2.1">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.2.1">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.2">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.2.1">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -722,12 +722,15 @@ function wHint(x) {
   if (x.eq.includes("kabel")) return "Wie am Steckgewicht angezeigt.";
   return "";
 }
-const S_VERSION = "4.2";
-const NEWS = { v: "4.2", items: [
+const S_VERSION = "4.2.1";
+const NEWS = { v: "4.2.1", items: [
+  ["Musik beim Training", "Die Audio-Steuerung aus Ringzeit: Musik weiterlaufen lassen ist jetzt Standard. Unter Ton & Musik kannst du zwischen Mischen und Unterbrechen wechseln. Auf dem iPhone muss für Signaltöne im Mischmodus der Lautlos-Schalter ausgeschaltet sein."],
+], old: [
+  { v: "4.2", items: [
   ["Pilates & Mobility mit Themen", "Jetzt je vier Varianten – z. B. „Bauch & Mitte“, „Schultern & Nacken“ oder „Abends runterfahren“ – mit 15 neuen Positionen. Die Themen wechseln sich ab, und du wählst 15 oder 30 Minuten."],
   ["Ruhige Phase & Atemübung", "Ist gerade alles zu viel? Unter „Pause“ startest du eine ruhige Phase: sanfte Einheiten statt Kraft, ohne Druck, die Serie bleibt. Dazu eine geführte Atemübung auf der Startseite."],
   ["Kleinigkeiten", "Eigene Animationen für TRX-Rudern, TRX-Brustpresse, Rumpfrotation und Rückenstrecker-Maschine. Beim Start ein kurzer Tipp, und unter Darstellung die Wahl zwischen einfacher und ausführlicher Ansicht."],
-], old: [
+] },
   { v: "4.1", items: [
   ["Übungen suchen", "Ganz oben unter „Übungen“ und beim Zusammenstellen deines Plans: einfach tippen, z. B. „Hip Thrust“, „Rücken Kabel“ oder „Pilates“. Gefunden wird nach Name, Muskel und Gerät."],
   ["Schönerer Start für neue Nutzerinnen", "Kürzere Einrichtung, ein Willkommens-Moment und ein gefeiertes erstes Training. Die ersten zwei Einheiten sind etwas leichter."],
@@ -1031,7 +1034,7 @@ function normalizeState(st, notes) {
   pick("outfit", (v) => v === "custom" || OUTFITS.some((o) => o.id === v), undefined, "Outfit");
   pick("dayType", (v) => !!DAYMOB[v], undefined, "Tagesform");
   pick("music", (v) => typeof v === "string" && (v === "" || /^https?:\/\/[^\s"'<>]{1,500}$/.test(v)), "", "Musik-Link");
-  ["backCare", "voice", "zoom", "setup", "heavy", "design", "simple", "tips"].forEach((k) => pick(k, (v) => typeof v === "boolean", undefined, k === "setup" ? "Einrichtung" : "Schalter"));
+  ["backCare", "voice", "mixMusic", "zoom", "setup", "heavy", "design", "simple", "tips"].forEach((k) => pick(k, (v) => typeof v === "boolean", undefined, k === "setup" ? "Einrichtung" : "Schalter"));
   const hex = (v) => typeof v === "string" && /^#[0-9a-fA-F]{6}$/.test(v);
   if (st.outfitCustom != null) st.outfitCustom = Object.fromEntries(Object.entries(obj(st.outfitCustom)).filter(([k, v]) => ["top", "legs", "shoe"].includes(k) && hex(v)));
   if (st.hair != null) { const h = obj(st.hair); st.hair = {}; if (HAIRS.some(([k]) => k === h.style)) st.hair.style = h.style; if (hex(h.color)) st.hair.color = h.color; }
@@ -3052,11 +3055,20 @@ function finishSession() {
   }).filter(Boolean);
   U.done = { sess, ups, prs, badges }; go("done");
 }
-/* Ton & Sprache: Gong und Ansage laufen über die Musik, ohne sie zu stoppen (iOS 17+: audioSession „transient“). */
+/* Audio-Modus wie in Ringzeit: ambient mischt mit Musik, auto überlässt dem System die Unterbrechung. */
+const audioSessionOk = () => typeof navigator !== "undefined" && !!navigator.audioSession;
+function applyAudioMode() {
+  try { if (audioSessionOk()) { const mode = S.mixMusic !== false ? "ambient" : "auto"; if (navigator.audioSession.type !== mode) navigator.audioSession.type = mode; } } catch (e) {}
+}
+function musicModeCard() {
+  if (!audioSessionOk()) return "";
+  return `<div class="card" style="gap:8px"><div class="row between"><div class="grow"><b>Musik weiterlaufen lassen</b><p class="small muted">Gong und Countdown mit deiner Musik mischen. Aus: Signaltöne dürfen die Musik unterbrechen.</p></div><button class="toggle ${S.mixMusic !== false ? "on" : ""}" data-a="audiomode" role="switch" aria-checked="${S.mixMusic !== false}" aria-label="Musik weiterlaufen lassen"></button></div><p class="small muted">Auf dem iPhone den Lautlos-Schalter ausschalten. Sprachansagen können die Musik je nach Gerät kurz absenken oder unterbrechen; bei Bedarf Sprachansage ausschalten.</p></div>`;
+}
 function audioSetup() { unlockAudio(); primeAudio(); }
 function gong() { const k = S.sound || "gong"; if (k === "aus") return; playSnd(k, SOUNDS[k]?.f || 660); }
 function say(t) {
   if (S.voice === false || !t) return;
+  applyAudioMode();
   try { const u = new SpeechSynthesisUtterance(t); u.lang = "de-DE"; u.rate = 1.02; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) {}
 }
 
@@ -3382,8 +3394,9 @@ function vProf() {
     <div class="card" style="gap:8px"><h3>Pause &amp; Fokus</h3><div class="row" style="gap:8px;flex-wrap:wrap">${pauseNow() ? `<button class="btn sm" data-a="pauseend">Pause beenden</button>` : `<button class="btn line sm" data-a="pauseopen">Pause eintragen</button>`}<button class="btn line sm" data-a="focusopen">${focusOn() ? `Fokus: ${FOCI[S.focus.id].n}` : "Fokus-Block starten"}</button></div><span class="small muted">Pause bei Krankheit, Verletzung oder Urlaub. Fokus-Block: 6 Wochen mit Schwerpunkt.</span></div>`,
     pause: () => `${head("Satzpause")}<div class="card" style="gap:12px"><p class="small muted">Pause zwischen zwei Sätzen. Jetzt: ${restLine()}</p>${restPicker()}</div>`,
     ton: () => `${head("Ton &amp; Musik")}
-    <div class="card" style="gap:12px"><div class="row between"><div class="grow"><b>Sprachansage</b><p class="small muted">Sagt Übung, Satz und Gewicht an. Läuft über deine Musik. <button class="link" style="font-size:13px" data-a="soundtest">Töne wählen &amp; testen</button></p></div><button class="toggle ${S.voice !== false ? "on" : ""}" data-a="ptoggle" data-k="voice" role="switch" aria-checked="${S.voice !== false}" aria-label="Sprachansage"></button></div></div>
+    <div class="card" style="gap:12px"><div class="row between"><div class="grow"><b>Sprachansage</b><p class="small muted">Sagt Übung, Satz und Gewicht an. <button class="link" style="font-size:13px" data-a="soundtest">Töne wählen &amp; testen</button></p></div><button class="toggle ${S.voice !== false ? "on" : ""}" data-a="ptoggle" data-k="voice" role="switch" aria-checked="${S.voice !== false}" aria-label="Sprachansage"></button></div></div>
     <button class="card" style="flex-direction:row;align-items:center;gap:12px;text-align:left;width:100%" data-a="soundtest"><div class="grow stack" style="gap:2px"><b>Signalton · ${SOUNDS[S.sound || "gong"].n}</b><span class="small muted">Countdown: ${TICKS[S.tick || "piep"].n} · antippen zum Wählen und Anhören</span></div><span class="chev">›</span></button>
+    ${musicModeCard()}
     <div class="card" style="gap:8px"><h3>Deine Musik</h3><input id="pmusic" class="field" data-in="music" inputmode="url" value="${esc(S.music || "")}" placeholder="Link zur Playlist (Spotify, Apple Music …)"><span class="small muted">Im Training erscheint dann oben ein ♪, der deine Playlist öffnet. Den Link bekommst du in der Musik-App über Teilen → Link kopieren.</span></div>`,
     app: () => `${head("Darstellung &amp; Kalender")}
     <div class="card" style="gap:10px"><h3>Darstellung</h3><div class="seg">${[["auto", "Automatisch"], ["light", "Hell"], ["dark", "Dunkel"]].map(([k, n]) => `<button class="${(S.theme || "auto") === k ? "on" : ""}" data-a="theme" data-k="${k}">${n}</button>`).join("")}</div><span class="small muted">Automatisch folgt der Einstellung deines iPhones.</span>${accentPicker()}
@@ -3711,6 +3724,7 @@ function sndInit() { if (SND.ready) return; SND.ready = true; sndGet(S.sound || 
 const POOL = {};
 const poolKeys = () => [S.sound && S.sound !== "aus" ? S.sound : "gong", "beep", "low", "tick"];
 function primeAudio() {
+  applyAudioMode();
   poolKeys().forEach((k) => {
     const url = sndGet(k); if (!url) return;
     let el = POOL[k]; if (!el) { el = POOL[k] = new Audio(); el.preload = "auto"; el.setAttribute("playsinline", ""); }
@@ -3721,6 +3735,7 @@ function primeAudio() {
   });
 }
 function playSnd(k, fallbackF) {
+  applyAudioMode();
   sndInit(); const url = sndGet(k);
   if (!url) return synth(fallbackF);
   const el = POOL[k];
@@ -3731,6 +3746,7 @@ function playSnd(k, fallbackF) {
   synth(fallbackF);
 }
 function synth(f) {
+  applyAudioMode();
   try {
     actx = actx || new (window.AudioContext || window.webkitAudioContext)();
     const go = () => { const o = actx.createOscillator(), g = actx.createGain(); o.frequency.value = f || 880; g.gain.setValueAtTime(0.0001, actx.currentTime); g.gain.exponentialRampToValueAtTime(0.25, actx.currentTime + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + 0.35); o.connect(g).connect(actx.destination); o.start(); o.stop(actx.currentTime + 0.4); };
@@ -3742,12 +3758,12 @@ function beep(f) { const t = S.tick || "piep"; if (t === "aus") return; if (t ==
 /* Freischalten beim ersten Antippen irgendwo in der App (iOS erlaubt Ton erst nach einer Berührung). */
 let audioUnlocked = false;
 function unlockAudio() {
+  applyAudioMode();
   if (audioUnlocked) return; audioUnlocked = true;
-  try { if (navigator.audioSession) navigator.audioSession.type = "transient"; } catch (e) {}
   sndInit();
   primeAudio();
   try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); if (actx.state !== "running") actx.resume(); } catch (e) {}
-  try { if (window.speechSynthesis) { const u = new SpeechSynthesisUtterance(" "); u.volume = 0; speechSynthesis.speak(u); } } catch (e) {}
+  try { if (S.voice !== false && window.speechSynthesis) { const u = new SpeechSynthesisUtterance(" "); u.volume = 0; speechSynthesis.speak(u); } } catch (e) {}
 }
 document.addEventListener("pointerdown", unlockAudio, { once: true, capture: true });
 document.addEventListener("touchend", unlockAudio, { once: true, capture: true });
@@ -3903,6 +3919,7 @@ document.addEventListener("click", (e) => {
     case "backupsnooze": S.backupSnooze = new Date().toISOString(); save(); render(); break;
     case "feedback": openSheet(feedbackSheet); break;
     case "fbcopy": { const ta = document.getElementById("fbtext"); try { navigator.clipboard.writeText(ta.value).then(() => toast("Kopiert"), () => ta.select()); } catch (err) { ta.select(); } break; }
+    case "audiomode": S.mixMusic = S.mixMusic === false; applyAudioMode(); save(); render(); break;
     case "soundtest": openSheet(soundSheet); break;
     case "soundpick": unlockAudio(); S.sound = d.k; save(); renderSheet(); primeAudio(); setTimeout(gong, 60); break;
     case "tickpick": unlockAudio(); S.tick = d.k; save(); renderSheet(); if (d.k !== "aus") { beep(1046); setTimeout(() => beep(1046), 1000); setTimeout(() => beep(1046), 2000); } break;
@@ -4100,6 +4117,7 @@ document.addEventListener("visibilitychange", () => { if (document.visibilitySta
   if (notes.length) { try { const raw = localStorage.getItem(KEY); if (raw && !localStorage.getItem(KEY + ".vorReparatur")) localStorage.setItem(KEY + ".vorReparatur", raw); } catch (e) {} save(); U.repair = notes; }
 })();
 try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyOutfit); new MutationObserver(() => { applyOutfit(); if (U.view === "prof" || U.view === "ob") render(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] }); } catch (e) {}
+applyAudioMode();
 applyTheme();
 render();
 (() => {

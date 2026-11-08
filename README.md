@@ -166,7 +166,7 @@ Ausführliche Anleitung mit QR-Code: [installieren.html](https://dnsmaur1992.git
 - **Eine Datei, keine Abhängigkeiten:** reines HTML, CSS und JavaScript; Schriften von Google Fonts (Bodoni Moda, Outfit) mit Systemschrift als Rückfall
 - **Animationen** als SVG-Strichfiguren mit inverser Kinematik, berechnet im Browser
 - **Offline-fähig** über den Service Worker
-- **Ton:** Gong als in der App erzeugte WAV-Datei, Sprachausgabe des Systems für Ansagen; `audioSession` „transient“ (iOS 17+), damit Musik weiterläuft. Bei eingeschaltetem Lautlos-Schalter kann der Gong stumm bleiben – Profil → „Ton testen“
+- **Ton:** Gong als in der App erzeugte WAV-Datei, Sprachausgabe des Systems für Ansagen; `audioSession` „ambient“ zum Mischen mit laufender Musik (wie in Ringzeit, auf unterstützten Geräten). Unter Profil → Ton & Musik ist alternativ „Unterbrechen“ wählbar. Sprachansagen können je nach Gerät trotzdem Musik absenken oder unterbrechen. Bei eingeschaltetem Lautlos-Schalter kann der Gong stumm bleiben – Profil → „Ton testen“
 - **Tests** ohne Browser:
 
   ```bash
