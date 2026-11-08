@@ -1,0 +1,21 @@
+// Release 4.3: bounded calendar navigation, persisted plans and historical sessions.
+const fs=require('fs');const file=process.argv[2]||'index.html';
+const harness=fs.readFileSync(require('path').join(__dirname,'logik.test.cjs'),'utf8').split('let fails')[0];
+const checks=String.raw`
+const assert=require('node:assert/strict');let count=0;
+const test=(name,fn)=>{fn();count++;console.log('✓ '+name);};
+render=()=>{};renderSheet=()=>{};
+S=defaults();S.setup=true;S.days=tmplDays(3);U.weekOffset=0;
+const todayKey=weekKey(new Date()), todayWeek=thisWeek();
+test('Navigation stops at five weeks in either direction and resets',()=>{for(let n=0;n<12;n++)navigateWeek(1);assert.equal(U.weekOffset,5);assert.match(weekNavigation(),/data-a="weeknext"[^>]*disabled/);for(let n=0;n<20;n++)navigateWeek(-1);assert.equal(U.weekOffset,-5);assert.match(weekNavigation(),/data-a="weekprev"[^>]*disabled/);navigateWeek(0);assert.equal(U.weekOffset,0);assert.equal(weekKey(viewedMonday()),todayKey);});
+test('Calendar arithmetic handles year changes and daylight saving',()=>{U.weekOffset=1;assert.equal(weekKey(viewedMonday(new Date(2026,11,28,12))),'2027-W01');assert.equal(viewedMonday(new Date(2026,9,20,12)).getDay(),1);U.weekOffset=-5;assert.equal(viewedMonday(new Date(2027,0,4,12)).getDay(),1);});
+test('Past browsing does not create invented weekly plans',()=>{U.weekOffset=-3;const key=weekKey(viewedMonday());delete S.weeks[key];assert.equal(viewedWeek().slots.length,0);assert.equal(S.weeks[key],undefined);});
+test('Historical sessions appear even when their week plan is missing',()=>{const date=addDays(viewedMonday(),2);S.sessions=[{id:'past',slotId:'lost',type:'kraft',name:'Altes Training',date:date.toISOString(),dur:30,items:[]}];const slots=viewedWeek().slots;assert.equal(slots.length,1);assert.equal(slots[0].wd,3);assert.equal(slotDone(slots[0]).id,'past');assert.match(slotSheet(slots[0].id),/calendarhistory/);assert(!slotSheet(slots[0].id).includes('data-a="start"'));});
+test('Existing historical slots show completion without duplicate sessions',()=>{const key=weekKey(viewedMonday());S.weeks[key]={slots:[{id:'lost',type:'kraft',dayId:S.days[0].id,wd:3}]};assert.equal(viewedWeek().slots.length,1);assert(slotDone(viewedWeek().slots[0]));});
+test('Future plans have separate IDs and defer load checks',()=>{U.weekOffset=5;const shown=viewedWeek();assert.equal(shown.slots.length,S.days.length);assert(shown.slots.every(s=>!todayWeek.slots.some(t=>t.id===s.id)));assert(!shown.checked);const ids=shown.slots.map(s=>s.id);assert.deepEqual(viewedWeek().slots.map(s=>s.id),ids);assert(!slotSheet(ids[0]).includes('data-a="start"'));});
+test('Future changes persist separately and do not alter the current week',()=>{const current=JSON.stringify(todayWeek);calendarWeek().slots[0].wd=7;calendarWeek().slots.push({id:'futureextra',type:'mobility',wd:2});save();navigateWeek(0);assert.equal(JSON.stringify(thisWeek()),current);U.weekOffset=5;assert.equal(viewedWeek().slots[0].wd,7);assert(viewedWeek().slots.some(s=>s.id==='futureextra'));const checked=checkBackup(JSON.parse(backupText()));assert(checked.ok);assert(checked.st.weeks[weekKey(viewedMonday())].slots.some(s=>s.id==='futureextra'));});
+test('Browsing the full range keeps all existing week plans',()=>{const old=Object.keys(S.weeks);for(let n=-5;n<=5;n++){U.weekOffset=n;viewedWeek();}old.forEach(k=>assert(S.weeks[k]));assert.equal(S.weeks[todayKey],todayWeek);});
+test('Other weeks never highlight today and render navigation/date controls',()=>{U.weekOffset=1;let html=vHome();assert(!html.includes('class="wd today"'));assert(html.includes('data-a="weeknow"'));assert(html.includes('data-a="add-slot"'));U.weekOffset=-1;html=vHome();assert(!html.includes('data-a="add-slot"'));assert(!html.includes('class="wd today"'));U.weekOffset=0;assert(vHome().includes('class="wd today"'));});
+console.log(count+' week-navigation regression tests passed');
+`;
+eval(harness+'\neval(js.replace(/\\napplyTheme\\(\\);\\nrender\\(\\);[\\s\\S]*$/, "") + '+JSON.stringify(checks)+');');
