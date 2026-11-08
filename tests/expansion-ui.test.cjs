@@ -1,0 +1,17 @@
+// Optional DOM integration test. Install jsdom or set SELFCARE_JSDOM_MODULE.
+const {JSDOM,VirtualConsole}=require(process.env.SELFCARE_JSDOM_MODULE || 'jsdom');
+const fs=require('fs'),assert=require('node:assert/strict');
+const errors=[];const vc=new VirtualConsole();vc.on('jsdomError',e=>{if(!/Not implemented.*(canvas|navigation)/i.test(e.message))errors.push(e.message)});
+const dom=new JSDOM(fs.readFileSync('index.html','utf8'),{url:'https://dnsmaur1992.github.io/Selfcare-Studio/',runScripts:'dangerously',virtualConsole:vc,beforeParse(w){w.scrollTo=()=>{};w.matchMedia=()=>({matches:false,addEventListener(){}});w.requestAnimationFrame=()=>1;w.setInterval=()=>1;w.setTimeout=()=>1;w.MutationObserver=class{observe(){}};w.URL.createObjectURL=()=> 'blob:test';w.Audio=class{setAttribute(){} play(){return Promise.resolve()}pause(){}};w.SpeechSynthesisUtterance=class{constructor(text){this.text=text}};w.speechSynthesis={cancel(){},speak(){}};}});
+const w=dom.window,d=w.document,ev=s=>w.eval(s),click=sel=>{const el=d.querySelector(sel);assert(el,'Missing '+sel);el.click()},input=(sel,val)=>{const el=d.querySelector(sel);assert(el,'Missing input '+sel);el.value=val;el.dispatchEvent(new w.Event('input',{bubbles:true}));};
+ev("S.setup=true;S.ack='2026-11-01';S.newsSeen=NEWS.v;S.days=tmplDays(3);S.weeks={};U.view='home';render();");
+click('[data-a="studios"]');input('#newstudio','Zuhause');click('[data-a="studioadd"][data-copy="0"]');assert.equal(ev('studioName()'),'Zuhause');assert.equal(ev('S.equip.hack'),false);
+const main=ev('S.studios[0].id');click('[data-a="studioselect"][data-id="'+main+'"]');assert.equal(ev('studioName()'),'Mein Studio');
+ev("startSetup(thisWeek().slots.find(s=>s.type==='kraft').id)");click('[data-a="timebudget"][data-v="30"]');assert(ev('setupTimePlan(setupRawItems()).minutes<=30'));click('[data-a="go-train"]');assert(ev('!!S.active'));
+ev("goStep(S.active.steps.findIndex(q=>q.k==='item'));itemById(curStep().id).confirmed=true;itemById(curStep().id).warmAsk=false;S.active.ph='sets';render();");
+input('#sw','40');input('#sr','12');click('[data-a="setdone"]');const done=ev('S.active.items.reduce((n,it)=>n+doneWork(it).length,0)');
+click('[data-a="tr-menu"]');click('[data-a="remainingopen"]');click('[data-a="remainingapply"]');assert.equal(ev('S.active.items.reduce((n,it)=>n+doneWork(it).length,0)'),done);
+ev("finishSession();U.hist='list';go('hist');");click('[data-a="sessionedit"]');input('[data-in="sessionlog"][data-k="w"]','42,5');click('[data-a="sessionsave"]');assert.equal(ev('S.sessions.at(-1).items.find(it=>it.log.some(l=>l.done&&!l.warm)).log.find(l=>!l.warm).w'),'42,5');
+click('[data-a="histt"][data-t="review"]');assert(d.body.textContent.includes('Deine letzten'));assert.equal(errors.length,0,errors.join('\n'));
+console.log('DOM integration passed: studio creation/switch, time budget, logged set, remaining-time adjustment, saved-session correction, retrospective.');
+dom.window.close();
