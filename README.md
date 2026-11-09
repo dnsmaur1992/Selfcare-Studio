@@ -205,3 +205,5 @@ Ausführliche Anleitung mit QR-Code: [installieren.html](https://dnsmaur1992.git
 - Privates, nicht-kommerzielles Projekt.
 
 Die Wochenansicht in 4.3 hat Pfeile für fünf Wochen zurück und voraus, einen Datumsbereich und einen Sprung zur aktuellen Woche. Zukünftige Wochen sind separat planbar; vergangene Trainings bleiben über den Verlauf erreichbar.
+
+In zukünftigen Wochen ist unter der Wochenübersicht auch „Einheiten zusammenlegen“ verfügbar. Die Änderung gilt nur für die gewählte Woche.

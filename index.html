@@ -2522,7 +2522,7 @@ function vHome() {
   }
   const floating = shown.slots.filter((s) => !s.wd);
   if (floating.length) rows.push(`<div class="wd"><div><div class="dn" style="font-size:13px">offen</div><div class="dd">ohne Tag</div></div><div class="units">${floating.map(unitBtn).join("")}</div><span></span></div>`);
-  const openK = krafts.filter((s) => !slotDone(s)).length;
+  const openK = mergeableSlots(shown).length;
   const h = new Date().getHours(); const greet = h < 11 ? "Guten Morgen" : h < 18 ? "Hallo" : "Guten Abend";
   const hello = S.name ? `${greet},<br><em>${esc(S.name)}</em>` : `${greet}<em>.</em>`;
   const quote = QUOTES[Math.floor(Date.now() / 864e5) % QUOTES.length];
@@ -2543,7 +2543,7 @@ function vHome() {
     ${weekNavigation()}<span class="muted small num">${kDone} von ${krafts.length} Krafteinheiten</span>
     <div class="list week">${rows.join("")}</div>
     <p class="small muted">${isCurrentWeek ? "Tippe eine Einheit an, um sie zu starten oder auf einen anderen Tag zu schieben." : mon > mondayOf(new Date()) ? "Plane diese Woche mit + oder verschiebe ihre Einheiten. Trainiert wird in der aktuellen Woche." : "Vergangene Woche: Gespeicherte Trainings kannst du im Verlauf ansehen und bearbeiten."}</p>
-    ${isCurrentWeek && openK >= 2 ? `<button class="link" style="text-align:left" data-a="less">Weniger Zeit diese Woche? Einheiten zusammenlegen</button>` : ""}
+    ${mon >= mondayOf(new Date()) && openK >= 2 ? `<button class="link" style="text-align:left" data-a="less">${isCurrentWeek ? "Weniger Zeit diese Woche? " : ""}Einheiten zusammenlegen</button>` : ""}
     <button class="link" style="text-align:left" data-a="breathe">🌬️ Kurz durchatmen – geführte Atemübung</button>
     ${pauseNow() || calmNow() ? "" : `<button class="link" style="text-align:left;color:var(--muted)" data-a="pauseopen">Krank, im Urlaub oder alles zu viel? Pause oder ruhige Phase</button>`}
     ${reviewCard(false)}
@@ -3658,11 +3658,28 @@ function addSheet(wd) {
       ${kr.map((d) => `<button class="li" data-a="addkraft" data-d="${d.id}" data-wd="${wd}"><div class="grow"><b>${esc(d.name)}</b><div class="small muted">Krafttraining · ${d.groups.map((g) => GROUPS[g].n).join(", ")}</div></div><span class="chev">+</span></button>`).join("")}
     </div><button class="btn ghost" data-a="sheetclose">Abbrechen</button>`;
 }
+function mergeableSlots(wk) {
+  return wk.slots.filter(s => s.type === "kraft" && !slotDone(s) && !s.skipped && s.id !== S.active?.slotId);
+}
+function mergeWeek(p, key) {
+  if (key < weekKey(new Date()) || !S.weeks[key]) return false;
+  const w = S.weeks[key], open = mergeableSlots(w).sort((x,y) => (x.wd || 9) - (y.wd || 9));
+  if (!Number.isInteger(p) || p < 1 || p >= open.length) return false;
+  const chunks = Array.from({ length: p }, () => []);
+  open.forEach((s,i) => chunks[Math.floor(i*p/open.length)].push(s));
+  const fresh = chunks.map((c,k) => {
+    const groups = [...new Set(c.flatMap(s => slotInfo(s).groups))];
+    return { id: uid(), type: "kraft", name: p === 1 ? "Ganzkörper kompakt" : "Kombi " + (k+1), groups, factor: p === 1 ? 0.6 : 0.8, wd: c[0].wd };
+  });
+  w.slots = w.slots.filter(s => !open.includes(s)).concat(fresh);
+  save(); return true;
+}
 function lessSheet() {
-  const wk = thisWeek(); const open = wk.slots.filter((s) => s.type === "kraft" && !slotDone(s));
+  const mon = viewedMonday(), key = weekKey(mon), open = mergeableSlots(calendarWeek());
+  if (mon < mondayOf(new Date())) return `<h2>Vergangene Woche</h2><p class="small muted">Vergangene Wochen lassen sich nicht zusammenlegen.</p><button class="btn ghost" data-a="sheetclose">Schließen</button>`;
   const opts = []; for (let p = 1; p < open.length; p++) opts.push(p);
-  return `<div class="stack" style="gap:6px"><h2>Weniger Zeit diese Woche</h2><p class="small muted">Offen sind noch ${open.length} Krafteinheiten. Wie viele schaffst du? Die Muskelgruppen werden zusammengelegt und das Volumen gekürzt, damit jede Einheit machbar bleibt.</p></div>
-    <div class="stack">${opts.map((p) => `<button class="opt" data-a="lesspick" data-p="${p}"><b>Noch ${p} ${p === 1 ? "Einheit" : "Einheiten"}</b><span class="small muted">${p === 1 ? "Eine Ganzkörper-Einheit mit etwa 60 % Volumen" : "Je zwei Tage werden zu einer Einheit mit etwa 80 % Volumen"}</span></button>`).join("")}</div>
+  return `<div class="stack" style="gap:6px"><span class="eyebrow">Woche ${weekNo(key)} · ${dShort(mon)} – ${dShort(addDays(mon,6))}</span><h2>Einheiten zusammenlegen</h2><p class="small muted">In dieser Woche sind ${open.length} Krafteinheiten verfügbar. Wie viele möchtest du einplanen? Die Muskelgruppen werden zusammengelegt und das Volumen gekürzt. Die Änderung gilt nur für diese Woche.</p></div>
+    <div class="stack">${opts.map(p => `<button class="opt" data-a="lesspick" data-k="${key}" data-p="${p}"><b>${p} ${p === 1 ? "Einheit" : "Einheiten"}</b><span class="small muted">${p === 1 ? "Eine Ganzkörper-Einheit mit etwa 60 % Volumen" : "Auf weniger Einheiten verteilt mit etwa 80 % Volumen"}</span></button>`).join("")}</div>
     <button class="btn ghost" data-a="sheetclose">Abbrechen</button>`;
 }
 function confirmSheet(title, text, act, label, extra) {
@@ -4133,10 +4150,8 @@ document.addEventListener("click", (e) => {
     case "slotrem": { const w = calendarWeek(); w.slots = w.slots.filter((x) => x.id !== d.s); save(); closeSheet(); render(); break; }
     case "less": openSheet(lessSheet); break;
     case "lesspick": {
-      const w = thisWeek(); const open = w.slots.filter((s) => s.type === "kraft" && !slotDone(s)).sort((x, y) => (x.wd || 9) - (y.wd || 9)); const p = +d.p;
-      const chunks = Array.from({ length: p }, () => []); open.forEach((s, i) => chunks[Math.floor((i * p) / open.length)].push(s));
-      const fresh = chunks.map((c, k) => { const gs = []; c.forEach((s) => slotInfo(s).groups.forEach((g) => !gs.includes(g) && gs.push(g))); return { id: uid(), type: "kraft", name: p === 1 ? "Ganzkörper kompakt" : "Kombi " + (k + 1), groups: gs, factor: p === 1 ? 0.6 : 0.8, wd: c[0].wd }; });
-      w.slots = w.slots.filter((s) => !open.includes(s)).concat(fresh); save(); closeSheet(); render(); toast("Woche angepasst"); break;
+      if (!mergeWeek(+d.p, d.k)) { closeSheet(); render(); toast("Die Woche hat sich geändert. Bitte erneut auswählen."); break; }
+      closeSheet(); render(); toast("Woche angepasst"); break;
     }
     case "mode": U.setup.mode = d.m; render(); break;
     case "mood": thisWeek().mood = d.m; save(); render(); toast(d.m === "stress" ? "Diese Woche wird etwas leichter" : d.m === "relax" ? "Diese Woche darf es etwas mehr sein" : "Danke"); break;
