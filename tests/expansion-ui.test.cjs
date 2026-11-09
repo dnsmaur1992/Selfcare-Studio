@@ -14,6 +14,13 @@ assert(!d.querySelector('#sheet [data-a="start"]'));click('[data-a="move"][data-
 click('[data-a="weeknow"]');assert.equal(ev('JSON.stringify(thisWeek())'),currentPlan);
 for(let i=0;i<7;i++)click('[data-a="weekprev"]');assert.equal(ev('U.weekOffset'),-5);assert(d.querySelector('[data-a="weekprev"]').disabled);assert(!d.querySelector('[data-a="add-slot"]'));
 click('[data-a="weeknow"]');assert.equal(ev('U.weekOffset'),0);
+// Merge next week's units through the dialog and check isolation/persistence.
+const beforeMerge=ev('JSON.stringify(thisWeek())');
+click('[data-a="weeknext"]');click('[data-a="less"]');assert(d.body.textContent.includes('Die Änderung gilt nur für diese Woche'));
+click('[data-a="lesspick"][data-p="1"]');assert.equal(ev("calendarWeek().slots.filter(s=>s.type==='kraft').length"),1);
+assert.equal(ev('JSON.stringify(thisWeek())'),beforeMerge);
+click('[data-a="weeknow"]');click('[data-a="weeknext"]');assert.equal(ev("calendarWeek().slots.find(s=>s.type==='kraft').name"),'Ganzkörper kompakt');
+click('[data-a="weeknow"]');
 click('[data-a="studios"]');input('#newstudio','Zuhause');click('[data-a="studioadd"][data-copy="0"]');assert.equal(ev('studioName()'),'Zuhause');assert.equal(ev('S.equip.hack'),false);
 const main=ev('S.studios[0].id');click('[data-a="studioselect"][data-id="'+main+'"]');assert.equal(ev('studioName()'),'Mein Studio');
 ev("startSetup(thisWeek().slots.find(s=>s.type==='kraft').id)");click('[data-a="timebudget"][data-v="30"]');assert(ev('setupTimePlan(setupRawItems()).minutes<=30'));click('[data-a="go-train"]');assert(ev('!!S.active'));
@@ -22,5 +29,5 @@ input('#sw','40');input('#sr','12');click('[data-a="setdone"]');const done=ev('S
 click('[data-a="tr-menu"]');click('[data-a="remainingopen"]');click('[data-a="remainingapply"]');assert.equal(ev('S.active.items.reduce((n,it)=>n+doneWork(it).length,0)'),done);
 ev("finishSession();U.hist='list';go('hist');");click('[data-a="sessionedit"]');input('[data-in="sessionlog"][data-k="w"]','42,5');click('[data-a="sessionsave"]');assert.equal(ev('S.sessions.at(-1).items.find(it=>it.log.some(l=>l.done&&!l.warm)).log.find(l=>!l.warm).w'),'42,5');
 click('[data-a="histt"][data-t="review"]');assert(d.body.textContent.includes('Deine letzten'));assert.equal(errors.length,0,errors.join('\n'));
-console.log('DOM integration passed: week navigation limits/reset, future add/move, studio creation/switch, time budget, logged set, remaining-time adjustment, saved-session correction, retrospective.');
+console.log('DOM integration passed: week navigation limits/reset, future add/move/merge, studio creation/switch, time budget, logged set, remaining-time adjustment, saved-session correction, retrospective.');
 dom.window.close();
