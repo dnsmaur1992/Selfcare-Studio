@@ -30,6 +30,9 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 - [x] Zusätzliche Logik- und DOM-Ereignistests für die Erweiterungen.
 - [ ] Auf echtem iPhone/Android testen: schmale Eingabemasken, mehrere Profile, Abbrechen/Speichern, laufende Einheit kürzen und Musik.
 
+## Erledigt in Version 4.3.3
+- Startfehler aus 4.3.2 behoben: Mit schon vorhandenen Daten blieb die App beim Öffnen hängen (Wochenabgleich lief beim Speichern während des Starts zu früh). Neuer Test `tests/start-existing.test.cjs` startet die App mit gespeicherten 4.3.1-Daten.
+
 ## Erledigt in Version 4.3.2
 - Änderungen am Trainingsplan (Wochentag, Tag hinzufügen/löschen) gelten für die aktuelle und alle zukünftigen Wochen; erledigte, ausgelassene, verschobene Einheiten und zusammengelegte Wochen bleiben geschützt.
 - Geprüft und mit Tests abgesichert: abgewählte Geräte werden nie verwendet; selbst gewählte Übungen werden genau so trainiert.

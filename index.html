@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.3.2">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.3.2">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.3.3">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.3.3">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.3.2">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.3.3">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -722,8 +722,8 @@ function wHint(x) {
   if (x.eq.includes("kabel")) return "Wie am Steckgewicht angezeigt.";
   return "";
 }
-const S_VERSION = "4.3.2";
-const NEWS = { v: "4.3.2", items: [
+const S_VERSION = "4.3.3";
+const NEWS = { v: "4.3.3", items: [
   ["Plan gilt für alle Wochen", "Änderst du deinen Trainingsplan – Wochentag, neuer oder gelöschter Trainingstag –, gilt das sofort für diese Woche und alle kommenden Wochen. Schon erledigte, ausgelassene oder von dir verschobene Einheiten bleiben, wie sie sind."],
 ], old: [
   { v: "4.3.1", items: [
@@ -929,7 +929,8 @@ let NOSAVE = false;
 function save() {
   if (NOSAVE) return;
   syncStudio();
-  if (S && S.days && S.weeks) syncAllWeeks();
+  /* Beim Start wird schon gespeichert, bevor alles geladen ist – dann gleicht thisWeek() die Wochen später ab. */
+  if (S && S.days && S.weeks) { try { syncAllWeeks(); } catch (e) { /* noch nicht bereit */ } }
   const was = storageOK;
   try { localStorage.setItem(KEY, JSON.stringify(S)); storageOK = true; } catch (e) { storageOK = false; }
   if (was !== storageOK) saveBar();
@@ -1376,7 +1377,7 @@ function thisWeek() {
 }
 /* Zukünftige Wochen: Beim bloßen Ansehen wird nichts gespeichert. Erst eine Änderung (hinzufügen, verschieben, zusammenlegen …)
    legt die Woche fest. So wirken spätere Änderungen am Trainingsplan auch auf Wochen, die man sich nur angesehen hat. */
-const daysSig = () => S.days.map((d) => [d.id, d.type || "kraft", d.wd || 0].join(":")).join("|");
+function daysSig() { return S.days.map((d) => [d.id, d.type || "kraft", d.wd || 0].join(":")).join("|"); }
 /* Trainingsplan geändert (Tage hinzugefügt/entfernt, Wochentag geändert)? Dann gilt das für die aktuelle und alle schon
    festgelegten zukünftigen Wochen. Nicht angefasst werden: erledigte, ausgelassene oder gerade laufende Einheiten, von Hand
    verschobene Einheiten und zusammengelegte Wochen (dort kommen keine Tage zurück). Muskelgruppen und eigene Übungen gelten
