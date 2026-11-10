@@ -30,6 +30,16 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 - [x] Zusätzliche Logik- und DOM-Ereignistests für die Erweiterungen.
 - [ ] Auf echtem iPhone/Android testen: schmale Eingabemasken, mehrere Profile, Abbrechen/Speichern, laufende Einheit kürzen und Musik.
 
+## Erledigt in Version 4.3.2
+- Änderungen am Trainingsplan (Wochentag, Tag hinzufügen/löschen) gelten für die aktuelle und alle zukünftigen Wochen; erledigte, ausgelassene, verschobene Einheiten und zusammengelegte Wochen bleiben geschützt.
+- Geprüft und mit Tests abgesichert: abgewählte Geräte werden nie verwendet; selbst gewählte Übungen werden genau so trainiert.
+
+## Erledigt in Version 4.3.1 (Prüfung von 4.3)
+- [x] Zeitbudget: zwei Sätze an weniger Übungen statt einzelner Sätze; kürzeres Aufwärmen bei bis zu 45 Min; Tipp zur Satzpause.
+- [x] Zukünftige Wochen werden beim Ansehen nicht mehr festgeschrieben; Einheiten gelöschter Trainingstage verschwinden.
+- [x] Studio-Auswahl nur ab zwei Studios; „1 Satz“ statt „1 Sätze“; „× Entfernen“ beim Bearbeiten.
+- [ ] **Aufräumen im Repo:** `docs/architecture.md`, `docs/implementation-status.md`, `docs/data-load-concept.md` und `docs/technik-fitness-test.md` gehören zu Ringzeit Dev und können hier gelöscht werden; `UPDATE_4.3.txt` ebenso.
+
 ## Erledigt in Version 4.2.1
 - [x] Audio-Modus aus Ringzeit übernommen: ambient für weiterlaufende Musik (Standard), auto optional unter Ton & Musik. Vor jeder Audioausgabe anwenden; keine stumme Sprachfreischaltung bei ausgeschalteter Stimme.
 - [ ] Auf echtem iPhone mit Musik prüfen: Gong, Countdown, Pausenende, Pilates/Mobility und Sprachansage an/aus; zusätzlich Lautlos-Schalter und beide Modi.

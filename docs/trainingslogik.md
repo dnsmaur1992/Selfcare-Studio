@@ -1,6 +1,6 @@
 # Selfcare Studio – Trainingslogik
 
-Stand: Version 3.8. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
+Stand: Version 4.3.2. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
 
 ## Plan
 - **Muskelgruppen** haben eine Größe (Po 6, Beine vorne 5, Rücken 5 …). Daraus entsteht das Volumen eines Tages in „effektiven Sätzen“ (Arbeitssätze × Wirkung auf die Zielgruppe), **höchstens 22 pro Einheit** – nach der Planung wird nachgeprüft und notfalls bei den Übungen mit den meisten Sätzen gekürzt (erst bis 2, dann bis 1 Satz).
@@ -176,3 +176,17 @@ Alles in `localStorage` unter `satzwerk.v1`. Backup als JSON-Datei über das Pro
 Die Wochenansicht reicht von fünf Wochen vor bis fünf Wochen nach der aktuellen Woche. Kalenderarithmetik erhält Montage auch über Zeitumstellungen und Jahreswechsel. Zukünftige Wochen haben eigene Slot-IDs und werden erst bei Eintritt auf Belastungssteuerung geprüft. Alte Wochenpläne werden beim Anlegen einer Woche nicht mehr gelöscht. Fehlt ein vergangener Plan, werden vorhandene Trainings aus dem Verlauf angezeigt; es werden keine vergangenen Soll-Einheiten erfunden. Die obere Trainingskarte und Nachholen beziehen sich weiterhin auf die aktuelle Woche.
 
 Zusammenlegen ist in der aktuellen und in allen fünf erreichbaren zukünftigen Wochen möglich. Der Dialog bindet die Änderung an den angezeigten Wochenschlüssel. Erledigte, ausgelassene und laufende Einheiten sowie andere Trainingsarten bleiben erhalten.
+
+### Planänderungen gelten für alle Wochen (4.3.2)
+- Jede Woche merkt sich, zu welchem Stand des Trainingsplans sie passt (`daysSig`: Tag-ID, Art, Wochentag). Weicht der Plan ab, gleicht `syncWeekDays` die aktuelle Woche und alle schon festgelegten zukünftigen Wochen an (`syncAllWeeks` beim Speichern, zusätzlich beim Anzeigen). Vergangene Wochen bleiben unverändert.
+- Gelöschter Trainingstag: seine Einheit verschwindet. Neuer Trainingstag: bekommt eine Einheit. Geänderter Wochentag oder Art: wird übernommen.
+- Unangetastet bleiben erledigte, ausgelassene und gerade laufende Einheiten, von Hand verschobene oder nachgeholte Einheiten (`moved`) sowie zusammengelegte Wochen (`merged`, dort kommen keine Tage hinzu).
+- In der aktuellen Woche wird ein Tag, dessen neuer Wochentag schon vorbei ist, zu „offen“ (`late`) statt „verpasst“.
+- Wochen aus älteren Versionen ohne Kennung: Beim ersten Abgleich wird nur der Stand gemerkt; Einheiten, deren Wochentag vom Plan abweicht, gelten als von Hand verschoben.
+- Muskelgruppen und eigene Übungen eines Tags gelten ohnehin sofort, weil Wochen nur auf den Trainingstag verweisen.
+- Tests: X1 (abgewählte Geräte tauchen nirgends auf, alle Geräte × 2/3/4 Tage × normal/kurz/mini × Zeitbudget), X2 (eigene Übungen genau in Reihenfolge und Satzzahl), X3 (Planänderungen in aktueller und zukünftigen Wochen samt Schutzfällen).
+
+### Nachbesserungen 4.3.1
+- **Zeitbudget:** Gekürzt wird erst auf 2 Sätze je Übung, dann fallen Übungen weg (bis 2 bleiben), erst danach geht es auf 1 Satz. Bei einem Budget bis 45 Min ist das Aufwärmen kürzer (4 Min Cardio, 3 Aktivierungen; Vorschau und Training rechnen gleich). Bei Satzpause ab 2:30 und gekürztem Plan schlägt die Karte eine kürzere Pause vor.
+- **Zukünftige Wochen:** Ansehen speichert nichts (Entwurf je Wochenschlüssel, folgt Änderungen am Trainingsplan). Erst Hinzufügen, Verschieben, Entfernen oder Zusammenlegen legt die Woche fest (`materializeWeek`). Wird eine festgelegte Woche aktuell, entfallen Einheiten von inzwischen gelöschten Trainingstagen.
+- **Studio-Auswahl** erscheint auf Startseite, Vorbereitung und Verlauf erst ab zwei Studios; angelegt wird unter Profil → Studio-Profile. Unter „Maße“ gibt es keine Studio-Auswahl (Maße gelten überall).

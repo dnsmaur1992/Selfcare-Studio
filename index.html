@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.3">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.3">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.3.2">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.3.2">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.3">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.3.2">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -722,13 +722,20 @@ function wHint(x) {
   if (x.eq.includes("kabel")) return "Wie am Steckgewicht angezeigt.";
   return "";
 }
-const S_VERSION = "4.3";
-const NEWS = { v: "4.3", items: [
+const S_VERSION = "4.3.2";
+const NEWS = { v: "4.3.2", items: [
+  ["Plan gilt für alle Wochen", "Änderst du deinen Trainingsplan – Wochentag, neuer oder gelöschter Trainingstag –, gilt das sofort für diese Woche und alle kommenden Wochen. Schon erledigte, ausgelassene oder von dir verschobene Einheiten bleiben, wie sie sind."],
+], old: [
+  { v: "4.3.1", items: [
+  ["Zeitbudget klüger", "Bei knapper Zeit bleiben eher zwei Sätze an weniger Übungen als ein einzelner Satz an vielen, und das Aufwärmen wird kürzer. Passt wenig in die Zeit, schlägt die App eine kürzere Satzpause vor."],
+  ["Aufgeräumt", "Mit nur einem Studio verschwindet die Studio-Auswahl von Startseite, Vorbereitung und Verlauf (anlegen weiter unter Profil → Studio-Profile). Zukünftige Wochen, die du nur ansiehst, folgen weiter Änderungen an deinem Trainingsplan."],
+  ] },
+  { v: "4.3", items: [
   ["Zeit, die zu dir passt", "Wähle vor dem Krafttraining dein Zeitbudget. Auch im Trainingsmenü kannst du den verbleibenden Plan kürzen. Geschaffte Sätze bleiben erhalten."],
   ["Deine Studios", "Geräte, Notizen und Gerätezeiten je Studio oder Zuhause speichern. Gewichte werden aus dem aktuellen Studio übernommen."],
   ["Wochen frei ansehen", "Mit den Pfeilen in der Wochenansicht gehst du bis zu fünf Wochen zurück oder voraus. Zukünftige Wochen lassen sich einzeln planen; „Aktuelle Woche“ bringt dich zurück."],
   ["Verlauf & Rückblick", "Gespeicherte Einheiten lassen sich korrigieren. Unter Verlauf → Rückblick siehst du deine letzten vier Wochen und konkrete Satzvergleiche."],
-], old: [
+] },
   { v: "4.2.1", items: [
   ["Musik beim Training", "Die Audio-Steuerung aus Ringzeit: Musik weiterlaufen lassen ist jetzt Standard. Unter Ton & Musik kannst du zwischen Mischen und Unterbrechen wechseln. Auf dem iPhone muss für Signaltöne im Mischmodus der Lautlos-Schalter ausgeschaltet sein."],
 ] },
@@ -922,6 +929,7 @@ let NOSAVE = false;
 function save() {
   if (NOSAVE) return;
   syncStudio();
+  if (S && S.days && S.weeks) syncAllWeeks();
   const was = storageOK;
   try { localStorage.setItem(KEY, JSON.stringify(S)); storageOK = true; } catch (e) { storageOK = false; }
   if (was !== storageOK) saveBar();
@@ -935,6 +943,7 @@ if (!S.restMig) { if (S.restC === 90) S.restC = 180; if (S.restI === 60) S.restI
    Damit funktionieren Ersatz bei „besetzt“, Sätze, Gewichtsschätzung und Wochenvolumen wie bei eingebauten Übungen. */
 /* Freitext von außen (eigene Namen, geteilte Codes, Backups) wird von Zeichen befreit, die HTML bilden könnten. */
 /* „&“ bleibt erlaubt (z. B. „Po & Beine“): ohne < > " ' ` kann es kein HTML bilden, und angezeigt wird ohnehin über esc(). */
+const satzN = (n) => `${n} ${+n === 1 ? "Satz" : "Sätze"}`;
 const cleanTxt = (v, n) => String(v == null ? "" : v).replace(/[<>"'`\\]/g, "").replace(/\s+/g, " ").trim().slice(0, n || 60);
 /* 3.8–3.9.1 haben „&“ aus Namen entfernt („Po & Beine“ → „Po Beine“). Bekannte Vorlagennamen werden wiederhergestellt. */
 let NAME_FIX = null;
@@ -1354,11 +1363,58 @@ function tmplDays(n) {
 function thisWeek() {
   const wk = weekKey(new Date());
   if (!S.weeks[wk]) {
-    S.weeks[wk] = { slots: S.days.map((d) => ({ id: uid(), type: d.type || "kraft", dayId: d.id, wd: d.wd || 0 })) };
+    S.weeks[wk] = { daysSig: daysSig(), slots: S.days.map((d) => ({ id: uid(), type: d.type || "kraft", dayId: d.id, wd: d.wd || 0 })) };
     save();
   }
-  if (!S.weeks[wk].checked) { weekFlags(S.weeks[wk], wk); save(); }
+  if (syncWeekDays(S.weeks[wk], wk)) save();
+  if (!S.weeks[wk].checked) {
+    /* Vorausgeplante Woche wird aktuell: Einheiten von inzwischen gelöschten Trainingstagen entfernen (sonst leere „Krafttraining“-Einheit). */
+    const W = S.weeks[wk]; W.slots = W.slots.filter((q) => q.type !== "kraft" || q.groups || !q.dayId || S.days.some((d) => d.id === q.dayId) || slotDone(q));
+    weekFlags(W, wk); save();
+  }
   return S.weeks[wk];
+}
+/* Zukünftige Wochen: Beim bloßen Ansehen wird nichts gespeichert. Erst eine Änderung (hinzufügen, verschieben, zusammenlegen …)
+   legt die Woche fest. So wirken spätere Änderungen am Trainingsplan auch auf Wochen, die man sich nur angesehen hat. */
+const daysSig = () => S.days.map((d) => [d.id, d.type || "kraft", d.wd || 0].join(":")).join("|");
+/* Trainingsplan geändert (Tage hinzugefügt/entfernt, Wochentag geändert)? Dann gilt das für die aktuelle und alle schon
+   festgelegten zukünftigen Wochen. Nicht angefasst werden: erledigte, ausgelassene oder gerade laufende Einheiten, von Hand
+   verschobene Einheiten und zusammengelegte Wochen (dort kommen keine Tage zurück). Muskelgruppen und eigene Übungen gelten
+   ohnehin sofort, weil die Wochen nur auf den Trainingstag verweisen. In der aktuellen Woche wird ein Tag, dessen Wochentag
+   schon vorbei ist, zu „offen“ statt „verpasst“. */
+function syncWeekDays(W, key) {
+  const sig = daysSig(); if (!W || W.daysSig === sig) return false;
+  const byId = new Map(S.days.map((d) => [d.id, d]));
+  if (W.daysSig == null) { /* ältere Woche: Ausgangslage merken, abweichende Tage gelten als von Hand verschoben */
+    W.slots.forEach((q) => { const d = q.dayId && byId.get(q.dayId); if (d && (q.wd || 0) !== (d.wd || 0)) q.moved = true; });
+    W.daysSig = sig; return true;
+  }
+  const cur = key === weekKey(new Date()), today = wdOf(new Date());
+  const locked = (q) => !!slotDone(q) || q.skipped || (S.active && S.active.slotId === q.id);
+  W.slots = W.slots.filter((q) => !q.dayId || byId.has(q.dayId) || locked(q));
+  W.slots.forEach((q) => {
+    const d = q.dayId && byId.get(q.dayId); if (!d || locked(q) || q.moved) return;
+    q.type = d.type || "kraft"; const want = d.wd || 0;
+    if ((q.late ? 0 : q.wd || 0) === want || (q.late && cur && want && want < today)) return;
+    if (cur && want && want < today) { q.wd = 0; q.late = true; } else { q.wd = want; delete q.late; delete q.missedOk; }
+  });
+  const merged = W.merged || W.slots.some((q) => q.type === "kraft" && !q.dayId && q.groups);
+  if (!merged) S.days.forEach((d) => { if (W.slots.some((q) => q.dayId === d.id)) return; const want = d.wd || 0, late = cur && want && want < today; W.slots.push(Object.assign({ id: uid(), type: d.type || "kraft", dayId: d.id, wd: late ? 0 : want }, late ? { late: true } : {})); });
+  W.daysSig = sig; return true;
+}
+function futureDraft(key) {
+  U.futureWeeks = U.futureWeeks || {}; const sig = daysSig(); let f = U.futureWeeks[key];
+  if (!f || f.sig !== sig) f = U.futureWeeks[key] = { sig, week: { daysSig: sig, slots: S.days.map((d) => ({ id: uid(), type: d.type || "kraft", dayId: d.id, wd: d.wd || 0 })) } };
+  return f.week;
+}
+function syncAllWeeks() {
+  const cur = weekKey(new Date()); let ch = false;
+  Object.keys(S.weeks || {}).forEach((k) => { if (k >= cur && syncWeekDays(S.weeks[k], k)) ch = true; });
+  return ch;
+}
+function materializeWeek(key) {
+  if (!S.weeks[key] && key > weekKey(new Date())) { S.weeks[key] = futureDraft(key); delete U.futureWeeks[key]; save(); }
+  return S.weeks[key];
 }
 /* Kalendernavigation: Montag mit Kalenderarithmetik (auch über Sommerzeit/Jahreswechsel). */
 function viewedMonday(now = new Date()) {
@@ -1371,18 +1427,17 @@ function navigateWeek(delta) {
 function viewedWeek() {
   const mon = viewedMonday(), key = weekKey(mon), current = weekKey(new Date());
   if (key === current) return thisWeek();
-  if (!S.weeks[key] && key > current) {
-    S.weeks[key] = { slots: S.days.map(d => ({ id: uid(), type: d.type || "kraft", dayId: d.id, wd: d.wd || 0 })) };
-    save(); // Noch kein Belastungs-Check: der erfolgt erst in der tatsächlichen Woche.
-  }
-  const slots = [...(S.weeks[key]?.slots || [])];
+  if (S.weeks[key] && key > current && syncWeekDays(S.weeks[key], key)) save();
+  const base = S.weeks[key] || (key > current ? futureDraft(key) : null); // Noch kein Belastungs-Check: der erfolgt erst in der tatsächlichen Woche.
+  const slots = [...(base?.slots || [])];
   // Alte Wochenpläne können fehlen. Tatsächlich gespeicherte Einheiten trotzdem anzeigen.
   S.sessions.filter(q => weekKey(new Date(q.date)) === key).forEach(q => {
     if (!slots.some(sl => sl.id === q.slotId)) slots.push({ id: "history_" + q.id, type: q.type || "kraft", name: q.name, wd: wdOf(new Date(q.date)), historyId: q.id });
   });
-  return { ...(S.weeks[key] || {}), slots };
+  return { ...(base || {}), slots };
 }
-function calendarWeek() { return S.weeks[weekKey(viewedMonday())] || viewedWeek(); }
+/* Für Änderungen: legt eine angesehene zukünftige Woche fest */
+function calendarWeek() { const key = weekKey(viewedMonday()); return materializeWeek(key) || viewedWeek(); }
 function weekNavigation() {
   const mon = viewedMonday(), end = addDays(mon, 6), offset = U.weekOffset || 0;
   return `<div class="stack" style="gap:8px"><div class="row between" style="gap:8px">
@@ -1829,7 +1884,7 @@ function hardMuscles(slot) {
 }
 function neighborClash(slot, wd, mon = viewedMonday()) {
   if (!wd || slot.type !== "kraft") return [];
-  const mine = hardMuscles(slot); const wk = S.weeks[weekKey(mon)] || calendarWeek(); const out = new Set();
+  const mine = hardMuscles(slot); const wk = S.weeks[weekKey(mon)] || viewedWeek(); const out = new Set();
   const near = wk.slots.filter((x) => x.id !== slot.id && x.type === "kraft" && !x.skipped && x.wd && Math.abs(x.wd - wd) <= 1);
   /* Wochenwechsel: Sonntag ↔ Montag der Nachbarwoche (laut Wochenplan). */
   if (wd === 7) { const next = S.weeks[weekKey(addDays(mon, 7))]; (next ? next.slots : S.days.map(d => ({ ...d, dayId: d.id }))).filter(d => (d.type || "kraft") === "kraft" && d.wd === 1 && !d.skipped).forEach(d => near.push(d)); }
@@ -1939,7 +1994,7 @@ function progressInfo(item) {
   if (done.length < Math.max(2, planned)) return null;
   if (!done.every((s) => (num(s.r) || 0) >= top)) return null;
   const n = done.length; const u = x.unit === "s" ? " Sek." : " Wdh.";
-  const base = `Letztes Mal alle ${n} Sätze mit ${fmt(top)}${u} oder mehr geschafft.`;
+  const base = `Letztes Mal alle ${satzN(n)} mit ${fmt(top)}${u} oder mehr geschafft.`;
   if (x.unit === "s") return { kind: "time", t: `${base} Heute 5–10 Sek. länger halten.` };
   if (isBW(x)) return { kind: "bw", t: `${base} Heute langsamer absenken (3 Sek.) oder 2 Wdh. mehr.` };
   const ws = done.map((s) => num(s.w)); if (!ws.every((w) => validW(x, w))) return null;
@@ -2582,7 +2637,7 @@ function startCard() {
 function lastSessionCard() {
   const s = S.sessions[S.sessions.length - 1]; if (!s) return "";
   const d = new Date(s.date);
-  const extra = s.flow ? `${s.dur} Min` : `${setsOf(s)} Sätze · ${s.dur} Min`;
+  const extra = s.flow ? `${s.dur} Min` : `${satzN(setsOf(s))} · ${s.dur} Min`;
   return `<div class="card" style="gap:4px"><span class="eyebrow">Zuletzt</span><div class="row between"><h3>${esc(s.name)}</h3><span class="small muted">${dRow(d)}</span></div><span class="small muted">${extra}</span></div>`;
 }
 
@@ -2684,7 +2739,10 @@ function buildWarm(groups, mode, day) {
   if (!lo && !up) ids = [ACTX.lower[0], ACTX.upper[0], ACTX.core[0], ACTX.lower[2], ACTX.upper[2]];
   const mini = mode === "mini";
   if (mini) ids = ids.slice(0, 4);
-  const cardioSec = mini ? 270 : mode === "kurz" ? 300 : 360;
+  /* Knappes Zeitbudget (bis 45 Min): kürzeres Aufwärmen (4 Min Cardio, 3 Aktivierungen). Aufwärmsätze an den großen Übungen bleiben. */
+  const tight = !mini && U.setup && U.setup.minutes && U.setup.minutes <= 45;
+  if (tight) ids = ids.slice(0, 3);
+  const cardioSec = mini ? 270 : tight ? 240 : mode === "kurz" ? 300 : 360;
   return [{ k: "cardio", sec: cardioSec, sect: "warm" }, ...blocksOf(ids, 40, "warm")];
 }
 /* Cool-down: ca. 5 Min Dehnen der trainierten Muskeln. */
@@ -3371,12 +3429,12 @@ function chart(pts, unit) {
 function vHist() {
   const seg = `<div class="chips" role="group" aria-label="Verlaufsansicht"><button class="chip ${U.hist === "list" ? "on" : ""}" data-a="histt" data-t="list">Einheiten</button><button class="chip ${U.hist === "prog" ? "on" : ""}" data-a="histt" data-t="prog">Fortschritt</button><button class="chip ${U.hist === "review" ? "on" : ""}" data-a="histt" data-t="review">Rückblick</button>${S.simple ? "" : `<button class="chip ${U.hist === "load" ? "on" : ""}" data-a="histt" data-t="load">Belastung</button>`}<button class="chip ${U.hist === "meas" ? "on" : ""}" data-a="histt" data-t="meas">Maße</button></div>`;
   if (U.hist === "review") return `<div class="wrap"><h1>Rückblick</h1>${seg}${reviewCard(true)}</div>`;
-  if (U.hist === "meas") return `<div class="wrap"><h1>Verlauf</h1>${studioPicker()}${seg}${measTab()}</div>`;
+  if (U.hist === "meas") return `<div class="wrap"><h1>Verlauf</h1>${seg}${measTab()}</div>`;
   let body = "";
   if (U.hist === "load") {
     const wk = thisWeek(); const ks = krSessions();
     const weeks = [...new Set(ks.map((x) => weekKey(new Date(x.date))))].sort().slice(-6);
-    const rows = weeks.map((k) => { const ss = ks.filter((x) => weekKey(new Date(x.date)) === k); const r = ss.map((x) => x.rpe).filter((v) => v != null); const n = ss.reduce((a, x) => a + setsOf(x), 0); return `<div class="row between"><span>Woche ${weekNo(k)}${S.weeks[k]?.deload && !S.weeks[k]?.skipDeload ? " · Entlastung" : ""}</span><span class="small muted num">${ss.length} Einh. · ${n} Sätze${r.length ? " · Anstrengung " + fmt(r.reduce((a, b) => a + b, 0) / r.length, 1) : ""}</span></div>`; }).join("");
+    const rows = weeks.map((k) => { const ss = ks.filter((x) => weekKey(new Date(x.date)) === k); const r = ss.map((x) => x.rpe).filter((v) => v != null); const n = ss.reduce((a, x) => a + setsOf(x), 0); return `<div class="row between"><span>Woche ${weekNo(k)}${S.weeks[k]?.deload && !S.weeks[k]?.skipDeload ? " · Entlastung" : ""}</span><span class="small muted num">${ss.length} Einh. · ${satzN(n)}${r.length ? " · Anstrengung " + fmt(r.reduce((a, b) => a + b, 0) / r.length, 1) : ""}</span></div>`; }).join("");
     body = `<div class="card" style="gap:10px"><h2>Diese <em>Woche</em></h2>${loadBars(weekKey(new Date()), false)}</div>
       <div class="card" style="gap:8px"><h2>Letzte Wochen</h2>${rows || `<p class="small muted">Noch keine Einheiten.</p>`}<p class="small muted">Anstrengung von 1 bis 10. Liegt sie mehrere Einheiten lang bei 8,5 oder höher, plant die App eine Entlastungswoche. Sonst ungefähr alle 7 Trainingswochen.</p></div>`;
     return `<div class="wrap"><h1>Verlauf</h1>${studioPicker()}${seg}${body}</div>`;
@@ -3523,7 +3581,7 @@ function customList(d, i) {
     return `<div class="pi" style="align-items:flex-start">${figSVG(x.id, c.g || primary(x), "s")}<div class="grow stack" style="gap:6px">
       <div class="row between" style="align-items:flex-start"><div class="stack" style="gap:1px"><b>${esc(x.n)}</b><span class="small muted">${esc(GROUPS[c.g || primary(x)].n)}</span>${inStudio(x) && !limited(x.id) ? "" : (() => { const alt = sameAlt(x, c.g || primary(x), new Set(L.map((q) => q.ex))); return `<span class="small" style="color:var(--warn)">${limited(x.id) ? "Passt nicht zu deiner Einschränkung" : esc(x.eq.filter((e) => e !== "matte" && !S.equip[e]).map((e) => EQUIP[e]).join(", ")) + " ist ausgeblendet"}${alt ? ` – im Training: ${esc(alt.n)}` : ""}</span>${alt ? `<button class="small link" style="align-self:flex-start" data-a="creplace" data-i="${i}" data-j="${j}" data-x="${alt.id}">Dauerhaft durch ${esc(alt.n)} ersetzen</button>` : ""}`; })()}</div><button class="link" style="color:var(--muted);font-size:20px;line-height:1" data-a="cdel" data-i="${i}" data-j="${j}" aria-label="Entfernen">×</button></div>
       <div class="row" style="flex-wrap:wrap;gap:8px">
-        <div class="row" style="gap:4px"><button class="plus" data-a="cset" data-i="${i}" data-j="${j}" data-v="-1" aria-label="Satz weniger">−</button><span class="num" style="min-width:52px;text-align:center;font-weight:600">${c.sets} Sätze</span><button class="plus" data-a="cset" data-i="${i}" data-j="${j}" data-v="1" aria-label="Satz mehr">+</button></div>
+        <div class="row" style="gap:4px"><button class="plus" data-a="cset" data-i="${i}" data-j="${j}" data-v="-1" aria-label="Satz weniger">−</button><span class="num" style="min-width:52px;text-align:center;font-weight:600">${satzN(c.sets)}</span><button class="plus" data-a="cset" data-i="${i}" data-j="${j}" data-v="1" aria-label="Satz mehr">+</button></div>
         <div class="row" style="gap:4px"><input id="clo-${i}-${j}" class="field num" style="width:52px;padding:8px 4px;text-align:center" inputmode="numeric" data-in="clo" data-i="${i}" data-j="${j}" value="${c.reps[0]}" aria-label="${unit} von"><span class="muted">–</span><input id="chi-${i}-${j}" class="field num" style="width:52px;padding:8px 4px;text-align:center" inputmode="numeric" data-in="chi" data-i="${i}" data-j="${j}" value="${c.reps[1]}" aria-label="${unit} bis"><span class="small muted">${unit}</span></div>
       </div>
       <div class="row" style="gap:14px">${j > 0 ? `<button class="small link" data-a="cmove" data-i="${i}" data-j="${j}" data-v="-1">↑ nach oben</button>` : ""}${j < L.length - 1 ? `<button class="small link" data-a="cmove" data-i="${i}" data-j="${j}" data-v="1">↓ nach unten</button>` : ""}</div>
@@ -3662,7 +3720,7 @@ function mergeableSlots(wk) {
   return wk.slots.filter(s => s.type === "kraft" && !slotDone(s) && !s.skipped && s.id !== S.active?.slotId);
 }
 function mergeWeek(p, key) {
-  if (key < weekKey(new Date()) || !S.weeks[key]) return false;
+  if (key < weekKey(new Date()) || !materializeWeek(key)) return false;
   const w = S.weeks[key], open = mergeableSlots(w).sort((x,y) => (x.wd || 9) - (y.wd || 9));
   if (!Number.isInteger(p) || p < 1 || p >= open.length) return false;
   const chunks = Array.from({ length: p }, () => []);
@@ -3671,11 +3729,11 @@ function mergeWeek(p, key) {
     const groups = [...new Set(c.flatMap(s => slotInfo(s).groups))];
     return { id: uid(), type: "kraft", name: p === 1 ? "Ganzkörper kompakt" : "Kombi " + (k+1), groups, factor: p === 1 ? 0.6 : 0.8, wd: c[0].wd };
   });
-  w.slots = w.slots.filter(s => !open.includes(s)).concat(fresh);
+  w.slots = w.slots.filter(s => !open.includes(s)).concat(fresh); w.merged = true;
   save(); return true;
 }
 function lessSheet() {
-  const mon = viewedMonday(), key = weekKey(mon), open = mergeableSlots(calendarWeek());
+  const mon = viewedMonday(), key = weekKey(mon), open = mergeableSlots(viewedWeek());
   if (mon < mondayOf(new Date())) return `<h2>Vergangene Woche</h2><p class="small muted">Vergangene Wochen lassen sich nicht zusammenlegen.</p><button class="btn ghost" data-a="sheetclose">Schließen</button>`;
   const opts = []; for (let p = 1; p < open.length; p++) opts.push(p);
   return `<div class="stack" style="gap:6px"><span class="eyebrow">Woche ${weekNo(key)} · ${dShort(mon)} – ${dShort(addDays(mon,6))}</span><h2>Einheiten zusammenlegen</h2><p class="small muted">In dieser Woche sind ${open.length} Krafteinheiten verfügbar. Wie viele möchtest du einplanen? Die Muskelgruppen werden zusammengelegt und das Volumen gekürzt. Die Änderung gilt nur für diese Woche.</p></div>
@@ -3883,8 +3941,9 @@ function addStudio(name, copy) {
   const p = {id:'st_'+uid(),name:cleanTxt(name,40) || 'Neues Studio',equip:copy ? {...S.equip} : Object.fromEntries(Object.keys(EQUIP).filter(k=>k!=='matte').map(k=>[k,false])),notes:copy ? {...(S.notes || {})} : {},eqLog:[]};
   S.studios.push(p); selectStudio(p.id); return p;
 }
+/* Nur zeigen, wenn es mehr als ein Studio gibt – mit einem Studio ist die Auswahl nur Ballast (Anlegen unter Profil → Studio-Profile). */
 function studioPicker() {
-  ensureStudios(); return `<button class="card" style="flex-direction:row;text-align:left;gap:12px;align-items:center" data-a="studios"><div class="grow"><b>📍 ${esc(studioName())}</b><p class="small muted">Studio wechseln · Geräte &amp; Einstellungen</p></div><span class="chev">›</span></button>`;
+  ensureStudios(); if (S.studios.length < 2) return ""; return `<button class="card" style="flex-direction:row;text-align:left;gap:12px;align-items:center" data-a="studios"><div class="grow"><b>📍 ${esc(studioName())}</b><p class="small muted">Studio wechseln · Geräte &amp; Einstellungen</p></div><span class="chev">›</span></button>`;
 }
 function studiosSheet() {
   ensureStudios(); return `<h2>Deine <em>Studios</em></h2><p class="small muted">Geräte, Notizen und Gerätezeiten bleiben je Studio getrennt. Gewichte werden aus dem aktuellen Studio übernommen. Während einer laufenden Einheit ist der Wechsel gesperrt.</p>
@@ -3909,8 +3968,10 @@ function trimTimeItems(raw, estimate, limit) {
   if (!limit) return {items,changes,minutes:estimate(items),over:!items.length};
   let guard=0;
   while(items.length && estimate(items)>limit && guard++<300) {
+    /* Reihenfolge: erst auf 2 Sätze kürzen, dann Übungen weglassen (bis 2 bleiben), erst dann auf 1 Satz gehen.
+       Zwei Sätze an weniger Übungen bringen mehr als ein einzelner Satz an vielen. */
     let pool=items.filter(it=>it.sets>2);
-    if(!pool.length) pool=items.filter(it=>it.sets>1);
+    if(!pool.length && items.length<=2) pool=items.filter(it=>it.sets>1);
     if(pool.length) {
       const it=pool.sort((a,b)=>b.sets-a.sets || ((EXM[a.ex].type==='c'?1:0)-(EXM[b.ex].type==='c'?1:0)))[0]; it.sets--;
     } else {
@@ -3919,7 +3980,7 @@ function trimTimeItems(raw, estimate, limit) {
       changes.push(`${EXM[pick.it.ex].n} entfällt`); items.splice(pick.i,1);
     }
   }
-  items.forEach(it=>{const original=raw.find(q=>it.id ? q.id===it.id : q.ex===it.ex); if(original && original.sets!==it.sets) {changes.push(`${EXM[it.ex].n}: ${original.sets} → ${it.sets} Sätze`);it.e=it.sets*(EXM[it.ex].m[it.g]||0.6);}});
+  items.forEach(it=>{const original=raw.find(q=>it.id ? q.id===it.id : q.ex===it.ex); if(original && original.sets!==it.sets) {changes.push(`${EXM[it.ex].n}: ${original.sets} → ${satzN(it.sets)}`);it.e=it.sets*(EXM[it.ex].m[it.g]||0.6);}});
   const minutes=estimate(items); return {items,changes,minutes,over:!items.length || minutes>limit};
 }
 function setupTimePlan(raw) {
@@ -3929,7 +3990,7 @@ function setupTimePlan(raw) {
   raw.filter(i=>!i.ex).forEach(i=>plan.changes.push(`${GROUPS[i.g]?.n || i.g}: keine passende Übung mit deiner Geräteauswahl`));return plan;
 }
 function timeBudgetCard() {
-  const plan=setupTimePlan(setupRawItems()); return `<div class="card" style="gap:10px"><b>Wie viel Zeit hast du insgesamt?</b><div class="chips">${[0,30,45,60,75,90].map(n=>`<button class="chip ${(+U.setup.minutes||0)===n?'on':''}" data-a="timebudget" data-v="${n}" aria-pressed="${(+U.setup.minutes||0)===n}">${n?n+' Min':'Ohne Limit'}</button>`).join('')}</div><p class="small muted">Inklusive eingeschaltetem Aufwärmen, Cool-down und Ausdauer. Die Dauer ist geschätzt; zusätzliche Aufwärmsätze oder längere Wechsel verlängern sie.</p>${plan.changes.length?`<details><summary class="small">Für dein Zeitbudget angepasst</summary><ul class="tipl small">${plan.changes.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></details>`:''}${plan.over?'<p class="small" style="color:var(--warn)">Das Zeitbudget reicht mit diesen Einstellungen nicht. Wähle mehr Zeit oder schalte die zusätzliche Ausdauer aus.</p>':''}</div>`;
+  const plan=setupTimePlan(setupRawItems()); return `<div class="card" style="gap:10px"><b>Wie viel Zeit hast du insgesamt?</b><div class="chips">${[0,30,45,60,75,90].map(n=>`<button class="chip ${(+U.setup.minutes||0)===n?'on':''}" data-a="timebudget" data-v="${n}" aria-pressed="${(+U.setup.minutes||0)===n}">${n?n+' Min':'Ohne Limit'}</button>`).join('')}</div><p class="small muted">Inklusive eingeschaltetem Aufwärmen, Cool-down und Ausdauer. Die Dauer ist geschätzt; zusätzliche Aufwärmsätze oder längere Wechsel verlängern sie.${U.setup.minutes && U.setup.minutes <= 45 ? " Bei knapper Zeit wird auch das Aufwärmen kürzer." : ""}</p>${U.setup.minutes && plan.changes.length && Math.max(S.restC, S.restI) >= 150 ? `<p class="small muted">Tipp: Mit kürzerer Satzpause (z. B. 2:00) passen mehr Sätze in die Zeit – <button class="link" data-a="restopen">Pause ändern</button>.</p>` : ""}${plan.changes.length?`<details><summary class="small">Für dein Zeitbudget angepasst</summary><ul class="tipl small">${plan.changes.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></details>`:''}${plan.over?'<p class="small" style="color:var(--warn)">Das Zeitbudget reicht mit diesen Einstellungen nicht. Wähle mehr Zeit oder schalte die zusätzliche Ausdauer aus.</p>':''}</div>`;
 }
 function remainingTimePlan(minutes) {
   const A=S.active, current=curStep(); let fixed=0; const raw=[];
@@ -3984,7 +4045,7 @@ function sessionEditSheet() {
   return `<h2>Einheit <em>bearbeiten</em></h2><p class="small muted">Korrekturen aktualisieren Verlauf, Rekorde und Fortschritt. Die laufende Einheit wird dadurch nicht verändert.</p>${E.error?`<p role="alert" style="color:var(--warn)">${esc(E.error)}</p>`:''}
   <label class="stack small">Name<input class="field" data-in="sessionedit" data-k="name" maxlength="60" value="${esc(s.name)}"></label>
   <div class="row"><label class="stack small grow">Dauer (Min)<input class="field" type="number" min="1" max="600" data-in="sessionedit" data-k="dur" value="${s.dur}"></label><label class="stack small grow">Anstrengung<select class="field" data-in="sessionedit" data-k="rpe"><option value="">Nicht bewertet</option>${RPE_OPTS.map(([v,n])=>`<option value="${v}" ${+s.rpe===v?'selected':''}>${esc(n)}</option>`).join('')}</select></label></div>
-  ${s.items.map((it,i)=>`<div class="card" style="gap:8px"><b>${esc(EXM[it.ex]?.n || it.ex)}</b>${s.flow?`<label class="stack small">Gehaltene Sekunden<input class="field" type="number" min="1" max="3600" data-in="sessionflow" data-i="${i}" value="${it.sec}"></label>`:`<p class="small muted">${esc(wHint(EXM[it.ex]) || (isBW(EXM[it.ex])?'Körpergewicht':'Gewicht in kg'))}</p>${it.log.map((l,j)=>`<div class="row" style="gap:6px;flex-wrap:wrap"><span class="small">${l.warm?'Aufwärmen':'Satz'} ${j+1}</span>${isBW(EXM[it.ex])?'':`<label class="small grow" style="min-width:90px">kg<input class="field" style="min-width:60px" inputmode="decimal" data-in="sessionlog" data-i="${i}" data-j="${j}" data-k="w" value="${esc(l.w)}"></label>`}<label class="small grow" style="min-width:90px">${EXM[it.ex]?.unit==='s'?'Sek.':'Wdh.'}<input class="field" style="min-width:60px" inputmode="numeric" data-in="sessionlog" data-i="${i}" data-j="${j}" data-k="r" value="${esc(l.r)}"></label><button class="small link" data-a="sessionwarm" data-i="${i}" data-j="${j}" aria-pressed="${!!l.warm}">${l.warm?'Als Arbeitssatz':'Als Aufwärmsatz'}</button><button class="small link" data-a="sessionremoveset" data-i="${i}" data-j="${j}" aria-label="Satz entfernen">×</button></div>`).join('')}<button class="small link" data-a="sessionaddset" data-i="${i}">+ Satz</button>`}</div>`).join('')}
+  ${s.items.map((it,i)=>`<div class="card" style="gap:8px"><b>${esc(EXM[it.ex]?.n || it.ex)}</b>${s.flow?`<label class="stack small">Gehaltene Sekunden<input class="field" type="number" min="1" max="3600" data-in="sessionflow" data-i="${i}" value="${it.sec}"></label>`:`<p class="small muted">${esc(wHint(EXM[it.ex]) || (isBW(EXM[it.ex])?'Körpergewicht':'Gewicht in kg'))}</p>${it.log.map((l,j)=>`<div class="row" style="gap:6px;flex-wrap:wrap"><span class="small">${l.warm?'Aufwärmen':'Satz'} ${j+1}</span>${isBW(EXM[it.ex])?'':`<label class="small grow" style="min-width:90px">kg<input class="field" style="min-width:60px" inputmode="decimal" data-in="sessionlog" data-i="${i}" data-j="${j}" data-k="w" value="${esc(l.w)}"></label>`}<label class="small grow" style="min-width:90px">${EXM[it.ex]?.unit==='s'?'Sek.':'Wdh.'}<input class="field" style="min-width:60px" inputmode="numeric" data-in="sessionlog" data-i="${i}" data-j="${j}" data-k="r" value="${esc(l.r)}"></label><button class="small link" data-a="sessionwarm" data-i="${i}" data-j="${j}" aria-pressed="${!!l.warm}">${l.warm?'Als Arbeitssatz':'Als Aufwärmsatz'}</button><button class="small link" data-a="sessionremoveset" data-i="${i}" data-j="${j}" aria-label="Satz entfernen">× Entfernen</button></div>`).join('')}<button class="small link" data-a="sessionaddset" data-i="${i}">+ Satz</button>`}</div>`).join('')}
   <button class="btn" data-a="sessionsave">Änderungen speichern</button><button class="btn ghost" data-a="sessioncancel">Abbrechen</button>`;
 }
 function saveSessionEdit() {
@@ -4131,12 +4192,12 @@ document.addEventListener("click", (e) => {
     case "add-slot": openSheet(() => addSheet(+d.wd)); break;
     case "addtype": calendarWeek().slots.push({ id: uid(), type: d.t, wd: +d.wd }); save(); closeSheet(); render(); toast(`${TYPES[d.t].n} am ${WDL[d.wd]} eingeplant`); break;
     case "addkraft": { const ns = { id: uid(), type: "kraft", dayId: d.d, wd: +d.wd }; const c = neighborClash(ns, +d.wd); if (c.length && !d.force) { openSheet(() => clashSheet("addkraft", `data-d="${d.d}" data-wd="${d.wd}"`, c, +d.wd)); break; } calendarWeek().slots.push(ns); save(); closeSheet(); render(); break; }
-    case "move": { const s = calendarWeek().slots.find((x) => x.id === d.s); if (!s) break; const c = neighborClash(s, +d.w); if (c.length && !d.force) { openSheet(() => clashSheet("move", `data-s="${d.s}" data-w="${d.w}"`, c, +d.w)); break; } s.wd = +d.w; delete s.missedOk; save(); closeSheet(); render(); toast(+d.w ? `Auf ${WDL[d.w]} verschoben` : "Ohne festen Tag"); break; }
+    case "move": { const s = calendarWeek().slots.find((x) => x.id === d.s); if (!s) break; const c = neighborClash(s, +d.w); if (c.length && !d.force) { openSheet(() => clashSheet("move", `data-s="${d.s}" data-w="${d.w}"`, c, +d.w)); break; } s.wd = +d.w; s.moved = true; delete s.late; delete s.missedOk; save(); closeSheet(); render(); toast(+d.w ? `Auf ${WDL[d.w]} verschoben` : "Ohne festen Tag"); break; }
     case "undo": if (U.undo) { U.undo(); U.undo = null; document.getElementById("toast").hidden = true; save(); render(); } break;
     case "pauseopen": openSheet(pauseSheet); break;
     case "pausestart": S.pause = { why: d.k, from: new Date().toISOString() }; save(); closeSheet(); render(); toast(PAUSE_WHY[d.k][1]); break;
     case "pauseend": { const p = S.pause; p.to = new Date().toISOString(); S.pauses = (S.pauses || []).concat([p]).slice(-20); S.pause = null; if (daysSince(p.from) >= 3) S.ramp = new Date(Date.now() + 7 * 864e5).toISOString(); save(); render(); toast(daysSince(p.from) >= 3 ? "Willkommen zurück! Diese Woche geht es etwas leichter los." : "Willkommen zurück!"); break; }
-    case "catchup": { const s = thisWeek().slots.find((x) => x.id === d.s); const old = s.wd; const tw = wdOf(new Date()); const c = neighborClash(s, tw, mondayOf(new Date())); if (c.length && !d.force) { openSheet(() => clashSheet("catchup", `data-s="${d.s}"`, c, tw)); break; } s.wd = tw; save(); closeSheet(); render(); toast(`Auf heute verschoben`, () => { s.wd = old; }); break; }
+    case "catchup": { const s = thisWeek().slots.find((x) => x.id === d.s); const old = s.wd; const tw = wdOf(new Date()); const c = neighborClash(s, tw, mondayOf(new Date())); if (c.length && !d.force) { openSheet(() => clashSheet("catchup", `data-s="${d.s}"`, c, tw)); break; } const om = s.moved, ol = s.late; s.wd = tw; s.moved = true; delete s.late; save(); closeSheet(); render(); toast(`Auf heute verschoben`, () => { s.wd = old; s.moved = om; if (ol) s.late = ol; }); break; }
     case "skipslot": { const s = thisWeek().slots.find((x) => x.id === d.s); s.skipped = true; save(); render(); toast("Ausgelassen", () => { delete s.skipped; }); break; }
     case "unskip": { const s = calendarWeek().slots.find((x) => x.id === d.s); if (!s) break; delete s.skipped; s.missedOk = true; save(); closeSheet(); render(); break; }
     case "focusopen": openSheet(focusSheet); break;

@@ -503,5 +503,87 @@ S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCusto
   S.simple = true; U.view = "home"; S.sessions = [{ id: "s", date: new Date().toISOString(), type: "kraft", items: [] }]; const hs = vHome(); U.hist = "list"; const hh = vHist(); S.simple = false; const hf = vHome(); const hh2 = vHist(); S.sessions = [];
   ok(!hs.includes("Wie wird deine Woche") && !hh.includes('data-t="load"') && hh2.includes('data-t="load"'), "V4: Einfache Ansicht blendet Wochenfrage und Belastung aus, ausführlich zeigt sie"); delete S.simple; }
 S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom();
+// ---- Version 4.3.1: Prüfung der 4.3-Erweiterungen ----
+S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom(); S.weeks = {}; U.weekOffset = 0;
+{ thisWeek(); const n0 = Object.keys(S.weeks).length; U.weekOffset = 2; const v = viewedWeek(); render = render || (() => {});
+  ok(Object.keys(S.weeks).length === n0 && v.slots.length === 3, "W1: Zukünftige Woche nur ansehen speichert nichts");
+  S.days[0].wd = 6; const v2 = viewedWeek(); ok(v2.slots.find((q) => q.dayId === S.days[0].id).wd === 6, "W1: Angesehene zukünftige Woche folgt Änderungen am Trainingsplan");
+  const w = calendarWeek(); ok(S.weeks[weekKey(viewedMonday())] === w, "W1: Eine Änderung legt die Woche fest");
+  /* gelöschter Trainingstag in einer festgelegten zukünftigen Woche */
+  const key = weekKey(new Date()); const keep = S.weeks[key]; S.weeks[key] = { slots: [{ id: "dead", type: "kraft", dayId: "gibtsnicht", wd: 2 }, { id: "ok", type: "kraft", dayId: S.days[1].id, wd: 3 }] };
+  const tw = thisWeek(); ok(tw.slots.length === 1 && tw.slots[0].id === "ok", "W1: Einheit eines gelöschten Trainingstags verschwindet, wenn die Woche aktuell wird"); S.weeks[key] = keep; U.weekOffset = 0; }
+{ S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom(); S.weeks = {};
+  let bad = []; for (const rest of [120, 180]) { S.restC = rest; S.restI = rest; for (const sl of thisWeek().slots.filter((q) => q.type === "kraft")) for (const m of [30, 45]) { U.setup = { slotId: sl.id, mode: "normal", busy: [], minutes: m }; const p = setupTimePlan(setupRawItems()); if (!p.over && p.items.length >= 2 && p.items.some((i) => i.sets < 2)) bad.push(\`\${rest}/\${m}: \${p.items.map((i) => i.sets).join(",")}\`); if (p.minutes > m) bad.push(\`\${m}: \${p.minutes} Min\`); } }
+  ok(!bad.length, "W2: Zeitbudget 30/45 Min: lieber 2 Sätze an weniger Übungen als 1 Satz" + (bad.length ? " – " + bad.join(" | ") : ""));
+  const sl = thisWeek().slots[0]; U.setup = { slotId: sl.id, mode: "normal", busy: [], minutes: 30 }; const w30 = warmSecs(buildWarm(slotInfo(sl).groups, "normal")); U.setup.minutes = 0; const w0 = warmSecs(buildWarm(slotInfo(sl).groups, "normal")); U.setup = null;
+  ok(w30 < w0 && w30 <= 8 * 60, \`W2: Bei knappem Budget kürzeres Aufwärmen (\${Math.round(w30 / 60)} statt \${Math.round(w0 / 60)} Min)\`); }
+{ ensureStudios(); ok(S.studios.length === 1 && studioPicker() === "", "W3: Mit einem Studio keine Studio-Auswahl auf Start, Vorbereitung und Verlauf");
+  const h = addStudio("Zuhause", false); ok(studioPicker().includes("Zuhause"), "W3: Ab zwei Studios erscheint die Auswahl"); selectStudio(S.studios[0].id);
+  ok(satzN(1) === "1 Satz" && satzN(3) === "3 Sätze", "W3: „1 Satz“ statt „1 Sätze“"); }
+/* X1: abgewählte Geräte tauchen nirgends auf (Plan, Training, Ausweichübungen, Kurz/Mini, Zeitbudget) */
+{ const probs = []; const _st = startTrain;
+  for (const k of Object.keys(EQUIP).filter((k) => k !== "matte")) for (const nd of [2, 3, 4]) {
+    S = Object.assign(defaults(), { setup: true, days: tmplDays(nd) }); registerCustom(); S.weeks = {}; ensureStudios(); S.equip[k] = false; syncStudio();
+    const uses = (id) => { const x = EXM[id]; return !!(x && x.eq && x.eq.includes(k)); };
+    for (const sl of thisWeek().slots.filter((q) => q.type === "kraft")) for (const mode of ["normal", "kurz", "mini"]) for (const minutes of [0, 30]) {
+      U.setup = { slotId: sl.id, mode, busy: [], minutes }; setupItems().forEach((it) => { if (uses(it.ex)) probs.push(\`\${k} Plan \${it.ex}\`); });
+      _st(); const A = S.active; A.steps.forEach((q) => { if (q.ex && uses(q.ex)) probs.push(\`\${k} Schritt \${q.ex}\`); });
+      A.items.forEach((it) => { if (uses(it.ex)) probs.push(\`\${k} Training \${it.ex}\`); altsFor(it, [], new Set(A.items.map((q) => q.ex))).forEach((a) => { if (uses(a.id || a)) probs.push(\`\${k} Ausweich \${a.id || a}\`); }); });
+      S.active = null; } }
+  U.setup = null; ok(!probs.length, "X1: Abgewählte Geräte werden nie verwendet" + (probs.length ? " – " + [...new Set(probs)].slice(0, 5).join(" | ") : "")); }
+/* X2: selbst gewählte Übungen eines Trainingstags werden genau so verwendet */
+{ S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom(); S.weeks = {}; ensureStudios();
+  const pick = EX.filter((x) => !x.hidden && x.cat === "kraft" && x.eq.every((e) => S.equip[e] !== false)).slice(3, 6);
+  S.days[0].mode = "custom"; S.days[0].custom = pick.map((x, i) => ({ ex: x.id, g: primary(x), sets: 2 + (i % 2), reps: [8 + i, 12 + i] })); save();
+  const sl = thisWeek().slots.find((q) => q.dayId === S.days[0].id); U.setup = { slotId: sl.id, mode: "normal", busy: [], minutes: 0 };
+  const it = setupItems(); ok(it.map((q) => q.ex).join() === pick.map((x) => x.id).join(), "X2: Eigene Übungen erscheinen vollständig und in gewählter Reihenfolge in der Vorbereitung");
+  ok(it.every((q, i) => q.sets === S.days[0].custom[i].sets), "X2: Gewählte Satzzahl wird übernommen");
+  startTrain(); ok(S.active.items.map((q) => q.ex).join() === pick.map((x) => x.id).join() && S.active.items.every((q, i) => q.log.length === S.days[0].custom[i].sets), "X2: Training läuft mit genau diesen Übungen und Sätzen");
+  S.active = null; U.setup = null;
+  S.days[0].custom = S.days[0].custom.slice(1); save(); U.setup = { slotId: sl.id, mode: "normal", busy: [], minutes: 0 };
+  ok(setupItems().map((q) => q.ex).join() === pick.slice(1).map((x) => x.id).join(), "X2: Spätere Änderung der Übungsauswahl gilt sofort für die bereits angelegte Woche"); U.setup = null; }
+/* X3: Trainingsplan nach der Einrichtung umgestellt → aktuelle und alle zukünftigen Wochen folgen */
+{ S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom(); S.weeks = {}; ensureStudios(); U.weekOffset = 0;
+  const cur = weekKey(new Date()), today = wdOf(new Date());
+  S.days.forEach((d, i) => { d.wd = [1, 3, 5][i]; }); save(); thisWeek();
+  const fut = []; for (const o of [1, 3]) { U.weekOffset = o; fut.push(weekKey(viewedMonday())); calendarWeek(); } U.weekOffset = 0;
+  const all = () => [cur, ...fut].map((k) => S.weeks[k]);
+  ok(fut.every((k) => S.weeks[k]), "X3: Zwei zukünftige Wochen sind festgelegt");
+  /* Wochentag ändern */
+  const d1 = S.days[1]; d1.wd = 7; save();
+  ok(all().every((W) => { const q = W.slots.find((x) => x.dayId === d1.id); return q && (q.wd === 7); }), "X3: Geänderter Wochentag gilt in aktueller und allen zukünftigen Wochen");
+  /* Tag hinzufügen */
+  const nd = Object.assign({}, S.days[0], { id: "neu", wd: 6, name: "Neu" }); S.days.push(nd); save();
+  ok(all().every((W) => W.slots.filter((x) => x.dayId === "neu").length === 1), "X3: Neuer Trainingstag erscheint in aktueller und allen zukünftigen Wochen");
+  /* Tag entfernen */
+  const gone = S.days[2].id; S.days.splice(2, 1); save();
+  ok(all().every((W) => !W.slots.some((x) => x.dayId === gone)), "X3: Gelöschter Trainingstag verschwindet aus aktueller und allen zukünftigen Wochen");
+  ok(all().every((W) => W.slots.length === S.days.length), "X3: Jede Woche hat genau so viele Einheiten wie der Plan Tage");
+  /* nie festgelegte Woche (Entwurf) folgt ebenfalls */
+  U.weekOffset = 5; const v = viewedWeek(); ok(v.slots.length === S.days.length && v.slots.find((x) => x.dayId === d1.id).wd === 7, "X3: Noch nicht festgelegte Wochen folgen dem Plan ebenfalls"); U.weekOffset = 0;
+  /* Schutz: erledigt, ausgelassen, von Hand verschoben */
+  const W1 = S.weeks[fut[0]]; const sDone = W1.slots.find((x) => x.dayId === S.days[0].id), sMov = W1.slots.find((x) => x.dayId === d1.id);
+  sMov.wd = 2; sMov.moved = true; S.sessions.push({ id: "done1", date: new Date().toISOString(), type: "kraft", slotId: sDone.id, items: [] });
+  const sk = S.weeks[fut[1]].slots.find((x) => x.dayId === S.days[0].id); sk.skipped = true; save();
+  S.days[0].wd = 4; d1.wd = 5; save();
+  ok(sDone.wd === 1 && sMov.wd === 2 && sk.wd === 1, "X3: Erledigte, ausgelassene und von Hand verschobene Einheiten bleiben unverändert");
+  S.days.splice(0, 1); save();
+  ok(W1.slots.includes(sDone) && S.weeks[fut[1]].slots.includes(sk), "X3: Erledigte/ausgelassene Einheit eines gelöschten Tags bleibt in der Woche");
+  S.sessions = S.sessions.filter((x) => x.id !== "done1");
+  /* aktuelle Woche: Tag auf bereits vergangenen Wochentag gelegt → „offen“ statt verpasst */
+  if (today > 1) { const q = S.weeks[cur].slots.find((x) => x.dayId === d1.id); delete q.moved; delete q.late; q.wd = 7; d1.wd = 1; save();
+    ok(q.wd === 0 && q.late, "X3: In der aktuellen Woche wird ein Tag auf vergangenen Wochentag zu „offen“ (nicht verpasst)"); }
+  else ok(true, "X3: (Montag – Vergangenheitsfall entfällt)");
+  /* zusammengelegte Woche bekommt keine Tage zurück */
+  const W2 = S.weeks[fut[1]]; W2.merged = true; S.days.push(Object.assign({}, nd, { id: "neu2" })); save();
+  ok(!W2.slots.some((x) => x.dayId === "neu2") && S.weeks[cur].slots.some((x) => x.dayId === "neu2"), "X3: Zusammengelegte Woche bleibt zusammengelegt, andere Wochen bekommen den neuen Tag");
+  /* vergangene Wochen bleiben, wie sie waren */
+  const past = weekKey(new Date(Date.now() - 14 * 864e5)); S.weeks[past] = { daysSig: "alt", slots: [{ id: "p", type: "kraft", dayId: "weg", wd: 2 }] }; S.days[0].wd = 3; save();
+  ok(S.weeks[past].slots.length === 1 && S.weeks[past].slots[0].dayId === "weg", "X3: Vergangene Wochen werden nicht umgeschrieben");
+  /* ältere Wochen ohne Kennung: abweichende Tage gelten als verschoben, nichts geht verloren */
+  const old = { slots: S.days.map((d) => ({ id: uid(), type: "kraft", dayId: d.id, wd: d.wd })) }; old.slots[0].wd = 6; S.weeks[fut[0]] = old; save();
+  ok(old.daysSig && old.slots[0].moved && old.slots[0].wd === 6 && old.slots.length === S.days.length, "X3: Wochen aus älteren Versionen behalten ihre Verschiebungen");
+  U.weekOffset = 0; }
+S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom(); S.weeks = {}; U.setup = null;
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
