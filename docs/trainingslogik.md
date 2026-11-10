@@ -1,6 +1,6 @@
 # Selfcare Studio – Trainingslogik
 
-Stand: Version 4.3.2. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
+Stand: Version 4.3.3. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
 
 ## Plan
 - **Muskelgruppen** haben eine Größe (Po 6, Beine vorne 5, Rücken 5 …). Daraus entsteht das Volumen eines Tages in „effektiven Sätzen“ (Arbeitssätze × Wirkung auf die Zielgruppe), **höchstens 22 pro Einheit** – nach der Planung wird nachgeprüft und notfalls bei den Übungen mit den meisten Sätzen gekürzt (erst bis 2, dann bis 1 Satz).
