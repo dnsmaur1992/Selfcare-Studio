@@ -1,6 +1,6 @@
 # Selfcare Studio – Trainingslogik
 
-Stand: Version 4.3.3. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
+Stand: Version 4.4. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
 
 ## Plan
 - **Muskelgruppen** haben eine Größe (Po 6, Beine vorne 5, Rücken 5 …). Daraus entsteht das Volumen eines Tages in „effektiven Sätzen“ (Arbeitssätze × Wirkung auf die Zielgruppe), **höchstens 22 pro Einheit** – nach der Planung wird nachgeprüft und notfalls bei den Übungen mit den meisten Sätzen gekürzt (erst bis 2, dann bis 1 Satz).
@@ -176,6 +176,11 @@ Alles in `localStorage` unter `satzwerk.v1`. Backup als JSON-Datei über das Pro
 Die Wochenansicht reicht von fünf Wochen vor bis fünf Wochen nach der aktuellen Woche. Kalenderarithmetik erhält Montage auch über Zeitumstellungen und Jahreswechsel. Zukünftige Wochen haben eigene Slot-IDs und werden erst bei Eintritt auf Belastungssteuerung geprüft. Alte Wochenpläne werden beim Anlegen einer Woche nicht mehr gelöscht. Fehlt ein vergangener Plan, werden vorhandene Trainings aus dem Verlauf angezeigt; es werden keine vergangenen Soll-Einheiten erfunden. Die obere Trainingskarte und Nachholen beziehen sich weiterhin auf die aktuelle Woche.
 
 Zusammenlegen ist in der aktuellen und in allen fünf erreichbaren zukünftigen Wochen möglich. Der Dialog bindet die Änderung an den angezeigten Wochenschlüssel. Erledigte, ausgelassene und laufende Einheiten sowie andere Trainingsarten bleiben erhalten.
+
+### Neu in 4.4
+- **Themen:** Mobility „Balance & Füße“ (`balance`: m_shift, m_rock, m_tandem, m_oneleg, m_clock, m_stork, m_calf, m_side) und Pilates „Beckenboden & Mitte“ (`beckenboden`: p_pfbreath, p_pfquick, p_pfbridge, p_toetap, p_clam, p_birddog, p_pfsit, m_child). Einseitige Positionen laufen links und rechts. Der Themenwechsel geht der Reihe nach, also nach „Abends runterfahren“ jetzt „Balance & Füße“, nach „Rücken & Haltung“ „Beckenboden & Mitte“.
+- **Jahresrückblick** (`yearReview(y)`): Einheiten, Trainingstage, Minuten, Arbeitssätze (ohne Aufwärmsätze), bewegte Last (`volOf`, wie die Gesamtlast inkl. Aufwärmsätze), Einheiten je Monat, Lieblingsübung (meiste Arbeitssätze), größte Steigerung (erstes gegen bestes Gewicht derselben Übung im selben Studio, mind. 3 Einheiten, relativ; Assist: weniger Hilfe), beste Serie (Wochen mit ≥ 2 Einheiten, Pausenwochen unterbrechen nicht), Rekorde (`prs`). Startseite: `yearDue()` = Dezember dieses Jahr, 1.–15. Januar das Vorjahr; ab 4 Einheiten; `S.flags.yearJJJJ` nach Ansehen/„Später“.
+- **Ton beim Pausenstart** (`restTone`): „low“-Ton beim Wechsel in die Satzpause, `S.restTone === false` schaltet ab, bei Signalton „aus“ still.
 
 ### Planänderungen gelten für alle Wochen (4.3.2)
 - Jede Woche merkt sich, zu welchem Stand des Trainingsplans sie passt (`daysSig`: Tag-ID, Art, Wochentag). Weicht der Plan ab, gleicht `syncWeekDays` die aktuelle Woche und alle schon festgelegten zukünftigen Wochen an (`syncAllWeeks` beim Speichern, zusätzlich beim Anzeigen). Vergangene Wochen bleiben unverändert.
