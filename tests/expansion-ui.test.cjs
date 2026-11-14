@@ -21,6 +21,9 @@ click('[data-a="lesspick"][data-p="1"]');assert.equal(ev("calendarWeek().slots.f
 assert.equal(ev('JSON.stringify(thisWeek())'),beforeMerge);
 click('[data-a="weeknow"]');click('[data-a="weeknext"]');assert.equal(ev("calendarWeek().slots.find(s=>s.type==='kraft').name"),'Ganzkörper kompakt');
 click('[data-a="weeknow"]');
+// With only one studio the picker is hidden on home (4.3.1); profiles are created under Profil → Studio-Profile.
+assert(!d.querySelector('#app [data-a="studios"]'),'single studio: no picker on home');
+ev("U.psec=null;go('prof')");
 click('[data-a="studios"]');input('#newstudio','Zuhause');click('[data-a="studioadd"][data-copy="0"]');assert.equal(ev('studioName()'),'Zuhause');assert.equal(ev('S.equip.hack'),false);
 const main=ev('S.studios[0].id');click('[data-a="studioselect"][data-id="'+main+'"]');assert.equal(ev('studioName()'),'Mein Studio');
 ev("startSetup(thisWeek().slots.find(s=>s.type==='kraft').id)");click('[data-a="timebudget"][data-v="30"]');assert(ev('setupTimePlan(setupRawItems()).minutes<=30'));click('[data-a="go-train"]');assert(ev('!!S.active'));

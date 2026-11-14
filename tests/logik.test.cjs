@@ -584,6 +584,38 @@ S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCusto
   const old = { slots: S.days.map((d) => ({ id: uid(), type: "kraft", dayId: d.id, wd: d.wd })) }; old.slots[0].wd = 6; S.weeks[fut[0]] = old; save();
   ok(old.daysSig && old.slots[0].moved && old.slots[0].wd === 6 && old.slots.length === S.days.length, "X3: Wochen aus älteren Versionen behalten ihre Verschiebungen");
   U.weekOffset = 0; }
+/* Y1: neue Themen Balance & Beckenboden (4.4) */
+{ const th = [flowTheme("mobility", "balance"), flowTheme("pilates", "beckenboden")];
+  ok(th[0].k === "balance" && th[1].k === "beckenboden", "Y1: Themen „Balance & Füße“ und „Beckenboden & Mitte“ vorhanden");
+  ok(th.every((t) => t.ids.every((id) => FLOW.some((f) => f.id === id))), "Y1: Alle Positionen der neuen Themen existieren");
+  ok(["m_shift", "m_rock", "m_tandem", "m_oneleg", "m_clock", "m_stork", "p_pfbreath", "p_pfquick", "p_pfbridge", "p_pfsit"].every((id) => { const f = FLOW.find((x) => x.id === id); return f && f.anim && f.anim.A && f.tips.length >= 2 && EXM[id]; }), "Y1: Neue Positionen mit Animation, Tipps und im Übungsverzeichnis");
+  let good = true; for (const [cat, k] of [["mobility", "balance"], ["pilates", "beckenboden"]]) for (const m of [15, 30]) { const b = buildFlow(cat, k, m); const tot = b.reduce((a, x) => a + x.sec + 15, 0); if (!b.length || tot > (m + 2) * 60 || tot < (m - 6) * 60) good = false; }
+  ok(good, "Y1: Neue Themen ergeben passende 15- und 30-Minuten-Einheiten");
+  ok(READS.some((r) => r.id === "beckenboden") && READS.some((r) => r.id === "balance") && TIPS.every((t) => !t[2] || READS.some((r) => r.id === t[2])), "Y1: Artikel Beckenboden und Gleichgewicht, alle Tipps verweisen auf vorhandene Artikel"); }
+/* Y2: Jahresrückblick */
+{ S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom(); S.weeks = {}; ensureStudios(); const st = S.studios[0].id;
+  const ks = (d, w, extra) => Object.assign({ id: uid(), date: d.toISOString(), type: "kraft", name: "K", dur: 50, studioId: st, items: [{ g: "quad", ex: "legpress", reps: [10, 15], sets: 3, log: [{ w: "20", r: "10", done: true, warm: true }, { w: String(w), r: "12", done: true }, { w: String(w), r: "12", done: true }] }] }, extra || {});
+  S.sessions = [ks(new Date(2025, 11, 20, 18), 99), ks(new Date(2026, 0, 5, 18), 40), ks(new Date(2026, 0, 7, 18), 45, { prs: 1 }), ks(new Date(2026, 0, 12, 18), 50), ks(new Date(2026, 0, 14, 18), 50), ks(new Date(2026, 2, 3, 18), 60),
+    { id: uid(), date: new Date(2026, 2, 4, 9).toISOString(), type: "pilates", flow: true, theme: "beckenboden", dur: 30, items: [{ ex: "p_pfbreath", sec: 60 }] }];
+  const r = yearReview(2026);
+  ok(r.units === 6 && r.minutes === 280 && r.days === 6, "Y2: Nur Einheiten des Jahres zählen (6 Einheiten, 280 Min)");
+  ok(r.sets === 10 && r.kg === (40 + 45 + 50 + 50 + 60) * 2 * 12 + 5 * 200, "Y2: Sätze ohne Aufwärmsätze; bewegte Last wie die Gesamtlast der App mit Aufwärmsätzen");
+  ok(r.months[0] === 4 && r.months[2] === 2 && r.topM === 0, "Y2: Einheiten je Monat und aktivster Monat");
+  ok(r.fav && r.fav.ex === "legpress" && r.fav.sets === 10, "Y2: Lieblingsübung nach Arbeitssätzen");
+  ok(r.gain && r.gain.first === 40 && r.gain.best === 60 && Math.round(r.gain.rel * 100) === 50, "Y2: Größte Steigerung: erstes gegen bestes Gewicht im Jahr (40 → 60 kg)");
+  ok(r.streak === 2 && r.prs === 1 && r.types.kraft === 5 && r.types.pilates === 1, "Y2: Beste Serie (2 Wochen mit je 2 Einheiten), Rekorde, Trainingsarten");
+  ok(yearSheet(2026).includes("10 Sätze insgesamt") && yearSheet(2030).includes("noch keine Einheit"), "Y2: Rückblick zeigt Sätze; leeres Jahr ohne Fehler");
+  S.sessions = [ks(new Date(2026, 0, 5, 18), 20)]; ok(!yearSheet(2026).includes("Tonnen"), "Y2: Unter einer Tonne keine Tonnen-Karte");
+  S.sessions.push(...Array.from({ length: 30 }, (_, i) => ks(new Date(2026, 4, 1 + i, 18), 70))); ok(yearSheet(2026).includes("Tonnen"), "Y2: Ab einer Tonne wird die bewegte Last in Tonnen gezeigt"); }
+/* Y3: Wann erscheint die Karte? */
+{ ok(yearDue(new Date(2026, 11, 3)) === 2026 && yearDue(new Date(2027, 0, 10)) === 2026 && yearDue(new Date(2027, 0, 20)) === 0 && yearDue(new Date(2026, 5, 1)) === 0, "Y3: Startseite ab 1. Dezember, im Januar bis zum 15. für das Vorjahr");
+  const y = yearDue(); if (y) { S.flags["year" + y] = 1; ok(yearCard() === "", "Y3: Nach dem Ansehen oder „Später“ verschwindet die Karte"); delete S.flags["year" + y]; } else ok(yearCard() === "", "Y3: Außerhalb von Dezember/Januar keine Karte");
+  ok(yearYears()[0] === 2026 && yearLink().includes('data-y="2026"'), "Y3: Unter Verlauf → Rückblick jederzeit erreichbar"); }
+/* Y4: Ton beim Pausenstart */
+{ const _p = playSnd; let n0 = 0; playSnd = () => { n0++; };
+  S.restTone = undefined; S.sound = "gong"; restTone(); const a = n0; S.restTone = false; restTone(); const b = n0; S.restTone = true; S.sound = "aus"; restTone(); const c = n0;
+  playSnd = _p; S.sound = "gong"; delete S.restTone;
+  ok(a === 1 && b === 1 && c === 1, "Y4: Ton beim Pausenstart standardmäßig an, abschaltbar, still bei Signalton „aus“"); }
 S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom(); S.weeks = {}; U.setup = null;
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
