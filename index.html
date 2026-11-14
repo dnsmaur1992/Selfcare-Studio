@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.3.3">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.3.3">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.4">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.4">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.3.3">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.4">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -342,7 +342,7 @@ html.touring .deco, html.touring .confetti-fx { display: none; }
 .older > .stack + .stack { margin-top: 14px; }
 .hero .figbox { background: transparent; }
 .hero .figbox svg.fig .fl { stroke: transparent; }
-.hero .big { font-family: var(--display); font-weight: 600; font-size: 36px; line-height: 1.02; letter-spacing: -0.015em; text-wrap: balance; }
+.hero .big, .yearcard .big, .yearsheet .big { font-family: var(--display); font-weight: 600; font-size: 36px; line-height: 1.02; letter-spacing: -0.015em; text-wrap: balance; }
 .meta { display: flex; gap: 14px; flex-wrap: wrap; color: var(--muted); font-size: 13.5px; }
 /* plan rows */
 .pi { display: flex; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
@@ -385,6 +385,14 @@ html.touring .deco, html.touring .confetti-fx { display: none; }
 .daycard { gap: 10px; }
 /* stats */
 .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.ybars { display: grid; grid-template-columns: repeat(12, 1fr); gap: 4px; align-items: end; height: 96px; }
+.ybar { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 4px; }
+.ybar i { display: block; width: 100%; min-height: 3px; border-radius: 6px 6px 3px 3px; background: var(--lav); }
+.ybar.top i { background: var(--accent); }
+.ybar.fut i { background: transparent; border: 1px dashed var(--line); min-height: 3px; }
+.ybar span { font-size: 10px; color: var(--muted); }
+.yearcard { background: linear-gradient(135deg, var(--lav), var(--peach)); }
+.yearcard .big { font-size: 30px; } .yearsheet .big { font-size: 30px; line-height: 1.1; }
 .tile { background: var(--surface); border-radius: 20px; padding: 14px 12px; }
 .tile:nth-child(1) { background: var(--lav); } .tile:nth-child(2) { background: var(--peach); } .tile:nth-child(3) { background: var(--mint); }
 .tile b { display: block; font-family: var(--display); font-size: 30px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.1; }
@@ -722,10 +730,17 @@ function wHint(x) {
   if (x.eq.includes("kabel")) return "Wie am Steckgewicht angezeigt.";
   return "";
 }
-const S_VERSION = "4.3.3";
-const NEWS = { v: "4.3.3", items: [
-  ["Plan gilt für alle Wochen", "Änderst du deinen Trainingsplan – Wochentag, neuer oder gelöschter Trainingstag –, gilt das sofort für diese Woche und alle kommenden Wochen. Schon erledigte, ausgelassene oder von dir verschobene Einheiten bleiben, wie sie sind."],
+const S_VERSION = "4.4";
+const NEWS = { v: "4.4", items: [
+  ["Dein Trainingsjahr", "Ab Dezember wartet auf der Startseite dein Jahresrückblick: Einheiten, Stunden, bewegte Tonnen, Lieblingsübung, größte Steigerung und deine beste Serie. Jederzeit auch unter Verlauf → Rückblick."],
+  ["Balance & Füße", "Neues Mobility-Thema mit sechs neuen Positionen: Gewicht verlagern, Tandemstand, Einbeinstand, Fuß-Uhr und leichte Standwaage. Gleichgewicht lässt ab 40 leise nach – und ist gut trainierbar."],
+  ["Beckenboden & Mitte", "Neues Pilates-Thema: Beckenboden spüren, anspannen und wieder loslassen – auch als Schutz bei schweren Sätzen."],
+  ["Zum Lesen", "Zwei neue Artikel mit Quellen: „Beckenboden“ und „Gleichgewicht“."],
+  ["Ton beim Pausenstart", "Ein kurzer, leiser Ton zeigt an, dass die Satzpause läuft – auch mit Musik im Ohr. Abschaltbar unter Profil → Ton & Musik → Töne."],
 ], old: [
+  { v: "4.3.3", items: [
+  ["Plan gilt für alle Wochen", "Änderst du deinen Trainingsplan – Wochentag, neuer oder gelöschter Trainingstag –, gilt das sofort für diese Woche und alle kommenden Wochen. Schon erledigte, ausgelassene oder von dir verschobene Einheiten bleiben, wie sie sind."],
+  ] },
   { v: "4.3.1", items: [
   ["Zeitbudget klüger", "Bei knapper Zeit bleiben eher zwei Sätze an weniger Übungen als ein einzelner Satz an vielen, und das Aufwärmen wird kürzer. Passt wenig in die Zeit, schlägt die App eine kürzere Satzpause vor."],
   ["Aufgeräumt", "Mit nur einem Studio verschwindet die Studio-Auswahl von Startseite, Vorbereitung und Verlauf (anlegen weiter unter Profil → Studio-Profile). Zukünftige Wochen, die du nur ansiehst, folgen weiter Änderungen an deinem Trainingsplan."],
@@ -853,6 +868,18 @@ const NEWS = { v: "4.3.3", items: [
     F("m_happy", "Happy Baby", "mobility", "hip", { v: "side", A: { ...LY, f1: [76, 56], f2: [76, 56], h1: [72, 58], kp: [0.5, -1] }, B: { f1: [74, 52], f2: [74, 52], h1: [70, 54] }, props: mat }, ["Füße von außen fassen, Knie Richtung Achseln.", "Steißbein bleibt Richtung Boden.", "Wenn die Hände nicht hinkommen: an den Kniekehlen halten."]),
     F("m_legswall", "Beine an der Wand", "mobility", "thigh", { v: "side", A: { hip: [70, 95], t: -92, f1: [72, 50], h1: [48, 99] }, B: { hip: [70, 94] }, props: [...mat, ...post(78)] }, ["Po nah an die Wand, Beine hoch.", "Arme locker neben dem Körper.", "Einfach liegen und ruhig atmen."]),
     F("m_breathe", "Entspannt atmen in Rückenlage", "mobility", "torso", { v: "side", A: { ...LY, f1: [94, 98], h1: [62, 88], kp: [0, -1], ep: [0, -1] }, B: { hip: [64, 93.5] }, props: mat }, ["Knie aufgestellt, Hände auf dem Bauch.", "Durch die Nase einatmen, den Bauch heben lassen.", "Langsam länger ausatmen als einatmen."]),
+    /* 4.4: Balance & Füße (Mobility) – Gleichgewicht nimmt ab Mitte 40 ab und lässt sich gut trainieren */
+    F("m_shift", "Gewicht verlagern", "mobility", "thigh", { v: "front", A: { hip: [77, 55], hw: 5, sw: 9, t: 2, f1: [90, 99], f2: [70, 99], h1: [89, 56], h2: [63, 56], kp1: [1, 0], kp2: [-1, 0] }, B: { hip: [83, 55], t: -2, h1: [95, 56], h2: [69, 56] } }, ["Hüftbreit stehen, Hände an die Hüften.", "Langsam das Gewicht von einem Fuß auf den anderen schieben.", "Spüren, wie der Fuß den Boden greift."]),
+    F("m_rock", "Auf Zehen und Fersen wippen", "mobility", "shin", { v: "side", A: { hip: [80, 57], t: 0, f1: [82, 99], ft: [7, 0], h1: [108, 40], ep: [-1, 0.4] }, B: { hip: [80, 51], f1: [82, 93], ft: [5, 6], h1: [108, 34] }, props: post(112) }, ["Neben einer Wand oder Stuhllehne stehen.", "Langsam auf die Zehenballen hoch, dann zurück auf die Fersen.", "Körper bleibt lang, nicht nach vorn kippen."]),
+    F("m_tandem", "Tandemstand", "mobility", "shin", { v: "side", A: { hip: [80, 57], t: 0, f1: [88, 99], f2: [76, 99], h1: [96, 52], h2: [66, 52] }, B: { h1: [100, 50], h2: [62, 50], t: 2 } }, ["Ein Fuß direkt vor den anderen, Ferse an die Zehen.", "Blick geradeaus auf einen festen Punkt.", "Leichter: Füße etwas versetzt. Schwerer: kurz die Augen schließen – nur mit Halt in Reichweite."], true),
+    F("m_oneleg", "Einbeinstand", "mobility", "thigh", { v: "front", A: { hip: [80, 57], hw: 5, sw: 9, t: 0, f1: [84, 99], f2: [76, 99], h1: [92, 58], h2: [68, 58] }, B: { f2: [75, 90], kp2: [-1, -0.2], hip: [82, 57], t: -2 } }, ["Hände an die Hüften, ein Fuß löst sich leicht vom Boden.", "Standbein-Knie nicht durchdrücken.", "Wackeln ist erlaubt – genau das trainiert. Halt in Reichweite."], true),
+    F("m_clock", "Fuß-Uhr", "mobility", "thigh", { v: "side", A: { hip: [80, 57], t: 0, f1: [80, 99], f2: [104, 97], h1: [84, 56], kp1: [1, 0] }, B: { f2: [56, 97], hip: [82, 58] } }, ["Auf einem Bein stehen, Knie leicht gebeugt.", "Mit dem anderen Fuß nach vorn, zur Seite und nach hinten tippen.", "Langsam – das Becken bleibt ruhig."], true),
+    F("m_stork", "Leichte Standwaage", "mobility", "hip", { v: "side", A: { hip: [80, 57], t: 0, f1: [84, 99], f2: [80, 97], h1: [100, 50], kp: [1, 0] }, B: { hip: [74, 58], t: 38, f2: [32, 68], kp2: [0, 1], h1: [108, 58] } }, ["Auf einem Bein, Arme nach vorn.", "Oberkörper nur so weit neigen, wie es ruhig bleibt.", "Rücken lang, Hüfte zeigt zum Boden."], true),
+    /* 4.4: Beckenboden & Mitte (Pilates) */
+    F("p_pfbreath", "Beckenboden spüren", "pilates", "hip", { v: "side", A: { ...LY, f1: [94, 98], h1: [70, 92], kp: [0, -1], ep: [0, -1] }, B: { hip: [64, 94.2] }, props: mat }, ["Rückenlage, Knie aufgestellt. Einatmen: Bauch und Beckenboden lassen los.", "Ausatmen: den Beckenboden sanft nach innen-oben ziehen, als würdest du Wind zurückhalten.", "Po und Bauch bleiben weich – nicht pressen, Luft nicht anhalten."]),
+    F("p_pfquick", "Kurze Impulse", "pilates", "hip", { v: "side", A: { ...LY, f1: [94, 98], h1: [62, 99], kp: [0, -1] }, B: { hip: [64, 94] }, props: mat }, ["Rückenlage. Beckenboden kurz und kräftig anspannen, sofort wieder ganz lösen.", "Etwa alle zwei Sekunden ein Impuls, ruhig weiteratmen.", "Das Loslassen ist genauso wichtig wie das Anspannen."]),
+    F("p_pfbridge", "Brücke mit Beckenboden", "pilates", "hip", A_BRIDGE, ["Ausatmen: erst Beckenboden sanft anspannen, dann das Becken heben.", "Oben ruhig weiteratmen.", "Einatmen: langsam abrollen und alles lösen."]),
+    F("p_pfsit", "Aufrecht sitzen und aktivieren", "pilates", "torso", { v: "side", A: { hip: [48, 95], t: -2, f1: [92, 98], h1: [62, 80], kp: [0, -1] }, B: { t: -6, hip: [48, 94] }, props: mat }, ["Auf beiden Sitzbeinhöckern sitzen, Scheitel lang nach oben.", "Ausatmen: Beckenboden sanft heben, Bauch leicht mitnehmen.", "Einatmen: lösen. Bei Bedarf auf einem Kissen sitzen."]),
   );
 }
 const ALLX = [...EX, ...FLOW];
@@ -1316,12 +1343,14 @@ const FLOW_THEMES = {
     { k: "mitte", n: "Bauch & Mitte", sub: "Tiefe Bauchmuskeln, ruhiger Rücken", ids: ["p_hundred", "p_toetap", "p_deadbug", "p_single", "p_rollup", "p_birddog", "p_plank", "p_spine"] },
     { k: "po", n: "Po & Beine", sub: "Brücke, Seitlage, Vierfüßler", ids: ["p_bridge", "p_clam", "p_sidelift", "p_sidekick", "p_birddog", "p_circles", "p_swim", "m_child"] },
     { k: "ruecken", n: "Rücken & Haltung", sub: "Aufrichten, strecken, lockern", ids: ["m_catcow", "p_swan", "p_superman", "p_swim", "p_birddog", "p_saw", "p_spine", "m_child"] },
+    { k: "beckenboden", n: "Beckenboden & Mitte", sub: "Spüren, anspannen, loslassen", ids: ["p_pfbreath", "p_pfquick", "p_pfbridge", "p_toetap", "p_clam", "p_birddog", "p_pfsit", "m_child"] },
   ],
   mobility: [
     { k: "klassik", n: "Ganzkörper", sub: "Von Kopf bis Fuß beweglich", ids: ["m_catcow", "m_hipflex", "m_wgs", "m_9090", "m_openbook", "m_child", "m_arms", "m_squat", "m_fig4", "m_ham", "m_calf"] },
     { k: "huefte", n: "Hüfte & Rücken", sub: "Gut nach viel Sitzen", ids: ["m_catcow", "m_9090", "m_hipflex", "m_fig4", "m_squat", "m_twist", "m_kneehug", "m_child"] },
     { k: "schulter", n: "Schultern & Nacken", sub: "Löst Verspannungen oben", ids: ["m_arms", "m_neck", "m_side", "m_thread", "m_openbook", "str_chest", "m_catcow", "m_child"] },
     { k: "abends", n: "Abends runterfahren", sub: "Sanft und ruhig, zum Abschalten", ids: ["m_catcow", "m_child", "m_kneehug", "m_twist", "m_happy", "m_fig4", "m_legswall", "m_breathe"] },
+    { k: "balance", n: "Balance & Füße", sub: "Sicher stehen, auch auf einem Bein", ids: ["m_shift", "m_rock", "m_tandem", "m_oneleg", "m_clock", "m_stork", "m_calf", "m_side"] },
   ],
 };
 const flowTheme = (cat, k) => (FLOW_THEMES[cat] || []).find((t) => t.k === k) || (FLOW_THEMES[cat] || [])[0];
@@ -1811,9 +1840,10 @@ function feedbackSheet() {
 }
 function soundSheet() {
   const cur = S.sound || "gong", tk = S.tick || "piep";
-  return `<div class="stack" style="gap:4px"><h2>Töne <em>wählen</em></h2><p class="small muted">Der Signalton kommt am Ende jeder Pause und wenn eine Zeitübung startet oder endet. Antippen zum Anhören.</p></div>
+  return `<div class="stack" style="gap:4px"><h2>Töne <em>wählen</em></h2><p class="small muted">Der Signalton kommt am Ende jeder Pause und wenn eine Zeitübung startet oder endet. Beim Start der Pause gibt es einen kurzen, leisen Ton. Antippen zum Anhören.</p></div>
     <div class="list">${Object.entries(SOUNDS).map(([k, o]) => `<button class="li" data-a="soundpick" data-k="${k}" aria-pressed="${cur === k}"><div class="grow stack" style="gap:1px"><b>${o.n}</b><span class="small muted">${o.sub}</span></div>${cur === k ? `<span class="note ok">✓</span>` : k === "aus" ? "" : `<span class="small muted">▶︎</span>`}</button>`).join("")}</div>
     <div class="stack" style="gap:6px"><b>Countdown in den letzten 3 Sekunden</b><div class="seg">${Object.entries(TICKS).map(([k, o]) => `<button class="${tk === k ? "on" : ""}" data-a="tickpick" data-k="${k}">${o.n}</button>`).join("")}</div></div>
+    <div class="stack" style="gap:6px"><b>Kurzer Ton beim Start der Pause</b><div class="seg"><button class="${S.restTone !== false ? "on" : ""}" data-a="resttone" data-k="1">An</button><button class="${S.restTone === false ? "on" : ""}" data-a="resttone" data-k="0">Aus</button></div></div>
     <button class="btn line" data-a="soundgo">Signalton und Ansage testen</button>
     <div class="card" style="gap:6px;background:var(--butter)"><b style="color:var(--butter-ink)">Nichts zu hören?</b><ul class="tipl small" style="color:var(--butter-ink)"><li>Lautlos-Schalter an der Seite des iPhones prüfen. Bei „lautlos“ bleibt der Gong oft stumm.</li><li>Lautstärke hochdrehen, während der Ton läuft.</li><li>App einmal ganz schließen und neu öffnen.</li></ul></div>
     <button class="btn ghost" data-a="sheetclose">Schließen</button>`;
@@ -2339,6 +2369,27 @@ const READS = [
     ["Ärzteblatt (2020): WHO gibt neue Aktivitätsempfehlungen heraus", "https://www.aerzteblatt.de/news/who-gibt-neue-aktivitaetsempfehlungen-heraus-fuer-die-gesundheit-zaehlt-jede-bewegung-35fe8935-43d0-4130-b000-ae2f7994608e"],
     ["Watson u. a. (2018): LIFTMOR. J Bone Miner Res", "https://pubmed.ncbi.nlm.nih.gov/28975661/"],
   ] },
+  { id: "beckenboden", t: "Beckenboden", sub: "Der unsichtbare Muskel, der viel trägt", sec: [
+    ["Was er macht", "Der Beckenboden schließt das Becken nach unten ab, trägt die Organe und hält Blase und Darm dicht – beim Husten, Lachen, Springen und auch bei schweren Sätzen im Studio."],
+    ["Warum ab 40 ein Thema", "Schwangerschaften, Geburten und die hormonellen Veränderungen rund um die Wechseljahre können ihn schwächen. Blasenschwäche ist häufig – und kein Schicksal, mit dem man leben muss."],
+    ["Was das Training bringt", "Eine Cochrane-Übersicht mit 31 Studien zeigt: Frauen mit Belastungsinkontinenz hatten mit Beckenbodentraining deutlich häufiger keine Beschwerden mehr als ohne Training. Es gilt als erste Behandlung bei leichter und mittlerer Belastungsinkontinenz."],
+    ["So geht's", "Beim Ausatmen sanft nach innen-oben ziehen, als würdest du Wind zurückhalten. Beim Einatmen bewusst ganz loslassen – das ist genauso wichtig wie das Anspannen. Po, Bauch und Atem bleiben dabei locker."],
+    ["Im Studio", "Bei schweren Sätzen beim Anstrengen ausatmen und dabei den Beckenboden mitnehmen, nicht pressen. Das Pilates-Thema „Beckenboden & Mitte“ führt dich Schritt für Schritt."],
+    ["Wann zur Fachperson", "Bei Urinverlust, Druck- oder Senkungsgefühl oder Schmerzen lohnt sich eine Beckenboden-Physiotherapie, die ärztlich verordnet werden kann. Unter Anleitung wirkt das Training am besten."],
+  ], src: [
+    ["gesund.bund.de: Inkontinenz und Blasenschwäche", "https://gesund.bund.de/inkontinenz-und-blasenschwaeche"],
+    ["Cochrane (2018): Beckenbodentraining gegenüber keiner Behandlung bei Harninkontinenz", "https://www.cochrane.org/de/CD005654/beckenbodentraining-gegenueber-keiner-behandlung-fuer-frauen-mit-harninkontinenz-urininkontinenz"],
+  ] },
+  { id: "balance", t: "Gleichgewicht", sub: "Sicher stehen – jetzt üben, später profitieren", sec: [
+    ["Es lässt nach – leise", "Wie lange man auf einem Bein stehen kann, nimmt mit dem Alter messbar ab. In einer Studie mit 549 gesunden Erwachsenen standen die älteren Altersgruppen jeweils kürzer – mit offenen und noch deutlicher mit geschlossenen Augen."],
+    ["Gute Nachricht", "Gleichgewicht ist trainierbar. Schon wenige Minuten mehrmals pro Woche helfen: Füße, Wadenmuskeln und die Rumpfspannung lernen, kleine Wackler schneller abzufangen."],
+    ["Warum schon mit 40+", "Was du jetzt aufbaust, schützt später vor Stürzen – und Stürze sind mit nachlassender Knochendichte besonders riskant. Die WHO empfiehlt Erwachsenen ab 65 an mindestens drei Tagen pro Woche Gleichgewichts- und Krafttraining gegen Stürze – wer früher anfängt, hat dann schon eine gute Basis."],
+    ["So übst du sicher", "Immer mit Halt in Reichweite: Wand, Stuhllehne oder Stange. Wackeln ist erwünscht – genau dann lernt der Körper. Schwerer wird es mit schmaler Standfläche, Kopfdrehen oder kurz geschlossenen Augen."],
+    ["In der App", "Das Mobility-Thema „Balance & Füße“: Gewicht verlagern, Tandemstand, Einbeinstand, Fuß-Uhr und leichte Standwaage. Auch an Kraft-Tagen passt es gut als kurzes Extra."],
+  ], src: [
+    ["Springer u. a. (2007): Normative Values for the Unipedal Stance Test. J Geriatr Phys Ther", "https://pubmed.ncbi.nlm.nih.gov/19839175/"],
+    ["Bayerisches Ärzteblatt (2021): Die neuen WHO-Empfehlungen zu Bewegung", "https://www.bayerisches-aerzteblatt.de/fileadmin/aerzteblatt/ausgaben/2021/03/einzelpdf/BAB_3_2021_91_93.pdf"],
+  ] },
   { id: "ruecken", t: "Rücken stärken statt schonen", sub: "Was bei Rückenbeschwerden hilft", sec: [
     ["Bewegung statt Bettruhe", "Bei den meisten Rückenschmerzen ohne erkennbare Ursache ist Aktivbleiben besser als Schonen. Schonhaltung, wenig Bewegung oder Bettruhe können die Besserung verzögern."],
     ["Vorbeugen mit Kraft", "Kräftigungs- und Stabilisierungsübungen für den Rumpf gelten als wirksamste Vorbeugung. Studien zeigen, dass solche Übungen Rückenschmerz-Episoden etwa halbieren können."],
@@ -2502,6 +2553,8 @@ const TIPS = [
   ["Die letzten Wiederholungen zählen", "Für Muskelaufbau ist die Anstrengung wichtiger als das genaue Gewicht: Die letzten 2–3 Wiederholungen eines Satzes dürfen fordernd sein.", "mythen"],
   ["Schlaf ist Training", "Stärker wird der Körper in der Erholung. Sieben Stunden Schlaf und mehr sind für Erwachsene empfohlen.", "schlaf"],
   ["Kraft für die Knochen", "Krafttraining setzt Reize, die Knochen brauchen – gerade rund um die Wechseljahre, wenn die Knochendichte leichter abnimmt.", "ab40"],
+  ["Beckenboden mitnehmen", "Bei schweren Sätzen ausatmen und den Beckenboden sanft mit anspannen statt zu pressen. Das schützt – gerade rund um die Wechseljahre.", "beckenboden"],
+  ["Auf einem Bein", "Gleichgewicht lässt mit den Jahren leise nach, ist aber gut trainierbar. Zähneputzen auf einem Bein ist schon ein Anfang – mit Halt in Reichweite.", "balance"],
   ["Ausatmen bei der Anstrengung", "Atme beim schweren Teil der Bewegung aus und halte die Luft nicht an. Das hält den Blutdruck ruhiger.", null],
   ["Langsam runter", "Die bremsende Phase (runter) bewusst 2–3 Sekunden lang machen: mehr Kontrolle, weniger Schwung, schonender für Gelenke.", null],
   ["Rücken schonen heißt nicht schonen", "Ein kräftiger Rumpf entlastet den Rücken. Wichtig ist eine saubere Haltung, nicht möglichst wenig Bewegung.", "ruecken"],
@@ -2588,6 +2641,7 @@ function vHome() {
     ${studioPicker()}
     ${repairCard()}
     ${birthdayCard()}
+    ${yearCard()}
     ${hero}
     ${missedCard()}
     ${startCard()}
@@ -2893,6 +2947,7 @@ function setDone() {
   const more = it.log.some((q) => !q.done);
   const rest = s.warm ? warmRest() : restFor(x);
   A.ph = "rest"; A.end = Date.now() + rest * 1000; A.total = rest; A.restNext = more ? "set" : "step"; A.beeped = false;
+  restTone();
   S.flags.firstSet = true; save(); render();
 }
 function restEnd() {
@@ -3174,6 +3229,8 @@ function musicModeCard() {
   return `<div class="card" style="gap:8px"><div class="row between"><div class="grow"><b>Musik weiterlaufen lassen</b><p class="small muted">Gong und Countdown mit deiner Musik mischen. Aus: Signaltöne dürfen die Musik unterbrechen.</p></div><button class="toggle ${S.mixMusic !== false ? "on" : ""}" data-a="audiomode" role="switch" aria-checked="${S.mixMusic !== false}" aria-label="Musik weiterlaufen lassen"></button></div><p class="small muted">Auf dem iPhone den Lautlos-Schalter ausschalten. Sprachansagen können die Musik je nach Gerät kurz absenken oder unterbrechen; bei Bedarf Sprachansage ausschalten.</p></div>`;
 }
 function audioSetup() { unlockAudio(); primeAudio(); }
+/* 4.4: kurzer, leiser Ton beim Start der Satzpause – so weiß sie auch mit Musik im Ohr, dass die Pause läuft. Abschaltbar unter Ton & Musik. */
+function restTone() { if (S.restTone === false || (S.sound || "gong") === "aus") return; try { playSnd("low", 784); } catch (e) {} }
 function gong() { const k = S.sound || "gong"; if (k === "aus") return; playSnd(k, SOUNDS[k]?.f || 660); }
 function say(t) {
   if (S.voice === false || !t) return;
@@ -3429,7 +3486,7 @@ function chart(pts, unit) {
 /* --- Verlauf --- */
 function vHist() {
   const seg = `<div class="chips" role="group" aria-label="Verlaufsansicht"><button class="chip ${U.hist === "list" ? "on" : ""}" data-a="histt" data-t="list">Einheiten</button><button class="chip ${U.hist === "prog" ? "on" : ""}" data-a="histt" data-t="prog">Fortschritt</button><button class="chip ${U.hist === "review" ? "on" : ""}" data-a="histt" data-t="review">Rückblick</button>${S.simple ? "" : `<button class="chip ${U.hist === "load" ? "on" : ""}" data-a="histt" data-t="load">Belastung</button>`}<button class="chip ${U.hist === "meas" ? "on" : ""}" data-a="histt" data-t="meas">Maße</button></div>`;
-  if (U.hist === "review") return `<div class="wrap"><h1>Rückblick</h1>${seg}${reviewCard(true)}</div>`;
+  if (U.hist === "review") return `<div class="wrap"><h1>Rückblick</h1>${seg}${reviewCard(true)}${yearLink()}</div>`;
   if (U.hist === "meas") return `<div class="wrap"><h1>Verlauf</h1>${seg}${measTab()}</div>`;
   let body = "";
   if (U.hist === "load") {
@@ -4099,6 +4156,61 @@ function progressReview(now) {
   });
   return {from,end,units:recent.length,minutes:recent.reduce((n,s)=>n+(+s.dur||0),0),days:new Set(recent.map(s=>dayKey(new Date(s.date)))).size,compared,improvements};
 }
+/* ---------------- Dein Trainingsjahr (4.4) ----------------
+   Jahresrückblick aus den lokalen Daten. Ab 1. Dezember auf der Startseite (bis 15. Januar für das Vorjahr), jederzeit unter
+   Verlauf → Rückblick. Nur Einheiten des Kalenderjahres zählen. Sätze ohne Aufwärmsätze; die bewegte Last zählt wie die Gesamtlast der App mit. */
+const MONL = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+function yearReview(y) {
+  const L = S.sessions.filter((s) => new Date(s.date).getFullYear() === y).sort((a, b) => new Date(a.date) - new Date(b.date));
+  const kraft = L.filter((s) => !s.flow);
+  const months = Array(12).fill(0); L.forEach((s) => months[new Date(s.date).getMonth()]++);
+  const types = {}; L.forEach((s) => { const t = s.flow ? s.type : s.type === "mini" || s.mini ? "mini" : "kraft"; types[t] = (types[t] || 0) + 1; });
+  /* Lieblingsübung: meiste Arbeitssätze */
+  const setsBy = new Map(); kraft.forEach((s) => (s.items || []).forEach((it) => { if (!EXM[it.ex]) return; const n = (it.log || []).filter((q) => q.done && !q.warm).length; if (n) setsBy.set(it.ex, (setsBy.get(it.ex) || 0) + n); }));
+  const fav = [...setsBy.entries()].sort((a, b) => b[1] - a[1])[0];
+  /* Größte Steigerung: erstes gegen bestes Gewicht derselben Übung im selben Studio, mindestens 3 Einheiten */
+  const byKey = new Map(); kraft.forEach((s) => (s.items || []).forEach((it) => { const x = EXM[it.ex]; if (!x || isBW(x) || x.unit === "s") return; const w = bestW(x, (it.log || []).filter((q) => q.done && !q.warm && num(q.r) > 0).map((q) => num(q.w))); if (w == null) return; const k = (s.studioId || (S.studios || [])[0]?.id || "") + "|" + it.ex; const a = byKey.get(k) || []; a.push(w); byKey.set(k, a); }));
+  let gain = null; byKey.forEach((ws, k) => { if (ws.length < 3) return; const x = EXM[k.split("|")[1]]; const first = ws[0], best = bestW(x, ws); if (!betterW(x, best, first)) return; const rel = isAssist(x) ? (first - best) / Math.max(first, 1) : (best - first) / Math.max(first, 1); if (!gain || rel > gain.rel) gain = { rel, ex: x.id, n: x.n, first, best, assist: isAssist(x) }; });
+  /* Beste Serie im Jahr: Wochen mit mindestens zwei Einheiten am Stück (Pausenwochen unterbrechen nicht) */
+  const cnt = {}; L.forEach((s) => { const k = weekKey(new Date(s.date)); cnt[k] = (cnt[k] || 0) + 1; }); const pw = pausedWeeks();
+  let run = 0, best = 0; const d = mondayOf(new Date(y, 0, 4)); const stop = new Date(Math.min(new Date(y, 11, 31).getTime(), Date.now()));
+  for (; d <= stop; d.setDate(d.getDate() + 7)) { const k = weekKey(d); if ((cnt[k] || 0) >= 2) { run++; best = Math.max(best, run); } else if (!pw.has(k)) run = 0; }
+  const topM = months.indexOf(Math.max(...months));
+  return { y, units: L.length, days: new Set(L.map((s) => dayKey(new Date(s.date)))).size, minutes: L.reduce((a, s) => a + (+s.dur || 0), 0), sets: kraft.reduce((a, s) => a + setsOf(s), 0), kg: Math.round(kraft.reduce((a, s) => a + volOf(s), 0)), prs: L.reduce((a, s) => a + (s.prs || 0), 0), months, topM: months[topM] ? topM : -1, types, fav: fav ? { ex: fav[0], n: EXM[fav[0]].n, sets: fav[1] } : null, gain, streak: best, first: L[0] ? L[0].date : null };
+}
+/* Für welches Jahr gibt es gerade einen Rückblick auf der Startseite? Dezember: dieses Jahr; bis 15. Januar: das Vorjahr. */
+function yearDue(now) { const d = now || new Date(); if (d.getMonth() === 11) return d.getFullYear(); if (d.getMonth() === 0 && d.getDate() <= 15) return d.getFullYear() - 1; return 0; }
+function yearCard() {
+  const y = yearDue(); if (!y || S.active || (S.flags || {})["year" + y]) return "";
+  const r = yearReview(y); if (r.units < 4) return "";
+  return `<div class="card yearcard" style="gap:8px"><span class="eyebrow">Dein Jahr ${y}</span><div class="big">${r.units} Einheiten. <em>Stark.</em></div><p class="small muted">Dein persönlicher Rückblick – mit Lieblingsübung, größter Steigerung und deiner besten Serie.</p><div style="display:flex;gap:8px"><button class="btn" data-a="yearopen" data-y="${y}">Rückblick ansehen</button><button class="btn ghost sm" data-a="yearhide" data-y="${y}" aria-label="Ausblenden">Später</button></div></div>`;
+}
+function yearYears() { return [...new Set(S.sessions.map((s) => new Date(s.date).getFullYear()))].filter((y) => y > 2000).sort((a, b) => b - a); }
+function yearLink() {
+  const ys = yearYears(); if (!ys.length) return "";
+  return `<div class="card" style="gap:8px"><h2>Dein <em>Trainingsjahr</em></h2><p class="small muted">Alles von Januar bis Dezember auf einen Blick.</p><div class="chips">${ys.slice(0, 4).map((y) => `<button class="chip" data-a="yearopen" data-y="${y}">${y}</button>`).join("")}</div></div>`;
+}
+function yearSheet(y) {
+  const r = yearReview(y); const h = r.minutes / 60;
+  if (!r.units) return `<div class="stack"><h2>Dein Jahr ${y}</h2><p class="muted">In diesem Jahr ist noch keine Einheit gespeichert.</p><button class="btn" data-a="sheetclose">Schließen</button></div>`;
+  const max = Math.max(...r.months, 1); const nowM = new Date().getFullYear() === y ? new Date().getMonth() : 11;
+  const bars = r.months.map((n, i) => `<div class="ybar ${i === r.topM ? "top" : ""} ${i > nowM ? "fut" : ""}" title="${MONL[i]}: ${n}"><i style="height:${Math.round((n / max) * 100)}%"></i><span>${MONL[i][0]}</span></div>`).join("");
+  const tons = r.kg / 1000; const cars = Math.floor(tons / 1.2);
+  const kinds = [["kraft", "Kraft"], ["mini", "Mini"], ["pilates", "Pilates"], ["mobility", "Mobility"]].filter(([k]) => r.types[k]).map(([k, n]) => `${r.types[k]} × ${n}`).join(" · ");
+  const name = S.name ? `, ${esc(S.name)}` : "";
+  return `<div class="stack yearsheet" style="gap:14px">
+    <div><span class="eyebrow">Dein Trainingsjahr</span><h1 style="margin:2px 0 0">${y}<em>.</em></h1><p class="muted">Schau mal, was du geschafft hast${name}.</p></div>
+    <div class="tiles"><div class="tile"><b data-count="${r.units}">${r.units}</b><span>Einheiten</span></div><div class="tile"><b data-count="${fmt(h, 1)}" data-dec="1">${fmt(h, 1)}</b><span>Stunden</span></div><div class="tile"><b data-count="${r.days}">${r.days}</b><span>Trainingstage</span></div></div>
+    ${r.kg >= 1000 ? `<div class="card" style="gap:4px;background:var(--lav)"><span class="eyebrow">Bewegt</span><div class="big"><span data-count="${fmt(tons, 1)}" data-dec="1">${fmt(tons, 1)}</span> Tonnen</div><p class="small">${cars >= 1 ? `So viel wie ${cars === 1 ? "ein Kleinwagen" : `${cars} Kleinwagen`} – Satz für Satz gehoben, gedrückt und gezogen.` : "Satz für Satz gehoben, gedrückt und gezogen."} ${r.sets} Sätze insgesamt.</p></div>` : r.sets ? `<p><b>${r.sets} Sätze</b> geschafft.</p>` : ""}
+    <div class="card" style="gap:8px"><span class="eyebrow">Monat für Monat</span><div class="ybars">${bars}</div>${r.topM >= 0 ? `<p class="small muted">Am fleißigsten im <b>${MONL[r.topM]}</b> mit ${r.months[r.topM]} Einheiten.</p>` : ""}</div>
+    ${r.fav ? `<div class="card" style="gap:6px"><span class="eyebrow">Lieblingsübung</span><div class="big" style="font-size:24px">${esc(r.fav.n)}</div>${figSVG(r.fav.ex)}<p class="small muted">${r.fav.sets} Sätze in diesem Jahr</p></div>` : ""}
+    ${r.gain ? `<div class="card" style="gap:6px;background:var(--mint)"><span class="eyebrow">Größte Steigerung</span><div class="big" style="font-size:24px">${esc(r.gain.n)}</div><p>${fmt(r.gain.first)} → <b>${fmt(r.gain.best)} kg${r.gain.assist ? " Hilfe" : ""}</b> ${r.gain.assist ? "– weniger Hilfe, mehr eigene Kraft" : `(+${Math.round(r.gain.rel * 100)} %)`}</p></div>` : ""}
+    <div class="tiles"><div class="tile"><b>${r.streak}</b><span>${r.streak === 1 ? "Woche" : "Wochen"} Serie</span></div><div class="tile"><b>${r.prs}</b><span>Rekorde</span></div><div class="tile"><b>${Object.keys(r.types).length}</b><span>${Object.keys(r.types).length === 1 ? "Art" : "Arten"}</span></div></div>
+    ${kinds ? `<p class="small muted">${kinds}</p>` : ""}
+    <p class="quote">${y === new Date().getFullYear() && new Date().getMonth() < 11 ? "Das Jahr läuft noch – jede Einheit zählt." : "Jede einzelne Einheit hat gezählt. Auf ein starkes nächstes Jahr!"}</p>
+    <button class="btn" data-a="sheetclose">Schließen</button>
+  </div>`;
+}
 function reviewCard(full) {
   const r=progressReview();if(!full && r.units<2)return '';
   return `<div class="card" style="gap:10px"><div><h2>Deine letzten <em>4 Wochen</em></h2><p class="small muted">${dShort(r.from)}–${dShort(r.end)}</p></div><p><b>${r.units} Einheiten</b> an ${r.days} Tagen · ${r.minutes} Minuten erfasst</p>${r.improvements.length?`<p>Bei <b>${r.improvements.length} Übungs-/Studio-Vergleichen</b> hast du dich zum vorherigen Training verbessert.</p>${full?`<div class="stack">${r.improvements.slice(0,8).map(i=>`<div><b class="small">${esc(i.name)}</b><p class="small muted">${esc(i.text)} · ${esc(i.studio)}</p></div>`).join('')}</div>`:''}`:`<p class="small muted">${r.compared?'Bei den vergleichbaren Sätzen gab es zuletzt keine Steigerung. Regelmäßiges Training zählt ebenfalls.':'Für einen Vergleich brauchst du dieselbe Übung im selben Studio in mindestens zwei Einheiten.'}</p>`}${full?'<p class="small muted">Verglichen werden die letzten zwei Einheiten je Übung und Studio: mehr Gewicht bei gleicher Wiederholungszahl oder mehr Wiederholungen bei gleichem Gewicht; bei Assist weniger Hilfe. Aufwärmsätze zählen nicht. Körpergewicht und Halteübungen werden über Wiederholungen bzw. Sekunden verglichen.</p>':'<button class="btn line sm" data-a="reviewopen">Rückblick ansehen</button>'}</div>`;
@@ -4181,6 +4293,8 @@ document.addEventListener("click", (e) => {
     case "sessionremoveset": { const it = U.sessionEdit.data.items[+d.i]; const removed=it.log.splice(+d.j,1)[0]; if(removed && !removed.warm)it.sets=Math.max(0,(+it.sets||0)-1); renderSheet(); break; }
     case "sessionwarm": { const it=U.sessionEdit.data.items[+d.i],l=it.log[+d.j]; l.warm=!l.warm; it.sets=Math.max(0,(+it.sets||0)+(l.warm?-1:1)); renderSheet(); break; }
     case "reviewopen": U.hist = "review"; go("hist"); break;
+    case "yearopen": { const y = +d.y; S.flags = S.flags || {}; if (y === yearDue()) { S.flags["year" + y] = 1; save(); } openSheet(() => yearSheet(y)); animateIn(document.getElementById("sheet")); confetti(); render(); break; }
+    case "yearhide": { S.flags = S.flags || {}; S.flags["year" + d.y] = 1; save(); render(); toast("Jederzeit unter Verlauf → Rückblick", () => { delete S.flags["year" + d.y]; save(); }); break; }
     case "psec": U.psec = d.k || null; render(); window.scrollTo(0, 0); break;
     case "resume": { const A = S.active; if (!A.flow && A.paused && (A.ph === "prep" || A.ph === "work")) { A.end = Date.now() + A.paused; A.paused = 0; } audioSetup(); wakeLock(); go(A.flow ? "flow" : "train"); break; }
     case "start": U.weekOffset = 0; closeSheet(); startSetup(d.s); break;
@@ -4271,6 +4385,7 @@ document.addEventListener("click", (e) => {
     case "audiomode": S.mixMusic = S.mixMusic === false; applyAudioMode(); save(); render(); break;
     case "soundtest": openSheet(soundSheet); break;
     case "soundpick": unlockAudio(); S.sound = d.k; save(); renderSheet(); primeAudio(); setTimeout(gong, 60); break;
+    case "resttone": unlockAudio(); S.restTone = d.k === "1"; save(); renderSheet(); if (S.restTone) { primeAudio(); setTimeout(restTone, 60); } break;
     case "tickpick": unlockAudio(); S.tick = d.k; save(); renderSheet(); if (d.k !== "aus") { beep(1046); setTimeout(() => beep(1046), 1000); setTimeout(() => beep(1046), 2000); } break;
     case "soundgo": unlockAudio(); gong(); setTimeout(() => { const v = S.voice; S.voice = true; say("So klingt die Ansage im Training."); S.voice = v; }, Math.min(2600, ((SOUNDS[S.sound || "gong"] || {}).dur || 0.3) * 900)); break;
     case "updnow": if (U.updateGo) U.updateGo(); document.getElementById("updbar")?.remove(); break;

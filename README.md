@@ -52,7 +52,7 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 - **Automatisch oder selbst gebaut:** Muskelgruppen wählen und die App sucht die Übungen aus – oder eigene Übungen mit Sätzen und Wiederholungen zusammenstellen, nach Muskelgruppen sortiert
 - **Ziel:** Muskelaufbau mit eher höheren Wiederholungen (Standard), klassischer Aufbau oder Kraftausdauer; optional einige schwerere Sätze für Knochen und Muskelerhalt
 - **Rücksicht auf Einschränkungen:** Rücken, Knie, Schulter, Handgelenk
-- **117 Kraftübungen** an rund 40 Geräten und mit Kleingerät, dazu 37 Pilates-, Mobility-, Aufwärm-, Cardio- und Dehnübungen – alle mit Animation und Ausführungstipps, viele mit typischem Fehler
+- **117 Kraftübungen** an rund 40 Geräten und mit Kleingerät, dazu 47 Pilates-, Mobility-, Aufwärm-, Cardio- und Dehnübungen – alle mit Animation und Ausführungstipps, viele mit typischem Fehler
 
 ### Im Studio: eine Übung, ein Bildschirm
 - **Eigene Übungen** mit einer ähnlichen Übung als Vorlage – die App plant sie ein und findet Ersatz wie bei eingebauten; **Notizen** zu jeder Übung (z. B. Sitzhöhe) direkt im Training
@@ -65,7 +65,7 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 - **Gewicht:** letztes Gewicht vorausgefüllt; bei neuen Übungen geschätzt aus ähnlichen Übungen (Testsatz); nach jedem Satz ein Vorschlag für mehr oder weniger; **Steigerungsvorschlag**, wenn letztes Mal alle Sätze bis zum oberen Ziel geschafft wurden – übernommen wird nur auf Antippen
 - **Satzpause** standardmäßig 3 Minuten, jederzeit änderbar – auch mitten in der Pause
 - **Satz übernimmt Satz:** Gewicht und Wiederholungen vom letzten Mal sind vorausgefüllt, und jeder Satz übernimmt die Werte in den nächsten – auch beim Aufwärmen
-- **Pausen im Vollbild** mit Ring, Signalton und Sprachansage – über die laufende Musik
+- **Pausen im Vollbild** mit Ring, Signalton und Sprachansage – über die laufende Musik; ein kurzer, leiser Ton zeigt den Start der Pause an (abschaltbar)
 - **Töne nach Wahl:** Gong, Klangschale, Dreiklang, Küchentimer, Wecker, Ringglocke oder still; Countdown als Piep, Ticken oder aus
 - **Die App lernt dein Studio:** Geräte, die zu bestimmten Zeiten oft besetzt sind, kommen dann später dran
 - **♪-Knopf** öffnet deine Playlist
@@ -92,11 +92,12 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 - Verlauf jeder Einheit mit allen Sätzen, Fortschritt pro Übung als Diagramm
 - **Abschluss zum Feiern:** Wochenring, goldene Karte bei kompletter Woche, Gesamtbilanz
 - **Wochenserie, Rekorde, 16 Abzeichen**, Trainingskalender der letzten 12 Wochen
+- **Dein Trainingsjahr:** Jahresrückblick ab Dezember auf der Startseite und jederzeit unter Verlauf → Rückblick – Einheiten, Stunden, bewegte Tonnen, Monat für Monat, Lieblingsübung, größte Steigerung, beste Serie
 - **Körpermaße und Gewicht** (Taille, Hüfte, Po, Oberschenkel) mit Verlauf
 - **Über dich (freiwillig):** Alter, Größe, Gewicht → Maximalpuls und Pulsbereiche beim Cardio, BMI, Taille-zu-Größe, Kraft im Verhältnis zum Körpergewicht
 
 ### Persönlich
-- **Pilates & Mobility mit Themen:** je vier Varianten, abwechselnd, 15 oder 30 Minuten
+- **Pilates & Mobility mit Themen:** je fünf Varianten, abwechselnd, 15 oder 30 Minuten – darunter **„Beckenboden & Mitte“** (spüren, anspannen, loslassen) und **„Balance & Füße“** (Tandemstand, Einbeinstand, Fuß-Uhr, leichte Standwaage)
 - **Ruhige Phase & Atemübung:** sanft statt Kraft, wenn alles zu viel ist; geführtes Atmen von der Startseite
 - **Übungen suchen:** Freitextsuche nach Name, Muskel oder Gerät – in der Übungsliste und beim Zusammenstellen des Plans
 - **Guter Start:** kurze Einrichtung, Willkommens-Moment, die ersten zwei Einheiten etwas leichter und ein gefeiertes erstes Training
@@ -107,10 +108,18 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 - **Trainingstage im iPhone-Kalender** als wiederkehrende Termine mit Erinnerung
 - **Trainingstag teilen** per Link – die andere übernimmt ihn mit einem Tipp, ohne Server
 - **App-Tour** in acht Stationen, „Erste Schritte“ auf der Startseite und „Was ist neu“ mit Versionsverlauf
-- **Zum Lesen:** kurze Artikel mit Quellen – Mythen-Check, Krafttraining ab 40, Rücken, Schlaf, Entlastungswochen
+- **Zum Lesen:** kurze Artikel mit Quellen – Mythen-Check, Krafttraining ab 40, Beckenboden, Gleichgewicht, Rücken, Schlaf, Entlastungswochen
 - **Sicherheit & Daten:** einmaliger Sicherheitshinweis, Backup-Erinnerung alle 30 Tage, Feedback direkt aus der App
 
 ---
+
+## Neu in Version 4.4
+
+- **Dein Trainingsjahr:** Ab 1. Dezember (bis 15. Januar für das Vorjahr) erscheint auf der Startseite der Jahresrückblick, sobald mindestens vier Einheiten im Jahr gespeichert sind. „Später“ blendet die Karte aus; unter Verlauf → Rückblick ist jedes Jahr jederzeit abrufbar. Gezählt werden nur Einheiten des Kalenderjahres; Sätze ohne Aufwärmsätze, die bewegte Last wie die Gesamtlast der App.
+- **Balance & Füße:** neues Mobility-Thema mit sechs neuen Positionen (Gewicht verlagern, auf Zehen und Fersen wippen, Tandemstand, Einbeinstand, Fuß-Uhr, leichte Standwaage).
+- **Beckenboden & Mitte:** neues Pilates-Thema mit vier neuen Positionen (Beckenboden spüren, kurze Impulse, Brücke mit Beckenboden, aufrecht sitzen und aktivieren).
+- **Zum Lesen:** neue Artikel „Beckenboden“ und „Gleichgewicht“ mit Quellen, dazu zwei neue Starttipps.
+- **Ton beim Pausenstart:** kurzer, leiser Ton, wenn nach einem Satz die Pause beginnt. Abschaltbar unter Profil → Ton & Musik → Töne; still, wenn der Signalton auf „Kein Ton“ steht.
 
 ## Neu in Version 4.3
 

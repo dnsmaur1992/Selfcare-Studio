@@ -17,7 +17,6 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 
 ## Ideen (besprochen, noch nicht beauftragt)
 - **Aus Ringzeit, noch nicht übernommen:** Fastenzeit-/Ramadan-Modus (leichtere Einheiten); Englisch; Release-Werkzeug mit Dev- und stabiler App (erst sinnvoll mit Code im Repo statt Einzeldatei).
-- **Signalton auch beim Start der Satzpause** (bisher nur am Ende, weil der Start durch Antippen ausgelöst wird).
 
 ## Bewusst nicht umgesetzt
 - **Unhörbarer Dauerton** gegen das Einschlafen der Audioausgabe (Ringzeit-Idee): Er würde laufende Musik auf dem iPhone dauerhaft leiser stellen. Stattdessen Gong als echte Tondatei und Freischalten beim ersten Antippen.
@@ -29,6 +28,13 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 - [x] Rückblick über 28 Tage mit konkreten Satzvergleichen je Übung/Studio.
 - [x] Zusätzliche Logik- und DOM-Ereignistests für die Erweiterungen.
 - [ ] Auf echtem iPhone/Android testen: schmale Eingabemasken, mehrere Profile, Abbrechen/Speichern, laufende Einheit kürzen und Musik.
+
+## Erledigt in Version 4.4
+- [x] Jahresrückblick „Dein Trainingsjahr“ (Startseite ab Dezember, Verlauf → Rückblick).
+- [x] Mobility-Thema „Balance & Füße“ und Pilates-Thema „Beckenboden & Mitte“ mit zehn neuen Positionen.
+- [x] Artikel „Beckenboden“ und „Gleichgewicht“ mit Quellen, zwei neue Starttipps.
+- [x] Kurzer Ton beim Start der Satzpause (abschaltbar).
+- [ ] Auf dem echten iPhone prüfen: Ton beim Pausenstart mit laufender Musik; Jahresrückblick im Dezember.
 
 ## Erledigt in Version 4.3.3
 - Startfehler aus 4.3.2 behoben: Mit schon vorhandenen Daten blieb die App beim Öffnen hängen (Wochenabgleich lief beim Speichern während des Starts zu früh). Neuer Test `tests/start-existing.test.cjs` startet die App mit gespeicherten 4.3.1-Daten.
