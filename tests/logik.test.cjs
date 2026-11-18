@@ -616,6 +616,25 @@ S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCusto
   S.restTone = undefined; S.sound = "gong"; restTone(); const a = n0; S.restTone = false; restTone(); const b = n0; S.restTone = true; S.sound = "aus"; restTone(); const c = n0;
   playSnd = _p; S.sound = "gong"; delete S.restTone;
   ok(a === 1 && b === 1 && c === 1, "Y4: Ton beim Pausenstart standardmäßig an, abschaltbar, still bei Signalton „aus“"); }
+/* Z1: Ansagen ausschreiben (4.5) */
+{ const c = [["Gleich: Glute Bridge (Boden)", "Gleich: Glute Bridge"], ["Gleich: 90/90 Hüftrotation", "Gleich: 90 90 Hüftrotation"], ["Beinpresse (Füße hoch & breit), links", "Beinpresse, links"], ["Bauch & Mitte", "Bauch und Mitte"], ["3 × 10–12 Wdh.", "3 mal 10 bis 12 Wiederholungen"], ["60 s", "60 Sekunden"], ["20 kg, ca. 5 %", "20 Kilo, circa 5 Prozent"], ["z. B. Rudern", "zum Beispiel Rudern"], ["Noch 10 Sekunden", "Noch 10 Sekunden"]];
+  const bad = c.filter(([a, b]) => spokenText(a) !== b); ok(!bad.length, "Z1: Ansagen ausgeschrieben" + (bad.length ? " – " + bad.map(([a]) => a + " → " + spokenText(a)).join(" | ") : ""));
+  ok(c.every(([a]) => spokenText(spokenText(a)) === spokenText(a)), "Z1: Ausschreiben ist mehrfach anwendbar");
+  ok(Object.values(EXM).every((x) => { const t = spokenText("Gleich: " + x.n); return t.length > 8 && !/[()&×\/]/.test(t); }), "Z1: Kein Übungsname wird mit Klammern oder Zeichen vorgelesen"); }
+/* Z2: Hilfe & Fragen */
+{ const pages = ["home", "lib", "hist", "prof", "days", "eq", "legal"];
+  ok(HELP.length >= 35 && HELP.every((h) => h.length === 5 && h[1] && h[2] && (!h[3] || HELP_GO[h[3]]) && h[4].split(" ").every((p) => pages.includes(p))), "Z2: Alle Fragen vollständig, Ziele und Seiten gültig");
+  ok(pages.every((p) => HELP.some((h) => h[4].split(" ").includes(p))), "Z2: Jede Hauptseite hat Fragen zu dieser Seite");
+  ok(Object.values(HELP_GO).every((g) => g.run || ["home", "lib", "hist", "prof", "days", "eq"].includes(g.v)), "Z2: Hinführen-Ziele zeigen auf vorhandene Ansichten");
+  ok(Object.values(HELP_GO).filter((g) => g.v === "prof" && g.p).every((g) => ["ich", "ziel", "pause", "ton", "app", "hilfe", "daten"].includes(g.p)), "Z2: Profilbereiche der Ziele existieren");
+  ok(helpList("BACKUP").includes("Backup speichern") && helpList("schulter knie").includes("Beschwerden") && helpList("xyzq").includes("Nichts gefunden"), "Z2: Suche unabhängig von Groß-/Kleinschreibung, mehrere Wörter, leeres Ergebnis"); }
+/* Z3: Beschwerden als bewusste Antwort */
+{ S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom(); S.weeks = {}; ensureStudios();
+  ok(limitAskCard().includes("Beschwerden"), "Z3: Bestehendes Profil ohne Antwort wird einmal gefragt");
+  S.limitsNone = true; ok(limitAskCard() === "", "Z3: Nach „Keine“ keine Frage mehr"); delete S.limitsNone;
+  S.limits = { shoulder: true }; ok(limitAskCard() === "", "Z3: Wer schon eine Einschränkung eingetragen hat, wird nicht gefragt");
+  S.limits = {}; S.limitsAsked = true; ok(limitAskCard() === "", "Z3: Beantwortet bleibt beantwortet");
+  ok(limitChips(true).includes('data-a="limitnone"') && !limitChips().includes("limitnone"), "Z3: „Keine“ nur dort, wo gefragt wird"); }
 S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom(); S.weeks = {}; U.setup = null;
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
