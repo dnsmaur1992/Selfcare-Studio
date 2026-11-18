@@ -91,6 +91,7 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 ### Fortschritt und Erfolge
 - Verlauf jeder Einheit mit allen Sätzen, Fortschritt pro Übung als Diagramm
 - **Abschluss zum Feiern:** Wochenring, goldene Karte bei kompletter Woche, Gesamtbilanz
+- **Hilfe & Fragen** mit „Hinführen“ zur passenden Stelle
 - **Wochenserie, Rekorde, 16 Abzeichen**, Trainingskalender der letzten 12 Wochen
 - **Dein Trainingsjahr:** Jahresrückblick ab Dezember auf der Startseite und jederzeit unter Verlauf → Rückblick – Einheiten, Stunden, bewegte Tonnen, Monat für Monat, Lieblingsübung, größte Steigerung, beste Serie
 - **Körpermaße und Gewicht** (Taille, Hüfte, Po, Oberschenkel) mit Verlauf
@@ -112,6 +113,15 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 - **Sicherheit & Daten:** einmaliger Sicherheitshinweis, Backup-Erinnerung alle 30 Tage, Feedback direkt aus der App
 
 ---
+
+## Neu in Version 4.5
+
+Übertragen aus den Erfahrungen mit Ringzeit:
+
+- **Hilfe & Fragen:** „?“ oben rechts auf jeder Hauptseite. Zuerst die Fragen zur aktuellen Seite, darunter alle 41 Fragen nach Themen, mit Suche (ohne Umlaute und Groß-/Kleinschreibung, mehrere Wörter). „Hinführen“ öffnet die passende Seite, scrollt zur Stelle und markiert sie kurz; ein laufendes Training bleibt unangetastet.
+- **Beschwerden als bewusste Antwort:** In der Einrichtung geht es erst weiter, wenn bei Knie, Schulter, Handgelenk ein Bereich oder „Keine“ gewählt ist. Bestehende Profile ohne Antwort werden einmal auf der Startseite gefragt.
+- **Ansagen ausgeschrieben:** Alle Ansagen laufen über eine Stelle (`makeUtterance` → `spokenText`): Klammerzusätze fallen weg, „&“ wird „und“, „90/90“ wird „90 90“, Abkürzungen wie Wdh., s, kg, % und Bereiche wie 10–12 werden ausgeschrieben. Angezeigt bleibt alles wie bisher.
+- **Trainingsplan-Hinweis korrigiert:** Änderungen gelten (seit 4.3.2) sofort für diese und alle kommenden Wochen. Der Knopf heißt jetzt „Diese Woche ganz neu planen“ und setzt auch Verschiebungen und Zusammenlegungen dieser Woche zurück.
 
 ## Neu in Version 4.4
 

@@ -29,6 +29,14 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 - [x] Zusätzliche Logik- und DOM-Ereignistests für die Erweiterungen.
 - [ ] Auf echtem iPhone/Android testen: schmale Eingabemasken, mehrere Profile, Abbrechen/Speichern, laufende Einheit kürzen und Musik.
 
+## Erledigt in Version 4.5 (aus Ringzeit übertragen)
+- [x] Hilfe & Fragen mit Suche und „Hinführen“ (41 Fragen, 36 Ziele, alle im Browser geprüft).
+- [x] Beschwerden (Knie, Schulter, Handgelenk) als bewusste Antwort in der Einrichtung; einmalige Frage für bestehende Profile.
+- [x] Sprachansagen über eine Stelle ausgeschrieben.
+- [x] Veralteten Hinweis im Trainingsplan korrigiert („gilt ab nächster Woche“).
+- Bewusst nicht übernommen: Absicherung der unteren Leiste auf dem iPhone (in Selfcare bisher nicht aufgetreten) und die automatische Seitenprüfung als Repo-Test.
+- [ ] Hilfe-Fragen ergänzen, wenn deine Frau etwas nicht findet.
+
 ## Erledigt in Version 4.4
 - [x] Jahresrückblick „Dein Trainingsjahr“ (Startseite ab Dezember, Verlauf → Rückblick).
 - [x] Mobility-Thema „Balance & Füße“ und Pilates-Thema „Beckenboden & Mitte“ mit zehn neuen Positionen.

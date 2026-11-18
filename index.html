@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.4">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.4">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.5">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.5">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.4">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.5">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -74,6 +74,7 @@
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
+#app { position: relative; }
 body { background: var(--bg); color: var(--fg); font: 15px/1.45 var(--body); -webkit-tap-highlight-color: transparent; }
 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
 input, select, textarea { font: inherit; color: inherit; font-size: 16px; }
@@ -391,6 +392,16 @@ html.touring .deco, html.touring .confetti-fx { display: none; }
 .ybar.top i { background: var(--accent); }
 .ybar.fut i { background: transparent; border: 1px dashed var(--line); min-height: 3px; }
 .ybar span { font-size: 10px; color: var(--muted); }
+.helpq { position: absolute; z-index: 15; top: calc(10px + env(safe-area-inset-top, 0px)); right: max(14px, env(safe-area-inset-right, 0px)); width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 85%, transparent); color: var(--fg); font: 600 17px/1 var(--sans, inherit); display: grid; place-items: center; padding: 0; }
+.hq, .htopic { border-radius: 14px; background: var(--surface); border: 1px solid var(--line); padding: 10px 12px; }
+.hq summary, .htopic summary { cursor: pointer; font-weight: 600; list-style: none; }
+.hq summary::-webkit-details-marker, .htopic summary::-webkit-details-marker { display: none; }
+.hq summary::after, .htopic summary::after { content: "›"; float: right; color: var(--muted); transition: transform .2s; }
+.hq[open] summary::after, .htopic[open] summary::after { transform: rotate(90deg); }
+.hq[open] { display: flex; flex-direction: column; gap: 8px; }
+.htopic .stack { margin-top: 8px; } .htopic .hq { background: var(--bg); }
+.helpmark { outline: 3px solid var(--accent) !important; outline-offset: 3px; border-radius: 14px; animation: helppulse 1.2s ease-in-out 2; }
+@keyframes helppulse { 50% { outline-color: color-mix(in srgb, var(--accent) 30%, transparent); } }
 .yearcard { background: linear-gradient(135deg, var(--lav), var(--peach)); }
 .yearcard .big { font-size: 30px; } .yearsheet .big { font-size: 30px; line-height: 1.1; }
 .tile { background: var(--surface); border-radius: 20px; padding: 14px 12px; }
@@ -730,14 +741,20 @@ function wHint(x) {
   if (x.eq.includes("kabel")) return "Wie am Steckgewicht angezeigt.";
   return "";
 }
-const S_VERSION = "4.4";
-const NEWS = { v: "4.4", items: [
+const S_VERSION = "4.5";
+const NEWS = { v: "4.5", items: [
+  ["Hilfe & Fragen", "Oben rechts auf jeder Seite findest du jetzt ein „?“: zuerst die Fragen zu dieser Seite, darunter alle mit Suche. „Hinführen“ bringt dich direkt zur passenden Stelle und markiert sie."],
+  ["Beschwerden", "Knie, Schulter oder Handgelenk? Einmal kurz beantworten – dann lässt die App Übungen weg, die diese Bereiche stark belasten."],
+  ["Klarere Ansagen", "Die Sprachansage liest Übungsnamen ohne Klammerzusätze und schreibt Zeichen und Abkürzungen aus."],
+  ["Plan-Hinweis", "Im Trainingsplan steht jetzt richtig: Änderungen gelten sofort für diese und alle kommenden Wochen."],
+], old: [
+  { v: "4.4", items: [
   ["Dein Trainingsjahr", "Ab Dezember wartet auf der Startseite dein Jahresrückblick: Einheiten, Stunden, bewegte Tonnen, Lieblingsübung, größte Steigerung und deine beste Serie. Jederzeit auch unter Verlauf → Rückblick."],
   ["Balance & Füße", "Neues Mobility-Thema mit sechs neuen Positionen: Gewicht verlagern, Tandemstand, Einbeinstand, Fuß-Uhr und leichte Standwaage. Gleichgewicht lässt ab 40 leise nach – und ist gut trainierbar."],
   ["Beckenboden & Mitte", "Neues Pilates-Thema: Beckenboden spüren, anspannen und wieder loslassen – auch als Schutz bei schweren Sätzen."],
   ["Zum Lesen", "Zwei neue Artikel mit Quellen: „Beckenboden“ und „Gleichgewicht“."],
   ["Ton beim Pausenstart", "Ein kurzer, leiser Ton zeigt an, dass die Satzpause läuft – auch mit Musik im Ohr. Abschaltbar unter Profil → Ton & Musik → Töne."],
-], old: [
+  ] },
   { v: "4.3.3", items: [
   ["Plan gilt für alle Wochen", "Änderst du deinen Trainingsplan – Wochentag, neuer oder gelöschter Trainingstag –, gilt das sofort für diese Woche und alle kommenden Wochen. Schon erledigte, ausgelassene oder von dir verschobene Einheiten bleiben, wie sie sind."],
   ] },
@@ -2641,6 +2658,7 @@ function vHome() {
     ${studioPicker()}
     ${repairCard()}
     ${birthdayCard()}
+    ${limitAskCard()}
     ${yearCard()}
     ${hero}
     ${missedCard()}
@@ -3232,10 +3250,26 @@ function audioSetup() { unlockAudio(); primeAudio(); }
 /* 4.4: kurzer, leiser Ton beim Start der Satzpause – so weiß sie auch mit Musik im Ohr, dass die Pause läuft. Abschaltbar unter Ton & Musik. */
 function restTone() { if (S.restTone === false || (S.sound || "gong") === "aus") return; try { playSnd("low", 784); } catch (e) {} }
 function gong() { const k = S.sound || "gong"; if (k === "aus") return; playSnd(k, SOUNDS[k]?.f || 660); }
+/* 4.5 (aus Ringzeit): Für die Ansage ausschreiben, was auf dem Bildschirm kurz steht. Angezeigt bleibt alles wie es ist.
+   Klammerzusätze („(Kurzhantel)“) fallen weg, Zeichen und Abkürzungen werden zu Wörtern. Mehrfach anwendbar ohne Schaden. */
+function spokenText(t) {
+  return String(t == null ? "" : t)
+    .replace(/\s*\([^)]*\)/g, "")
+    .replace(/(\d+)\s*\/\s*(\d+)/g, (m, a, b) => `${a} ${b}`)
+    .replace(/(\d)\s*[–-]\s*(\d)/g, "$1 bis $2")
+    .replace(/\s*&\s*/g, " und ")
+    .replace(/\s*×\s*/g, " mal ")
+    .replace(/\bz\.\s?B\./g, "zum Beispiel").replace(/\bca\./g, "circa").replace(/\bbzw\./g, "beziehungsweise")
+    .replace(/\bWdh\.?(?=\s|$|[,.!?])/g, "Wiederholungen").replace(/\bSek\.?(?=\s|$|[,.!?])/g, "Sekunden").replace(/\bMin\.(?=\s|$|[,.!?])/g, "Minuten")
+    .replace(/(\d)\s*kg\b/g, "$1 Kilo").replace(/(\d)\s*%/g, "$1 Prozent").replace(/(\d)\s*s\b/g, "$1 Sekunden")
+    .replace(/\s*\/\s*/g, " ").replace(/\s{2,}/g, " ").trim();
+}
+/* Die einzige Stelle, an der gesprochen wird (auch das Vorwärmen nutzt sie). */
+function makeUtterance(t) { const u = new SpeechSynthesisUtterance(spokenText(t) || " "); u.lang = "de-DE"; u.rate = 1.02; return u; }
 function say(t) {
   if (S.voice === false || !t) return;
   applyAudioMode();
-  try { const u = new SpeechSynthesisUtterance(t); u.lang = "de-DE"; u.rate = 1.02; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) {}
+  try { const u = makeUtterance(t); speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) {}
 }
 
 function sparks() {
@@ -3397,7 +3431,7 @@ function vLib() {
   const hasOwn = EX.some((x) => x.custom && !x.hidden);
   const filters = [["all", "Alle"], ...(hasOwn ? [["own", "Eigene"]] : []), ...GORDER.map((g) => [g, GROUPS[g].n]), ["pilates", "Pilates"], ["mobility", "Mobility"], ["warm", "Aufwärmen"], ["cool", "Dehnen"]];
   return `<div class="wrap">
-    <div class="row between"><h1>Übungen</h1><button class="btn line sm" style="width:auto" data-a="cexnew">+ Eigene Übung</button></div>
+    <div class="row between" style="padding-right:44px"><h1>Übungen</h1><button class="btn line sm" style="width:auto" data-a="cexnew">+ Eigene Übung</button></div>
     ${searchBox("libq", U.libq, "Suchen: Name, Muskel oder Gerät")}
     <div class="hscroll" style="${(U.libq || "").trim() ? "opacity:.5" : ""}">${filters.map(([k, n]) => `<button class="chip ${f === k ? "on" : ""}" data-a="libf" data-f="${k}">${esc(n)}</button>`).join("")}</div>
     <div class="stack" id="liblist" style="gap:8px">${libList()}</div>
@@ -3528,8 +3562,11 @@ function spark(vals) {
 }
 
 /* --- Profil --- */
-function limitChips() {
-  return `<div class="chips">${Object.entries(LIMITS).map(([k, o]) => `<button class="chip ${(S.limits || {})[k] ? "on" : ""}" data-a="limit" data-k="${k}" aria-pressed="${!!(S.limits || {})[k]}">${o.n}</button>`).join("")}</div>`;
+/* 4.5 (aus Ringzeit): Beschwerden sind eine bewusste Antwort – ein Bereich oder „Keine“. In der Einrichtung geht es erst
+   danach weiter; bestehende Profile werden einmal freundlich auf der Startseite gefragt. */
+const anyLimit = () => Object.values(S.limits || {}).some(Boolean);
+function limitChips(none) {
+  return `<div class="chips">${Object.entries(LIMITS).map(([k, o]) => `<button class="chip ${(S.limits || {})[k] ? "on" : ""}" data-a="limit" data-k="${k}" aria-pressed="${!!(S.limits || {})[k]}">${o.n}</button>`).join("")}${none ? `<button class="chip ${S.limitsNone && !anyLimit() ? "on" : ""}" data-a="limitnone" aria-pressed="${!!(S.limitsNone && !anyLimit())}">Keine</button>` : ""}</div>`;
 }
 function newsSheet() {
   return `<div class="stack" style="gap:4px"><span class="eyebrow">Version ${NEWS.v}</span><h2>Was ist <em>neu</em>?</h2></div>
@@ -3668,10 +3705,10 @@ function vDays() {
   U.allowCustom = true;
   return `<div class="wrap">
     <button class="link" style="text-align:left" data-a="tab" data-v="prof">‹ Profil</button>
-    <div class="stack" style="gap:4px"><h1>Trainingsplan</h1><p class="muted small">Übungen und Muskelgruppen gelten sofort. Neue Tage und Wochentage gelten ab nächster Woche, außer du tippst unten auf „Auch für diese Woche übernehmen“.</p></div>
+    <div class="stack" style="gap:4px"><h1>Trainingsplan</h1><p class="muted small">Alle Änderungen gelten sofort für diese und alle kommenden Wochen. Erledigte, ausgelassene und von dir verschobene Einheiten bleiben, wie sie sind.</p></div>
     ${S.days.map((d, i) => dayCard(d, i, S.days.length > 1)).join("")}
     <div class="row" style="flex-wrap:wrap;gap:8px"><button class="btn line sm" data-a="dayadd" data-t="kraft">+ Krafttag</button><button class="btn line sm" data-a="dayadd" data-t="pilates">+ Pilates</button><button class="btn line sm" data-a="dayadd" data-t="mobility">+ Mobility</button></div>
-    <button class="btn ghost" data-a="applyweek">Auch für diese Woche übernehmen</button>
+    <button class="btn ghost" data-a="applyweek">Diese Woche ganz neu planen</button><p class="small muted" style="text-align:center;margin-top:-6px">Setzt auch Verschiebungen und Zusammenlegungen dieser Woche zurück. Erledigtes bleibt.</p>
     <button class="btn line" data-a="importopen">Geteilten Trainingstag übernehmen</button>
   </div>`;
 }
@@ -3717,7 +3754,7 @@ function vOb() {
   if (st === 1) body = `<div class="stack" style="gap:6px">${eb("Ziel")}<h1>Was möchtest du <em>erreichen</em>?</h1><p class="muted">Danach richten sich Sätze und Wiederholungen. Mehr Wiederholungen mit etwas weniger Gewicht bauen Muskeln auf und schonen Gelenke und Rücken.</p></div>
     <div class="stack">${[["mittel", "Muskelaufbau", "8–12 Wdh. bei Grundübungen, 10–15 bei Isolation"], ["hoch", "Muskelaufbau mit mehr Wiederholungen", "10–15 Wdh. bei Grundübungen, 12–20 bei Isolation. Empfohlen."], ["ausdauer", "Kraftausdauer", "15–20 Wdh., leichteres Gewicht"]].map(([k, n, s]) => `<button class="opt ${S.reps === k ? "on" : ""}" data-a="reps" data-k="${k}"><b>${n}</b><span class="small muted">${s}</span></button>`).join("")}</div>
     <div class="card"><div class="row between"><div class="grow"><b>Rücken schonen</b><p class="small muted">Keine schweren Übungen mit Last auf dem unteren Rücken. Wo der Rücken mitarbeitet, gibt es mehr Wiederholungen mit weniger Gewicht.</p></div><button class="toggle ${S.backCare ? "on" : ""}" data-a="back" role="switch" aria-checked="${S.backCare}" aria-label="Rücken schonen"></button></div></div>
-    <div class="card" style="gap:8px"><b>Weitere Einschränkungen?</b><p class="small muted">Übungen, die diese Bereiche stark belasten, lässt die App weg. Freiwillig.</p>${limitChips()}</div>
+    <div class="card" id="oblim" style="gap:8px${U.obLimHint && !S.limitsAsked ? ";background:var(--butter);color:var(--butter-ink)" : ""}"><b>Beschwerden an Knie, Schulter oder Handgelenk?</b><p class="small muted">Übungen, die diese Bereiche stark belasten, lässt die App weg. Später im Profil änderbar.</p>${limitChips(true)}${U.obLimHint && !S.limitsAsked ? `<p class="small" style="margin:0"><b>Bitte wähle „Keine“ oder einen Bereich.</b></p>` : ""}</div>
     <p class="small muted">Satzpause: 3 Minuten zwischen zwei Sätzen – im Training mit einem Tipp änderbar. Größe und Gewicht kannst du später im Profil eintragen.</p>`;
   if (st === 2) {
     const n = S.days.filter((d) => (d.type || "kraft") === "kraft").length;
@@ -3827,13 +3864,13 @@ function renderInner() {
   let h = "";
   const v = U.view;
   if (v === "ob") h = vOb();
-  else if (v === "home") h = vHome() + tabbar();
-  else if (v === "lib") h = vLib() + tabbar();
-  else if (v === "hist") h = vHist() + tabbar();
-  else if (v === "prof") h = vProf() + tabbar();
-  else if (v === "days") h = vDays() + tabbar();
-  else if (v === "eq") h = vEq() + tabbar();
-  else if (v === "legal") h = vLegal() + tabbar();
+  else if (v === "home") h = helpBtn() + vHome() + tabbar();
+  else if (v === "lib") h = helpBtn() + vLib() + tabbar();
+  else if (v === "hist") h = helpBtn() + vHist() + tabbar();
+  else if (v === "prof") h = helpBtn() + vProf() + tabbar();
+  else if (v === "days") h = helpBtn() + vDays() + tabbar();
+  else if (v === "eq") h = helpBtn() + vEq() + tabbar();
+  else if (v === "legal") h = helpBtn() + vLegal() + tabbar();
   else if (v === "setup") h = vSetup();
   else if (v === "train") h = vTrain();
   else if (v === "flow") h = S.active?.flow ? vFlow() : vHome() + tabbar();
@@ -3954,7 +3991,7 @@ function unlockAudio() {
   sndInit();
   primeAudio();
   try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); if (actx.state !== "running") actx.resume(); } catch (e) {}
-  try { if (S.voice !== false && window.speechSynthesis) { const u = new SpeechSynthesisUtterance(" "); u.volume = 0; speechSynthesis.speak(u); } } catch (e) {}
+  try { if (S.voice !== false && window.speechSynthesis) { const u = makeUtterance(" "); u.volume = 0; speechSynthesis.speak(u); } } catch (e) {}
 }
 document.addEventListener("pointerdown", unlockAudio, { once: true, capture: true });
 document.addEventListener("touchend", unlockAudio, { once: true, capture: true });
@@ -4185,6 +4222,140 @@ function yearCard() {
   const r = yearReview(y); if (r.units < 4) return "";
   return `<div class="card yearcard" style="gap:8px"><span class="eyebrow">Dein Jahr ${y}</span><div class="big">${r.units} Einheiten. <em>Stark.</em></div><p class="small muted">Dein persönlicher Rückblick – mit Lieblingsübung, größter Steigerung und deiner besten Serie.</p><div style="display:flex;gap:8px"><button class="btn" data-a="yearopen" data-y="${y}">Rückblick ansehen</button><button class="btn ghost sm" data-a="yearhide" data-y="${y}" aria-label="Ausblenden">Später</button></div></div>`;
 }
+function limitAskCard() {
+  if (!S.setup || S.limitsAsked || S.active || (S.limitsNone && !anyLimit())) return "";
+  if (anyLimit() && !U.limAsking) return "";
+  return `<div class="card" style="gap:8px"><span class="eyebrow">Kurze Frage</span><b>Hast du Beschwerden an Knie, Schulter oder Handgelenk?</b><p class="small muted">Dann lässt die App Übungen weg, die diese Bereiche stark belasten. Rücken schonen ist ${S.backCare ? "schon eingeschaltet" : "im Profil einstellbar"}.</p>${limitChips(true)}${anyLimit() ? `<button class="btn sm" style="width:auto" data-a="limitok">Übernehmen</button>` : ""}</div>`;
+}
+/* ---------------- Hilfe & Fragen (4.5, aus Ringzeit) ----------------
+   „?“ oben auf jeder Seite: zuerst die Fragen zur aktuellen Seite, darunter alle nach Themen, mit Suche. Jede Antwort zu einer
+   Funktion hat „Hinführen“: öffnet die Seite, scrollt zur Stelle und markiert sie kurz – so findet man jede Funktion,
+   auch wenn man sie selbst nicht findet. Ziele in HELP_GO: v = Ansicht, p = Profilbereich, h = Verlaufsansicht,
+   sel = Stelle (die erste sichtbare passende), run = eigene Aktion. Ein laufendes Training wird nicht angefasst. */
+const HELP_GO = {
+  start: { v: "home", now: true, sel: "[data-a=start], [data-a=resume], .unit" },
+  week: { v: "home", now: true, sel: ".unit" },
+  weeknext: { v: "home", sel: "[data-a=weeknext]" },
+  less: { v: "home", now: true, sel: "[data-a=less], .unit" },
+  pause: { v: "prof", p: "ziel", sel: "[data-a=pauseopen], [data-a=pauseend]" },
+  plan: { v: "days", sel: ".daycard" },
+  dayadd: { v: "days", sel: "[data-a=dayadd]" },
+  ziel: { v: "prof", p: "ziel", sel: "[data-a=reps]" },
+  back: { v: "prof", p: "ziel", sel: "[data-a=back]" },
+  heavy: { v: "prof", p: "ziel", sel: "[data-a=ptoggle][data-k=heavy]" },
+  limits: { v: "prof", p: "ziel", sel: "[data-a=limit]" },
+  rest: { v: "prof", p: "pause", sel: ".card" },
+  eq: { v: "eq", sel: "[data-a=eq], [data-a=eqgrp]" },
+  studios: { run: () => openSheet(studiosSheet) },
+  lib: { v: "lib", sel: ".searchbox, [data-a=libf]" },
+  cex: { v: "lib", sel: "[data-a=cexnew]" },
+  voice: { v: "prof", p: "ton", sel: "[data-a=ptoggle][data-k=voice]" },
+  sound: { v: "prof", p: "ton", sel: "[data-a=soundtest]" },
+  music: { v: "prof", p: "ton", sel: "#pmusic" },
+  progress: { v: "hist", h: "prog" },
+  sessions: { v: "hist", h: "list", sel: "[data-a=sessionedit], .card" },
+  meas: { v: "hist", h: "meas", sel: "[id^=m-]" },
+  review: { v: "hist", h: "review" },
+  body: { v: "prof", p: "ich", sel: "#bodyinfo, #pname" },
+  figure: { v: "prof", p: "ich", sel: "#figcard" },
+  view: { v: "prof", p: "app", sel: "[data-a=viewmode]" },
+  theme: { v: "prof", p: "app", sel: "[data-a=theme]" },
+  design: { v: "prof", p: "app", sel: "[data-a=designtg]" },
+  cal: { v: "prof", p: "app", sel: "[data-a=calexport], #caltime" },
+  backup: { v: "prof", p: "daten", sel: "[data-a=backup]" },
+  restore: { v: "prof", p: "daten", sel: "label[for=imp]" },
+  report: { v: "prof", p: "daten", sel: "[data-a=report]" },
+  tour: { run: () => tourStart() },
+  read: { run: () => openSheet(readList()) },
+  news: { run: () => openSheet(newsSheet) },
+  feedback: { run: () => openSheet(feedbackSheet) },
+};
+/* [Thema, Frage, Antwort, Ziel, Seiten] – Seiten: home, lib, hist, prof, days, eq, legal */
+const HELP = [
+  ["Training", "Wie starte ich mein Training?", "Auf der Startseite steht oben deine nächste Einheit – „Los geht's“ antippen. Davor kannst du Zeit, Kurz oder Mini wählen; die App führt dich dann Satz für Satz.", "start", "home"],
+  ["Training", "Ich habe heute wenig Zeit.", "Tippe vor dem Start auf die Minuten, die du hast. Die App kürzt erst Sätze, dann Übungen und hält das Aufwärmen kurz. Für ganz wenig Zeit gibt es das Mini-Training.", "start", "home"],
+  ["Training", "Wie verschiebe ich ein Training auf einen anderen Tag?", "Tippe in deiner Woche auf die Einheit und wähle den neuen Tag. Verschobene Einheiten bleiben dort, auch wenn du später den Plan änderst.", "week", "home"],
+  ["Training", "Ich habe ein Training verpasst – was nun?", "Nichts ist verloren: Tippe auf die Einheit und hol sie nach – heute oder an einem freien Tag. Oder lass sie bewusst aus, dann zählt die Woche trotzdem.", "week", "home"],
+  ["Training", "Diese Woche wird es zu viel.", "„Einheiten zusammenlegen“ macht aus offenen Einheiten weniger, dafür etwas längere – ohne dass etwas Wichtiges fehlt.", "less", "home"],
+  ["Training", "Kann ich die nächsten Wochen schon sehen?", "Ja, mit den Pfeilen über deiner Woche blätterst du bis zu fünf Wochen vor und zurück. Änderungen am Plan gelten auch dort.", "weeknext", "home"],
+  ["Training", "Ich bin krank oder im Urlaub.", "Trag eine Pause ein. Dann wird nichts als verpasst gezählt, deine Serie bleibt, und danach steigst du sanft wieder ein.", "pause", "home prof"],
+  ["Training", "Wie tausche ich eine Übung?", "Während des Trainings bei der Übung auf „Tauschen“ tippen. Die App schlägt ähnliche Übungen vor, passend zu deinen Geräten und Einschränkungen.", "", "home lib"],
+  ["Training", "Woher weiß die App, wie viel Gewicht ich nehmen soll?", "Sie merkt sich deine Sätze. Hast du letztes Mal alle Sätze bis zum oberen Ziel geschafft, schlägt sie vor dem ersten Satz etwas mehr vor – du entscheidest.", "", "home hist"],
+  ["Training", "Ich habe mich beim Eintragen vertan.", "Unter Verlauf → Einheiten die Einheit öffnen und „Bearbeiten“. Gewicht, Wiederholungen und Dauer lassen sich nachträglich korrigieren.", "sessions", "hist"],
+  ["Plan", "Wie ändere ich meine Trainingstage?", "Im Trainingsplan legst du je Tag Wochentag, Muskelgruppen oder eigene Übungen fest. Änderungen gelten sofort für diese und alle kommenden Wochen.", "plan", "prof days"],
+  ["Plan", "Kann ich einen Pilates- oder Mobility-Tag dazunehmen?", "Ja, im Trainingsplan unten „Tag hinzufügen“ und Pilates, Mobility oder Cardio wählen. Themen wie „Balance & Füße“ wechseln sich ab.", "dayadd", "prof days"],
+  ["Plan", "Wie stelle ich mein Ziel um?", "Unter Ziel & Belastung wählst du den Wiederholungsbereich. Das gilt ab der nächsten Einheit.", "ziel", "prof"],
+  ["Plan", "Mein Rücken ist empfindlich.", "„Rücken schonen“ lässt schwere Übungen mit Last auf dem unteren Rücken weg und gibt dort mehr Wiederholungen mit weniger Gewicht.", "back", "prof"],
+  ["Plan", "Ich habe Beschwerden an Knie, Schulter oder Handgelenk.", "Unter Einschränkungen antippen – Übungen, die den Bereich stark belasten, schlägt die App dann nicht mehr vor, auch in eigenen Plänen.", "limits", "prof"],
+  ["Plan", "Was bringen „Schwerere Sätze“?", "Eine rückenfreundliche Grundübung pro Einheit mit 6–10 Wiederholungen – gut für Knochen und Muskeln ab 40. Mehr dazu unter „Zum Lesen“.", "heavy", "prof"],
+  ["Plan", "Wie lang ist die Pause zwischen den Sätzen?", "Standard sind 3 Minuten. Unter Satzpause stellst du sie dauerhaft ein, im Training mit einem Tipp nur für heute.", "rest", "prof"],
+  ["Studio", "Ein Gerät gibt es in meinem Studio nicht.", "Unter Geräte abwählen – die App nimmt es dann nie mehr in Pläne, Aufwärmen oder Ersatzvorschläge.", "eq", "prof eq"],
+  ["Studio", "Ich trainiere an verschiedenen Orten.", "Mit Studio-Profilen hat jeder Ort eigene Geräte und Notizen. Auf der Startseite wählst du dann, wo du heute bist.", "studios", "prof eq home"],
+  ["Übungen", "Wie finde ich eine Übung?", "Unter Übungen oben ins Suchfeld tippen oder nach Muskelgruppe filtern. Jede Übung hat eine Animation und Tipps zur Ausführung.", "lib", "lib"],
+  ["Übungen", "Kann ich eine eigene Übung anlegen?", "Ja, unter Übungen „Eigene Übung“. Sie richtet sich nach einer Vorlage – so gelten Einschränkungen und Gewichtsvorschläge auch für sie.", "cex", "lib"],
+  ["Ton", "Ich höre im Training nichts.", "Prüfe den Lautlos-Schalter am iPhone und die Lautstärke während eines Tons. Unter Ton & Musik kannst du alles testen; manchmal hilft es, die App einmal ganz zu schließen.", "sound", "prof"],
+  ["Ton", "Wie schalte ich die Sprachansage aus?", "Unter Ton & Musik → Sprachansage. Signaltöne bleiben, wenn du willst.", "voice", "prof"],
+  ["Ton", "Kann meine Musik weiterlaufen?", "Ja. Die Ansagen und Töne kommen über deine Musik. Unter Ton & Musik kannst du auch eine Playlist verlinken, die im Training mit ♪ startet.", "music", "prof"],
+  ["Fortschritt", "Wo sehe ich meine Fortschritte?", "Unter Verlauf → Fortschritt siehst du je Übung, wie sich Gewicht und Wiederholungen entwickeln, dazu Rekorde und Abzeichen.", "progress", "hist home"],
+  ["Fortschritt", "Wie trage ich Körpermaße ein?", "Unter Verlauf → Maße. Taille, Hüfte und mehr – am besten immer zur gleichen Tageszeit.", "meas", "hist"],
+  ["Fortschritt", "Gibt es einen Jahresrückblick?", "Ja: Ab Dezember auf der Startseite, jederzeit unter Verlauf → Rückblick.", "review", "hist"],
+  ["Fortschritt", "Wo trage ich Größe, Gewicht oder Geburtstag ein?", "Im Profil unter „Du & deine Figur“. Freiwillig – an deinem Geburtstag feiert die App mit dir.", "body", "prof"],
+  ["Aussehen", "Wie ändere ich Outfit und Frisur meiner Figur?", "Im Profil unter „Du & deine Figur“. So trainiert deine Figur in allen Animationen.", "figure", "prof"],
+  ["Aussehen", "Die App zeigt mir zu viele Zahlen.", "Unter Darstellung „Einfach“ wählen – dann siehst du nur das Wichtigste.", "view", "prof home"],
+  ["Aussehen", "Hell, dunkel oder andere Farbe?", "Unter Darstellung wählst du Hell, Dunkel oder Automatisch und deine Akzentfarbe.", "theme", "prof"],
+  ["Aussehen", "Wie schalte ich Schnee, Blüten und Festtagsgrüße aus?", "Unter Darstellung → „Jahreszeiten & Feste“.", "design", "prof"],
+  ["Aussehen", "Kann ich meine Trainingstage im iPhone-Kalender haben?", "Ja, unter Darstellung & Kalender Uhrzeit wählen und exportieren. Die Termine erinnern dich 30 Minuten vorher.", "cal", "prof"],
+  ["Daten", "Sind meine Daten sicher?", "Alles bleibt nur auf deinem iPhone – nichts geht ins Internet. Deshalb ab und zu ein Backup machen, damit bei einem Handywechsel nichts verloren geht.", "backup", "prof"],
+  ["Daten", "Wie mache ich ein Backup?", "Unter Daten & Backup → „Backup speichern“ und die Datei z. B. in Dateien oder per Mail sichern.", "backup", "prof"],
+  ["Daten", "Neues Handy – wie bekomme ich meine Daten rüber?", "Auf dem alten Handy ein Backup speichern, auf dem neuen die App installieren und unter Daten & Backup „Backup laden“.", "restore", "prof"],
+  ["Daten", "Kann ich meiner Physiotherapeutin zeigen, was ich mache?", "Unter Daten & Backup → „Auszug für Physio oder Trainerin“: die letzten 4 Wochen als Text zum Teilen.", "report", "prof"],
+  ["App", "Kann ich die Tour nochmal sehen?", "Ja – sie zeigt dir in acht Stationen die wichtigsten Stellen.", "tour", "home prof"],
+  ["App", "Was ist neu?", "Hier stehen alle Neuerungen der letzten Versionen.", "news", "prof"],
+  ["App", "Wo finde ich Hintergrundwissen?", "Unter „Zum Lesen“: Krafttraining ab 40, Rücken, Beckenboden, Gleichgewicht, Erholung und mehr – mit Quellen.", "read", "home prof"],
+  ["App", "Meine Frage ist nicht dabei.", "Schick eine Nachricht über „Feedback senden“ – mit Fehlerbeschreibung oder Wunsch.", "feedback", "home lib hist prof days eq legal"],
+];
+const helpPage = () => ({ home: "home", lib: "lib", hist: "hist", prof: "prof", days: "days", eq: "eq", legal: "legal" })[U.view] || "home";
+const helpNorm = (t) => String(t).toLowerCase().replace(/ä/g, "a").replace(/ö/g, "o").replace(/ü/g, "u").replace(/ß/g, "ss").replace(/[^a-z0-9 ]/g, " ");
+function helpItem(h, i) {
+  const [, q, a, go] = h; const G = go && HELP_GO[go];
+  return `<details class="hq"><summary>${esc(q)}</summary><p class="small">${esc(a)}</p>${G ? `<button class="btn line sm" style="width:auto;align-self:flex-start" data-a="helpgo" data-k="${go}">Hinführen</button>` : ""}</details>`;
+}
+function helpList(q) {
+  const words = helpNorm(q || "").split(" ").filter((w) => w.length > 1);
+  if (words.length) {
+    const hit = HELP.filter((h) => { const t = helpNorm(h[0] + " " + h[1] + " " + h[2]); return words.every((w) => t.includes(w)); });
+    return hit.length ? `<div class="stack" style="gap:6px">${hit.map(helpItem).join("")}</div>` : `<p class="small muted">Nichts gefunden. Probier ein anderes Wort – oder schick uns deine Frage über „Feedback senden“.</p>`;
+  }
+  const pg = helpPage(); const here = HELP.filter((h) => h[4].split(" ").includes(pg));
+  const topics = [...new Set(HELP.map((h) => h[0]))];
+  return `${here.length ? `<div class="stack" style="gap:6px"><span class="eyebrow">Zu dieser Seite</span>${here.map(helpItem).join("")}</div>` : ""}
+    <div class="stack" style="gap:6px;margin-top:12px"><span class="eyebrow">Alle Fragen</span>${topics.map((t) => `<details class="htopic"><summary><b>${t}</b> <span class="small muted">${HELP.filter((h) => h[0] === t).length}</span></summary><div class="stack" style="gap:6px">${HELP.filter((h) => h[0] === t).map(helpItem).join("")}</div></details>`).join("")}</div>`;
+}
+function helpSheet() {
+  return `<div class="stack" style="gap:12px"><h2>Hilfe &amp; <em>Fragen</em></h2>
+    <input id="helpq" class="field" type="search" enterkeyhint="search" autocomplete="off" placeholder="Wonach suchst du? z. B. Pause, Backup" data-in="helpq" value="${esc(U.helpQ || "")}">
+    <div id="helplist">${helpList(U.helpQ)}</div>
+    <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn line sm" style="width:auto" data-a="tour">App-Tour</button><button class="btn line sm" style="width:auto" data-a="readlist">Zum Lesen</button></div>
+    <button class="btn" data-a="sheetclose">Schließen</button></div>`;
+}
+const helpBtn = () => `<button class="helpq" data-a="help" aria-label="Hilfe und Fragen">?</button>`;
+function helpMark(sel) {
+  const els = sel ? [...document.querySelectorAll(sel)].filter((e) => e.offsetParent !== null || e.getClientRects().length) : [];
+  const el = els[0]; if (!el) return false;
+  try { el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" }); } catch (e) {}
+  el.classList.remove("helpmark"); void el.offsetWidth; el.classList.add("helpmark"); setTimeout(() => el.classList.remove("helpmark"), 2800);
+  return true;
+}
+function helpGo(k) {
+  const G = HELP_GO[k]; if (!G) return;
+  closeSheet();
+  if (G.run) { setTimeout(G.run, 250); return; }
+  if (G.v === "prof") U.psec = G.p || null;
+  if (G.v === "hist" && G.h) U.hist = G.h;
+  if (G.now) U.weekOffset = 0;
+  go(G.v);
+  if (G.sel) setTimeout(() => { if (!helpMark(G.sel)) window.scrollTo(0, 0); }, 320);
+}
 function yearYears() { return [...new Set(S.sessions.map((s) => new Date(s.date).getFullYear()))].filter((y) => y > 2000).sort((a, b) => b - a); }
 function yearLink() {
   const ys = yearYears(); if (!ys.length) return "";
@@ -4389,11 +4560,15 @@ document.addEventListener("click", (e) => {
     case "tickpick": unlockAudio(); S.tick = d.k; save(); renderSheet(); if (d.k !== "aus") { beep(1046); setTimeout(() => beep(1046), 1000); setTimeout(() => beep(1046), 2000); } break;
     case "soundgo": unlockAudio(); gong(); setTimeout(() => { const v = S.voice; S.voice = true; say("So klingt die Ansage im Training."); S.voice = v; }, Math.min(2600, ((SOUNDS[S.sound || "gong"] || {}).dur || 0.3) * 900)); break;
     case "updnow": if (U.updateGo) U.updateGo(); document.getElementById("updbar")?.remove(); break;
-    case "limit": S.limits = S.limits || {}; S.limits[d.k] = !S.limits[d.k]; save(); render(); break;
+    case "limit": S.limits = S.limits || {}; S.limits[d.k] = !S.limits[d.k]; delete S.limitsNone; if (U.view === "home" && !S.limitsAsked) U.limAsking = true; else S.limitsAsked = true; save(); render(); break;
+    case "limitnone": S.limits = {}; S.limitsNone = true; S.limitsAsked = true; save(); render(); if (U.view === "home") toast("Danke! Änderbar im Profil unter Einschränkungen."); break;
+    case "limitok": S.limitsAsked = true; save(); render(); toast("Danke! Diese Übungen schlägt die App nicht mehr vor."); break;
     case "ptoggle": S[d.k] = d.k === "voice" ? S.voice === false : !S[d.k]; save(); render(); if (d.k === "voice" && S.voice !== false) say("Sprachansage ist an."); break;
     case "news": openSheet(newsSheet); break;
     case "tour": tourStart(); break;
     case "readlist": openSheet(readList()); break;
+    case "help": U.helpQ = ""; openSheet(helpSheet); break;
+    case "helpgo": helpGo(d.k); break;
     case "read": S.read = Object.assign({}, S.read, { [d.k]: true }); save(); openSheet(readArt(d.k)); document.querySelector(".sheet")?.scrollTo(0, 0); break;
     case "tournext": case "tourprev": case "tourend": tourAct(a); break;
     case "tourlater": S.tourOffered = true; save(); closeSheet(); toast("Die Tour findest du jederzeit im Profil unter „Hilfe & Infos“."); break;
@@ -4473,6 +4648,7 @@ document.addEventListener("click", (e) => {
       const w = thisWeek(); const keep = w.slots.filter(slotDone);
       const doneDays = new Set(keep.map((s) => s.dayId));
       w.slots = keep.concat(S.days.filter((x) => !doneDays.has(x.id)).map((x) => ({ id: uid(), type: x.type || "kraft", dayId: x.id, wd: x.wd || 0 })));
+      w.daysSig = daysSig(); delete w.merged;
       save(); toast("Diese Woche neu geplant"); break;
     }
     case "obcount": {
@@ -4484,6 +4660,7 @@ document.addEventListener("click", (e) => {
         const bad = S.days.find((x) => (x.type || "kraft") === "kraft" && !x.groups.length);
         if (bad) { toast(bad.mode === "custom" ? "Füge jedem eigenen Tag mindestens eine Übung hinzu." : "Wähle für jeden Krafttag mindestens eine Muskelgruppe."); break; }
       }
+      if (U.ob === 1 && !S.limitsAsked) { U.obLimHint = true; render(); const c = document.getElementById("oblim"); if (c && c.scrollIntoView) c.scrollIntoView({ behavior: "smooth", block: "center" }); break; }
       if (U.ob === 1 && !S.days.filter((x) => (x.type || "kraft") === "kraft").length) S.days = tmplDays(3).concat(S.days);
       if (U.ob < 4) { U.ob++; render(); window.scrollTo(0, 0); }
       else {
@@ -4545,6 +4722,7 @@ document.addEventListener("input", (e) => {
   if (k === "sessionlog" && U.sessionEdit) U.sessionEdit.data.items[+t.dataset.i].log[+t.dataset.j][t.dataset.k]=t.value;
   if (k === "sessionflow" && U.sessionEdit) U.sessionEdit.data.items[+t.dataset.i].sec=t.value;
   if (k === "name") { S.name = t.value.trim(); save(); }
+  if (k === "helpq") { U.helpQ = t.value; const L = document.getElementById("helplist"); if (L) L.innerHTML = helpList(U.helpQ); return; }
   if (k === "cex" && U.cex) { U.cex[t.dataset.f] = t.value; if (t.dataset.f === "base") renderSheet(); }
   if (k === "exnote") { S.notes = S.notes || {}; const v = t.value.slice(0, 300); if (v.trim()) S.notes[t.dataset.x] = v; else delete S.notes[t.dataset.x]; save(); }
   if (k === "bdate") setBirth(t.value);
