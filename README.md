@@ -92,7 +92,7 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 - Verlauf jeder Einheit mit allen Sätzen, Fortschritt pro Übung als Diagramm
 - **Abschluss zum Feiern:** Wochenring, goldene Karte bei kompletter Woche, Gesamtbilanz
 - **Hilfe & Fragen** mit „Hinführen“ zur passenden Stelle
-- **Wochenserie, Rekorde, 16 Abzeichen**, Trainingskalender der letzten 12 Wochen
+- **Wochenserie, Rekorde, 18 Abzeichen**, Trainingskalender der letzten 12 Wochen
 - **Dein Trainingsjahr:** Jahresrückblick ab Dezember auf der Startseite und jederzeit unter Verlauf → Rückblick – Einheiten, Stunden, bewegte Tonnen, Monat für Monat, Lieblingsübung, größte Steigerung, beste Serie
 - **Körpermaße und Gewicht** (Taille, Hüfte, Po, Oberschenkel) mit Verlauf
 - **Über dich (freiwillig):** Alter, Größe, Gewicht → Maximalpuls und Pulsbereiche beim Cardio, BMI, Taille-zu-Größe, Kraft im Verhältnis zum Körpergewicht
@@ -113,6 +113,16 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 - **Sicherheit & Daten:** einmaliger Sicherheitshinweis, Backup-Erinnerung alle 30 Tage, Feedback direkt aus der App
 
 ---
+
+## Neu in Version 4.6 – Dranbleiben
+
+- **Lieber kurz als gar nicht:** Jede offene Einheit lässt sich durch 15 Minuten Pilates oder Mobility oder ein Mini-Training ersetzen; sie gilt dann als erledigt und zählt für Woche und Serie. Angeboten an der Startseite („Wenig Zeit oder Energie?“, abends ohne Training „Noch nicht trainiert? 15 Minuten zählen auch“), in der Einheit und – vor allem – wenn man auf „Auslassen“ tippt („Bevor du auslässt“).
+- **Belohnung direkt nach dem Training:** Perlenkette des Monats (jede Einheit eine Perle, Farbe nach Art, die neue rollt hinein), dazu greifbare Zahlen („so viel wie 23 Wasserkästen“, Minuten im Monat).
+- **Wieder da:** Das erste Training nach einer Lücke (6+ Tage) oder nach einer verpassten/ausgelassenen Einheit wird eigens gefeiert.
+- **Wie fühlst du dich jetzt?** Freiwillige Frage nach dem Training; ab 5 Antworten zeigt die App an Tagen ohne Lust: „Nach 9 von 10 Trainings ging es dir danach besser.“
+- **Botschaften:** Persönliche Nachrichten aus `botschaften.js` erscheinen an besonderen Momenten (Willkommen, Geburtstag, 10./25./50. … Training, Wochenserien, Rekorde, „kurz statt gar nicht“, Wieder da, ab und zu zwischendurch). Gelesene Nachrichten unter Verlauf → Rückblick. Die Datei ist optional, wird immer frisch geladen und lässt sich auf GitHub direkt bearbeiten. **Achtung: Das Repo ist öffentlich.**
+- **Kalorienbedarf schätzen** unter „Zum Lesen“: Mifflin-St Jeor × PAL (DGE), Ergebnis als Spanne, nichts wird gespeichert, bewusst ohne Abnehm-Ziel.
+- Zwei neue Abzeichen („Lieber kurz als gar nicht“, „Wieder da“), drei neue Starttipps, neue Hilfe-Fragen.
 
 ## Neu in Version 4.5
 

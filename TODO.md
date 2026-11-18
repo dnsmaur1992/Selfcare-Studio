@@ -29,6 +29,11 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 - [x] Zusätzliche Logik- und DOM-Ereignistests für die Erweiterungen.
 - [ ] Auf echtem iPhone/Android testen: schmale Eingabemasken, mehrere Profile, Abbrechen/Speichern, laufende Einheit kürzen und Musik.
 
+## Erledigt in Version 4.6 (Dranbleiben)
+- [x] Lieber kurz als gar nicht, Perlenkette, Wieder da, Gefühl danach, Botschaften, Kalorienrechner.
+- [ ] Texte in `botschaften.js` eintragen (Dennis).
+- [ ] Am iPhone ansehen: Perle rollt ein, Brief öffnet sich, Abendhinweis ab 17 Uhr.
+
 ## Erledigt in Version 4.5 (aus Ringzeit übertragen)
 - [x] Hilfe & Fragen mit Suche und „Hinführen“ (41 Fragen, 36 Ziele, alle im Browser geprüft).
 - [x] Beschwerden (Knie, Schulter, Handgelenk) als bewusste Antwort in der Einrichtung; einmalige Frage für bestehende Profile.

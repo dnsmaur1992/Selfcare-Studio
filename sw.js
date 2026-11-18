@@ -1,4 +1,4 @@
-const CACHE = "selfcare-studio-4.5";
+const CACHE = "selfcare-studio-4.6";
 const CORE = ["./", "./index.html", "./installieren.html", "./manifest.json", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(CACHE).then((c) => c.addAll(CORE))); });
 self.addEventListener("message", (e) => { if (e.data && e.data.type === "skip") self.skipWaiting(); });
@@ -10,6 +10,11 @@ self.addEventListener("fetch", (e) => {
   if (r.mode === "navigate") {
     const key = url.pathname.endsWith("installieren.html") ? "./installieren.html" : "./index.html";
     e.respondWith(fetch(r).then((res) => { if (res.ok) { const c = res.clone(); caches.open(CACHE).then((x) => x.put(key, c)); return res; } return caches.match(key).then((hit) => hit || res); }).catch(() => caches.match(key)));
+    return;
+  }
+  // Botschaften: immer zuerst frisch holen, damit neue Texte ankommen; offline aus dem Speicher.
+  if (url.origin === location.origin && url.pathname.endsWith("/botschaften.js")) {
+    e.respondWith(fetch(r).then((res) => { if (res.ok) { const c = res.clone(); caches.open(CACHE).then((x) => x.put(r, c)); } return res; }).catch(() => caches.match(r)));
     return;
   }
   if (url.origin === location.origin || url.host.endsWith("fonts.googleapis.com") || url.host.endsWith("fonts.gstatic.com")) {

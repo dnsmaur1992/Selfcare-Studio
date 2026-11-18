@@ -1,6 +1,6 @@
 # Selfcare Studio – Trainingslogik
 
-Stand: Version 4.5. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
+Stand: Version 4.6. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
 
 ## Plan
 - **Muskelgruppen** haben eine Größe (Po 6, Beine vorne 5, Rücken 5 …). Daraus entsteht das Volumen eines Tages in „effektiven Sätzen“ (Arbeitssätze × Wirkung auf die Zielgruppe), **höchstens 22 pro Einheit** – nach der Planung wird nachgeprüft und notfalls bei den Übungen mit den meisten Sätzen gekürzt (erst bis 2, dann bis 1 Satz).
@@ -176,6 +176,15 @@ Alles in `localStorage` unter `satzwerk.v1`. Backup als JSON-Datei über das Pro
 Die Wochenansicht reicht von fünf Wochen vor bis fünf Wochen nach der aktuellen Woche. Kalenderarithmetik erhält Montage auch über Zeitumstellungen und Jahreswechsel. Zukünftige Wochen haben eigene Slot-IDs und werden erst bei Eintritt auf Belastungssteuerung geprüft. Alte Wochenpläne werden beim Anlegen einer Woche nicht mehr gelöscht. Fehlt ein vergangener Plan, werden vorhandene Trainings aus dem Verlauf angezeigt; es werden keine vergangenen Soll-Einheiten erfunden. Die obere Trainingskarte und Nachholen beziehen sich weiterhin auf die aktuelle Woche.
 
 Zusammenlegen ist in der aktuellen und in allen fünf erreichbaren zukünftigen Wochen möglich. Der Dialog bindet die Änderung an den angezeigten Wochenschlüssel. Erledigte, ausgelassene und laufende Einheiten sowie andere Trainingsarten bleiben erhalten.
+
+### Neu in 4.6: Dranbleiben
+**Warum so:** Sofortige Belohnung sagt Durchhalten besser voraus als der langfristige Nutzen (Woolley & Fishbach, Chicago Booth 2016). In der Megastudie mit über 60 000 Fitnessstudio-Mitgliedern wirkte am stärksten eine kleine Belohnung fürs Wiederkommen nach einer verpassten Einheit (+27 % Besuche; Milkman u. a., Nature 2021). Einmal Auslassen bremst die Gewohnheitsbildung kaum, große Unregelmäßigkeit schon (Lally u. a. 2010). Wie angenehm sich Training anfühlt, sagt voraus, ob man wiederkommt (Rhodes & Kates 2015). „Temptation bundling“ (Hörbuch nur im Studio) erhöhte Besuche (Milkman u. a. 2014).
+- **Ersatz** (`shortOpts`, `shortGo`): Kraft → Mini / Pilates 15 / Mobility 15; Pilates/Mobility → eigene 15-Minuten-Fassung oder die andere. Läuft über die Einheit (`slotId`), gilt also als erledigt; eine verpasste Einheit wandert dafür auf heute (`moved`). `sess.instead` markiert den Ersatz.
+- **Wieder da** (`markSession`): vorherige Einheit ≥ 6 Tage her (außer Pausenwochen) oder seit ihr eine Einheit dieser Woche ausgelassen/verpasst → `sess.comeback`.
+- **Gefühl danach** (`sess.feel` 1/0/−1), `feelLine()` ab 5 Antworten und ≥ 60 % „besser“.
+- **Perlenkette** (`pearlString`): Einheiten des Kalendermonats, 12 je Reihe.
+- **Botschaften** (`window.SC_BOTSCHAFTEN` aus `botschaften.js`): Meilensteine nur beim Überschreiten (`msgBefore` → `msgAfter`), höchstens eine pro Einheit, weitere warten in `S.msgQueue`; Wieder da höchstens alle 30 Tage; zwischendurch frühestens 6 Einheiten nach der letzten, jede nur einmal. Gelesen in `S.msgs`. Startseite: Willkommen (einmal), Geburtstag (jährlich).
+- **Kalorien** (`kcalCalc`): 10 × kg + 6,25 × cm − 5 × Jahre − 161 (Frau) bzw. + 5 (Mann); × PAL 1,3/1,5/1,7/1,9/2,2, Sport + 0,3 (DGE); Ergebnis ± 10 % auf 50 gerundet. Nur `U.kcal`.
 
 ### Neu in 4.5
 - **Einschränkungen:** `S.limitsAsked` (beantwortet), `S.limitsNone` („Keine“). Einrichtung Schritt 2 („Ziel“) verlangt eine Antwort; `limitAskCard()` fragt bestehende Profile einmal, nicht wenn schon eine Einschränkung eingetragen ist. Die Wirkung auf die Übungsauswahl ist unverändert (`limited()`).

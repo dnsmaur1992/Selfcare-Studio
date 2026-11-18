@@ -635,6 +635,46 @@ S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCusto
   S.limits = { shoulder: true }; ok(limitAskCard() === "", "Z3: Wer schon eine Einschränkung eingetragen hat, wird nicht gefragt");
   S.limits = {}; S.limitsAsked = true; ok(limitAskCard() === "", "Z3: Beantwortet bleibt beantwortet");
   ok(limitChips(true).includes('data-a="limitnone"') && !limitChips().includes("limitnone"), "Z3: „Keine“ nur dort, wo gefragt wird"); }
+/* D1: Lieber kurz als gar nicht (4.6) */
+{ S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom(); S.weeks = {}; ensureStudios(); U.weekOffset = 0;
+  const wk = thisWeek(); const kr = wk.slots.find((q) => q.type === "kraft");
+  ok(shortOpts(kr).map((o) => o[0]).join() === "mini,pilates,mobility", "D1: Für Kraft: Mini, Pilates, Mobility");
+  ok(shortOpts({ type: "pilates" }).map((o) => o[0]).join() === "pilates,mobility" && shortOpts({ type: "mobility" })[0][2].includes("15 Min statt 30"), "D1: Für Pilates/Mobility die 15-Minuten-Fassung zuerst");
+  const today = wdOf(new Date()); if (today > 1) { kr.wd = today - 1; kr.skipped = true; const _st = startSetup; startSetup = () => {}; shortGo(kr.id, "mini"); startSetup = _st; closeSheet();
+    ok(kr.wd === today && kr.moved && !kr.skipped, "D1: Verpasste Einheit wandert für die kurze Fassung auf heute, Auslassen wird aufgehoben"); } else ok(true, "D1: (Montag)");
+  const sess = { id: "x1", date: new Date().toISOString(), type: "pilates", flow: true, slotId: kr.id, items: [{ ex: "p_hundred", sec: 60 }], dur: 15, min: 15 };
+  markSession(sess); ok(sess.instead === true, "D1: Pilates statt Kraft zählt als „kurz statt gar nicht“");
+  const ms = { id: "x2", date: new Date().toISOString(), type: "kraft", slotId: kr.id, items: [] }; markSession(ms); ok(!ms.instead, "D1: Normales Krafttraining ist kein Ersatz");
+  ok(normalizeState({ sessions: [{ id: "a", date: new Date().toISOString(), type: "pilates", flow: true, items: [{ ex: "p_hundred", sec: 30 }], instead: 1, feel: 1, comeback: true }, { id: "b", date: new Date().toISOString(), type: "pilates", flow: true, items: [{ ex: "p_hundred", sec: 30 }], feel: 7 }] }).sessions.map((x) => [x.instead, x.feel, x.comeback].join()).join("|") === "true,1,true|,,", "D1: Gefühl, Ersatz und Wieder-da bleiben beim Laden erhalten, ungültige Werte fallen weg"); }
+/* D2: Wieder da */
+{ S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom(); S.weeks = {}; ensureStudios();
+  S.sessions = [{ id: "p", date: new Date(Date.now() - 9 * 864e5).toISOString(), type: "kraft", items: [] }];
+  const a = { id: "n", date: new Date().toISOString(), type: "kraft", items: [] }; markSession(a); ok(a.comeback === true, "D2: Nach 9 Tagen Lücke: wieder da");
+  S.sessions = [{ id: "p", date: new Date(Date.now() - 2 * 864e5).toISOString(), type: "kraft", items: [] }]; thisWeek().slots.forEach((q) => { q.wd = 0; });
+  const b = { id: "n2", date: new Date().toISOString(), type: "kraft", items: [] }; markSession(b); ok(!b.comeback, "D2: Ohne Lücke und ohne verpasste Einheit kein „wieder da“");
+  S.sessions = []; const c = { id: "n3", date: new Date().toISOString(), type: "kraft", items: [] }; markSession(c); ok(!c.comeback, "D2: Erstes Training ist kein Comeback"); }
+/* D3: Botschaften */
+{ S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom(); S.weeks = {}; ensureStudios();
+  window.SC_BOTSCHAFTEN = undefined; ok(msgAfter({}, msgBefore()) === null && msgHome() === "", "D3: Ohne Botschaften-Datei passiert nichts");
+  window.SC_BOTSCHAFTEN = { von: "Dennis", texte: { "training-10": "Zehn!", "kurz-1": "Kurz!", comeback: "Da!", willkommen: "Hallo", zwischendurch: ["Toll"] } };
+  const mk = (i, extra) => Object.assign({ id: "s" + i, date: new Date(Date.now() - (40 - i) * 864e5).toISOString(), type: "kraft", items: [] }, extra || {});
+  S.sessions = Array.from({ length: 9 }, (_, i) => mk(i));
+  let before = msgBefore(); S.sessions.push(mk(9, { instead: true })); const k1 = msgAfter(S.sessions[9], before);
+  ok(k1 === "kurz-1" && S.msgQueue.includes("training-10"), "D3: Zwei Momente zugleich: einer jetzt, der andere wartet");
+  before = msgBefore(); S.sessions.push(mk(10)); ok(msgAfter(S.sessions[10], before) === "training-10", "D3: Wartende Botschaft kommt beim nächsten Training");
+  S.msgs = {}; S.msgQueue = []; window.SC_BOTSCHAFTEN.texte["training-10"] = "Zehn!"; before = msgBefore(); S.sessions.push(mk(11)); const k3 = msgAfter(S.sessions[11], before);
+  ok(k3 !== "training-10", "D3: Schon überschrittene Meilensteine kommen nicht rückwirkend");
+  ok(msgHome().includes("Post für dich") && msgHome().includes("Dennis"), "D3: Willkommen auf der Startseite");
+  msgShow("willkommen", "Hallo"); ok(msgHome() === "" && msgList().includes("Hallo"), "D3: Gelesene Botschaft verschwindet von der Startseite und bleibt im Rückblick");
+  window.SC_BOTSCHAFTEN.texte.zwischendurch = ['<img src=x onerror=alert(1)>']; S.msgs.z = { d: new Date().toISOString(), t: '<b>x</b>\\nY' }; ok(msgSheet("z").includes("&lt;b&gt;x&lt;/b&gt;<br>Y"), "D3: Texte werden sicher angezeigt, Zeilenumbrüche bleiben");
+  window.SC_BOTSCHAFTEN = undefined; delete S.msgs; delete S.msgQueue; }
+/* D4: Kalorienrechner, Perlen, Abzeichen */
+{ const r = kcalCalc({ sex: "w", age: 47, h: 168, w: 65, pal: 1.5 }); ok(r && r.bmr === 1304 && r.lo === 1750 && r.hi === 2150, "D4: Mifflin-St Jeor × PAL (Frau, 47 J., 168 cm, 65 kg, PAL 1,5)");
+  ok(kcalCalc({ sex: "m", age: 47, h: 180, w: 85, pal: 1.5, sport: true }).bmr === 10 * 85 + 6.25 * 180 - 5 * 47 + 5 && kcalCalc({ age: 10, h: 168, w: 65 }) === null, "D4: Männer +5; unplausible Eingaben ohne Ergebnis");
+  S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom();
+  S.sessions = [{ id: "a", date: new Date().toISOString(), type: "kraft", items: [] }, { id: "b", date: new Date().toISOString(), type: "mobility", flow: true, items: [] }];
+  const ps = pearlString("b"); ok((ps.match(/r="10"/g) || []).length === 1 && (ps.match(/<circle/g) || []).length === 4 && ps.includes("Mobility 1"), "D4: Perlenkette: eine Perle je Einheit, die neue größer");
+  ok(BADGES.length === 18 && BADGES.some((b) => b.id === "kurz3") && BADGES.some((b) => b.id === "back"), "D4: Neue Abzeichen „Lieber kurz als gar nicht“ und „Wieder da“"); }
 S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom(); S.weeks = {}; U.setup = null;
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);
