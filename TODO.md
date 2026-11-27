@@ -31,7 +31,9 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 
 ## Erledigt in Version 4.7
 - [x] Erklärvideos auf YouTube (deutsche Suche je Übung) im Training, bei Pilates/Mobility und in der Übungsansicht.
-- [ ] Optional: für die meistgenutzten Übungen feste, geprüfte Videos hinterlegen.
+- [x] 4.7.1: Feste deutsche Videos für 163 von 179 Übungen (`VIDEOS`), Suche als Rückfall und „Andere Videos suchen“.
+- [ ] Für die 16 Übungen ohne festes Video nachziehen: Frog Pumps, Hip Thrust mit Band, Rumpfrotation an der Maschine, TRX-Brustpresse, Bridge mit Fersen weit vorn, Y-Heben in Bauchlage, Enge Liegestütz, Offenes Buch, Fahrrad-Ergometer, Laufband, Marschieren auf der Stelle, Wandrutschen, Säge, Faden einfädeln, Beine an der Wand, Fuß-Uhr.
+- [ ] Ab und zu prüfen, ob die Videos noch online sind (YouTube entfernt manchmal Videos).
 
 ## Erledigt in Version 4.6.2 (Sicherheitsprüfung)
 - [x] Schriften lokal, Content-Security-Policy, Backup-/Link-Prüfung verschärft (siehe docs/sicherheit.md).
