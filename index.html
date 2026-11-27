@@ -4,15 +4,15 @@
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.6.2">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.6.2">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.7">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.7">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.6.2">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.7">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -407,6 +407,8 @@ html.touring .deco, html.touring .confetti-fx { display: none; }
 .letter .lettertext { font-family: var(--display); font-size: 21px; line-height: 1.45; margin: 4px 0 0; white-space: normal; }
 .letter .lettersign { font-family: var(--display); font-style: italic; font-size: 20px; color: var(--accent); text-align: right; margin: 0; }
 .li.on { outline: 2px solid var(--accent); outline-offset: -2px; }
+.vlink { width: auto; align-self: flex-start; text-decoration: none; margin-top: 4px; }
+.vlinksm { align-self: center; text-decoration: none; font-weight: 600; }
 .altgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .alttile { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 8px 12px; border-radius: 18px; border: 1.5px solid var(--line); background: var(--surface); color: var(--fg); font: inherit; text-align: center; cursor: pointer; min-width: 0; }
 .alttile b { font-size: 14px; line-height: 1.25; overflow-wrap: anywhere; }
@@ -765,10 +767,13 @@ function wHint(x) {
   if (x.eq.includes("kabel")) return "Wie am Steckgewicht angezeigt.";
   return "";
 }
-const S_VERSION = "4.6.2";
-const NEWS = { v: "4.6.2", items: [
-  ["Sicherheit & Datenschutz", "Die Schriften kommen jetzt aus der App selbst – Selfcare Studio verbindet sich mit niemandem mehr. Dazu strengere Prüfung von Backups und Links."],
+const S_VERSION = "4.7";
+const NEWS = { v: "4.7", items: [
+  ["Erklärvideos", "Zu jeder Übung gibt es jetzt „▶ Erklärvideo auf YouTube“ – im Training unter dem Namen und in jeder Übung unter „So geht's“. Es öffnet deutschsprachige Videos genau zu dieser Übung."],
 ], old: [
+  { v: "4.6.2", items: [
+  ["Sicherheit & Datenschutz", "Die Schriften kommen jetzt aus der App selbst – Selfcare Studio verbindet sich mit niemandem mehr. Dazu strengere Prüfung von Backups und Links."],
+] },
   { v: "4.6.1", items: [
   ["Musik läuft durch", "Mit „Musik weiterlaufen lassen“ hält das iPhone deine Musik nicht mehr an: Die Sprachansage pausiert dann, Gong und Countdown kommen über deine Musik."],
   ["Alternativen auf einen Blick", "Ist ein Gerät besetzt oder willst du tauschen, siehst du alle passenden Übungen als Kacheln mit Animation – die Empfehlung ist markiert, du wählst."],
@@ -3194,7 +3199,7 @@ function vTrain() {
     const ideal = it.ideal && it.ideal !== it.ex ? EXM[it.ideal] : null;
     const W = workSets(it); const w0 = W.find((s) => !s.done) || W[W.length - 1];
     const presc = `${W.length} × ${it.reps[0]}–${it.reps[1]} ${unit}${!bw && w0?.w ? ` · ${it.est ? "ca. " : ""}${w0.w} kg` : ""}`;
-    const head = `<div class="stack" style="gap:4px;text-align:center"><h1 class="tr-name">${esc(x.n)}</h1><span class="presc num">${presc}</span>${ideal ? `<span class="note">Statt ${esc(ideal.n)}${it.why ? " · " + esc(it.why.replace(/\.$/, "")) : ""}</span>` : ""}${it.tempo ? `<span class="small muted">Tempo: 3 Sek. runter, unten kurz halten</span>` : ""}${noteLine(x.id)}</div>`;
+    const head = `<div class="stack" style="gap:4px;text-align:center"><h1 class="tr-name">${esc(x.n)}</h1><span class="presc num">${presc}</span>${ideal ? `<span class="note">Statt ${esc(ideal.n)}${it.why ? " · " + esc(it.why.replace(/\.$/, "")) : ""}</span>` : ""}${it.tempo ? `<span class="small muted">Tempo: 3 Sek. runter, unten kurz halten</span>` : ""}${noteLine(x.id)}${videoLink(x.id, "small link vlinksm")}</div>`;
     if (A.ph === "ask") {
       const eqs = x.eq.filter((e) => e !== "matte").map((e) => EQUIP[e]).join(" + ");
       const mk = machineOf(x); const mFirst = mk && !usedMachineBefore(mk);
@@ -3465,6 +3470,7 @@ function vFlow() {
     ${figSVG(x.id)}
     <div class="ringwrap"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke-width="7" class="ring-bg"/><circle id="ring" cx="50" cy="50" r="44" fill="none" stroke-width="7" stroke-linecap="round" class="ring-fg ${calm ? "calm" : ""}" stroke-dasharray="276.5" stroke-dashoffset="0"/></svg><div class="rt"><div><b id="fl-t">${left}</b><div class="small muted" id="fl-l">${label}</div></div></div></div>
     <ul class="tipl small muted">${x.tips.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
+    ${A.phase === "ready" || A.paused ? videoLink(x.id, "small link vlinksm") : ""}
     ${nb ? `<p class="small muted">Danach: ${esc(EXM[nb.ex].n)}${nb.side ? " (" + nb.side + ")" : ""}</p>` : `<p class="small muted">Letzte Position.</p>`}
   </div>
   <div class="actionbar"><div class="in">
@@ -3581,6 +3587,16 @@ function machineCard(k, open, first) {
   return `<details class="mcard" ${open ? "open" : ""}><summary>${first ? `Erstes Mal ${m.a} ${esc(EQUIP[k])}?` : `${esc(EQUIP[k])}: einstellen & Tipps`}</summary>
     <div class="stack" style="gap:10px;margin-top:10px">${sec("Einstellen", m.s, "⚙️")}${sec("So gelingt's", m.g, "✓")}${sec("Stolpersteine", m.b, "!")}</div></details>`;
 }
+/* 4.7: Erklärvideos. Statt fester Links (die veralten oder verschwinden) öffnet ein Tipp die YouTube-Suche auf Deutsch für
+   genau diese Übung – in der YouTube-App bzw. im Browser. In der App selbst wird nichts von YouTube geladen. */
+function videoUrl(id) {
+  const x = EXM[id]; if (!x) return "";
+  const base = x.custom && EXM[x.base] ? EXM[x.base] : x;
+  const name = String(base.n).replace(/[()]/g, " ").replace(/\s+/g, " ").trim();
+  const q = base.cat === "pilates" ? `${name} Pilates Übung Anleitung deutsch` : base.cat === "mobility" ? `${name} Mobility Übung Anleitung deutsch` : `${name} richtig ausführen deutsch`;
+  return "https://www.youtube.com/results?search_query=" + encodeURIComponent(q).replace(/'/g, "%27");
+}
+const videoLink = (id, cls) => EXM[id] ? `<a class="${cls || "btn line sm"}" href="${esc(videoUrl(id))}" target="_blank" rel="noopener" aria-label="Erklärvideos zu ${esc(EXM[id].n)} auf YouTube">▶ Erklärvideo auf YouTube</a>` : "";
 function infoSheet(id, g) {
   const x = EXM[id]; g = g || primary(x);
   const pts = series(id);
@@ -3589,7 +3605,7 @@ function infoSheet(id, g) {
     <div class="stack" style="gap:4px"><h2>${esc(x.n)}</h2>
     <span class="small muted">${x.cat === "kraft" ? `Hauptmuskel: ${esc(GROUPS[primary(x)].n)}${secs.length ? " · Mit: " + esc(secs.join(", ")) : ""}` : TYPES[x.cat].n}${x.side ? " · je Seite" : ""}</span></div>
     ${x.cat === "kraft" ? `<div class="chips">${x.eq.map((e) => `<span class="chip tag ${e === "matte" || S.equip[e] ? "" : "busy"}">${esc(EQUIP[e])}</span>`).join("")}${S.backCare && x.back === "mid" ? `<span class="chip tag calm">rückenschonend: leichter, mehr Wdh.</span>` : ""}</div>` : ""}
-    <div class="card"><h3>So geht's</h3><ul class="tipl">${x.tips.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></div>
+    <div class="card"><h3>So geht's</h3><ul class="tipl">${x.tips.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>${videoLink(id, "btn line sm vlink")}<span class="small muted">Öffnet deutschsprachige Videos zu dieser Übung auf YouTube.</span></div>
     <div class="card">${noteBox(id)}</div>
     ${machineOf(x) ? `<div class="card">${machineCard(machineOf(x), !usedMachineBefore(machineOf(x)), false)}</div>` : ""}
     ${x.custom ? `<div class="card" style="gap:8px"><span class="small muted">Eigene Übung · Vorlage: ${esc(EXM[x.base]?.n || "")}</span><button class="btn line sm" data-a="cexedit" data-x="${x.id}">Bearbeiten oder löschen</button></div>` : ""}
@@ -4380,6 +4396,7 @@ const HELP = [
   ["Training", "Diese Woche wird es zu viel.", "„Einheiten zusammenlegen“ macht aus offenen Einheiten weniger, dafür etwas längere – ohne dass etwas Wichtiges fehlt.", "less", "home"],
   ["Training", "Kann ich die nächsten Wochen schon sehen?", "Ja, mit den Pfeilen über deiner Woche blätterst du bis zu fünf Wochen vor und zurück. Änderungen am Plan gelten auch dort.", "weeknext", "home"],
   ["Training", "Ich bin krank oder im Urlaub.", "Trag eine Pause ein. Dann wird nichts als verpasst gezählt, deine Serie bleibt, und danach steigst du sanft wieder ein.", "pause", "home prof"],
+  ["Übungen", "Gibt es Videos zu den Übungen?", "Ja: Im Training unter dem Übungsnamen und in jeder Übung unter „So geht's“ öffnet „▶ Erklärvideo auf YouTube“ deutschsprachige Videos genau zu dieser Übung.", "lib", "lib home"],
   ["Training", "Wie tausche ich eine Übung?", "Während des Trainings bei der Übung auf „Tauschen“ tippen. Die App schlägt ähnliche Übungen vor, passend zu deinen Geräten und Einschränkungen.", "", "home lib"],
   ["Training", "Woher weiß die App, wie viel Gewicht ich nehmen soll?", "Sie merkt sich deine Sätze. Hast du letztes Mal alle Sätze bis zum oberen Ziel geschafft, schlägt sie vor dem ersten Satz etwas mehr vor – du entscheidest.", "", "home hist"],
   ["Training", "Ich habe mich beim Eintragen vertan.", "Unter Verlauf → Einheiten die Einheit öffnen und „Bearbeiten“. Gewicht, Wiederholungen und Dauer lassen sich nachträglich korrigieren.", "sessions", "hist"],

@@ -1,4 +1,4 @@
-const CACHE = "selfcare-studio-4.6.2";
+const CACHE = "selfcare-studio-4.7";
 const CORE = ["./", "./index.html", "./installieren.html", "./manifest.json", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png", "./fonts/outfit.woff2", "./fonts/bodoni-moda.woff2", "./fonts/bodoni-moda-italic.woff2"];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(CACHE).then((c) => c.addAll(CORE))); });
 self.addEventListener("message", (e) => { if (e.data && e.data.type === "skip") self.skipWaiting(); });

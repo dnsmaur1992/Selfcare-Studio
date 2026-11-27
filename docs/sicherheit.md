@@ -18,7 +18,7 @@ Selfcare Studio ist eine reine Browser-App ohne Server, Konto oder Analyse-Diens
 | Externe Verbindungen | Vorher Google Fonts bei jedem Start (IP-Adresse an Google) → jetzt keine |
 | Content-Security-Policy | Neu: nur eigene Skripte, Schriften, Bilder; keine Verbindungen nach außen (`connect-src 'self'`), keine Plugins, kein `<base>` – blockiert auch das Abfließen von Daten über eingeschleuste Bilder oder Anfragen |
 | Service Worker | Speichert nur eigene Dateien; räumt nur eigene Caches auf (Ringzeit-Caches bleiben unberührt) |
-| Links nach außen | `target="_blank"` immer mit `rel="noopener"` |
+| Links nach außen | `target="_blank"` immer mit `rel="noopener"`; Erklärvideos (4.7) sind reine Links zur YouTube-Suche, nichts wird eingebettet |
 | Kalender-Export | Texte werden für das iCalendar-Format maskiert |
 | Geheimnisse im Repo | Keine Schlüssel, Passwörter oder E-Mail-Adressen gefunden |
 | Abhängigkeiten | Keine fremden Bibliotheken in der App (jsdom nur für Tests) |

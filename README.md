@@ -114,6 +114,10 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 
 ---
 
+## Neu in Version 4.7 – Erklärvideos
+
+- **„▶ Erklärvideo auf YouTube“** bei jeder Übung: im Training unter dem Übungsnamen, bei Pilates/Mobility vor dem Start oder in der Pause, und in jeder Übung unter „So geht's“. Der Knopf öffnet die YouTube-Suche auf Deutsch für genau diese Übung (Kraft: „… richtig ausführen deutsch“, Pilates/Mobility: „… Übung Anleitung deutsch“; eigene Übungen nutzen ihre Vorlage). Bewusst keine festen Video-Links (die verschwinden mit der Zeit) und kein eingebettetes Video – in der App selbst wird nichts von YouTube geladen, die Content-Security-Policy bleibt streng.
+
 ## Neu in Version 4.6.2 – Sicherheit
 
 Ergebnis der Sicherheitsprüfung (Details in `docs/sicherheit.md`):

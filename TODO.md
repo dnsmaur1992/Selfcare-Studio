@@ -29,6 +29,10 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 - [x] Zusätzliche Logik- und DOM-Ereignistests für die Erweiterungen.
 - [ ] Auf echtem iPhone/Android testen: schmale Eingabemasken, mehrere Profile, Abbrechen/Speichern, laufende Einheit kürzen und Musik.
 
+## Erledigt in Version 4.7
+- [x] Erklärvideos auf YouTube (deutsche Suche je Übung) im Training, bei Pilates/Mobility und in der Übungsansicht.
+- [ ] Optional: für die meistgenutzten Übungen feste, geprüfte Videos hinterlegen.
+
 ## Erledigt in Version 4.6.2 (Sicherheitsprüfung)
 - [x] Schriften lokal, Content-Security-Policy, Backup-/Link-Prüfung verschärft (siehe docs/sicherheit.md).
 - [ ] GitHub-Konto mit Zwei-Faktor-Anmeldung absichern (falls noch nicht).
