@@ -29,6 +29,12 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 - [x] Zusätzliche Logik- und DOM-Ereignistests für die Erweiterungen.
 - [ ] Auf echtem iPhone/Android testen: schmale Eingabemasken, mehrere Profile, Abbrechen/Speichern, laufende Einheit kürzen und Musik.
 
+## Erledigt in Version 4.6.1
+- [x] Musik wird mit „Musik weiterlaufen lassen“ nicht mehr durch Ansagen angehalten.
+- [x] Alternativen als Kacheln mit Animation zur Auswahl.
+- [x] Gestrichene Übungen bleiben durchgestrichen und lassen sich wieder aufnehmen.
+- [ ] Am iPhone mit laufender Musik testen.
+
 ## Erledigt in Version 4.6 (Dranbleiben)
 - [x] Lieber kurz als gar nicht, Perlenkette, Wieder da, Gefühl danach, Botschaften, Kalorienrechner.
 - [ ] Texte in `botschaften.js` eintragen (Dennis).

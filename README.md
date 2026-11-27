@@ -114,6 +114,12 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 
 ---
 
+## Neu in Version 4.6.1
+
+- **Musik läuft durch:** Auf dem iPhone holt sich die Sprachausgabe die Tonausgabe exklusiv – Spotify & Co. hielten an und liefen danach nicht weiter. Mit „Musik weiterlaufen lassen“ spricht die App deshalb nicht (auch keine stumme Vorab-Ansage), Gong und Countdown mischen sich mit der Musik. Ohne diese Einstellung bleibt die Sprachansage.
+- **Alternativen als Kacheln:** Bei „Besetzt“, „Gibt es hier nicht“ und „Andere Übung“ erscheinen alle passenden Übungen gleichzeitig als Kacheln mit Animation und Namen darunter; die Empfehlung ist markiert, besetzte Geräte sind gekennzeichnet. Es wird nicht mehr automatisch getauscht.
+- **Streichen ist umkehrbar:** × in der Übersicht streicht eine Übung nur durch. Sie bleibt in der Liste, wird beim Weitergehen übersprungen, zählt nicht in die Restzeit und lässt sich mit „↺ Wieder rein“ zurückholen.
+
 ## Neu in Version 4.6 – Dranbleiben
 
 - **Lieber kurz als gar nicht:** Jede offene Einheit lässt sich durch 15 Minuten Pilates oder Mobility oder ein Mini-Training ersetzen; sie gilt dann als erledigt und zählt für Woche und Serie. Angeboten an der Startseite („Wenig Zeit oder Energie?“, abends ohne Training „Noch nicht trainiert? 15 Minuten zählen auch“), in der Einheit und – vor allem – wenn man auf „Auslassen“ tippt („Bevor du auslässt“).

@@ -1,6 +1,6 @@
 # Selfcare Studio – Trainingslogik
 
-Stand: Version 4.6. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
+Stand: Version 4.6.1. Diese Datei beschreibt, wie die App rechnet. Sie ist die Grundlage für spätere Änderungen, auch in einem neuen Chat.
 
 ## Plan
 - **Muskelgruppen** haben eine Größe (Po 6, Beine vorne 5, Rücken 5 …). Daraus entsteht das Volumen eines Tages in „effektiven Sätzen“ (Arbeitssätze × Wirkung auf die Zielgruppe), **höchstens 22 pro Einheit** – nach der Planung wird nachgeprüft und notfalls bei den Übungen mit den meisten Sätzen gekürzt (erst bis 2, dann bis 1 Satz).
@@ -176,6 +176,11 @@ Alles in `localStorage` unter `satzwerk.v1`. Backup als JSON-Datei über das Pro
 Die Wochenansicht reicht von fünf Wochen vor bis fünf Wochen nach der aktuellen Woche. Kalenderarithmetik erhält Montage auch über Zeitumstellungen und Jahreswechsel. Zukünftige Wochen haben eigene Slot-IDs und werden erst bei Eintritt auf Belastungssteuerung geprüft. Alte Wochenpläne werden beim Anlegen einer Woche nicht mehr gelöscht. Fehlt ein vergangener Plan, werden vorhandene Trainings aus dem Verlauf angezeigt; es werden keine vergangenen Soll-Einheiten erfunden. Die obere Trainingskarte und Nachholen beziehen sich weiterhin auf die aktuelle Woche.
 
 Zusammenlegen ist in der aktuellen und in allen fünf erreichbaren zukünftigen Wochen möglich. Der Dialog bindet die Änderung an den angezeigten Wochenschlüssel. Erledigte, ausgelassene und laufende Einheiten sowie andere Trainingsarten bleiben erhalten.
+
+### Neu in 4.6.1
+- **Sprache und Musik:** `musicGuard()` = „Musik weiterlaufen lassen“ an und `navigator.audioSession` vorhanden (Safari/iPhone). Dann `speechOn()` = falsch: `say()` und die stumme Vorab-Ansage in `unlockAudio()` entfallen, weil `speechSynthesis` auf iOS die Tonausgabe exklusiv belegt und Musik-Apps anhält. Töne laufen weiter über `audioSession.type = "ambient"`.
+- **Alternativen:** `autoSwap()` tauscht nicht mehr selbst, sondern öffnet `swapSheet(id, "busy" | "noequip")`: alle `altsFor()`-Kandidaten als Kacheln, freie zuerst, die erste freie als Empfehlung.
+- **Streichen:** `removeStep()` setzt `step.struck`; `stepStatus()` = "struck" wird in `advance()`, `tr-prev`, Restzeit und Nachholen übersprungen. `restoreStep()` hebt es auf. Gespeichert wird wie bisher nur, was Sätze hat.
 
 ### Neu in 4.6: Dranbleiben
 **Warum so:** Sofortige Belohnung sagt Durchhalten besser voraus als der langfristige Nutzen (Woolley & Fishbach, Chicago Booth 2016). In der Megastudie mit über 60 000 Fitnessstudio-Mitgliedern wirkte am stärksten eine kleine Belohnung fürs Wiederkommen nach einer verpassten Einheit (+27 % Besuche; Milkman u. a., Nature 2021). Einmal Auslassen bremst die Gewohnheitsbildung kaum, große Unregelmäßigkeit schon (Lally u. a. 2010). Wie angenehm sich Training anfühlt, sagt voraus, ob man wiederkommt (Rhodes & Kates 2015). „Temptation bundling“ (Hörbuch nur im Studio) erhöhte Besuche (Milkman u. a. 2014).

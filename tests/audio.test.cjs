@@ -35,8 +35,11 @@ const checks = String.raw`
   }
   assert(contextModes.every(m => m === 'ambient'), 'WebAudio must be created after routing');
   navigator.audioSession.type = 'auto'; synth(660); assert.equal(navigator.audioSession.type, 'ambient');
-  S.voice = true; navigator.audioSession.type = 'auto'; say('Pause vorbei');
-  assert.equal(modes.at(-1).type, 'ambient');
+  /* 4.6.1: iPhone-Sprache hält Musik an – mit „Musik weiterlaufen lassen“ wird nicht gesprochen, ohne schon */
+  S.voice = true; S.mixMusic = true; const spoke = modes.length; say('Pause vorbei');
+  assert.equal(modes.length, spoke, 'With music mixing on, speech must not take the iPhone audio session');
+  S.mixMusic = false; say('Pause vorbei'); assert.equal(modes.at(-1).text, 'Pause vorbei', 'Without mixing, speech is spoken');
+  S.mixMusic = true; applyAudioMode();
   U.psec = 'ton';
   assert(vProf().includes('aria-label="Musik weiterlaufen lassen"'), 'Profile must show the music switch');
   const button = { dataset: { a: 'audiomode' }, closest() { return this; } };

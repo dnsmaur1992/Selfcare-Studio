@@ -103,7 +103,9 @@ ok(stepStatus(A0.steps[0]) === "skip" && stepStatus(A0.steps[1]) === "skip" && s
 ji[2].log[0].done = true; ok(stepStatus(A0.steps[3]) === "part", "Ein von zwei Sätzen: teilweise");
 ji[2].log.forEach((q) => (q.done = true)); ok(stepStatus(A0.steps[3]) === "done", "Alle Sätze: erledigt");
 unskip(A0.steps[1]); ok(stepStatus(A0.steps[1]) === "open", "Nachholen hebt „übersprungen“ auf");
-removeStep(2); ok(A0.items.length === 2 && A0.steps.length === 3, "Entfernen nimmt die Übung aus der Einheit");
+removeStep(2); ok(A0.steps.length === 4 && stepStatus(A0.steps[2]) === "struck", "Streichen streicht nur durch, die Übung bleibt in der Einheit");
+restoreStep(2); ok(stepStatus(A0.steps[2]) !== "struck", "„Wieder rein“ holt die gestrichene Übung zurück");
+removeStep(2); A0.steps.splice(2, 1); A0.items = A0.items.filter((x) => A0.steps.some((q) => q.id === x.id)); ok(A0.items.length === 2 && A0.steps.length === 3, "(Ausgangslage für die folgenden Tests)");
 S.active = null;
 // 24 Körperdaten: Alter, Puls, BMI, Taille zu Größe, Kraft im Verhältnis
 S.body = { year: new Date().getFullYear() - 46, height: 168 }; S.measures = [{ d: new Date().toISOString(), gewicht: 65, taille: 80 }];
