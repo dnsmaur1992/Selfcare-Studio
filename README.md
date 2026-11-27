@@ -114,6 +114,14 @@ Eine Web-App für den Home-Bildschirm: kein App Store, kein Konto, alle Daten bl
 
 ---
 
+## Neu in Version 4.6.2 – Sicherheit
+
+Ergebnis der Sicherheitsprüfung (Details in `docs/sicherheit.md`):
+- **Keine Verbindung zu Dritten mehr:** Die Schriften (Outfit, Bodoni Moda) liegen jetzt in `fonts/` statt bei Google Fonts.
+- **Content-Security-Policy:** nur eigene Skripte, Schriften und Bilder, keine Verbindungen nach außen.
+- **Backups und Links strenger geprüft:** Botschaften-Schlüssel, Playlist-Link (nur `https://`) und Sonderschlüssel wie `__proto__` werden beim Einlesen bereinigt. Zwei Lücken, über die ein manipuliertes Backup Code hätte ausführen können, sind geschlossen.
+- Kalender-Export maskiert Sonderzeichen.
+
 ## Neu in Version 4.6.1
 
 - **Musik läuft durch:** Auf dem iPhone holt sich die Sprachausgabe die Tonausgabe exklusiv – Spotify & Co. hielten an und liefen danach nicht weiter. Mit „Musik weiterlaufen lassen“ spricht die App deshalb nicht (auch keine stumme Vorab-Ansage), Gong und Countdown mischen sich mit der Musik. Ohne diese Einstellung bleibt die Sprachansage.

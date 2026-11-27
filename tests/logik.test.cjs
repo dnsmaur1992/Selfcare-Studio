@@ -677,6 +677,13 @@ S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCusto
   S.sessions = [{ id: "a", date: new Date().toISOString(), type: "kraft", items: [] }, { id: "b", date: new Date().toISOString(), type: "mobility", flow: true, items: [] }];
   const ps = pearlString("b"); ok((ps.match(/r="10"/g) || []).length === 1 && (ps.match(/<circle/g) || []).length === 4 && ps.includes("Mobility 1"), "D4: Perlenkette: eine Perle je Einheit, die neue größer");
   ok(BADGES.length === 18 && BADGES.some((b) => b.id === "kurz3") && BADGES.some((b) => b.id === "back"), "D4: Neue Abzeichen „Lieber kurz als gar nicht“ und „Wieder da“"); }
+/* SEC: Sicherheit (4.6.1/4.6.2) */
+{ const P = '"><img src=x onerror=alert(1)>';
+  const st = normalizeState(Object.assign(defaults(), { msgs: { [P]: { d: new Date().toISOString(), t: "x" }, willkommen: { d: new Date().toISOString(), t: "Hallo" }, kaputt: { d: "nie", t: "x" } }, msgQueue: [P, "training-25"], music: "javascript:alert(1)" }));
+  ok(Object.keys(st.msgs).join() === "willkommen" && st.msgQueue.join() === "training-25", "SEC: Botschaften aus Backups nur mit gültigen Schlüsseln und Daten");
+  ok(st.music === "" && normalizeState(Object.assign(defaults(), { music: "https://open.spotify.com/playlist/abc" })).music === "https://open.spotify.com/playlist/abc" && normalizeState(Object.assign(defaults(), { music: 'https://x.de/"onmouseover=alert(1)' })).music === "", "SEC: Playlist-Link nur als https-Adresse");
+  const o = safeParse('{"__proto__":{"setup":true},"constructor":{"x":1},"a":{"__proto__":{"b":1}},"c":2}'); const d = Object.assign({}, o);
+  ok(d.setup === undefined && o.a.b === undefined && o.c === 2 && ({}).setup === undefined, "SEC: Sonderschlüssel (__proto__, constructor) werden beim Einlesen verworfen"); }
 S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom(); S.weeks = {}; U.setup = null;
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
 `);

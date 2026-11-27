@@ -29,6 +29,11 @@ Offene Wünsche für die nächsten Versionen. Erledigtes steht unten mit Version
 - [x] Zusätzliche Logik- und DOM-Ereignistests für die Erweiterungen.
 - [ ] Auf echtem iPhone/Android testen: schmale Eingabemasken, mehrere Profile, Abbrechen/Speichern, laufende Einheit kürzen und Musik.
 
+## Erledigt in Version 4.6.2 (Sicherheitsprüfung)
+- [x] Schriften lokal, Content-Security-Policy, Backup-/Link-Prüfung verschärft (siehe docs/sicherheit.md).
+- [ ] GitHub-Konto mit Zwei-Faktor-Anmeldung absichern (falls noch nicht).
+- [ ] Später überlegen: eigene Adresse für Selfcare Studio, getrennt von Ringzeit.
+
 ## Erledigt in Version 4.6.1
 - [x] Musik wird mit „Musik weiterlaufen lassen“ nicht mehr durch Ansagen angehalten.
 - [x] Alternativen als Kacheln mit Animation zur Auswahl.

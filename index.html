@@ -1,18 +1,18 @@
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style><meta name="description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style><meta name="description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Selfcare Studio">
 <meta property="og:title" content="Selfcare Studio">
 <meta property="og:description" content="Dein Training im Studio: Plan nach Muskelgruppen, Ausweichübungen mit passendem Volumen, Pilates, Mobility und Verlauf.">
 <meta property="og:url" content="https://dnsmaur1992.github.io/Selfcare-Studio/">
-<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.6.1">
-<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.6.1">
+<meta property="og:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.6.2">
+<meta property="og:image:secure_url" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.6.2">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Selfcare Studio">
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.6.1">
+<meta name="twitter:image" content="https://dnsmaur1992.github.io/Selfcare-Studio/og-image.jpg?v=4.6.2">
 <meta name="theme-color" content="#F8F2F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#160F1A" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -25,9 +25,12 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Selfcare Studio">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;1,6..96,500;1,6..96,600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Schriften liegen im Repo (SIL Open Font License, siehe fonts/OFL-*.txt) – keine Verbindung zu Google. */
+@font-face { font-family: "Outfit"; src: url("fonts/outfit.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Bodoni Moda"; src: url("fonts/bodoni-moda.woff2") format("woff2"); font-weight: 400 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Bodoni Moda"; src: url("fonts/bodoni-moda-italic.woff2") format("woff2"); font-weight: 400 900; font-style: italic; font-display: swap; }
+</style>
 <style>
 /* Layout: eine Spalte wie eine native App (max. 560px), weiche Karten, Tab-Leiste unten; im Training eine feste Aktionsleiste.
    Stil: Modemagazin trifft Gym. Pastellflächen, ein kräftiges Pink als Akzent, Didone-Schrift für Überschriften. */
@@ -762,12 +765,15 @@ function wHint(x) {
   if (x.eq.includes("kabel")) return "Wie am Steckgewicht angezeigt.";
   return "";
 }
-const S_VERSION = "4.6.1";
-const NEWS = { v: "4.6.1", items: [
+const S_VERSION = "4.6.2";
+const NEWS = { v: "4.6.2", items: [
+  ["Sicherheit & Datenschutz", "Die Schriften kommen jetzt aus der App selbst – Selfcare Studio verbindet sich mit niemandem mehr. Dazu strengere Prüfung von Backups und Links."],
+], old: [
+  { v: "4.6.1", items: [
   ["Musik läuft durch", "Mit „Musik weiterlaufen lassen“ hält das iPhone deine Musik nicht mehr an: Die Sprachansage pausiert dann, Gong und Countdown kommen über deine Musik."],
   ["Alternativen auf einen Blick", "Ist ein Gerät besetzt oder willst du tauschen, siehst du alle passenden Übungen als Kacheln mit Animation – die Empfehlung ist markiert, du wählst."],
   ["Streichen ist umkehrbar", "Gestrichene Übungen bleiben durchgestrichen in der Übersicht. Mit „↺ Wieder rein“ holst du sie zurück, solange die Einheit läuft."],
-], old: [
+  ] },
   { v: "4.6", items: [
   ["Lieber kurz als gar nicht", "Keine Zeit oder Kraft? Bei jeder Einheit kannst du sie mit 15 Minuten Pilates oder Mobility oder einem Mini-Training ersetzen – sie zählt dann ganz normal für deine Woche und deine Serie."],
   ["Deine Perlen", "Nach jedem Training rollt eine neue Perle auf deine Monatskette – in der Farbe der Einheit. Dazu, was du heute geschafft hast."],
@@ -999,7 +1005,7 @@ function defaults() {
 }
 let storageOK = true;
 function load() {
-  try { const raw = localStorage.getItem(KEY); if (raw) { const o = JSON.parse(raw); const d = defaults(); o.equip = Object.assign({}, d.equip, o.equip || {}); return Object.assign(d, o); } } catch (e) { storageOK = false; }
+  try { const raw = localStorage.getItem(KEY); if (raw) { const o = safeParse(raw); const d = defaults(); o.equip = Object.assign({}, d.equip, o.equip || {}); return Object.assign(d, o); } } catch (e) { storageOK = false; }
   return defaults();
 }
 let NOSAVE = false;
@@ -1149,6 +1155,12 @@ function normalizeState(st, notes) {
   normalizeStudios(st);
   if (st.timeBudget != null && ![0,30,45,60,75,90].includes(st.timeBudget)) st.timeBudget = 0;
   cntNotes(c, notes);
+  /* 4.6.1 (Sicherheit): Botschaften aus Backups nur in erwarteter Form – Schlüssel landen in HTML-Attributen. */
+  const MSGK = /^[a-z0-9-]{1,40}$/;
+  st.msgs = Object.fromEntries(Object.entries(objOf(st.msgs)).filter(([k, m]) => MSGK.test(k) && m && typeof m === "object" && typeof m.t === "string" && !isNaN(new Date(m.d))).map(([k, m]) => [k, { d: new Date(m.d).toISOString(), t: m.t.slice(0, 1200) }]));
+  st.msgQueue = arrOf(st.msgQueue).filter((k) => typeof k === "string" && MSGK.test(k)).slice(0, 5);
+  st.music = typeof st.music === "string" && /^https:\/\/[^\s"'<>]+$/.test(st.music.trim()) ? st.music.trim().slice(0, 500) : "";
+  if (st.limitsNone !== true) delete st.limitsNone; if (st.limitsAsked !== true) delete st.limitsAsked; if (typeof st.restTone !== "boolean") delete st.restTone;
   return st;
 }
 /* Gibt einen Grund zurück, wenn eine laufende Einheit nicht sicher fortgesetzt werden kann. */
@@ -1242,6 +1254,8 @@ const U = { view: S.setup ? (S.active ? (S.active.flow ? "flow" : "train") : "ho
 const uid = () => Math.random().toString(36).slice(2, 9);
 
 /* ---------------- Hilfen ---------------- */
+/* 4.6.2 (Sicherheit): Fremde Daten (Backup, geteilte Links) ohne Sonderschlüssel einlesen – kein Prototype-Pollution. */
+function safeParse(t) { return JSON.parse(t, (k, v) => (k === "__proto__" || k === "constructor" || k === "prototype" ? undefined : v)); }
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const num = (v) => { const n = parseFloat(String(v ?? "").replace(",", ".")); return isNaN(n) ? null : n; };
 const fmt = (n, d = 1) => (n == null ? "–" : n.toLocaleString("de-DE", { maximumFractionDigits: d }));
@@ -1744,8 +1758,9 @@ function icsText() {
   const ev = S.days.filter((d) => d.wd).map((d) => {
     const dt = new Date(now); dt.setHours(hh, mm, 0, 0); while (wdOf(dt) !== d.wd || dt < now) dt.setDate(dt.getDate() + 1);
     const ds = `${dt.getFullYear()}${pad(dt.getMonth() + 1)}${pad(dt.getDate())}T${pad(hh)}${pad(mm)}00`;
-    const what = (d.type || "kraft") === "kraft" ? d.name : TYPES[d.type].n;
-    const desc = (d.type || "kraft") === "kraft" ? (d.groups || []).map((g) => GROUPS[g].n).join(", ") : TYPES[d.type].sub || "";
+    const ie = (t) => String(t || "").replace(/[\r\n]+/g, " ").replace(/([\\;,])/g, "\\$1");
+    const what = ie((d.type || "kraft") === "kraft" ? d.name : TYPES[d.type].n);
+    const desc = ie((d.type || "kraft") === "kraft" ? (d.groups || []).map((g) => GROUPS[g].n).join(", ") : TYPES[d.type].sub || "");
     return ["BEGIN:VEVENT", `UID:${d.id}-selfcare-studio`, `DTSTAMP:${stamp}`, `DTSTART:${ds}`, `DURATION:PT${(d.type || "kraft") === "kraft" ? 75 : 30}M`, "RRULE:FREQ=WEEKLY", `SUMMARY:Selfcare Studio · ${what}`, `DESCRIPTION:${desc}`, "BEGIN:VALARM", "TRIGGER:-PT30M", "ACTION:DISPLAY", `DESCRIPTION:Gleich: ${what}`, "END:VALARM", "END:VEVENT"].join("\r\n");
   });
   return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Selfcare Studio//DE", "CALSCALE:GREGORIAN", ...ev, "END:VCALENDAR"].join("\r\n");
@@ -1804,7 +1819,7 @@ function measTab() {
 }
 /* Trainingstag teilen per Link oder Code */
 const b64e = (o) => btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-const b64d = (t) => JSON.parse(decodeURIComponent(escape(atob(t.replace(/-/g, "+").replace(/_/g, "/")))));
+const b64d = (t) => safeParse(decodeURIComponent(escape(atob(t.replace(/-/g, "+").replace(/_/g, "/")))));
 function dayCode(d) {
   const used = d.mode === "custom" ? (S.customEx || []).filter((c) => (d.custom || []).some((q) => q.ex === c.id)) : [];
   const ceq = {}; used.forEach((c) => (c.eq || []).forEach((k) => { if ((S.customEq || {})[k]) ceq[k] = S.customEq[k]; }));
@@ -3149,7 +3164,7 @@ function trainTop() {
   const segs = A.steps.map((q, i) => { const s0 = stepStatus(q); return `<i class="${i === A.pos ? "c" : s0 === "done" || s0 === "part" ? "d" : s0 === "skip" || s0 === "struck" ? "s" : ""} ${q.sect || "m"}"></i>`; }).join("");
   const items = A.steps.filter((q) => q.k === "item"); const ii = items.indexOf(st) + 1;
   const label = st && st.sect ? SECT[st.sect] : st ? `Übung ${ii} von ${items.length}` : "Ende";
-  return `<div class="tr-top"><button class="tr-x" data-a="tr-menu" aria-label="Übersicht">☰</button><div class="grow stack" style="gap:6px"><div class="tr-prog" style="grid-template-columns:repeat(${n},1fr)">${segs}</div><span class="eyebrow">${label} · <span id="elapsed" class="num">${Math.floor((Date.now() - A.start) / 60000)} Min</span></span></div>${S.music ? `<a class="tr-x" href="${esc(S.music)}" target="_blank" rel="noopener" aria-label="Playlist öffnen">♪</a>` : ""}<button class="tr-x" data-a="tr-pause" aria-label="Pausieren">✕</button></div>`;
+  return `<div class="tr-top"><button class="tr-x" data-a="tr-menu" aria-label="Übersicht">☰</button><div class="grow stack" style="gap:6px"><div class="tr-prog" style="grid-template-columns:repeat(${n},1fr)">${segs}</div><span class="eyebrow">${label} · <span id="elapsed" class="num">${Math.floor((Date.now() - A.start) / 60000)} Min</span></span></div>${/^https:\/\//.test(S.music || "") ? `<a class="tr-x" href="${esc(S.music)}" target="_blank" rel="noopener" aria-label="Playlist öffnen">♪</a>` : ""}<button class="tr-x" data-a="tr-pause" aria-label="Pausieren">✕</button></div>`;
 }
 function ring(cls, val, lbl) { return `<div class="ringwrap"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke-width="7" class="ring-bg"/><circle id="ring" cx="50" cy="50" r="44" fill="none" stroke-width="7" stroke-linecap="round" class="ring-fg ${cls}" stroke-dasharray="276.5" stroke-dashoffset="0"/></svg><div class="rt"><div><b id="tt">${val}</b><div class="small muted">${lbl}</div></div></div></div>`; }
 function vTrain() {
@@ -4568,7 +4583,7 @@ function msgHome() {
   if (se && se.bday && msgText("geburtstag") && !S.msgs["geburtstag-" + by]) k = "geburtstag-" + by;
   else if (msgText("willkommen") && !S.msgs.willkommen && S.sessions.length) k = "willkommen";
   if (!k) return "";
-  return `<button class="card msgcard" data-a="msgopen" data-k="${k}"><span class="env" aria-hidden="true">✉</span><div class="stack" style="gap:2px;text-align:left"><span class="eyebrow">Post für dich</span><b>Eine Nachricht${msgFrom() ? " von " + esc(msgFrom()) : ""}</b><span class="small muted">Antippen zum Öffnen</span></div></button>`;
+  return `<button class="card msgcard" data-a="msgopen" data-k="${esc(k)}"><span class="env" aria-hidden="true">✉</span><div class="stack" style="gap:2px;text-align:left"><span class="eyebrow">Post für dich</span><b>Eine Nachricht${msgFrom() ? " von " + esc(msgFrom()) : ""}</b><span class="small muted">Antippen zum Öffnen</span></div></button>`;
 }
 function msgBody(t) { return esc(t).replace(/\n/g, "<br>"); }
 function msgSheet(k) {
@@ -4579,11 +4594,11 @@ function msgSheet(k) {
 }
 function msgDoneCard(k) {
   if (!k) return "";
-  return `<button class="card msgcard pop" data-a="msgopen" data-k="${k}"><span class="env" aria-hidden="true">✉</span><div class="stack" style="gap:2px;text-align:left"><span class="eyebrow">Post für dich</span><b>Eine Nachricht${msgFrom() ? " von " + esc(msgFrom()) : ""}</b><span class="small muted">Antippen zum Öffnen</span></div></button>`;
+  return `<button class="card msgcard pop" data-a="msgopen" data-k="${esc(k)}"><span class="env" aria-hidden="true">✉</span><div class="stack" style="gap:2px;text-align:left"><span class="eyebrow">Post für dich</span><b>Eine Nachricht${msgFrom() ? " von " + esc(msgFrom()) : ""}</b><span class="small muted">Antippen zum Öffnen</span></div></button>`;
 }
 function msgList() {
   const L = Object.entries(S.msgs || {}).sort((a, b) => a[1].d < b[1].d ? 1 : -1); if (!L.length) return "";
-  return `<div class="card" style="gap:8px"><h2>Deine <em>Nachrichten</em></h2><div class="list">${L.map(([k, m]) => `<button class="li" data-a="msgopen" data-k="${k}"><span class="env sm" aria-hidden="true">✉</span><div class="grow"><b>${esc(m.t.split("\n")[0].slice(0, 46))}${m.t.length > 46 ? "…" : ""}</b><div class="small muted">${new Date(m.d).toLocaleDateString("de-DE")}</div></div><span class="chev">›</span></button>`).join("")}</div></div>`;
+  return `<div class="card" style="gap:8px"><h2>Deine <em>Nachrichten</em></h2><div class="list">${L.map(([k, m]) => `<button class="li" data-a="msgopen" data-k="${esc(k)}"><span class="env sm" aria-hidden="true">✉</span><div class="grow"><b>${esc(m.t.split("\n")[0].slice(0, 46))}${m.t.length > 46 ? "…" : ""}</b><div class="small muted">${new Date(m.d).toLocaleDateString("de-DE")}</div></div><span class="chev">›</span></button>`).join("")}</div></div>`;
 }
 function yearYears() { return [...new Set(S.sessions.map((s) => new Date(s.date).getFullYear()))].filter((y) => y > 2000).sort((a, b) => b - a); }
 function yearLink() {
@@ -4639,7 +4654,7 @@ let pendingImport = null;
 function checkBackup(o) {
   if (!o || typeof o !== "object" || o.app !== "satzwerk" || !o.data || typeof o.data !== "object" || Array.isArray(o.data)) return { ok: false, why: "Die Datei ist kein Selfcare-Studio-Backup." };
   if (!Array.isArray(o.data.sessions)) return { ok: false, why: "Im Backup fehlt der Trainingsverlauf." };
-  let cand; try { cand = JSON.parse(JSON.stringify(o.data)); } catch (e) { return { ok: false, why: "Das Backup ließ sich nicht lesen." }; }
+  let cand; try { cand = safeParse(JSON.stringify(o.data)); } catch (e) { return { ok: false, why: "Das Backup ließ sich nicht lesen." }; }
   const dd = defaults(); const st = Object.assign(dd, cand); st.equip = Object.assign({}, dd.equip, objOf(cand.equip)); st.flags = objOf(st.flags);
   if (!st.restMig) { if (st.restC === 90) st.restC = 180; if (st.restI === 60) st.restI = 180; st.restMig = 1; }
   const notes = []; const old = S, oldU = { hist: U.hist, view: U.view };
@@ -4660,7 +4675,8 @@ function applyBackup(chk) {
 document.getElementById("imp").addEventListener("change", (e) => {
   const f = e.target.files[0]; e.target.value = ""; if (!f) return;
   f.text().then((t) => {
-    let o; try { o = JSON.parse(t); } catch (err) { toast("Die Datei ist kein gültiges Backup."); return; }
+    if (t.length > 20e6) { toast("Die Datei ist zu groß für ein Backup."); return; }
+    let o; try { o = safeParse(t); } catch (err) { toast("Die Datei ist kein gültiges Backup."); return; }
     const chk = checkBackup(o);
     if (!chk.ok) { pendingImport = null; openSheet(() => `<h2>Backup nicht geladen</h2><p class="small muted">${esc(chk.why)} Deine bisherigen Daten bleiben unverändert.</p>${chk.err ? `<p class="small muted">Technisch: ${esc(chk.err)}</p>` : ""}<button class="btn" data-a="sheetclose">OK</button>`); return; }
     pendingImport = chk;
@@ -4977,7 +4993,7 @@ document.addEventListener("input", (e) => {
     }
     save(); const bi = document.getElementById("bodyinfo"); if (bi) bi.innerHTML = bodyStatsHtml();
   }
-  if (k === "music") { const v = t.value.trim(); S.music = /^https?:\/\//.test(v) ? v : ""; save(); }
+  if (k === "music") { const v = t.value.trim(); S.music = /^https:\/\/[^\s"'<>]+$/.test(v) ? v.slice(0, 500) : ""; save(); }
   if (k === "caltime") { S.calTime = t.value || "18:00"; save(); }
   if (k === "ocolor") { S.outfitCustom = Object.assign(customOutfit(), { [t.dataset.k]: t.value }); delete S.outfitCustom.id; delete S.outfitCustom.n; save(); applyOutfit(); }
   if (k === "dayname") { S.days[+t.dataset.i].name = t.value; save(); }

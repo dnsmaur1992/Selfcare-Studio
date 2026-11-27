@@ -1,5 +1,5 @@
-const CACHE = "selfcare-studio-4.6.1";
-const CORE = ["./", "./index.html", "./installieren.html", "./manifest.json", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"];
+const CACHE = "selfcare-studio-4.6.2";
+const CORE = ["./", "./index.html", "./installieren.html", "./manifest.json", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png", "./fonts/outfit.woff2", "./fonts/bodoni-moda.woff2", "./fonts/bodoni-moda-italic.woff2"];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(CACHE).then((c) => c.addAll(CORE))); });
 self.addEventListener("message", (e) => { if (e.data && e.data.type === "skip") self.skipWaiting(); });
 // Nur eigene Caches aufräumen: Auf dnsmaur1992.github.io liegen auch Ringzeit und Ringzeit Dev (gleiche Herkunft, gemeinsamer Cache-Speicher).
@@ -17,7 +17,7 @@ self.addEventListener("fetch", (e) => {
     e.respondWith(fetch(r).then((res) => { if (res.ok) { const c = res.clone(); caches.open(CACHE).then((x) => x.put(r, c)); } return res; }).catch(() => caches.match(r)));
     return;
   }
-  if (url.origin === location.origin || url.host.endsWith("fonts.googleapis.com") || url.host.endsWith("fonts.gstatic.com")) {
+  if (url.origin === location.origin) {
     e.respondWith(caches.match(r).then((hit) => hit || fetch(r).then((res) => { if (res.ok || res.type === "opaque") { const c = res.clone(); caches.open(CACHE).then((x) => x.put(r, c)); } return res; })));
   }
 });
