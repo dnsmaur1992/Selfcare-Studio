@@ -684,10 +684,16 @@ S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCusto
   ok(st.music === "" && normalizeState(Object.assign(defaults(), { music: "https://open.spotify.com/playlist/abc" })).music === "https://open.spotify.com/playlist/abc" && normalizeState(Object.assign(defaults(), { music: 'https://x.de/"onmouseover=alert(1)' })).music === "", "SEC: Playlist-Link nur als https-Adresse");
   const o = safeParse('{"__proto__":{"setup":true},"constructor":{"x":1},"a":{"__proto__":{"b":1}},"c":2}'); const d = Object.assign({}, o);
   ok(d.setup === undefined && o.a.b === undefined && o.c === 2 && ({}).setup === undefined, "SEC: Sonderschlüssel (__proto__, constructor) werden beim Einlesen verworfen"); }
-/* VID: Erklärvideos (4.7) */
-{ const bad = Object.keys(EXM).filter((id) => { const u = videoUrl(id); return !/^https:\\/\\/www\\.youtube\\.com\\/results\\?search_query=[^"'<>\\s]+$/.test(u) || !decodeURIComponent(u.split("=")[1]).includes(EXM[EXM[id].custom ? EXM[id].base : id].n.split(" (")[0].replace(/[()]/g, "").trim().split(" ")[0]); });
-  ok(!bad.length, "VID: Jede Übung hat einen gültigen YouTube-Suchlink mit ihrem Namen" + (bad.length ? " – " + bad.slice(0, 3).join(", ") : ""));
-  ok(decodeURIComponent(videoUrl("legpress").split("=")[1]).endsWith("richtig ausführen deutsch") && /Pilates/.test(decodeURIComponent(videoUrl("p_hundred"))), "VID: Kraft „richtig ausführen“, Pilates/Mobility mit „Anleitung“");
+/* VID: Erklärvideos (4.7.1: direkte Videos, Suche als Rückfall) */
+{ const badId = Object.entries(VIDEOS).filter(([k, v]) => !EXM[k] || !Array.isArray(v) || !/^[A-Za-z0-9_-]{11}$/.test(v[0]) || !String(v[1] || "").trim()).map(([k]) => k);
+  ok(!badId.length, "VID: Jeder Videoeintrag gehört zu einer Übung und hat eine gültige YouTube-ID und einen Titel" + (badId.length ? " – " + badId.slice(0, 3).join(", ") : ""));
+  const direct = Object.keys(EXM).filter((id) => !EXM[id].custom && /^https:\\/\\/www\\.youtube\\.com\\/watch\\?v=[A-Za-z0-9_-]{11}$/.test(videoUrl(id)));
+  ok(direct.length >= 150, "VID: Mindestens 150 Übungen springen direkt auf ein Video (" + direct.length + ")");
+  ok(videoUrl("legpress") === "https://www.youtube.com/watch?v=" + VIDEOS.legpress[0] && videoUrl("p_hundred").includes("watch?v="), "VID: Beinpresse und The Hundred haben ein direktes Video");
+  const fb = Object.keys(EXM).filter((id) => !EXM[id].custom && !VIDEOS[id]);
+  ok(fb.every((id) => /^https:\\/\\/www\\.youtube\\.com\\/results\\?search_query=[^"'<>\\s]+$/.test(videoUrl(id))), "VID: Übungen ohne festes Video fallen auf die deutsche Suche zurück");
+  ok(Object.keys(EXM).every((id) => /^https:\\/\\/www\\.youtube\\.com\\/results\\?search_query=/.test(videoSearchUrl(id))), "VID: „Andere Videos suchen“ gibt es für jede Übung");
+  ok(videoHint("legpress").includes(esc(VIDEOS.legpress[1])) && videoHint("legpress").includes("Andere Videos suchen") && /kein festes Video/.test(videoHint(fb[0] || "legpress") ), "VID: Hinweis nennt das Video bzw. den Suchrückfall");
   ok(videoLink("legpress").includes('target="_blank" rel="noopener"'), "VID: Öffnet extern mit noopener"); }
 S = Object.assign(defaults(), { setup: true, days: tmplDays(3) }); registerCustom(); S.weeks = {}; U.setup = null;
 console.log(n - fails + " von " + n + " Tests bestanden"); if (fails) process.exitCode = 1;
